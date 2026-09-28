@@ -1,0 +1,271 @@
+{
+  "_id": "6aba452ec5cdfac7806c5bda",
+  "name": "Dashmesh Property",
+  "googlePlaceId": "ChIJDxFBTbyV5zsRcHylJmmARG8",
+  "status": "generated",
+  "gbpFetched": false,
+  "gbDataFetched": true,
+  "searchRankingGenerated": true,
+  "createdOn": "2026-09-28T10:45:02.821Z",
+  "updatedOn": "2026-09-28T10:52:04.376Z",
+  "report": {
+    "name": "Dashmesh Property",
+    "rating": 0,
+    "totalReviewCount": 0,
+    "analysedReviewCount": 0,
+    "overallAvgRank": 21,
+    "profileStrength": 23,
+    "contentSeoScore": 15,
+    "profileCompletionScore": 57,
+    "engagementScore": 0,
+    "ratingScore": 0,
+    "primaryKeyword": "Property Consultant",
+    "primaryKeywordRanking": {
+      "_id": "6aba45324876e082af38c6d1",
+      "query": "Property Consultant",
+      "keyword": "Property Consultant",
+      "gridWidth": 3,
+      "gridSearchImage": "https://rankreports.grexa.ai/rankingImages/90257a59-e23f-4ce9-b763-d5987ac9f669.jpeg",
+      "avgPosition": 21,
+      "pointPositions": [
+        {
+          "position": 21,
+          "lat": 19.201658305437896,
+          "long": 73.16716838667588
+        },
+        {
+          "position": 21,
+          "lat": 19.201657951477145,
+          "long": 73.17859600004299
+        },
+        {
+          "position": 21,
+          "lat": 19.20165688959491,
+          "long": 73.19002361331174
+        },
+        {
+          "position": 21,
+          "lat": 19.190866446166865,
+          "long": 73.16716838667588
+        },
+        {
+          "position": 21,
+          "lat": 19.19086609220612,
+          "long": 73.17859600004299
+        },
+        {
+          "position": 21,
+          "lat": 19.190865030323888,
+          "long": 73.19002361331174
+        },
+        {
+          "position": 21,
+          "lat": 19.180074586895845,
+          "long": 73.16716838667588
+        },
+        {
+          "position": 21,
+          "lat": 19.180074232935095,
+          "long": 73.17859600004299
+        },
+        {
+          "position": 21,
+          "lat": 19.18007317105286,
+          "long": 73.19002361331174
+        }
+      ],
+      "topCompetitors": [
+        {
+          "gbpPlaceId": "ChIJ08_LXm6V5zsRDjuU8fwtAUU",
+          "avgRank": 1.3333334
+        },
+        {
+          "gbpPlaceId": "ChIJMQGw9-WV5zsRvr0ZLD8PqO4",
+          "avgRank": 3.5555556
+        },
+        {
+          "gbpPlaceId": "ChIJjQ4DDTeV5zsRxjRIH2h7OIU",
+          "avgRank": 6.111111
+        },
+        {
+          "gbpPlaceId": "ChIJveZ0BbCT5zsR0RBiGV4ly8Y",
+          "avgRank": 6.6666665
+        },
+        {
+          "gbpPlaceId": "ChIJs2c8FnaV5zsRa3duzWlx4Ck",
+          "avgRank": 7.888889
+        },
+        {
+          "gbpPlaceId": "ChIJi4luwZyU5zsRR252LkJhGtY",
+          "avgRank": 8.555555
+        },
+        {
+          "gbpPlaceId": "ChIJLSlwU_WV5zsRfLL65aKKsU0",
+          "avgRank": 11
+        },
+        {
+          "gbpPlaceId": "ChIJx00pZgCV5zsRAPsfHFNrPhs",
+          "avgRank": 11.666667
+        },
+        {
+          "gbpPlaceId": "ChIJAZ_Z7sGT5zsRPGCmNGvvn8o",
+          "avgRank": 12.777778
+        },
+        {
+          "gbpPlaceId": "ChIJ12ZKLm-b5akRN4o9M4sJwro",
+          "avgRank": 13.222222
+        }
+      ]
+    },
+    "otherKeywordRanks": [
+      {
+        "keyword": "Residential Property Consultation",
+        "avgRank": 21,
+        "volume": 0
+      },
+      {
+        "keyword": "Commercial Property Consultation",
+        "avgRank": 21,
+        "volume": 0
+      },
+      {
+        "keyword": "Real Estate Investment Advice",
+        "avgRank": 21,
+        "volume": 0
+      },
+      {
+        "keyword": "Property Valuation Services",
+        "avgRank": 21,
+        "volume": 0
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Rudra Realty",
+        "gbpPlaceId": "ChIJ08_LXm6V5zsRDjuU8fwtAUU",
+        "avgRank": 13.444445,
+        "reviewCount": 130,
+        "rating": 5
+      },
+      {
+        "name": "GK Property Consultant",
+        "gbpPlaceId": "ChIJMQGw9-WV5zsRvr0ZLD8PqO4",
+        "avgRank": 14.911112,
+        "reviewCount": 19,
+        "rating": 4.4
+      },
+      {
+        "name": "Delight Homes - real estate agent in ambernath, Property Brokers in Ambernath, Property Consultant in Ambernath",
+        "gbpPlaceId": "ChIJveZ0BbCT5zsR0RBiGV4ly8Y",
+        "avgRank": 14.955556,
+        "reviewCount": 56,
+        "rating": 4.9
+      },
+      {
+        "name": "Sherawali property consultancy",
+        "gbpPlaceId": "ChIJs2c8FnaV5zsRa3duzWlx4Ck",
+        "avgRank": 15.155556,
+        "reviewCount": 60,
+        "rating": 5
+      },
+      {
+        "name": "Shivanya Properties",
+        "gbpPlaceId": "ChIJDbIYSgGT5zsRLZvxkKdA7XQ",
+        "avgRank": 15.755556,
+        "reviewCount": 33,
+        "rating": 5
+      }
+    ],
+    "keywordMissedIn": [
+      "Title",
+      "Additional Category",
+      "Services",
+      "Description"
+    ],
+    "servicesCount": 5,
+    "additionalCategoriesCount": 0,
+    "profileCompletion": [
+      {
+        "name": "Title",
+        "completion": 1
+      },
+      {
+        "name": "Primary Category",
+        "completion": 1
+      },
+      {
+        "name": "Additional Categories",
+        "completion": 0
+      },
+      {
+        "name": "Business Services",
+        "completion": 1
+      },
+      {
+        "name": "Description",
+        "completion": 1
+      },
+      {
+        "name": "Address",
+        "completion": 1
+      },
+      {
+        "name": "Phone",
+        "completion": 1
+      },
+      {
+        "name": "Listing Attributes/Service Options",
+        "completion": 1
+      },
+      {
+        "name": "Photos",
+        "completion": 0
+      },
+      {
+        "name": "Logo",
+        "completion": 0
+      },
+      {
+        "name": "Website",
+        "completion": 0
+      },
+      {
+        "name": "Service Area",
+        "completion": 0
+      },
+      {
+        "name": "Business Hours",
+        "completion": 1
+      },
+      {
+        "name": "Appointment/Ordering Links",
+        "completion": 0
+      }
+    ],
+    "reviewRate": 0,
+    "idealReviewRate": 2,
+    "reviewResponsePercent": 0,
+    "idealResponsePercent": 80,
+    "policyViolations": [],
+    "comments": [
+      "Primary keyword not found in title",
+      "At least 3 additional categories should be in top 10 relevant categories by Keyword volume",
+      "Keyword Property Consultant not found in services",
+      "Keyword Residential Property Consultation not found in services",
+      "Keyword Commercial Property Consultation not found in services",
+      "Keyword Real Estate Investment Advice not found in services",
+      "Keyword Property Valuation Services not found in services",
+      "Keyword Property Consultant not found in description",
+      "Keyword Residential Property Consultation not found in description",
+      "Keyword Commercial Property Consultation not found in description",
+      "Keyword Real Estate Investment Advice not found in description",
+      "Keyword Property Valuation Services not found in description"
+    ],
+    "generationTime": "2026-09-28T10:45:14.654Z",
+    "country": "IN",
+    "address": "New Floora, Shop no.24, Pale goan, Ambernath(E), Ambernath, Maharashtra, 421501",
+    "city": "Ambernath",
+    "state": "Maharashtra",
+    "gbpCategory": "Property Consultant"
+  }
+}

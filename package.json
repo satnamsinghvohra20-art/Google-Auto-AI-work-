@@ -1,0 +1,22 @@
+{
+  "name": "google-auto-ai-work",
+  "version": "1.0.0",
+  "description": "Autonomous Google Business Profile Growth Suite & Local SEO Booster with 100% Free Unlocked AI Tools",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "google-business-profile",
+    "local-seo",
+    "grexa-booster",
+    "google-maps-ranking",
+    "geo-grid",
+    "review-booster",
+    "leaflet-map",
+    "photo-geotagger"
+  ],
+  "author": "Satnam Singh Vohra",
+  "license": "MIT"
+}

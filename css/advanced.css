@@ -1,0 +1,319 @@
+/* Advanced Grexa Booster Styles & Animations */
+
+:root {
+  --primary-glow: rgba(72, 103, 250, 0.35);
+  --success-glow: rgba(16, 185, 129, 0.35);
+  --warning-glow: rgba(245, 158, 11, 0.35);
+  --danger-glow: rgba(239, 68, 68, 0.35);
+  --brand-gradient-modern: linear-gradient(135deg, #00D9E3 0%, #4A4FEE 50%, #7D2AE7 100%);
+  --brand-surface: #ffffff;
+  --brand-surface-subtle: #f8faff;
+  --brand-border-subtle: #e2e8f0;
+}
+
+/* Mode Switcher Pill */
+.mode-switcher-container {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.mode-pill-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.mode-pill-btn.active {
+  background: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.mode-pill-btn.pro-badge.active {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+/* Leaflet Map Overrides & Custom GPS Pins */
+#leaflet-map {
+  height: 380px;
+  width: 100%;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+.leaflet-pin-icon {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 12px;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 0 3px #ffffff;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.leaflet-pin-icon:hover {
+  transform: scale(1.3) !important;
+  z-index: 9999 !important;
+}
+
+.leaflet-pin-danger {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+.leaflet-pin-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.leaflet-pin-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.85);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0), 0 0 0 3px rgba(255, 255, 255, 0.85);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0), 0 0 0 3px rgba(255, 255, 255, 0.85);
+  }
+}
+
+/* Photo Geo-Tagger Dropzone */
+.dropzone-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropzone-box:hover, .dropzone-box.dragover {
+  border-color: #4867fa;
+  background: #eff6ff;
+}
+
+/* Printable Counter Standee Preview */
+.standee-card {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 24px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  margin: 0 auto;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.standee-cut-guide {
+  border: 1px dashed rgba(150, 150, 150, 0.4);
+  padding: 8px;
+  border-radius: 28px;
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #standee-printable-area, #standee-printable-area * {
+    visibility: visible !important;
+  }
+  #standee-printable-area {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50px !important;
+    transform: translateX(-50%) scale(1.1) !important;
+    width: 420px !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: 2px solid #000000 !important;
+  }
+}
+
+/* Star Rating Selector in Review Shield */
+.star-rating-selector {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.star-btn {
+  font-size: 34px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.star-btn:hover,
+.star-btn.active {
+  color: #fbbf24;
+  transform: scale(1.15);
+}
+
+/* Modern Range Slider */
+input[type="range"].custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  outline: none;
+  transition: background 0.2s;
+}
+
+input[type="range"].custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #4867fa;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(72, 103, 250, 0.4);
+  transition: transform 0.15s ease;
+}
+
+input[type="range"].custom-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Floating Notification Toast */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  padding: 12px 20px;
+  background: #1e293b;
+  color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toast-notice.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Badge Pulse */
+.badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: live-blink 1.5s infinite;
+}
+
+@keyframes live-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* 5x5 Grid Pin Overlay */
+.geo-grid-overlay.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+
+/* Mock Phone Container for Customer Review Simulator */
+.mobile-device-frame {
+  width: 320px;
+  height: 580px;
+  border: 10px solid #1e293b;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+}
+
+.mobile-notch {
+  width: 120px;
+  height: 18px;
+  background: #1e293b;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  margin: 0 auto;
+}
+
+/* Live Posting Simulator Terminal Window */
+.terminal-window {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: #38bdf8;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 160px;
+}
+
+.terminal-line {
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.terminal-success {
+  color: #34d399;
+}
+
+.terminal-warn {
+  color: #fbbf24;
+}
+
+/* Agency White-Label Mode Bar */
+.agency-mode-banner {
+  background: linear-gradient(90deg, #312e81, #4338ca, #1e1b4b);
+  color: #ffffff;
+  padding: 6px 16px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
