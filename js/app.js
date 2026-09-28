@@ -40,6 +40,7 @@ function initApp() {
   renderKeywordRadar();
   updateROICalculator();
   updateCRMPreview();
+  startAutoPilotStream();
 
   // Preload first sample photo for Geo-Tagger
   loadSampleGeoPhoto(0);
@@ -1133,3 +1134,119 @@ function copyText(text, successMsg = "Copied to clipboard!") {
     showToast("Copied text!");
   });
 }
+
+/**
+ * 24/7 AUTONOMOUS AUTO-PILOT CONTROLLER
+ */
+let autoPilotTimer = null;
+let autoPilotCountdownSeconds = 6;
+
+function startAutoPilotStream() {
+  fetchAutoPilotStatus();
+
+  // Poll status every 2.5 seconds
+  if (autoPilotTimer) clearInterval(autoPilotTimer);
+  autoPilotTimer = setInterval(() => {
+    fetchAutoPilotStatus();
+  }, 2500);
+
+  // 1-second countdown ticker for visual feedback
+  setInterval(() => {
+    autoPilotCountdownSeconds--;
+    if (autoPilotCountdownSeconds <= 0) {
+      autoPilotCountdownSeconds = 6;
+    }
+    const cdEl = document.getElementById("autopilot-countdown");
+    if (cdEl) cdEl.textContent = `${autoPilotCountdownSeconds}s`;
+  }, 1000);
+}
+
+function fetchAutoPilotStatus() {
+  fetch("/api/auto/status")
+    .then(res => res.json())
+    .then(data => {
+      renderAutoPilotUI(data);
+    })
+    .catch(() => {});
+}
+
+function renderAutoPilotUI(data) {
+  if (!data) return;
+
+  // Cycles count
+  const cyclesEl = document.getElementById("autopilot-cycles-count");
+  if (cyclesEl) cyclesEl.textContent = `${data.totalCyclesExecuted}+`;
+
+  // Status badges & labels
+  const navBadge = document.getElementById("nav-autopilot-label");
+  const mainBadge = document.getElementById("autopilot-status-badge");
+  const btnText = document.getElementById("btn-autopilot-text");
+  const btnIcon = document.getElementById("btn-autopilot-icon");
+  const lastSync = document.getElementById("autopilot-last-sync");
+
+  if (lastSync) lastSync.textContent = `Ticking Live • Last Run: ${new Date(data.lastRunTimestamp).toLocaleTimeString()}`;
+
+  if (data.enabled) {
+    if (navBadge) navBadge.textContent = "🤖 Auto-Pilot: ON";
+    if (mainBadge) {
+      mainBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+      mainBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ● 24/7 Auto-Pilot: ACTIVE & RUNNING`;
+    }
+    if (btnText) btnText.textContent = "Pause Auto-Pilot";
+    if (btnIcon) btnIcon.textContent = "⏸️";
+  } else {
+    if (navBadge) navBadge.textContent = "🤖 Auto-Pilot: PAUSED";
+    if (mainBadge) {
+      mainBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/40";
+      mainBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> ⏸️ Auto-Pilot: PAUSED`;
+    }
+    if (btnText) btnText.textContent = "Resume Auto-Pilot";
+    if (btnIcon) btnIcon.textContent = "▶️";
+  }
+
+  // Render Event Stream Terminal
+  const stream = document.getElementById("autopilot-event-stream");
+  if (stream && data.eventLogs) {
+    let html = "";
+    data.eventLogs.slice(0, 15).forEach((evt, idx) => {
+      const time = new Date(evt.timestamp).toLocaleTimeString();
+      let colorClass = "text-emerald-400";
+      if (evt.type === "SERP") colorClass = "text-cyan-300";
+      else if (evt.type === "SHIELD") colorClass = "text-amber-300";
+      else if (evt.type === "PHOTOS") colorClass = "text-indigo-300";
+      else if (evt.type === "WHATSAPP") colorClass = "text-emerald-300";
+      else if (evt.type === "CITATIONS") colorClass = "text-purple-300";
+      else if (evt.type === "SYSTEM") colorClass = "text-slate-300";
+
+      html += `
+        <div class="terminal-line flex items-start gap-2 ${idx === 0 ? 'animate-pulse' : ''}">
+          <span class="text-slate-500 whitespace-nowrap">[${time}]</span>
+          <span>${evt.icon || '🤖'}</span>
+          <span class="${colorClass}">${evt.message}</span>
+        </div>
+      `;
+    });
+    stream.innerHTML = html;
+  }
+}
+
+function toggleAutoPilot() {
+  fetch("/api/auto/toggle", { method: "POST" })
+    .then(res => res.json())
+    .then(data => {
+      showToast(data.message || (data.enabled ? "Auto-Pilot Activated!" : "Auto-Pilot Paused"));
+      fetchAutoPilotStatus();
+    });
+}
+
+function forceAutoCycle() {
+  showToast("⚡ Executing Instant Autonomous Optimization Cycle...");
+  fetch("/api/auto/cycle", { method: "POST" })
+    .then(res => res.json())
+    .then(data => {
+      showToast(`✓ Cycle #${data.totalCycles} executed! New assets published.`);
+      autoPilotCountdownSeconds = 6;
+      fetchAutoPilotStatus();
+    });
+}
+

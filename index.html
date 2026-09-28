@@ -42,10 +42,10 @@
         <a href="#" class="inline-flex items-center gap-2">
           <img id="nav-brand-logo" src="public/grexa-logo.svg" alt="Grexa AI" class="h-7 w-auto sm:h-8" />
         </a>
-        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-800 border border-emerald-300">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-          100% Unlocked • Free AI Tools
-        </span>
+        <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-500 text-slate-950 border border-emerald-400 shadow-sm hover:scale-105 transition cursor-pointer" onclick="toggleAutoPilot()">
+          <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+          <span id="nav-autopilot-label">🤖 Auto-Pilot: ON</span>
+        </button>
       </div>
 
       <!-- Mode Switcher (Clone vs Advanced AI Suite) -->
@@ -233,6 +233,135 @@
     <!-- VIEW B: FULL REPORT & UNLOCKED ACTION CENTER (Zero Paywalls)              -->
     <!-- ========================================================================= -->
     <div id="report-view" class="hidden space-y-8">
+
+      <!-- ========================================================================= -->
+      <!-- 🤖 AUTONOMOUS 24/7 AUTO-PILOT COMMAND CENTER (LIVE AUTO MODE)             -->
+      <!-- ========================================================================= -->
+      <div class="rounded-3xl border-2 border-emerald-400 bg-gradient-to-br from-emerald-950 via-slate-900 to-indigo-950 text-white p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
+        
+        <!-- Background Ambient Glow -->
+        <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
+
+        <!-- Header Row -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40" id="autopilot-status-badge">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                ● 24/7 Auto-Pilot: ACTIVE & RUNNING
+              </span>
+              <span class="text-xs text-slate-400">Ticking Every 6s</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white mt-1.5 flex items-center gap-2">
+              <span>🤖</span> Autonomous AI Growth Copilot
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300">
+              Running fully automated Google Business Profile optimization, rank monitoring, photo geo-tagging & review protection 24/7 without manual effort.
+            </p>
+          </div>
+
+          <!-- Master Action Controls -->
+          <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <button type="button" id="btn-toggle-autopilot" class="px-4 py-2.5 rounded-2xl bg-slate-800 border border-slate-600 hover:bg-slate-700 text-xs font-bold text-white flex items-center gap-2 shadow-sm transition" onclick="toggleAutoPilot()">
+              <span id="btn-autopilot-icon">⏸️</span>
+              <span id="btn-autopilot-text">Pause Auto-Pilot</span>
+            </button>
+            <button type="button" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/20 flex items-center gap-2 transition" onclick="forceAutoCycle()">
+              <span>⚡</span>
+              <span>Force Instant Auto-Cycle</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Metrics Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Total Cycles Executed</span>
+            <span class="text-xl sm:text-2xl font-black text-emerald-400" id="autopilot-cycles-count">48+</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Next Auto-Action In</span>
+            <span class="text-xl sm:text-2xl font-black text-cyan-400" id="autopilot-countdown">4s</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Autonomous Modules</span>
+            <span class="text-xl sm:text-2xl font-black text-white">6 / 6 Live</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Google Map Protection</span>
+            <span class="text-xl sm:text-2xl font-black text-emerald-400">100% Shielded</span>
+          </div>
+        </div>
+
+        <!-- 6 Micro-Daemons Status Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 relative z-10 text-xs">
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-base">📅</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <span class="font-bold text-white block">Auto-Posts</span>
+            <span class="text-[10px] text-slate-400 block">Weekly Updates</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-base">📸</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <span class="font-bold text-white block">GPS EXIF</span>
+            <span class="text-[10px] text-slate-400 block">Auto-Watermark</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-base">🛡️</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <span class="font-bold text-white block">Review Shield</span>
+            <span class="text-[10px] text-slate-400 block">Quarantines 1-3★</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-base">📡</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <span class="font-bold text-white block">SERP Radar</span>
+            <span class="text-[10px] text-slate-400 block">Ambernath 9 Pts</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-base">💬</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <span class="font-bold text-white block">WhatsApp Bot</span>
+            <span class="text-[10px] text-slate-400 block">Auto-Followups</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-base">🌐</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <span class="font-bold text-white block">Citations Sync</span>
+            <span class="text-[10px] text-slate-400 block">40+ Directories</span>
+          </div>
+        </div>
+
+        <!-- Live Autonomous Event Stream Terminal -->
+        <div class="space-y-2 relative z-10">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-slate-300 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              Live Autonomous Flight Stream (Real-Time Ticker):
+            </span>
+            <span class="text-[11px] text-slate-400 font-mono-code" id="autopilot-last-sync">Syncing live...</span>
+          </div>
+
+          <div class="terminal-window font-mono-code bg-black/60 border border-white/10 text-xs p-3.5 max-h-44 overflow-y-auto space-y-1.5" id="autopilot-event-stream">
+            <!-- Dynamically populated from /api/auto/status -->
+          </div>
+        </div>
+
+      </div>
 
       <!-- Business Identity Hero Card -->
       <div class="rounded-3xl border border-brand-border bg-white p-6 sm:p-8 shadow-card-soft space-y-6">
