@@ -11,6 +11,28 @@ const os = require('os');
 const { DEFAULT_REPORT, SAMPLE_PRESETS, WEEKLY_POSTS } = require('./js/data.js');
 const { AIEngine } = require('./js/ai-engine.js');
 
+// Auto-load .env file if present
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  try {
+    const envLines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+    envLines.forEach(line => {
+      line = line.trim();
+      if (line && !line.startsWith('#')) {
+        const eqIdx = line.indexOf('=');
+        if (eqIdx !== -1) {
+          const key = line.slice(0, eqIdx).trim();
+          const val = line.slice(eqIdx + 1).trim();
+          process.env[key] = val;
+        }
+      }
+    });
+    console.log('[System] .env loaded successfully! Meta WhatsApp credentials active.');
+  } catch (err) {
+    console.warn('[System] Could not parse .env:', err.message);
+  }
+}
+
 function getLocalIpAddress() {
   const interfaces = os.networkInterfaces();
   for (const devName of Object.keys(interfaces)) {
@@ -69,15 +91,17 @@ const publishedPostLogs = [
 // WhatsApp Auto-Pilot Configuration & Live Conversations Store
 const whatsappConfig = {
   enabled: true,
-  phoneNumberId: process.env.WHATSAPP_PHONE_ID || '104820177613942',
-  accessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',
-  verifyToken: process.env.WHATSAPP_VERIFY_TOKEN || 'dashmesh_auto_whatsapp_2026',
+  phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.WHATSAPP_PHONE_ID || '1239464059243498',
+  businessAccountId: process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || '2124558472274062',
+  accessToken: process.env.META_ACCESS_TOKEN || process.env.WHATSAPP_ACCESS_TOKEN || '',
+  verifyToken: process.env.VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN || 'DashmeshProperties2026',
   businessName: 'Dashmesh Property',
-  phone: '+91 98201 44552',
+  phone: process.env.WHATSAPP_NUMBER || '+91 92702 77281',
   officeAddress: 'Shop No. 24, New Floora, Pale Gaon, Ambernath East, Maharashtra 421501',
   officeLandmark: 'Pale Gaon Bus Stop ke paas, Ambernath Railway Station (East) se sirf 7 minutes',
   officeTimings: 'Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)',
   officeMap: 'https://maps.google.com/?q=19.1908,73.1785',
+  geminiApiKey: process.env.GEMINI_API_KEY || '',
   autoFollowUpEnabled: true
 };
 
