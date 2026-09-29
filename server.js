@@ -73,7 +73,11 @@ const whatsappConfig = {
   accessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',
   verifyToken: process.env.WHATSAPP_VERIFY_TOKEN || 'dashmesh_auto_whatsapp_2026',
   businessName: 'Dashmesh Property',
-  phone: '+91 93222 22222',
+  phone: '+91 98201 44552',
+  officeAddress: 'Shop No. 24, New Floora, Pale Gaon, Ambernath East, Maharashtra 421501',
+  officeLandmark: 'Pale Gaon Bus Stop ke paas, Ambernath Railway Station (East) se sirf 7 minutes',
+  officeTimings: 'Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)',
+  officeMap: 'https://maps.google.com/?q=19.1908,73.1785',
   autoFollowUpEnabled: true
 };
 
@@ -636,9 +640,20 @@ const server = http.createServer((req, res) => {
           const contact = value.contacts && value.contacts[0];
           const name = (contact && contact.profile && contact.profile.name) || 'Client';
 
-          const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name);
-
           let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === from.replace(/[^0-9]/g, ''));
+          const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
+          const messageCount = conv ? conv.messages.length : 0;
+
+          const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
+            isOngoing,
+            messageCount,
+            officeAddress: whatsappConfig.officeAddress,
+            officeLandmark: whatsappConfig.officeLandmark,
+            officeTimings: whatsappConfig.officeTimings,
+            officeMap: whatsappConfig.officeMap,
+            contactPhone: whatsappConfig.phone
+          });
+
           if (!conv) {
             conv = { phone: '+' + from, name, lastUpdated: new Date().toISOString(), messages: [] };
             whatsappConversations.unshift(conv);
@@ -682,7 +697,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // 14. WhatsApp Dashboard API: Get Conversations
+  // 14. WhatsApp Dashboard API: Get Conversations & Office Configuration
   if (pathname === '/api/whatsapp/conversations' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
@@ -691,6 +706,12 @@ const server = http.createServer((req, res) => {
         phoneNumberId: whatsappConfig.phoneNumberId,
         hasAccessToken: Boolean(whatsappConfig.accessToken),
         verifyToken: whatsappConfig.verifyToken,
+        businessName: whatsappConfig.businessName,
+        phone: whatsappConfig.phone,
+        officeAddress: whatsappConfig.officeAddress,
+        officeLandmark: whatsappConfig.officeLandmark,
+        officeTimings: whatsappConfig.officeTimings,
+        officeMap: whatsappConfig.officeMap,
         webhookUrl: `http://${getLocalIpAddress()}:${PORT}/api/whatsapp/webhook`
       },
       conversations: whatsappConversations,
@@ -710,9 +731,20 @@ const server = http.createServer((req, res) => {
         const name = data.name || 'Rahul Patil';
         const text = data.text || 'Namaste, 1 BHK flat available hai?';
 
-        const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name);
-
         let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === phone.replace(/[^0-9]/g, ''));
+        const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
+        const messageCount = conv ? conv.messages.length : 0;
+
+        const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
+          isOngoing,
+          messageCount,
+          officeAddress: whatsappConfig.officeAddress,
+          officeLandmark: whatsappConfig.officeLandmark,
+          officeTimings: whatsappConfig.officeTimings,
+          officeMap: whatsappConfig.officeMap,
+          contactPhone: whatsappConfig.phone
+        });
+
         if (!conv) {
           conv = { phone, name, lastUpdated: new Date().toISOString(), messages: [] };
           whatsappConversations.unshift(conv);
@@ -772,16 +804,26 @@ const server = http.createServer((req, res) => {
         if (data.phoneNumberId) whatsappConfig.phoneNumberId = data.phoneNumberId;
         if (data.accessToken) whatsappConfig.accessToken = data.accessToken;
         if (data.verifyToken) whatsappConfig.verifyToken = data.verifyToken;
+        if (data.phone) whatsappConfig.phone = data.phone;
+        if (data.officeAddress) whatsappConfig.officeAddress = data.officeAddress;
+        if (data.officeLandmark) whatsappConfig.officeLandmark = data.officeLandmark;
+        if (data.officeTimings) whatsappConfig.officeTimings = data.officeTimings;
+        if (data.officeMap) whatsappConfig.officeMap = data.officeMap;
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           success: true,
-          message: 'WhatsApp Auto-Pilot configuration saved!',
+          message: 'WhatsApp Auto-Pilot & Office Location configuration saved!',
           config: {
             enabled: whatsappConfig.enabled,
             phoneNumberId: whatsappConfig.phoneNumberId,
             hasAccessToken: Boolean(whatsappConfig.accessToken),
-            verifyToken: whatsappConfig.verifyToken
+            verifyToken: whatsappConfig.verifyToken,
+            phone: whatsappConfig.phone,
+            officeAddress: whatsappConfig.officeAddress,
+            officeLandmark: whatsappConfig.officeLandmark,
+            officeTimings: whatsappConfig.officeTimings,
+            officeMap: whatsappConfig.officeMap
           }
         }));
       } catch (e) {

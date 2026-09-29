@@ -631,32 +631,49 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
 
   <!-- Production Settings Modal -->
   <div id="settings-modal" class="modal-overlay">
-    <div class="modal-content-box">
+    <div class="modal-content-box" style="max-width: 540px; width: 92%;">
       <div class="modal-header-row">
-        <h3 class="modal-title">⚙️ Business Profile Settings</h3>
+        <h3 class="modal-title">⚙️ Business & Office Profile Settings</h3>
         <button type="button" class="btn-close-modal" onclick="closeProductionSettingsModal()">✕</button>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
         <div>
-          <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Google Place ID:</label>
-          <input type="text" id="setting-place-id" class="input-styled" value="ChIJDxFBTbyV5zsRcHylJmmARG8" />
-          <span style="font-size: 11px; color: var(--color-text-muted);">Default: Dashmesh Property (Ambernath East)</span>
+          <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">📍 Office Address (Pale Gaon):</label>
+          <input type="text" id="setting-office-address" class="input-styled" value="Shop No. 24, New Floora, Pale Gaon, Ambernath East, Maharashtra 421501" />
+          <span style="font-size: 11px; color: var(--color-text-muted);">Exact registered office address shared with clients via WhatsApp</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">🚩 Landmark / Distance:</label>
+            <input type="text" id="setting-office-landmark" class="input-styled" value="Near Pale Gaon Bus Stop, 7 mins from Ambernath East Station" />
+          </div>
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">⏰ Office Working Hours:</label>
+            <input type="text" id="setting-office-timings" class="input-styled" value="Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">📞 WhatsApp / Direct Phone:</label>
+            <input type="text" id="setting-wa-phone" class="input-styled" value="9820144552" />
+          </div>
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Google Place ID:</label>
+            <input type="text" id="setting-place-id" class="input-styled" value="ChIJDxFBTbyV5zsRcHylJmmARG8" />
+          </div>
         </div>
 
         <div>
           <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Custom Cloud / Shield URL:</label>
           <input type="text" id="setting-shield-url" class="input-styled" value="http://localhost:3000/shield.html" />
-          <span style="font-size: 11px; color: var(--color-text-muted);">Encoded into the QR Standee</span>
+          <span style="font-size: 11px; color: var(--color-text-muted);">Encoded into the QR Standee for customer review collection</span>
         </div>
 
-        <div>
-          <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">WhatsApp Number for Test:</label>
-          <input type="text" id="setting-wa-phone" class="input-styled" value="9820144552" />
-        </div>
-
-        <button type="button" class="btn-solid-primary" style="margin-top: 6px;" onclick="saveProductionSettings()">
-          ✓ Save Settings
+        <button type="button" class="btn-solid-primary" style="margin-top: 6px; padding: 12px;" onclick="saveProductionSettings()">
+          ✓ Save Settings & Update Bot
         </button>
       </div>
     </div>

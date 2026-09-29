@@ -45,6 +45,25 @@ function initApp() {
   // 6. Load WhatsApp Client Conversations
   loadWhatsAppConversations();
 
+  // Restore saved office configuration if present
+  try {
+    const savedConfig = localStorage.getItem("dashmesh_office_config");
+    if (savedConfig) {
+      const cfg = JSON.parse(savedConfig);
+      if (cfg.officeAddress) appState.officeAddress = cfg.officeAddress;
+      if (cfg.officeLandmark) appState.officeLandmark = cfg.officeLandmark;
+      if (cfg.officeTimings) appState.officeTimings = cfg.officeTimings;
+      if (cfg.placeId) appState.placeId = cfg.placeId;
+
+      const addrInput = document.getElementById("setting-office-address");
+      const lmkInput = document.getElementById("setting-office-landmark");
+      const timInput = document.getElementById("setting-office-timings");
+      if (addrInput && cfg.officeAddress) addrInput.value = cfg.officeAddress;
+      if (lmkInput && cfg.officeLandmark) lmkInput.value = cfg.officeLandmark;
+      if (timInput && cfg.officeTimings) timInput.value = cfg.officeTimings;
+    }
+  } catch(e) {}
+
   // 7. Sync 24/7 Auto-Pilot Status & stream
   syncAutoPilotStatus();
   setInterval(syncAutoPilotStatus, 6000);
@@ -490,6 +509,21 @@ function loadWhatsAppConversations() {
         renderWhatsAppChat(appState.activeConversationIndex);
       }
       if (data && data.config) {
+        appState.officeAddress = data.config.officeAddress;
+        appState.officeLandmark = data.config.officeLandmark;
+        appState.officeTimings = data.config.officeTimings;
+        appState.officeMap = data.config.officeMap;
+        appState.contactPhone = data.config.phone;
+
+        const addrInput = document.getElementById("setting-office-address");
+        const lmkInput = document.getElementById("setting-office-landmark");
+        const timInput = document.getElementById("setting-office-timings");
+        const phoneInput = document.getElementById("setting-wa-phone");
+        if (addrInput && data.config.officeAddress) addrInput.value = data.config.officeAddress;
+        if (lmkInput && data.config.officeLandmark) lmkInput.value = data.config.officeLandmark;
+        if (timInput && data.config.officeTimings) timInput.value = data.config.officeTimings;
+        if (phoneInput && data.config.phone) phoneInput.value = data.config.phone.replace(/[^0-9]/g, '');
+
         const webhookUrl = document.getElementById("meta-webhook-url");
         const verifyToken = document.getElementById("meta-verify-token");
         if (webhookUrl && data.config.webhookUrl) webhookUrl.textContent = data.config.webhookUrl;
@@ -581,7 +615,8 @@ function sendQuickPrompt(text) {
 function simulateIncomingClientMessage(text) {
   const conv = appState.whatsappConversations[appState.activeConversationIndex] || {
     name: "Rahul Patil",
-    phone: "+91 98201 44552"
+    phone: "+91 98201 44552",
+    messages: []
   };
 
   showToast(`Client WhatsApp Message: "${text.substring(0, 28)}..."`);
@@ -609,6 +644,36 @@ function simulateIncomingClientMessage(text) {
         renderWhatsAppChat(appState.activeConversationIndex);
         showToast("✓ WhatsApp Auto-Bot replied automatically!");
       }
+    })
+    .catch(() => {
+      // Robust client-side fallback
+      const isOngoing = Boolean(conv.messages && conv.messages.length > 0);
+      const autoRes = AIEngine.generateWhatsAppAutoResponse(text, conv.name, {
+        isOngoing,
+        messageCount: conv.messages ? conv.messages.length : 0,
+        officeAddress: appState.officeAddress,
+        officeLandmark: appState.officeLandmark,
+        officeTimings: appState.officeTimings,
+        officeMap: appState.officeMap
+      });
+      conv.messages.push({
+        id: "msg_in_" + Date.now(),
+        sender: "client",
+        text: text,
+        timestamp: new Date().toISOString()
+      });
+      conv.messages.push({
+        id: "msg_out_" + (Date.now() + 1),
+        sender: "bot",
+        text: autoRes.reply,
+        intent: autoRes.intent,
+        suggestedActions: autoRes.suggestedActions,
+        timestamp: new Date(Date.now() + 600).toISOString()
+      });
+      conv.lastUpdated = new Date().toISOString();
+      renderWhatsAppThreadList();
+      renderWhatsAppChat(appState.activeConversationIndex);
+      showToast("✓ WhatsApp Auto-Bot replied automatically!");
     });
 }
 
@@ -877,9 +942,21 @@ function closeProductionSettingsModal() {
 }
 
 function saveProductionSettings() {
+  const addrInput = document.getElementById("setting-office-address");
+  const lmkInput = document.getElementById("setting-office-landmark");
+  const timInput = document.getElementById("setting-office-timings");
   const placeIdInput = document.getElementById("setting-place-id");
   const shieldUrlInput = document.getElementById("setting-shield-url");
   const waPhoneInput = document.getElementById("setting-wa-phone");
+
+  const officeAddress = addrInput ? addrInput.value.trim() : "";
+  const officeLandmark = lmkInput ? lmkInput.value.trim() : "";
+  const officeTimings = timInput ? timInput.value.trim() : "";
+  const phone = waPhoneInput ? waPhoneInput.value.trim() : "";
+
+  if (officeAddress) appState.officeAddress = officeAddress;
+  if (officeLandmark) appState.officeLandmark = officeLandmark;
+  if (officeTimings) appState.officeTimings = officeTimings;
 
   if (placeIdInput && placeIdInput.value.trim()) {
     appState.placeId = placeIdInput.value.trim();
@@ -890,12 +967,35 @@ function saveProductionSettings() {
     updateStandeeQrUrl(shieldUrlInput.value.trim());
   }
 
-  if (waPhoneInput && waPhoneInput.value.trim()) {
+  if (phone) {
     const waClientPhone = document.getElementById("wa-client-phone");
-    if (waClientPhone) waClientPhone.value = waPhoneInput.value.trim();
+    if (waClientPhone) waClientPhone.value = phone;
   }
+
+  // Persist locally in browser
+  try {
+    localStorage.setItem("dashmesh_office_config", JSON.stringify({
+      officeAddress,
+      officeLandmark,
+      officeTimings,
+      phone,
+      placeId: appState.placeId
+    }));
+  } catch(e) {}
+
+  // Sync with backend server
+  fetch("/api/whatsapp/config", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      officeAddress,
+      officeLandmark,
+      officeTimings,
+      phone
+    })
+  }).catch(() => {});
 
   refreshWhatsAppMessagePreview();
   closeProductionSettingsModal();
-  showToast("✓ Settings updated successfully!");
+  showToast("✓ Office address, timings & WhatsApp bot updated!");
 }
