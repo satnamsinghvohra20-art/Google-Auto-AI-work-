@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: dashmesh-property-ai
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: WHATSAPP_BUSINESS_ACCOUNT_ID
+        sync: false
+      - key: META_ACCESS_TOKEN
+        sync: false
+      - key: VERIFY_TOKEN
+        sync: false
+      - key: WHATSAPP_NUMBER
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
