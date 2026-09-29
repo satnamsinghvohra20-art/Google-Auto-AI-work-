@@ -736,7 +736,7 @@ const server = http.createServer((req, res) => {
         officeLandmark: whatsappConfig.officeLandmark,
         officeTimings: whatsappConfig.officeTimings,
         officeMap: whatsappConfig.officeMap,
-        webhookUrl: `http://${getLocalIpAddress()}:${PORT}/api/whatsapp/webhook`
+        webhookUrl: (process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev') + '/api/whatsapp/webhook'
       },
       conversations: whatsappConversations,
       totalMessages: whatsappConversations.reduce((acc, c) => acc + c.messages.length, 0)
