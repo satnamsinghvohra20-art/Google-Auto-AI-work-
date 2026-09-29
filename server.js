@@ -4,10 +4,26 @@
  */
 
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { DEFAULT_REPORT, SAMPLE_PRESETS, WEEKLY_POSTS } = require('./js/data.js');
 const { AIEngine } = require('./js/ai-engine.js');
+
+function getLocalIpAddress() {
+  const interfaces = os.networkInterfaces();
+  for (const devName of Object.keys(interfaces)) {
+    const iface = interfaces[devName];
+    for (let i = 0; i < iface.length; i++) {
+      const alias = iface[i];
+      if (alias.family === 'IPv4' && !alias.internal && alias.address !== '127.0.0.1') {
+        return alias.address;
+      }
+    }
+  }
+  return 'localhost';
+}
 
 const PORT = process.env.PORT || 3000;
 const BASE_DIR = __dirname;
@@ -187,6 +203,20 @@ const server = http.createServer((req, res) => {
   }
 
   // --- API Endpoints ---
+
+  // 0. Local Network IP & Mobile Shield URL API
+  if (pathname === '/api/network/ip' && req.method === 'GET') {
+    const localIp = getLocalIpAddress();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      localIp,
+      port: PORT,
+      localUrl: `http://localhost:${PORT}`,
+      mobileShieldUrl: `http://${localIp}:${PORT}/shield.html`,
+      isLive: true
+    }));
+    return;
+  }
 
   // 1. Auto-Pilot Status API
   if (pathname === '/api/auto/status' && req.method === 'GET') {
@@ -468,7 +498,14 @@ const server = http.createServer((req, res) => {
   }
 
   // --- Static Files Serving ---
-  let filePath = pathname === '/' ? path.join(BASE_DIR, 'index.html') : path.join(BASE_DIR, pathname);
+  let filePath;
+  if (pathname === '/' || pathname === '/index.html') {
+    filePath = path.join(BASE_DIR, 'index.html');
+  } else if (pathname === '/shield' || pathname === '/shield.html') {
+    filePath = path.join(BASE_DIR, 'shield.html');
+  } else {
+    filePath = path.join(BASE_DIR, pathname);
+  }
 
   // Security check: keep inside BASE_DIR
   if (!filePath.startsWith(BASE_DIR)) {
@@ -498,10 +535,12 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
+  const localIp = getLocalIpAddress();
   console.log(`=======================================================`);
   console.log(`🚀 Grexa AI Booster & 24/7 Autonomous Suite Running!`);
-  console.log(`👉 Access URL: http://localhost:${PORT}`);
+  console.log(`👉 Local Dashboard: http://localhost:${PORT}`);
+  console.log(`📱 Mobile Shield on LAN: http://${localIp}:${PORT}/shield.html`);
   console.log(`🤖 Auto-Pilot Daemon: ACTIVE (Ticking Every 6s)`);
   console.log(`=======================================================`);
 });

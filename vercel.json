@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/shield",
+      "destination": "/shield.html"
+    },
+    {
+      "source": "/api/:match*",
+      "destination": "/server.js"
+    }
+  ]
+}

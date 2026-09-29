@@ -200,6 +200,69 @@ Target Directories:
   },
 
   /**
+   * Injects True Binary EXIF GPS & Business Metadata into JPEG Data URL
+   */
+  injectExifMetadata(jpegDataUrl, meta = {}) {
+    if (typeof piexif === "undefined") {
+      console.warn("piexif library not loaded, skipping binary EXIF injection");
+      return jpegDataUrl;
+    }
+    try {
+      const lat = meta.lat ? parseFloat(meta.lat) : 19.1908;
+      const lng = meta.lng ? parseFloat(meta.lng) : 73.1785;
+      const biz = meta.businessName || "Dashmesh Property";
+      const city = meta.city || "Ambernath";
+      const category = meta.category || "Property Consultant";
+      const desc = `${biz} - ${category} in ${city}, Maharashtra. Verified local real estate consulting and property listings.`;
+
+      function degToDmsRational(deg) {
+        const absolute = Math.abs(deg);
+        const degrees = Math.floor(absolute);
+        const minutesNotTruncated = (absolute - degrees) * 60;
+        const minutes = Math.floor(minutesNotTruncated);
+        const seconds = Math.round((minutesNotTruncated - minutes) * 60 * 100);
+        return [
+          [degrees, 1],
+          [minutes, 1],
+          [seconds, 100]
+        ];
+      }
+
+      const d = new Date();
+      const pad = (n) => (n < 10 ? '0' + n : n);
+      const dateStr = `${d.getFullYear()}:${pad(d.getMonth() + 1)}:${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      const dateStamp = `${d.getFullYear()}:${pad(d.getMonth() + 1)}:${pad(d.getDate())}`;
+
+      const zeroth = {};
+      zeroth[piexif.ImageIFD.Make] = "Google Auto AI Geotagger Pro";
+      zeroth[piexif.ImageIFD.Model] = "GPS EXIF High-Precision Engine";
+      zeroth[piexif.ImageIFD.Software] = "Grexa AI Growth Engine 2026";
+      zeroth[piexif.ImageIFD.ImageDescription] = desc;
+      zeroth[piexif.ImageIFD.DateTime] = dateStr;
+
+      const gps = {};
+      gps[piexif.GPSIFD.GPSLatitude] = degToDmsRational(lat);
+      gps[piexif.GPSIFD.GPSLatitudeRef] = lat >= 0 ? "N" : "S";
+      gps[piexif.GPSIFD.GPSLongitude] = degToDmsRational(lng);
+      gps[piexif.GPSIFD.GPSLongitudeRef] = lng >= 0 ? "E" : "W";
+      gps[piexif.GPSIFD.GPSAltitude] = [35, 1]; // 35m altitude in Ambernath
+      gps[piexif.GPSIFD.GPSAltitudeRef] = 0;
+      gps[piexif.GPSIFD.GPSDateStamp] = dateStamp;
+
+      const exif = {};
+      exif[piexif.ExifIFD.DateTimeOriginal] = dateStr;
+      exif[piexif.ExifIFD.UserComment] = `Verified Geo-Tagged for Google Maps: ${biz}, ${city}, Maharashtra`;
+
+      const exifObj = { "0th": zeroth, "Exif": exif, "GPS": gps };
+      const exifBytes = piexif.dump(exifObj);
+      return piexif.insert(exifBytes, jpegDataUrl);
+    } catch (e) {
+      console.warn("Could not inject EXIF bytes:", e);
+      return jpegDataUrl;
+    }
+  },
+
+  /**
    * Dynamic ROI & Revenue Growth Calculator
    */
   calculateROI(ticketValue = 15000, currentCalls = 15) {
