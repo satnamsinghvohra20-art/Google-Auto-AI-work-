@@ -88,6 +88,79 @@ const AIEngine = {
   },
 
   /**
+   * Autonomous WhatsApp Client Auto-Responder Engine
+   * Matches customer intents (1/2 BHK flats, shops, prices, office location, review follow-up)
+   * Formats responses in clean, polite, local Hinglish/English like the Grexa WhatsApp bot!
+   */
+  generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
+    const text = (incomingText || "").toLowerCase().trim();
+    const name = clientName && clientName !== "Ji" ? clientName : "";
+    const nameSalutation = name ? `${name} ji` : "ji";
+    const reviewUrl = context.reviewUrl || "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
+
+    // 1. 1 BHK / 2 BHK / Flat / Home / Residential
+    if (text.includes("1 bhk") || text.includes("2 bhk") || text.includes("3 bhk") || text.includes("flat") || text.includes("apartment") || text.includes("ghar") || text.includes("house") || text.includes("residential") || text.includes("1bhk") || text.includes("2bhk")) {
+      return {
+        intent: "RESIDENTIAL_INQUIRY",
+        reply: `Namaste ${nameSalutation}! 🏡 Dashmesh Property mein aapka swagat hai.\n\nHamare paas Pale Gaon & Station Road (Ambernath East) mein verified ready possession aur under-construction flats available hain:\n• 1 BHK: ₹18 Lakh - ₹26 Lakh (SBI/HDFC loan approved)\n• 2 BHK: ₹32 Lakh - ₹48 Lakh (Lift, Parking & Club)\n• Clear Title, RERA Registered & 0% hidden charges.\n\nKya aap weekend par site visit plan karna chahenge? Hum aapko verified options ka brochure WhatsApp par share karein?`,
+        suggestedActions: ["Schedule Site Visit", "Send Photo Brochure", "Call Advisor"]
+      };
+    }
+
+    // 2. Commercial / Shop / Office / Retail
+    if (text.includes("shop") || text.includes("commercial") || text.includes("office") || text.includes("dukaan") || text.includes("showroom") || text.includes("godown")) {
+      return {
+        intent: "COMMERCIAL_INQUIRY",
+        reply: `Namaste ${nameSalutation}! 🏪 Dashmesh Property commercial desk.\n\nAmbernath East (Station Road & MIDC corridor) mein high-footfall retail shops aur office spaces available hain (Rent & Sale):\n• Commercial Shops: ₹18L se start (Rent: ₹8,000 - ₹30,000/mo)\n• Prime main road visibility with high pedestrian footfall.\n• Verified legal title & agreement assistance.\n\nAapka budget aur required carpet area kitna hai? Humein batayein, hum best listings share karenge.`,
+        suggestedActions: ["View Shops on Sale", "Commercial Rentals", "Call Now"]
+      };
+    }
+
+    // 3. Price / Rate / Cost / Budget / Kitna
+    if (text.includes("rate") || text.includes("price") || text.includes("cost") || text.includes("budget") || text.includes("kitna") || text.includes("bhav")) {
+      return {
+        intent: "PRICE_INQUIRY",
+        reply: `Hello ${nameSalutation}! 📊 Ambernath East Current Verified Market Rates:\n\n• 1 BHK (Pale Gaon): ₹18 Lakh - ₹25 Lakh\n• 2 BHK (Station Road / Pale Gaon): ₹32 Lakh - ₹46 Lakh\n• Commercial Shops: ₹20 Lakh onwards\n• Resale Deals: ₹15 Lakh onwards\n\nHum aapke budget ke hisaab se best verified property shortlist karke de sakte hain. Aapka comfortable budget range kya hai?`,
+        suggestedActions: ["Under ₹25 Lakhs", "₹25L - ₹45 Lakhs", "Custom Budget"]
+      };
+    }
+
+    // 4. Location / Address / Kahan / Office / Map
+    if (text.includes("location") || text.includes("address") || text.includes("kahan") || text.includes("office") || text.includes("pata") || text.includes("map")) {
+      return {
+        intent: "LOCATION_INQUIRY",
+        reply: `Namaste ${nameSalutation}! 📍 Dashmesh Property Office Address:\n\nShop No. 24, New Floora, Pale Gaon, Ambernath East, Maharashtra 421501.\n(Near Pale Gaon Bus Stop, 7 mins from Ambernath Railway Station East)\n\n⏰ Timings: 10:00 AM - 8:30 PM (Open All 7 Days)\n📍 Google Maps Pin: https://maps.google.com/?q=19.1908,73.1785\n\nAap kabhi bhi visit kar sakte hain, Satnam Singh Vohra ji office mein available rahenge!`,
+        suggestedActions: ["Open in Google Maps", "Call Office", "Book Appointment"]
+      };
+    }
+
+    // 5. Done / Review / Feedback / Rating (as shown in user's WhatsApp screenshot!)
+    if (text.includes("done") || text.includes("review") || text.includes("rating") || text.includes("ho gaya") || text.includes("feed")) {
+      return {
+        intent: "REVIEW_COMPLETION",
+        reply: `Great ${name || 'Satnam'}, thanks for the confirmation! ⭐\n\n• Aapka feedback hamari local Google ranking ko #1 par maintain karne mein bohot madad karta hai.\n• Agar abhi tak review submit nahi kiya hai to 10 seconds nikaal kar yahan tap karein:\n${reviewUrl}\n\nThank you for choosing Dashmesh Property! Hum aapke document verification aur future property deals mein hamesha madad ke liye tayyar hain. 🙏`,
+        suggestedActions: ["Open Google Review", "Request Callback"]
+      };
+    }
+
+    // 6. Insight & Follow-up Request (as shown in user's WhatsApp screenshot!)
+    if (text.includes("insight") || text.includes("how it works") || text.includes("grexa") || text.includes("service") || text.includes("costly")) {
+      return {
+        intent: "INSIGHT_FOLLOWUP",
+        reply: `A quick insight ⬇️\n\nPale Gaon aur Ambernath East corridor mein property prices pichle 1 saal mein 14% appreciate huye hain, aur naye station flyover se connectivity aur behtar ho rahi hai.\n\nDashmesh Property ke zariye aapko:\n✅ Direct owner/builder pricing (Zero fraud)\n✅ Complete title search & legal paper check\n✅ 90% bank loan approval support\n\nKya aap chahenge ki hum aapke liye 3 shortlisted properties ka video tour bhej dein?`,
+        suggestedActions: ["Yes, send video tour", "Call Satnam ji", "Not now"]
+      };
+    }
+
+    // 7. Default Greeting / Hi / Hello
+    return {
+      intent: "GREETING",
+      reply: `Namaste ${nameSalutation}! Welcome to Dashmesh Property, Ambernath East. 🙏\n\nHum Ambernath ke verified property consultants hain with 12+ years of trusted experience.\n\nAapko kis tarah ki property ki talash hai?\n1️⃣ 1 BHK / 2 BHK Ready Flats\n2️⃣ Commercial Shops / Office Spaces\n3️⃣ Resale Deals & Rental Homes\n4️⃣ Free Legal Document Verification\n\nAap bas yahan reply karein, hum turant details aur photographs share karenge!`,
+      suggestedActions: ["1 BHK / 2 BHK", "Commercial Shops", "Talk to Consultant"]
+    };
+  },
+
+  /**
    * Generates a ready-to-publish Google Post with CTA
    */
   generateGooglePost(businessName, category, city) {

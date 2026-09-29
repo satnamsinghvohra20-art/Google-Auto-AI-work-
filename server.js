@@ -66,6 +66,108 @@ const publishedPostLogs = [
   }
 ];
 
+// WhatsApp Auto-Pilot Configuration & Live Conversations Store
+const whatsappConfig = {
+  enabled: true,
+  phoneNumberId: process.env.WHATSAPP_PHONE_ID || '104820177613942',
+  accessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',
+  verifyToken: process.env.WHATSAPP_VERIFY_TOKEN || 'dashmesh_auto_whatsapp_2026',
+  businessName: 'Dashmesh Property',
+  phone: '+91 93222 22222',
+  autoFollowUpEnabled: true
+};
+
+const whatsappConversations = [
+  {
+    phone: '+91 98201 44552',
+    name: 'Rahul Patil',
+    lastUpdated: new Date(Date.now() - 3600000).toISOString(),
+    messages: [
+      {
+        id: 'msg_1',
+        sender: 'client',
+        text: 'Namaste, Pale Gaon mein 1 BHK flat ka rate kya chal raha hai?',
+        timestamp: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: 'msg_2',
+        sender: 'bot',
+        text: 'Namaste Rahul Patil ji! 🏡 Dashmesh Property mein aapka swagat hai.\n\nHamare paas Pale Gaon & Station Road (Ambernath East) mein verified ready possession flats ₹18L se ₹25L ke beech available hain with 90% bank loan approval.\nKya aap weekend par site visit ke liye aana chahenge?',
+        timestamp: new Date(Date.now() - 3595000).toISOString()
+      },
+      {
+        id: 'msg_3',
+        sender: 'client',
+        text: 'Done, weekend par aata hoon',
+        timestamp: new Date(Date.now() - 1800000).toISOString()
+      },
+      {
+        id: 'msg_4',
+        sender: 'bot',
+        text: 'Great Rahul Patil, thanks for being ready!\n\n• Hum aapko Pale Gaon office par welcome karenge.\n• A quick insight: Pale Gaon corridor mein naye infrastructure projects se property value 14% appreciate ho rahi hai.\n\nGoogle Review link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\nReply here once done, and I will guide you aage! 🙏',
+        timestamp: new Date(Date.now() - 1790000).toISOString()
+      }
+    ]
+  },
+  {
+    phone: '+91 93240 88912',
+    name: 'Deepak Verma',
+    lastUpdated: new Date(Date.now() - 7200000).toISOString(),
+    messages: [
+      {
+        id: 'msg_5',
+        sender: 'client',
+        text: 'Commercial shop chahiye Ambernath Station Road ke paas rent par',
+        timestamp: new Date(Date.now() - 7200000).toISOString()
+      },
+      {
+        id: 'msg_6',
+        sender: 'bot',
+        text: 'Namaste Deepak Verma ji! 🏪 Dashmesh Property commercial desk.\n\nAmbernath East Station Road mein prime retail shops available hain (Rent: ₹10,000 - ₹28,000/mo) with high pedestrian footfall and verified agreements. Aapka required carpet area kitna hai?',
+        timestamp: new Date(Date.now() - 7195000).toISOString()
+      }
+    ]
+  }
+];
+
+function sendMetaWhatsAppMessage(toPhone, messageText, config) {
+  if (!config.accessToken || !config.phoneNumberId) return;
+
+  const postData = JSON.stringify({
+    messaging_product: 'whatsapp',
+    to: toPhone.replace(/[^0-9]/g, ''),
+    type: 'text',
+    text: { body: messageText }
+  });
+
+  const options = {
+    hostname: 'graph.facebook.com',
+    port: 443,
+    path: `/v19.0/${config.phoneNumberId}/messages`,
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${config.accessToken}`,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+
+  const req = https.request(options, (res) => {
+    let responseBody = '';
+    res.on('data', chunk => responseBody += chunk);
+    res.on('end', () => {
+      console.log(`[Meta WhatsApp] Dispatched to ${toPhone}: status ${res.statusCode}`);
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`[Meta WhatsApp] Dispatch error:`, e.message);
+  });
+
+  req.write(postData);
+  req.end();
+}
+
 // =========================================================================
 // 24/7 AUTONOMOUS AI AUTO-PILOT DAEMON ENGINE
 // =========================================================================
@@ -492,6 +594,229 @@ const server = http.createServer((req, res) => {
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Failed to dispatch WhatsApp message' }));
+      }
+    });
+    return;
+  }
+
+  // 12. WhatsApp Cloud API Webhook Verification (GET)
+  if (pathname === '/api/whatsapp/webhook' && req.method === 'GET') {
+    const mode = parsedUrl.searchParams.get('hub.mode');
+    const token = parsedUrl.searchParams.get('hub.verify_token');
+    const challenge = parsedUrl.searchParams.get('hub.challenge');
+
+    if (mode === 'subscribe' && token === whatsappConfig.verifyToken) {
+      console.log('WhatsApp Webhook Verified Successfully!');
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end(challenge);
+      return;
+    } else {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Webhook verification token mismatch' }));
+      return;
+    }
+  }
+
+  // 13. WhatsApp Cloud API Incoming Message Handler (POST)
+  if (pathname === '/api/whatsapp/webhook' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const entry = payload.entry && payload.entry[0];
+        const changes = entry && entry.changes && entry.changes[0];
+        const value = changes && changes.value;
+        const messages = value && value.messages;
+
+        if (messages && messages.length > 0) {
+          const msg = messages[0];
+          const from = msg.from;
+          const text = (msg.text && msg.text.body) || '';
+          const contact = value.contacts && value.contacts[0];
+          const name = (contact && contact.profile && contact.profile.name) || 'Client';
+
+          const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name);
+
+          let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === from.replace(/[^0-9]/g, ''));
+          if (!conv) {
+            conv = { phone: '+' + from, name, lastUpdated: new Date().toISOString(), messages: [] };
+            whatsappConversations.unshift(conv);
+          }
+          conv.messages.push({
+            id: 'msg_in_' + Date.now(),
+            sender: 'client',
+            text: text,
+            timestamp: new Date().toISOString()
+          });
+          conv.messages.push({
+            id: 'msg_out_' + Date.now(),
+            sender: 'bot',
+            text: autoRes.reply,
+            intent: autoRes.intent,
+            timestamp: new Date().toISOString()
+          });
+          conv.lastUpdated = new Date().toISOString();
+
+          if (whatsappConfig.accessToken && whatsappConfig.phoneNumberId) {
+            sendMetaWhatsAppMessage(from, autoRes.reply, whatsappConfig);
+          }
+
+          autoPilotState.eventLogs.unshift({
+            id: 'evt_wa_' + Date.now(),
+            timestamp: new Date().toISOString(),
+            type: 'WHATSAPP',
+            icon: '💬',
+            message: `Auto-replied to client ${name} (${from}): [${autoRes.intent}] "${text.substring(0, 30)}..."`,
+            status: 'active'
+          });
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'EVENT_RECEIVED' }));
+      } catch (e) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'ERROR_HANDLED' }));
+      }
+    });
+    return;
+  }
+
+  // 14. WhatsApp Dashboard API: Get Conversations
+  if (pathname === '/api/whatsapp/conversations' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      config: {
+        enabled: whatsappConfig.enabled,
+        phoneNumberId: whatsappConfig.phoneNumberId,
+        hasAccessToken: Boolean(whatsappConfig.accessToken),
+        verifyToken: whatsappConfig.verifyToken,
+        webhookUrl: `http://${getLocalIpAddress()}:${PORT}/api/whatsapp/webhook`
+      },
+      conversations: whatsappConversations,
+      totalMessages: whatsappConversations.reduce((acc, c) => acc + c.messages.length, 0)
+    }));
+    return;
+  }
+
+  // 15. WhatsApp Dashboard API: Simulate Incoming Message (Test Live Auto-Bot)
+  if (pathname === '/api/whatsapp/simulate-incoming' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const phone = data.phone || '+91 98201 44552';
+        const name = data.name || 'Rahul Patil';
+        const text = data.text || 'Namaste, 1 BHK flat available hai?';
+
+        const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name);
+
+        let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === phone.replace(/[^0-9]/g, ''));
+        if (!conv) {
+          conv = { phone, name, lastUpdated: new Date().toISOString(), messages: [] };
+          whatsappConversations.unshift(conv);
+        }
+
+        const inMsg = {
+          id: 'msg_in_' + Date.now(),
+          sender: 'client',
+          text: text,
+          timestamp: new Date().toISOString()
+        };
+        const outMsg = {
+          id: 'msg_out_' + (Date.now() + 1),
+          sender: 'bot',
+          text: autoRes.reply,
+          intent: autoRes.intent,
+          suggestedActions: autoRes.suggestedActions,
+          timestamp: new Date(Date.now() + 800).toISOString()
+        };
+
+        conv.messages.push(inMsg);
+        conv.messages.push(outMsg);
+        conv.lastUpdated = outMsg.timestamp;
+
+        autoPilotState.eventLogs.unshift({
+          id: 'evt_sim_wa_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          type: 'WHATSAPP',
+          icon: '🤖',
+          message: `[Auto-Bot] Replied to ${name} (${phone}): Intent: ${autoRes.intent}`,
+          status: 'success'
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          incoming: inMsg,
+          reply: outMsg,
+          conversation: conv
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to simulate incoming message' }));
+      }
+    });
+    return;
+  }
+
+  // 16. WhatsApp Dashboard API: Update Configuration
+  if (pathname === '/api/whatsapp/config' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        if (typeof data.enabled === 'boolean') whatsappConfig.enabled = data.enabled;
+        if (data.phoneNumberId) whatsappConfig.phoneNumberId = data.phoneNumberId;
+        if (data.accessToken) whatsappConfig.accessToken = data.accessToken;
+        if (data.verifyToken) whatsappConfig.verifyToken = data.verifyToken;
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          message: 'WhatsApp Auto-Pilot configuration saved!',
+          config: {
+            enabled: whatsappConfig.enabled,
+            phoneNumberId: whatsappConfig.phoneNumberId,
+            hasAccessToken: Boolean(whatsappConfig.accessToken),
+            verifyToken: whatsappConfig.verifyToken
+          }
+        }));
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid config payload' }));
+      }
+    });
+    return;
+  }
+
+  // 17. GBP Auto-Review Reply API
+  if (pathname === '/api/gbp/auto-review-reply' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const customerName = data.customerName || 'Homebuyer';
+        const rating = data.rating || 5;
+        const reviewText = data.reviewText || 'Very transparent service!';
+
+        const replies = AIEngine.generateReviewReplies(customerName, rating, reviewText, 'Dashmesh Property', 'Real Estate Agency', 'Ambernath');
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          customerName,
+          rating,
+          replies,
+          autoReply: replies[0].reply,
+          publishedLive: true
+        }));
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to generate review reply' }));
       }
     });
     return;

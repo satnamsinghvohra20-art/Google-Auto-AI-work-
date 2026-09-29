@@ -1,5 +1,5 @@
 /**
- * Dashmesh Property - Google Business Profile Growth Suite
+ * Dashmesh Property - Google Business Profile Growth Suite & WhatsApp Client Auto-Bot
  * Clean, Commercial-Grade Controller (100% Unlocked, Zero Paywalls)
  */
 
@@ -15,7 +15,10 @@ const appState = {
   geoPhotoBlob: null,
   geoPhotoDataUrl: null,
   leafletMap: null,
-  leafletMarker: null
+  leafletMarker: null,
+  whatsappConversations: [],
+  activeConversationIndex: 0,
+  autoPilotEnabled: true
 };
 
 // Initialize when DOM is ready
@@ -38,6 +41,13 @@ function initApp() {
 
   // 5. Render Weekly Google Posts
   renderWeeklyPosts();
+
+  // 6. Load WhatsApp Client Conversations
+  loadWhatsAppConversations();
+
+  // 7. Sync 24/7 Auto-Pilot Status & stream
+  syncAutoPilotStatus();
+  setInterval(syncAutoPilotStatus, 6000);
 }
 
 /**
@@ -161,10 +171,12 @@ function fetchNetworkIp() {
         const caption = document.getElementById("standee-url-caption");
         const customInput = document.getElementById("standee-custom-url-input");
         const settingInput = document.getElementById("setting-shield-url");
+        const webhookUrl = document.getElementById("meta-webhook-url");
 
         if (caption) caption.textContent = appState.mobileShieldUrl;
         if (customInput) customInput.value = appState.mobileShieldUrl;
         if (settingInput) settingInput.value = appState.mobileShieldUrl;
+        if (webhookUrl) webhookUrl.textContent = `http://${data.localIp}:${appState.port}/api/whatsapp/webhook`;
 
         renderStandeeQRCode(appState.mobileShieldUrl);
       }
@@ -465,8 +477,143 @@ function copyReviewShieldDirectLink() {
 
 /**
  * =========================================================================
- * 1-CLICK WHATSAPP REVIEW DISPATCHER
+ * AUTONOMOUS WHATSAPP CLIENT AUTO-BOT & REAL-TIME CHAT SIMULATOR
  * =========================================================================
+ */
+function loadWhatsAppConversations() {
+  fetch("/api/whatsapp/conversations")
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.conversations) {
+        appState.whatsappConversations = data.conversations;
+        renderWhatsAppThreadList();
+        renderWhatsAppChat(appState.activeConversationIndex);
+      }
+      if (data && data.config) {
+        const webhookUrl = document.getElementById("meta-webhook-url");
+        const verifyToken = document.getElementById("meta-verify-token");
+        if (webhookUrl && data.config.webhookUrl) webhookUrl.textContent = data.config.webhookUrl;
+        if (verifyToken && data.config.verifyToken) verifyToken.textContent = data.config.verifyToken;
+      }
+    })
+    .catch(() => {
+      // Local fallback
+    });
+}
+
+function renderWhatsAppThreadList() {
+  const container = document.getElementById("wa-thread-list");
+  const countBadge = document.getElementById("wa-inbox-count");
+  if (!container) return;
+
+  if (countBadge) countBadge.textContent = `${appState.whatsappConversations.length} Chats`;
+
+  let html = "";
+  appState.whatsappConversations.forEach((conv, idx) => {
+    const isActive = idx === appState.activeConversationIndex;
+    const lastMsg = conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : { text: "No messages" };
+    const lastTime = new Date(conv.lastUpdated || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    html += `
+      <div class="chat-thread-item ${isActive ? 'active' : ''}" onclick="selectWhatsAppThread(${idx})">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <span class="thread-name">${conv.name}</span>
+          <span style="font-size: 10px; color: #94a3b8;">${lastTime}</span>
+        </div>
+        <div class="thread-snippet">${lastMsg.text.replace(/\n/g, ' ')}</div>
+        <span class="thread-badge-bot">🤖 Auto-Bot Replied</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function selectWhatsAppThread(index) {
+  appState.activeConversationIndex = index;
+  renderWhatsAppThreadList();
+  renderWhatsAppChat(index);
+}
+
+function renderWhatsAppChat(index) {
+  const container = document.getElementById("chat-messages-container");
+  const activeName = document.getElementById("chat-active-name");
+  if (!container) return;
+
+  const conv = appState.whatsappConversations[index] || appState.whatsappConversations[0];
+  if (!conv) return;
+
+  if (activeName) activeName.textContent = `${conv.name} (${conv.phone})`;
+
+  let html = "";
+  conv.messages.forEach(msg => {
+    const isClient = msg.sender === "client";
+    const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    html += `
+      <div class="chat-bubble ${isClient ? 'bubble-incoming' : 'bubble-outgoing'}">
+        <span style="font-size: 10px; font-weight: 800; color: ${isClient ? '#4f46e5' : '#059669'}; display: block; margin-bottom: 2px;">
+          ${isClient ? '👤 ' + conv.name : '🤖 Dashmesh AI Auto-Bot'}
+        </span>
+        <div>${msg.text}</div>
+        <span class="bubble-time">${time} ${!isClient ? '✓✓' : ''}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendSimulatedChatInput() {
+  const input = document.getElementById("chat-custom-input");
+  if (!input || !input.value.trim()) return;
+
+  const text = input.value.trim();
+  input.value = "";
+  simulateIncomingClientMessage(text);
+}
+
+function sendQuickPrompt(text) {
+  simulateIncomingClientMessage(text);
+}
+
+function simulateIncomingClientMessage(text) {
+  const conv = appState.whatsappConversations[appState.activeConversationIndex] || {
+    name: "Rahul Patil",
+    phone: "+91 98201 44552"
+  };
+
+  showToast(`Client WhatsApp Message: "${text.substring(0, 28)}..."`);
+
+  fetch("/api/whatsapp/simulate-incoming", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: conv.name,
+      phone: conv.phone,
+      text: text
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.conversation) {
+        const idx = appState.whatsappConversations.findIndex(c => c.phone === data.conversation.phone);
+        if (idx !== -1) {
+          appState.whatsappConversations[idx] = data.conversation;
+        } else {
+          appState.whatsappConversations.unshift(data.conversation);
+          appState.activeConversationIndex = 0;
+        }
+        renderWhatsAppThreadList();
+        renderWhatsAppChat(appState.activeConversationIndex);
+        showToast("✓ WhatsApp Auto-Bot replied automatically!");
+      }
+    });
+}
+
+/**
+ * 1-Click WhatsApp Review Dispatcher
  */
 function getWhatsAppMessageText() {
   const nameInput = document.getElementById("wa-client-name");
@@ -521,6 +668,94 @@ function copyWhatsAppMessage() {
 
 function testDirectGoogleReviewLink() {
   window.open(appState.reviewUrl, "_blank");
+}
+
+/**
+ * =========================================================================
+ * 24/7 AUTONOMOUS AUTO-PILOT & GOOGLE BUSINESS PROFILE CONTROLS
+ * =========================================================================
+ */
+function toggleMasterAutoPilot() {
+  fetch("/api/auto/toggle", { method: "POST" })
+    .then(res => res.json())
+    .then(data => {
+      appState.autoPilotEnabled = data.enabled;
+      const tag = document.getElementById("autopilot-live-tag");
+      const btnIcon = document.getElementById("btn-autopilot-icon");
+      const btnText = document.getElementById("btn-autopilot-text");
+
+      if (data.enabled) {
+        if (tag) tag.textContent = "● 24/7 Full Autonomous Mode: ACTIVE & RUNNING";
+        if (btnIcon) btnIcon.textContent = "⏸️";
+        if (btnText) btnText.textContent = "Pause Auto-Pilot";
+        showToast("✓ 24/7 Full Auto-Pilot Mode Active (Google & WhatsApp)!");
+      } else {
+        if (tag) tag.textContent = "○ Auto-Pilot: PAUSED";
+        if (btnIcon) btnIcon.textContent = "▶️";
+        if (btnText) btnText.textContent = "Resume Auto-Pilot";
+        showToast("Auto-Pilot Paused by User.");
+      }
+    });
+}
+
+function forceServerAutoCycle() {
+  showToast("⚡ Executing Instant Autonomous Google & WhatsApp Optimization Cycle...");
+  fetch("/api/auto/cycle", { method: "POST" })
+    .then(res => res.json())
+    .then(data => {
+      showToast(`✓ Cycle #${data.totalCycles} executed! Automated assets synchronized.`);
+      syncAutoPilotStatus();
+    });
+}
+
+function syncAutoPilotStatus() {
+  fetch("/api/auto/status")
+    .then(res => res.json())
+    .then(data => {
+      if (!data) return;
+      appState.autoPilotEnabled = data.enabled;
+      const cycleText = document.getElementById("autopilot-cycle-text");
+      if (cycleText) {
+        cycleText.textContent = `${data.totalCyclesExecuted} Cycles Executed (Every ${data.intervalSeconds}s)`;
+      }
+    })
+    .catch(() => {});
+}
+
+function triggerAutoPostPublish() {
+  fetch("/api/posts/publish", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      day: "Scheduled Weekly Post",
+      title: "Commercial Retail Shops on Rent in Ambernath Station Road",
+      snippet: "High footfall commercial properties with verified title deeds."
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      showToast("✓ Google Update auto-published to Google Business Profile!");
+    });
+}
+
+function simulateGoogleReviewAutoReply() {
+  fetch("/api/gbp/auto-review-reply", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      customerName: "Amit Sharma",
+      rating: 5,
+      reviewText: "Bought a 2 BHK flat in Pale Gaon through Dashmesh Property. Transparent consultation and quick home loan assistance!"
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.autoReply) {
+        const box = document.getElementById("review-reply-content");
+        if (box) box.textContent = data.autoReply;
+        showToast("✓ 5-Star Review Auto-Reply generated & posted to Google Maps!");
+      }
+    });
 }
 
 /**

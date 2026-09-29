@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="public/favicon.png" />
   <title>Dashmesh Property - Google Business Profile Growth Suite (100% Unlocked)</title>
-  <meta name="description" content="Autonomous Google Business Profile Growth Suite for Dashmesh Property in Ambernath East. GPS Photo Geotagging, Customer Review Shield, WhatsApp CRM, and 1-Click Profile Optimization." />
+  <meta name="description" content="Autonomous Google Business Profile Growth Suite & WhatsApp Client Auto-Bot for Dashmesh Property in Ambernath East. GPS Photo Geotagging, Customer Review Shield, and 24/7 Auto-Pilot." />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
         <div class="header-actions">
           <div class="status-badge">
             <span class="dot"></span>
-            <span>Live &bull; Operational</span>
+            <span>24/7 Auto-Pilot: ON</span>
           </div>
 
           <a href="shield.html" target="_blank" class="btn-header-action" title="Open customer review rating page">
@@ -92,7 +92,41 @@
       </div>
     </section>
 
-    <!-- Clean Tab Navigation (The 5 Essential Functions) -->
+    <!-- 24/7 Full Autonomous Mode Master Banner -->
+    <div class="autopilot-master-banner" id="autopilot-banner">
+      <div class="autopilot-info">
+        <div class="autopilot-tag">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; display: inline-block;"></span>
+          <span id="autopilot-live-tag">● 24/7 Full Autonomous Mode: ACTIVE & RUNNING</span>
+        </div>
+        <h2 class="autopilot-title">
+          <span>🤖</span>
+          <span>Google Business Profile & WhatsApp AI Auto-Pilot</span>
+        </h2>
+        <p class="autopilot-desc">
+          Automatically handles your entire Google Business Profile (weekly posts, review auto-replies, rank monitoring) AND auto-responds to incoming client WhatsApp messages with verified property options, insights, and 5-star review follow-ups 24/7!
+        </p>
+        <div class="autopilot-pills-row">
+          <span class="pill-status">📅 Google Posts: <strong>Auto-Published Weekly</strong></span>
+          <span class="pill-status">⭐ Review Replies: <strong>Active (SEO Injected)</strong></span>
+          <span class="pill-status">💬 WhatsApp Bot: <strong>Instant Client Replies (Active)</strong></span>
+          <span class="pill-status">🔄 Background Daemon: <strong id="autopilot-cycle-text">Ticking Every 6s</strong></span>
+        </div>
+      </div>
+
+      <div class="autopilot-controls">
+        <button type="button" class="btn-solid-emerald" onclick="forceServerAutoCycle()">
+          <span>⚡</span>
+          <span>Trigger Auto-Cycle Now</span>
+        </button>
+        <button type="button" class="btn-outline" style="background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.25);" onclick="toggleMasterAutoPilot()" id="btn-master-autopilot">
+          <span id="btn-autopilot-icon">⏸️</span>
+          <span id="btn-autopilot-text">Pause Auto-Pilot</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Clean Tab Navigation (The 6 Essential Functions) -->
     <nav class="tabs-nav-bar" aria-label="Main Tool Navigation">
       <button type="button" class="tab-btn active" onclick="switchAppTab('tab-profile')">
         <span>📋</span>
@@ -110,13 +144,13 @@
       </button>
 
       <button type="button" class="tab-btn" onclick="switchAppTab('tab-whatsapp')">
-        <span>💬</span>
-        <span>4. WhatsApp Dispatcher</span>
+        <span>🤖</span>
+        <span>4. WhatsApp Client Auto-Bot</span>
       </button>
 
       <button type="button" class="tab-btn" onclick="switchAppTab('tab-posts')">
         <span>📰</span>
-        <span>5. Weekly Google Posts</span>
+        <span>5. Google Auto-Pilot & Reviews</span>
       </button>
 
       <button type="button" class="tab-btn" onclick="switchAppTab('tab-map')">
@@ -372,63 +406,122 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
     </div>
 
     <!-- ========================================================================= -->
-    <!-- TAB 4: WHATSAPP 1-CLICK REVIEW DISPATCHER                                 -->
+    <!-- TAB 4: AUTONOMOUS WHATSAPP CLIENT AUTO-BOT (LIVE CHAT & INCOMING REPLIES) -->
     <!-- ========================================================================= -->
     <div id="tab-whatsapp" class="tab-pane">
       <div class="content-card">
         <div class="card-header-row">
           <div class="card-title-group">
-            <h2 class="card-title"><span>💬</span> 1-Click WhatsApp Review Dispatcher</h2>
-            <p class="card-desc">Send polite, customized Google Review requests directly to your clients' WhatsApp after closing a property deal or site visit.</p>
+            <h2 class="card-title"><span>🤖</span> Autonomous WhatsApp Client Auto-Bot & Live Inbox</h2>
+            <p class="card-desc">Automatically answers incoming customer messages 24/7 on WhatsApp! Recommends verified 1/2 BHK flats in Pale Gaon, commercial shops, shares office location, and sends Grexa-style automated review follow-ups.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <span class="badge-pill badge-pill-emerald">● Auto-Responder: Active</span>
           </div>
         </div>
 
-        <div class="two-col-grid">
+        <!-- WhatsApp Chat Simulator & Inbox Window -->
+        <div class="chat-simulator-container">
           
-          <!-- Left: WhatsApp Dispatch Form -->
-          <div class="whatsapp-form-box">
-            <div>
-              <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Client Name:</label>
-              <input type="text" id="wa-client-name" class="input-styled" placeholder="e.g. Rahul Patil" value="Client" oninput="refreshWhatsAppMessagePreview()" />
+          <!-- Left: Customer Thread List -->
+          <div class="chat-sidebar">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 12px; font-weight: 800; color: #0f172a; text-transform: uppercase;">Active Inquiries</span>
+              <span style="font-size: 11px; font-weight: 700; color: #059669;" id="wa-inbox-count">2 Chats</span>
             </div>
 
-            <div>
-              <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Client Mobile Number (10 Digits):</label>
-              <input type="tel" id="wa-client-phone" class="input-styled" placeholder="e.g. 9820144552" value="9820144552" />
+            <div id="wa-thread-list" style="display: flex; flex-direction: column; gap: 8px;">
+              <!-- Populated dynamically by app.js -->
             </div>
 
-            <div>
-              <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Language:</label>
-              <select id="wa-language-select" class="input-styled" onchange="refreshWhatsAppMessagePreview()">
-                <option value="en">English (Professional)</option>
-                <option value="hinglish" selected>Hinglish (Polite & Local)</option>
-                <option value="hi">Hindi (हिन्दी)</option>
-              </select>
+            <div style="margin-top: auto; padding-top: 10px; border-top: 1px solid var(--color-border); font-size: 11px; color: var(--color-text-muted);">
+              <span>⚡ Auto-Reply Speed: <strong>Instant (&lt; 1 sec)</strong></span>
             </div>
-
-            <button type="button" class="btn-solid-emerald" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;" onclick="sendWhatsAppDispatch()">
-              <span>💬</span>
-              <span>Send Review Request on WhatsApp</span>
-            </button>
           </div>
 
-          <!-- Right: Live Message Preview -->
-          <div>
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); display: block; margin-bottom: 8px;">WhatsApp Message Preview:</span>
+          <!-- Right: Live WhatsApp Chat Window -->
+          <div class="chat-main-window">
             
-            <div class="chat-bubble-preview" id="wa-bubble-preview">
-              <!-- Dynamically populated -->
+            <!-- Chat Header -->
+            <div class="chat-top-bar">
+              <div class="chat-client-meta">
+                <h4 id="chat-active-name">Rahul Patil (+91 98201 44552)</h4>
+                <span>🟢 WhatsApp Auto-Bot: Active &bull; Typing replies automatically</span>
+              </div>
+              <button type="button" class="btn-outline" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; padding: 6px 12px; font-size: 11px;" onclick="loadWhatsAppConversations()">
+                🔄 Refresh Chats
+              </button>
             </div>
 
-            <div style="margin-top: 14px; display: flex; gap: 8px;">
-              <button type="button" class="btn-outline" onclick="copyWhatsAppMessage()">
-                <span>📋</span>
-                <span>Copy Message Text</span>
+            <!-- Messages Stream Area -->
+            <div class="chat-messages-scroll" id="chat-messages-container">
+              <!-- Dynamically populated from /api/whatsapp/conversations -->
+            </div>
+
+            <!-- Quick Test Prompt Bar (One-click client message triggers) -->
+            <div class="quick-prompt-bar">
+              <span style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); align-self: center;">Test Prompt:</span>
+              <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('1 BHK flat rate in Pale Gaon?')">🏡 1 BHK Rate?</button>
+              <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('Commercial shop chahiye Station Road ke paas')">🏪 Shop Inquiry</button>
+              <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('Office kahan hai aapka aur timing kya hai?')">📍 Office Location</button>
+              <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('Done')">⭐ Send 'Done' (Review)</button>
+              <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('A quick insight')">💡 Market Insight</button>
+            </div>
+
+            <!-- Client Message Input Box -->
+            <div class="chat-input-row">
+              <input type="text" id="chat-custom-input" class="chat-text-input" placeholder="Type a message as a client to test auto-bot... (e.g. 2 BHK flat available hai?)" onkeydown="if(event.key==='Enter') sendSimulatedChatInput()" />
+              <button type="button" class="btn-send-chat" onclick="sendSimulatedChatInput()">
+                Send Message &rarr;
               </button>
-              <button type="button" class="btn-outline" onclick="testDirectGoogleReviewLink()">
-                <span>⭐</span>
-                <span>Test Google Review Link</span>
-              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Grexa-Style Automated Follow-Up Sequence & Webhook Info -->
+        <div class="two-col-grid" style="margin-top: 24px;">
+          
+          <!-- Grexa Multi-Step Follow-Up Sequence Breakdown -->
+          <div class="form-field-card">
+            <span class="field-label">Grexa-Style Automated Drip Sequence (Live on WhatsApp):</span>
+            <div style="font-size: 12px; color: var(--color-text-body); line-height: 1.6; display: flex; flex-direction: column; gap: 8px;">
+              <div style="background: #ffffff; padding: 10px; border-radius: 8px; border-left: 3px solid #059669;">
+                <strong>Step 1 (Instant):</strong> Welcomes client, recognizes inquiry (1 BHK, 2 BHK, Commercial, Office), shares verified options with SBI loan approval & invites to site visit.
+              </div>
+              <div style="background: #ffffff; padding: 10px; border-radius: 8px; border-left: 3px solid #3b82f6;">
+                <strong>Step 2 (Insight Follow-up):</strong> <em>"A quick insight ⬇️ Pale Gaon property prices are appreciating by 14%... Would you like to see 3 shortlisted video tours?"</em>
+              </div>
+              <div style="background: #ffffff; padding: 10px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                <strong>Step 3 (Review & 'Done'):</strong> <em>"Reply here once done... Google Review link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8"</em>
+              </div>
+            </div>
+          </div>
+
+          <!-- Official Meta WhatsApp Cloud API Listener -->
+          <div class="form-field-card">
+            <span class="field-label">Live Meta WhatsApp Webhook Listener:</span>
+            <div style="font-size: 12px; color: var(--color-text-body); display: flex; flex-direction: column; gap: 8px;">
+              <div>
+                <span style="font-size: 10px; font-weight: 700; color: var(--color-text-muted); display: block;">Webhook Callback URL:</span>
+                <div class="field-val-row" style="margin-top: 2px;">
+                  <code id="meta-webhook-url" class="field-value-mono" style="font-size: 11px;">http://localhost:3000/api/whatsapp/webhook</code>
+                  <button type="button" class="btn-copy-small" onclick="copyFieldText('meta-webhook-url', 'Webhook URL Copied!')">📋 Copy</button>
+                </div>
+              </div>
+
+              <div>
+                <span style="font-size: 10px; font-weight: 700; color: var(--color-text-muted); display: block;">Verify Token:</span>
+                <div class="field-val-row" style="margin-top: 2px;">
+                  <code id="meta-verify-token" class="field-value-mono" style="font-size: 11px;">dashmesh_auto_whatsapp_2026</code>
+                  <button type="button" class="btn-copy-small" onclick="copyFieldText('meta-verify-token', 'Verify Token Copied!')">📋 Copy</button>
+                </div>
+              </div>
+
+              <div style="background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid var(--color-border); font-size: 11px;">
+                <span>🟢 <strong>Status:</strong> Ready to receive real incoming messages from Meta WhatsApp Cloud API / Twilio / Wati.</span>
+              </div>
             </div>
           </div>
 
@@ -438,19 +531,57 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
     </div>
 
     <!-- ========================================================================= -->
-    <!-- TAB 5: WEEKLY GOOGLE POSTS (READY TO PUBLISH)                             -->
+    <!-- TAB 5: GOOGLE BUSINESS PROFILE AUTO-PILOT & REVIEWS                        -->
     <!-- ========================================================================= -->
     <div id="tab-posts" class="tab-pane">
       <div class="content-card">
         <div class="card-header-row">
           <div class="card-title-group">
-            <h2 class="card-title"><span>📰</span> Pre-Written Weekly Google Updates</h2>
-            <p class="card-desc">Google gives high rank priority to profiles that publish regular weekly updates. Copy and publish these posts in your Google Business Profile under "Add Update".</p>
+            <h2 class="card-title"><span>📰</span> 24/7 Google Business Profile Auto-Pilot</h2>
+            <p class="card-desc">Autonomous engine publishes regular weekly Google updates and auto-responds to customer reviews on Google Maps with SEO-injected local keywords.</p>
           </div>
+          <button type="button" class="btn-solid-emerald" onclick="triggerAutoPostPublish()">
+            <span>🚀</span>
+            <span>Publish Next Google Update Now</span>
+          </button>
         </div>
 
+        <!-- 3 Ready Google Posts Grid -->
         <div class="posts-grid" id="weekly-posts-list">
           <!-- Populated dynamically by app.js -->
+        </div>
+
+        <!-- Google Review Auto-Responder Simulator -->
+        <div style="margin-top: 24px;" class="desc-box-container">
+          <div class="card-header-row" style="margin-bottom: 12px;">
+            <div class="card-title-group">
+              <h3 class="card-title" style="font-size: 15px;"><span>⭐</span> Google Review Auto-Responder (Live Engine)</h3>
+              <p class="card-desc">When customers leave a review on Google Maps, the auto-responder instantly generates and posts an SEO-optimized thank you reply.</p>
+            </div>
+            <button type="button" class="btn-solid-primary" onclick="simulateGoogleReviewAutoReply()">
+              <span>💬</span>
+              <span>Simulate Auto-Reply</span>
+            </button>
+          </div>
+
+          <div style="background: var(--color-surface-soft); padding: 16px; border-radius: 14px; border: 1px solid var(--color-border);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-size: 13px; font-weight: 800; color: #0f172a;">Sample Incoming Review from: Amit Sharma</span>
+              <span style="color: #f59e0b; font-size: 13px;">★★★★★ (5 Stars)</span>
+            </div>
+            <p style="font-size: 12px; color: var(--color-text-body); font-style: italic;">
+              "Bought a 2 BHK flat in Pale Gaon through Dashmesh Property. Satnam ji provided completely transparent consultation, clear title papers, and quick home loan assistance. Best consultant in Ambernath!"
+            </p>
+
+            <div style="margin-top: 12px; padding: 12px; background: #ffffff; border-radius: 10px; border: 1px solid var(--color-border);" id="review-auto-reply-box">
+              <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--color-emerald); display: block; margin-bottom: 4px;">
+                🤖 AI Auto-Generated Google Reply (SEO Injected):
+              </span>
+              <p style="font-size: 12px; color: var(--color-text-body); line-height: 1.5;" id="review-reply-content">
+                Thank you so much, Amit, for your kind 5-star review! The team at Dashmesh Property is thrilled to hear that your experience with our real estate agency in Ambernath East was seamless and rewarding. We strive every day to provide top-tier consultation, verified title deeds, and hassle-free home loan facilitation for our valued clients in Pale Gaon and Ambernath. We look forward to serving you again soon!
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -488,8 +619,8 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
             <span class="field-value" style="color: var(--color-emerald);">✓ Active (4-5★ Direct / 1-3★ Shielded)</span>
           </div>
           <div class="form-field-card">
-            <span class="field-label">4. WhatsApp Dispatch</span>
-            <span class="field-value" style="color: var(--color-emerald);">✓ 1-Click Pre-filled Link</span>
+            <span class="field-label">4. WhatsApp Auto-Bot</span>
+            <span class="field-value" style="color: var(--color-emerald);">✓ 24/7 Instant Client Inquiries & Followups</span>
           </div>
         </div>
 
