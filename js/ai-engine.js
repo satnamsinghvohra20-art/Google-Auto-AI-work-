@@ -107,12 +107,12 @@ const AIEngine = {
     const greetingPrefix = !isOngoing ? (name ? `Namaste ${name} ji! ` : "Namaste! ") : (greetingWord ? `${greetingWord}! ` : "");
 
     const reviewUrl = context.reviewUrl || "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
-    const officeAddr = context.officeAddress || "Shop No. 24, New Floora, Pale Gaon, Ambernath East, Maharashtra 421501";
+    const officeAddr = context.officeAddress || "New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501";
     const officeLandmark = context.officeLandmark || "Pale Gaon Bus Stop ke paas, Ambernath Railway Station (East) se sirf 7 minutes";
     const officeTimings = context.officeTimings || "Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)";
     const officeMap = context.officeMap || "https://maps.google.com/?q=19.1908,73.1785";
 
-    // 1. PRIORITY 1: Office Location, Address, Timings, Directions (Check FIRST so 'office' is never confused with commercial space)
+    // 1. PRIORITY 1: Office Location, Address, Timings, Directions
     if (
       text.includes("kahan") ||
       text.includes("kidhar") ||
@@ -125,12 +125,14 @@ const AIEngine = {
       text.includes("kab") ||
       text.includes("map") ||
       text.includes("pahuch") ||
+      text.includes("email") ||
+      text.includes("contact") ||
       (text.includes("office") && !text.includes("rent") && !text.includes("buy") && !text.includes("commercial"))
     ) {
       return {
         intent: "LOCATION_AND_TIMINGS",
-        reply: `${greetingPrefix}📍 Hamara office Ambernath East mein hai:\n\n${officeAddr}\n(${officeLandmark})\n\n⏰ Timings: ${officeTimings}\n📍 Google Maps Pin: ${officeMap}\n\nAap kis din ya kis time visit karna chahenge? Main Satnam ji ko pehle se schedule kar deta hoon taaki aate hi aapse direct consultation ho sake!`,
-        suggestedActions: ["Open Google Maps Pin", "Confirm Visit Time", "Call Satnam ji"]
+        reply: `${greetingPrefix}📍 Hamara official office Ambernath East mein hai:\n\n🏢 Dashmesh Properties\n${officeAddr}\n(${officeLandmark})\n\n⏰ Timings: ${officeTimings}\n📍 Google Maps Pin: ${officeMap}\n\n📞 Direct Contacts:\n• Kuldeep Kaur: +91 84120 70183 (WhatsApp: +91 87937 71911)\n• Sukhjyot Singh: +91 84219 40013\n✉️ Email: info@dashmeshproperties.com\n\nAap kis din ya kis time visit karna chahenge? Hum desk par pehle se schedule kar denge taaki aate hi verified properties dikha sakein!`,
+        suggestedActions: ["Open Google Maps Pin", "Confirm Visit Time", "Call Office (+91 84120 70183)"]
       };
     }
 
@@ -257,7 +259,7 @@ const AIEngine = {
     if (!isOngoing) {
       return {
         intent: "GREETING",
-        reply: `Namaste ${name ? name + ' ji' : ''}! Dashmesh Property, Ambernath East mein aapka swagat hai. 🙏\n\nHum Ambernath ke verified property consultants hain with 12+ years of trusted advisory.\n\nAapko kis tarah ki property ki talash hai?\n1️⃣ 1 BHK / 2 BHK Ready Possession Flats\n2️⃣ Commercial Retail Shops / Offices\n3️⃣ Office Location & Site Visit Timings\n4️⃣ Home Loan & Legal Title Verification\n\nAap bas yahan reply karein, hum turant details share karenge!`,
+        reply: `Namaste ${name ? name + ' ji' : ''}! Dashmesh Properties, Ambernath (E) mein aapka swagat hai. 🙏\n"Your Trust, Our Commitment — We don't just sell properties, we help you find your perfect place."\n\nHum Pale Gaon & Ambernath East ke verified property consultants hain for Rent, Buy & Sale:\n1️⃣ Residential Flats (1 BHK, 2 BHK, 3 BHK)\n2️⃣ Commercial Retail Shops & Showrooms\n3️⃣ Office Location, Address & Site Visit\n4️⃣ Bank Loan Approval & Legal Title Verification\n\nAapko kis type ki property ki requirement hai? Hum turant best options share karenge!`,
         suggestedActions: ["1 BHK / 2 BHK", "Commercial Shops", "Office Location"]
       };
     }
@@ -265,8 +267,8 @@ const AIEngine = {
     // 10. Ongoing Chat Fallback (Warm, focused, keeping in touch without repeating Namaste)
     return {
       intent: "CONVERSATIONAL_FOLLOWUP",
-      reply: `Ji, main samajh gaya. Dashmesh Property par hum har client ko personal attention dete hain.\n\nAap apna specific requirement (jaise budget, preferred locality ya site visit ka din) bata dijiye, main turant Satnam ji se connect karwa deta hoon ya verified details bhejta hoon!`,
-      suggestedActions: ["Office Location", "1 BHK / 2 BHK", "Call Satnam ji"]
+      reply: `Ji, main samajh gaya. Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.\n\nAap apna specific budget, preferred flat size ya visit ka time bata dijiye, hum turant verified options bhejte hain!`,
+      suggestedActions: ["Office Location", "1 BHK / 2 BHK", "Call Office"]
     };
   },
 
