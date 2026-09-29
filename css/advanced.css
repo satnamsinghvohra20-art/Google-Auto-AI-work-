@@ -317,3 +317,240 @@ input[type="range"].custom-slider::-webkit-slider-thumb:hover {
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
+
+/* ========================================================================= */
+/* GUARANTEED HIGH-CONTRAST PRODUCTION STYLING & TEXT VISIBILITY ENGINE     */
+/* ========================================================================= */
+
+/* Top Navigation High-Visibility Buttons */
+.btn-nav-reallife {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  padding: 8px 16px !important;
+  border-radius: 9999px !important;
+  border: 1px solid #6366f1 !important;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+.btn-nav-reallife:hover {
+  background: #4338ca !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-nav-opt {
+  background: #059669 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  padding: 8px 16px !important;
+  border-radius: 9999px !important;
+  border: 1px solid #10b981 !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+.btn-nav-opt:hover {
+  background: #047857 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Agency White-Label Mode Bar Buttons */
+.agency-mode-banner {
+  background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%) !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.3) !important;
+}
+
+.agency-mode-banner .btn-agency-edit {
+  background: #ffffff !important;
+  color: #1e1b4b !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  padding: 5px 12px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  cursor: pointer !important;
+}
+.agency-mode-banner .btn-agency-edit:hover {
+  background: #f8fafc !important;
+}
+
+.agency-mode-banner .btn-agency-export {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  padding: 5px 12px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3) !important;
+  cursor: pointer !important;
+}
+.agency-mode-banner .btn-agency-export:hover {
+  background: #059669 !important;
+}
+
+/* 24/7 Autonomous AI Command Center (Copilot Box) */
+#autopilot-command-center {
+  background: linear-gradient(135deg, #022c22 0%, #0f172a 45%, #1e1b4b 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #34d399 !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px -12px rgba(2, 44, 34, 0.45) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+#autopilot-command-center h2 {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+#autopilot-command-center p {
+  color: #e2e8f0 !important;
+}
+
+#autopilot-command-center .metric-card {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 18px !important;
+  padding: 16px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
+#autopilot-command-center .metric-label {
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+
+#autopilot-command-center .metric-val-emerald {
+  color: #34d399 !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  display: block !important;
+  text-shadow: 0 0 16px rgba(52, 211, 153, 0.4) !important;
+}
+
+#autopilot-command-center .metric-val-cyan {
+  color: #38bdf8 !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  display: block !important;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.4) !important;
+}
+
+#autopilot-command-center .metric-val-white {
+  color: #ffffff !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  display: block !important;
+}
+
+#autopilot-command-center .daemon-card {
+  background: rgba(15, 23, 42, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 16px !important;
+  padding: 12px !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+#autopilot-command-center .daemon-title {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  display: block !important;
+  margin-top: 4px !important;
+}
+
+#autopilot-command-center .daemon-desc {
+  color: #cbd5e1 !important;
+  font-size: 10px !important;
+  display: block !important;
+}
+
+#autopilot-command-center .btn-toggle-auto {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border: 1px solid #475569 !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  padding: 10px 18px !important;
+  border-radius: 16px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+#autopilot-command-center .btn-toggle-auto:hover {
+  background: #334155 !important;
+}
+
+#autopilot-command-center .btn-force-cycle {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important;
+  color: #022c22 !important;
+  font-weight: 900 !important;
+  font-size: 12px !important;
+  padding: 10px 20px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4) !important;
+  cursor: pointer !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+#autopilot-command-center .btn-force-cycle:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Real-Life Business Deployment Hub */
+#real-life-launch-hub {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #6366f1 !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.3) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+#real-life-launch-hub h3 {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+#real-life-launch-hub p {
+  color: #cbd5e1 !important;
+}
+
+#real-life-launch-hub .hub-step-card {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  border-radius: 18px !important;
+  padding: 16px !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+#real-life-launch-hub .hub-step-card h4 {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+#real-life-launch-hub .hub-step-card p {
+  color: #94a3b8 !important;
+}
+
