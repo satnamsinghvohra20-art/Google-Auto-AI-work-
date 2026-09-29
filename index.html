@@ -4,1336 +4,543 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="public/favicon.png" />
-  <title>Grexa AI - Autonomous Google Business Profile Growth Suite (100% Unlocked)</title>
-  <meta name="description" content="Autonomous AI Local SEO engine. Optimize your Google Business Profile, generate 5-star review flows, create daily Google posts, and dominate local search results." />
+  <title>Dashmesh Property - Google Business Profile Growth Suite (100% Unlocked)</title>
+  <meta name="description" content="Autonomous Google Business Profile Growth Suite for Dashmesh Property in Ambernath East. GPS Photo Geotagging, Customer Review Shield, WhatsApp CRM, and 1-Click Profile Optimization." />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   
   <!-- Leaflet.js Real Interactive Map -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- Tailwind CSS Engine -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'brand-primary': '#4867fa',
-            'brand-bg': '#ffffff',
-            'brand-bg-soft': '#f5f7ff',
-            'brand-border': '#e6e6e6',
-            'brand-text': '#1a1a1a',
-            'brand-muted': '#666666',
-            'brand-error': '#e42533',
-            'brand-success': '#009933'
-          }
-        }
-      }
-    };
-  </script>
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/grexa-core.css" />
-  <link rel="stylesheet" href="css/advanced.css" />
-  <style>
-    body {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    }
-    h1, h2, h3, h4, .font-heading {
-      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-    }
-    .font-mono-code {
-      font-family: 'JetBrains Mono', monospace;
-    }
-  </style>
+  <!-- Clean, High-Contrast App Stylesheet (Guaranteed Readability - No CDN Dependency) -->
+  <link rel="stylesheet" href="css/clean-app.css" />
 </head>
-<body class="bg-brand-bg text-brand-text min-h-screen flex flex-col antialiased selection:bg-brand-primary selection:text-white">
+<body>
 
-  <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-[120] border-b border-brand-border bg-white/95 backdrop-blur-md transition-all">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-      
-      <!-- Brand Logo & Status -->
-      <div class="flex items-center gap-3">
-        <a href="#" class="inline-flex items-center gap-2">
-          <img id="nav-brand-logo" src="public/grexa-logo.svg" alt="Grexa AI" class="h-7 w-auto sm:h-8" />
-        </a>
-        <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-500 text-slate-950 border border-emerald-400 shadow-sm hover:scale-105 transition cursor-pointer" onclick="toggleAutoPilot()">
-          <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
-          <span id="nav-autopilot-label">🤖 Auto-Pilot: ON</span>
-        </button>
-      </div>
-
-      <!-- Mode Switcher (Clone vs Advanced AI Suite) -->
-      <div class="mode-switcher-container hidden md:flex">
-        <button type="button" id="mode-clone-btn" class="mode-pill-btn active">
-          <span>🎯</span>
-          <span>Booster Clone</span>
-        </button>
-        <button type="button" id="mode-adv-btn" class="mode-pill-btn pro-badge">
-          <span>⚡</span>
-          <span>Advanced AI Suite 2026</span>
-        </button>
-      </div>
-
-      <!-- Franchise Branch & Agency Controls -->
-      <div class="flex items-center gap-2 sm:gap-3">
+  <!-- Top Sticky Navigation Header -->
+  <header class="app-header">
+    <div class="app-container">
+      <div class="header-inner">
         
-        <!-- Multi-Location Franchise Picker -->
-        <div class="relative inline-flex text-xs font-semibold">
-          <select id="franchise-select" onchange="switchFranchiseLocation(this.value)" class="h-9 rounded-full border border-brand-border bg-slate-50 px-3 text-xs font-semibold text-slate-800 shadow-sm focus:outline-none hover:border-brand-primary/40">
-            <option value="ambernath_main">📍 Dashmesh (Ambernath HQ)</option>
-            <option value="badlapur_branch">📍 Dashmesh (Badlapur West)</option>
-            <option value="kalyan_branch">📍 Dashmesh (Kalyan West)</option>
-            <option value="add_new">+ Add Branch Location...</option>
-          </select>
-        </div>
-
-        <!-- Agency Mode Toggle Button -->
-        <button type="button" id="btn-toggle-agency-mode" class="h-9 px-3 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 text-xs font-bold hover:bg-indigo-100 flex items-center gap-1.5 transition" onclick="toggleAgencyWhiteLabelMode()">
-          <span>🏢</span>
-          <span class="hidden sm:inline" id="agency-mode-btn-label">Agency Mode: OFF</span>
-        </button>
-
-        <!-- Multi-language Picker -->
-        <div class="relative inline-flex text-xs font-semibold text-brand-text">
-          <button type="button" id="lang-picker-btn" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-brand-border bg-white px-3 text-xs font-semibold text-brand-text shadow-sm hover:border-brand-primary/40 focus:outline-none">
-            <svg class="h-3.5 w-3.5 text-brand-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 0 20"></path><path d="M12 2a15.3 15.3 0 0 0 0 20"></path>
-            </svg>
-            <span id="current-lang-label">English</span>
-            <span class="text-[10px] text-brand-muted">▾</span>
-          </button>
-          
-          <div id="lang-picker-dropdown" class="hidden absolute right-0 top-full mt-1.5 w-36 rounded-xl border border-brand-border bg-white p-1.5 shadow-xl z-50">
-            <button type="button" class="w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50 flex items-center justify-between" onclick="chooseLanguage('en')">
-              <span>English</span>
-              <span class="text-[10px] text-slate-400">EN</span>
-            </button>
-            <button type="button" class="w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50 flex items-center justify-between" onclick="chooseLanguage('hi')">
-              <span>हिन्दी</span>
-              <span class="text-[10px] text-slate-400">HI</span>
-            </button>
-            <button type="button" class="w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50 flex items-center justify-between" onclick="chooseLanguage('hinglish')">
-              <span>Hinglish</span>
-              <span class="text-[10px] text-slate-400">HN-EN</span>
-            </button>
-            <button type="button" class="w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50 flex items-center justify-between" onclick="chooseLanguage('mr')">
-              <span>मराठी</span>
-              <span class="text-[10px] text-slate-400">MR</span>
-            </button>
+        <!-- Brand Identity -->
+        <div class="brand-wrapper">
+          <img src="public/grexa-logo.svg" alt="Grexa Logo" class="brand-logo-img" />
+          <div class="brand-title-box">
+            <span class="brand-title">Dashmesh Property</span>
+            <span class="brand-subtitle">Google Maps Growth Suite &bull; Ambernath East</span>
           </div>
         </div>
 
-        <button type="button" class="btn-nav-reallife" onclick="scrollToRealLifeHub()">
-          <span>🚀</span>
-          <span>Real-Life Launch Hub</span>
-        </button>
+        <!-- Status & Direct Actions -->
+        <div class="header-actions">
+          <div class="status-badge">
+            <span class="dot"></span>
+            <span>Live &bull; Operational</span>
+          </div>
 
-        <button type="button" class="btn-nav-opt" onclick="triggerAutonomousOptimization()">
-          <span>⚡</span>
-          <span>Run Optimization</span>
-        </button>
-      </div>
+          <a href="shield.html" target="_blank" class="btn-header-action" title="Open customer review rating page">
+            <span>📱</span>
+            <span>Customer Mobile Shield</span>
+          </a>
 
-    </div>
-
-    <!-- Agency White-Label Configuration Strip (Visible when Agency Mode is ON) -->
-    <div id="agency-white-label-strip" class="hidden agency-mode-banner">
-      <div class="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded bg-indigo-500 font-extrabold uppercase text-[10px]">Agency White-Label Active</span>
-          <span>Branded As: <strong id="agency-display-name">Satnam AI Growth Agency</strong></span>
-          <span class="text-indigo-200">| Retainer: <strong id="agency-display-retainer">₹14,999 / mo</strong></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button type="button" class="btn-agency-edit" onclick="openAgencySettingsPrompt()">
-            ⚙️ Edit Agency Branding
-          </button>
-          <button type="button" class="btn-agency-export" onclick="window.print()">
-            🖨️ Export Branded Client PDF
+          <button type="button" class="btn-header-primary" onclick="openProductionSettingsModal()">
+            <span>⚙️</span>
+            <span>Settings</span>
           </button>
         </div>
+
       </div>
     </div>
   </header>
 
-  <!-- Universal Business Search & Quick Preset Bar -->
-  <section class="border-b border-brand-border bg-slate-50/80 py-2.5 px-4 text-xs">
-    <div class="mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-3">
-      
-      <div class="flex items-center gap-2 flex-grow max-w-xl">
-        <span class="font-bold text-slate-500 whitespace-nowrap">🔍 Scan Any Business:</span>
-        <div class="relative flex-grow">
-          <input type="text" id="custom-search-input" placeholder="Enter Business Name, City (e.g. Dashmesh Property, Ambernath)" class="w-full rounded-full border border-slate-300 bg-white px-3.5 py-1.5 text-xs text-brand-text placeholder-slate-400 focus:border-brand-primary focus:outline-none shadow-sm" onkeydown="if(event.key==='Enter') executeCustomScan()" />
+  <!-- Main Body Content -->
+  <main class="app-container" style="padding-bottom: 60px;">
+
+    <!-- Business Summary Card -->
+    <section class="hero-summary-card">
+      <div class="biz-info-block">
+        <div class="biz-badge-row">
+          <span class="badge-pill badge-pill-indigo">Real Estate Consultant</span>
+          <span class="badge-pill badge-pill-emerald">Verified Place ID Connected</span>
         </div>
-        <button type="button" class="rounded-full bg-brand-primary px-3.5 py-1.5 font-bold text-white hover:bg-brand-primary/90 shadow-sm" onclick="executeCustomScan()">
-          Scan
-        </button>
-      </div>
-
-      <!-- Quick Test Presets -->
-      <div class="flex items-center gap-1.5 text-[11px]">
-        <span class="text-slate-400">Quick Demos:</span>
-        <button type="button" class="rounded-lg bg-white border border-slate-200 px-2 py-1 font-semibold text-slate-700 hover:border-brand-primary hover:text-brand-primary" onclick="loadPreset('dashmesh')">
-          🏠 Dashmesh Property (Ambernath)
-        </button>
-        <button type="button" class="rounded-lg bg-white border border-slate-200 px-2 py-1 font-semibold text-slate-700 hover:border-brand-primary hover:text-brand-primary" onclick="loadPreset('apollo_dental')">
-          🦷 Apollo Dental (Mumbai)
-        </button>
-        <button type="button" class="rounded-lg bg-white border border-slate-200 px-2 py-1 font-semibold text-slate-700 hover:border-brand-primary hover:text-brand-primary" onclick="loadPreset('urban_salon')">
-          💇 Urban Salon (Delhi)
-        </button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Main Application Container -->
-  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
-
-    <!-- ========================================================================= -->
-    <!-- VIEW A: SCANNING SIMULATION VIEW (Displayed briefly during scan execution) -->
-    <!-- ========================================================================= -->
-    <div id="scan-view" class="space-y-6">
-      
-      <!-- Top Scanning Header -->
-      <div class="text-center max-w-xl mx-auto space-y-2 pt-6">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-brand-primary border border-blue-200 animate-pulse">
-          <span class="w-2 h-2 rounded-full bg-brand-primary"></span>
-          Running Autonomous 6-Point GBP Audit
-        </span>
-        <h1 class="text-2xl sm:text-3xl font-black text-brand-text">
-          Scanning Google Maps Visibility
-        </h1>
-        <p class="text-sm text-slate-500">
-          Analyzing local search rankings, profile completeness, citations & competitors.
+        <h1 class="biz-name-heading">Dashmesh Property</h1>
+        <p class="biz-address-text">
+          <span>📍</span>
+          <span>Shop No. 24, New Floora, Pale Gaon, Ambernath (E), Maharashtra 421501</span>
         </p>
       </div>
 
-      <!-- Radar Animation Box -->
-      <div class="relative mx-auto w-full max-w-lg overflow-hidden rounded-3xl border border-brand-border bg-white shadow-card-soft p-8 text-center space-y-6">
-        
-        <div class="relative mx-auto h-48 w-48 flex items-center justify-center">
-          <!-- Radar Rings -->
-          <div class="absolute inset-0 rounded-full border border-blue-200 animate-ping opacity-25"></div>
-          <div class="absolute inset-4 rounded-full border border-blue-300 animate-pulse"></div>
-          <div class="absolute inset-10 rounded-full border border-blue-400"></div>
+      <div class="hero-stats-row">
+        <div class="stat-item">
+          <span class="stat-val stat-val-indigo">19.1908° N</span>
+          <span class="stat-lbl">Ambernath Lat</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val stat-val-indigo">73.1785° E</span>
+          <span class="stat-lbl">Ambernath Lng</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val stat-val-green">100%</span>
+          <span class="stat-lbl">Review Shield</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Clean Tab Navigation (The 5 Essential Functions) -->
+    <nav class="tabs-nav-bar" aria-label="Main Tool Navigation">
+      <button type="button" class="tab-btn active" onclick="switchAppTab('tab-profile')">
+        <span>📋</span>
+        <span>1. Google Profile & SEO</span>
+      </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-geotag')">
+        <span>📸</span>
+        <span>2. GPS Photo Geo-Tagger</span>
+      </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-standee')">
+        <span>🪧</span>
+        <span>3. QR Review Standee</span>
+      </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-whatsapp')">
+        <span>💬</span>
+        <span>4. WhatsApp Dispatcher</span>
+      </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-posts')">
+        <span>📰</span>
+        <span>5. Weekly Google Posts</span>
+      </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-map')">
+        <span>🗺️</span>
+        <span>6. Local Ambernath Map</span>
+      </button>
+    </nav>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: GOOGLE PROFILE & SEO SETUP (1-CLICK COPY)                           -->
+    <!-- ========================================================================= -->
+    <div id="tab-profile" class="tab-pane active">
+      <div class="content-card">
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>📋</span> Google Business Profile Optimization</h2>
+            <p class="card-desc">Copy and paste these exact verified details into your Google Business Profile Manager (<a href="https://business.google.com" target="_blank">business.google.com</a>) to maximize your local Ambernath ranking.</p>
+          </div>
+        </div>
+
+        <!-- 4 Key Fields Grid -->
+        <div class="form-grid-2">
           
-          <!-- Animated Radar Beam -->
-          <div class="radar-beam"></div>
-
-          <!-- Center Target Pin -->
-          <div class="relative z-10 w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center border-2 border-brand-primary">
-            <span class="text-2xl animate-bounce">📍</span>
+          <!-- Field 1: Business Title -->
+          <div class="form-field-card">
+            <span class="field-label">Verified Business Name:</span>
+            <div class="field-val-row">
+              <span class="field-value" id="val-biz-name">Dashmesh Property - Real Estate Consultant</span>
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-name', 'Business Name copied!')">
+                📋 Copy
+              </button>
+            </div>
           </div>
+
+          <!-- Field 2: Primary Category -->
+          <div class="form-field-card">
+            <span class="field-label">Primary Google Category:</span>
+            <div class="field-val-row">
+              <span class="field-value" id="val-biz-cat">Real Estate Agency</span>
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-cat', 'Primary Category copied!')">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Field 3: Secondary Categories -->
+          <div class="form-field-card">
+            <span class="field-label">Secondary Categories to Add:</span>
+            <div class="field-val-row">
+              <span class="field-value" id="val-biz-subcat">Real Estate Consultant, Commercial Real Estate Agency</span>
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-subcat', 'Secondary Categories copied!')">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Field 4: Full Address -->
+          <div class="form-field-card">
+            <span class="field-label">Verified Storefront Address:</span>
+            <div class="field-val-row">
+              <span class="field-value" id="val-biz-addr">Shop No. 24, New Floora, Pale Gaon, Ambernath East, MH 421501</span>
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-addr', 'Storefront Address copied!')">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Target Business Card -->
-        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-          <h3 id="scan-business-name" class="font-extrabold text-base text-slate-800">Dashmesh Property</h3>
-          <p id="scan-business-address" class="text-xs text-slate-500 truncate max-w-md mx-auto">New Floora, Shop no.24, Pale goan, Ambernath(E), Ambernath, Maharashtra 421501</p>
-        </div>
-
-        <!-- Step-by-Step Scan Checklist -->
-        <div id="scan-steps-container" class="space-y-2.5 text-left text-xs max-w-sm mx-auto">
-          <!-- Dynamically populated by app.js -->
-        </div>
-
-        <!-- Skip Scan Button -->
-        <div>
-          <button type="button" class="text-xs font-bold text-slate-400 hover:text-brand-primary transition underline" onclick="skipScan()">
-            Skip Scan & View Growth Suite →
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ========================================================================= -->
-    <!-- VIEW B: FULL REPORT & UNLOCKED ACTION CENTER (Zero Paywalls)              -->
-    <!-- ========================================================================= -->
-    <div id="report-view" class="hidden space-y-8">
-
-      <!-- ========================================================================= -->
-      <!-- 🤖 AUTONOMOUS 24/7 AUTO-PILOT COMMAND CENTER (LIVE AUTO MODE)             -->
-      <!-- ========================================================================= -->
-      <div id="autopilot-command-center" class="p-6 sm:p-8 space-y-6 relative overflow-hidden">
-        
-        <!-- Background Ambient Glow -->
-        <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
-        <div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
-
-        <!-- Header Row -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-          <div>
-            <div class="flex items-center gap-2.5">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40" id="autopilot-status-badge">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                ● 24/7 Auto-Pilot: ACTIVE & RUNNING
-              </span>
-              <span class="text-xs text-slate-300 font-semibold">Ticking Every 6s</span>
+        <!-- 750-Character High-SEO Description -->
+        <div class="desc-box-container">
+          <div class="card-header-row" style="margin-bottom: 8px;">
+            <div class="card-title-group">
+              <h3 class="card-title" style="font-size: 15px;"><span>✨</span> 750-Character Google Maps SEO Description</h3>
+              <p class="card-desc">Keyword-rich description optimized for: <em>Ambernath East, flats for sale, 1 BHK, 2 BHK, Pale Gaon, commercial shops, rental properties</em>.</p>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-black text-white mt-1.5 flex items-center gap-2">
-              <span>🤖</span> Autonomous AI Growth Copilot
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-200">
-              Running fully automated Google Business Profile optimization, rank monitoring, photo geo-tagging & review protection 24/7 without manual effort.
-            </p>
-          </div>
-
-          <!-- Master Action Controls -->
-          <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-            <button type="button" id="btn-toggle-autopilot" class="btn-toggle-auto flex items-center gap-2" onclick="toggleAutoPilot()">
-              <span id="btn-autopilot-icon">⏸️</span>
-              <span id="btn-autopilot-text">Pause Auto-Pilot</span>
-            </button>
-            <button type="button" class="btn-force-cycle flex items-center gap-2" onclick="forceAutoCycle()">
-              <span>⚡</span>
-              <span>Force Instant Auto-Cycle</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Live Metrics Strip -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
-          <div class="metric-card">
-            <span class="metric-label">Total Cycles Executed</span>
-            <span class="metric-val-emerald" id="autopilot-cycles-count">48+</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-label">Next Auto-Action In</span>
-            <span class="metric-val-cyan" id="autopilot-countdown">4s</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-label">Autonomous Modules</span>
-            <span class="metric-val-white">6 / 6 Live</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-label">Google Map Protection</span>
-            <span class="metric-val-emerald">100% Shielded</span>
-          </div>
-        </div>
-
-        <!-- 6 Micro-Daemons Status Cards -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 relative z-10 text-xs">
-          <div class="daemon-card space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-base">📅</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            </div>
-            <span class="daemon-title">Auto-Posts</span>
-            <span class="daemon-desc">Weekly Updates</span>
-          </div>
-          <div class="daemon-card space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-base">📸</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            </div>
-            <span class="daemon-title">GPS EXIF</span>
-            <span class="daemon-desc">Auto-Watermark</span>
-          </div>
-          <div class="daemon-card space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-base">🛡️</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            </div>
-            <span class="daemon-title">Review Shield</span>
-            <span class="daemon-desc">Quarantines 1-3★</span>
-          </div>
-          <div class="daemon-card space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-base">📡</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            </div>
-            <span class="daemon-title">SERP Radar</span>
-            <span class="daemon-desc">Ambernath 9 Pts</span>
-          </div>
-          <div class="daemon-card space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-base">💬</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            </div>
-            <span class="daemon-title">WhatsApp Bot</span>
-            <span class="daemon-desc">Auto-Followups</span>
-          </div>
-          <div class="daemon-card space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-base">🌐</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            </div>
-            <span class="daemon-title">Citations Sync</span>
-            <span class="daemon-desc">40+ Directories</span>
-          </div>
-        </div>
-
-        <!-- Live Autonomous Event Stream Terminal -->
-        <div class="space-y-2 relative z-10">
-          <div class="flex items-center justify-between text-xs">
-            <span class="font-bold text-slate-300 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              Live Autonomous Flight Stream (Real-Time Ticker):
-            </span>
-            <span class="text-[11px] text-slate-400 font-mono-code" id="autopilot-last-sync">Syncing live...</span>
-          </div>
-
-          <div class="terminal-window font-mono-code bg-black/60 border border-white/10 text-xs p-3.5 max-h-44 overflow-y-auto space-y-1.5" id="autopilot-event-stream">
-            <!-- Dynamically populated from /api/auto/status -->
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- REAL-LIFE OPERATIONAL LAUNCH HUB (100% PRODUCTION READY FOR DASHMESH PROPERTY) -->
-      <!-- ========================================================================= -->
-      <div id="real-life-launch-hub" class="rounded-3xl border-2 border-indigo-500/40 bg-gradient-to-br from-slate-900 via-indigo-950/80 to-slate-900 text-white p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
-        
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-indigo-500/20 pb-5">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500 text-white">
-                🚀 REAL-LIFE EXECUTION HUB
-              </span>
-              <span class="text-xs text-indigo-300">Production-Grade Local Ranking System</span>
-            </div>
-            <h3 class="text-xl sm:text-2xl font-black text-white mt-1">
-              Real-Life Ranking & Operations Hub for Dashmesh Property
-            </h3>
-            <p class="text-xs text-slate-300">
-              Practical deployment blueprint to secure #1 rank on Google Maps in Ambernath with binary EXIF photos, real customer QR review shield, and 1-click WhatsApp CRM.
-            </p>
-          </div>
-
-          <div class="flex items-center gap-2 flex-wrap">
-            <button type="button" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md" onclick="openProductionSettingsModal()">
-              <span>⚙️</span> API & Place ID Keys
-            </button>
-            <a href="shield.html" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md">
-              <span>📱</span> Open Customer Shield
-            </a>
-          </div>
-        </div>
-
-        <!-- 4 Step Practical Production Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-
-          <!-- Step 1: Google Business Profile Optimization -->
-          <div class="hub-step-card space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 font-bold flex items-center justify-center">1</span>
-              <span class="text-[10px] font-bold text-emerald-400">✓ Ready to Copy</span>
-            </div>
-            <h4 class="font-bold text-sm text-white">Google Profile Optimization</h4>
-            <p class="text-slate-300 text-[11px]">
-              Apply the exact verified title & primary category inside Google Business Profile Manager (<a href="https://business.google.com" target="_blank" class="text-blue-400 underline">business.google.com</a>):
-            </p>
-            <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-2 font-mono text-[11px]">
-              <div>
-                <span class="text-slate-400 block text-[9px] uppercase">Business Name:</span>
-                <span class="text-white font-bold block truncate" id="real-biz-name">Dashmesh Property - Real Estate Consultant</span>
-                <button type="button" class="mt-1 text-[10px] text-indigo-400 hover:underline font-sans font-bold" onclick="copyText('Dashmesh Property - Real Estate Consultant in Ambernath East', 'Business Name copied!')">📋 Copy Name</button>
-              </div>
-              <div class="pt-1 border-t border-white/10">
-                <span class="text-slate-400 block text-[9px] uppercase">Primary Category:</span>
-                <span class="text-emerald-400 font-bold">Real Estate Agency</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 2: Binary GPS Photo Geotagging -->
-          <div class="hub-step-card space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center">2</span>
-              <span class="text-[10px] font-bold text-cyan-400">Piexif.js Active</span>
-            </div>
-            <h4 class="font-bold text-sm text-white">Binary GPS EXIF Photos</h4>
-            <p class="text-slate-300 text-[11px]">
-              Injects genuine binary EXIF GPS tags into your storefront & property images before uploading to Google Maps:
-            </p>
-            <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1 font-mono text-[11px]">
-              <span class="text-slate-400 block text-[9px] uppercase">Target Coordinates:</span>
-              <span class="text-white font-bold block">19.1908° N, 73.1785° E</span>
-              <span class="text-indigo-300 text-[10px] block">Location: Ambernath East, MH</span>
-            </div>
-            <button type="button" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition" onclick="document.getElementById('action-center').scrollIntoView({behavior: 'smooth'})">
-              📸 Go to Photo Geo-Tagger →
+            <button type="button" class="btn-solid-primary" onclick="copySeoDescription()">
+              <span id="copy-seo-btn-lbl">📋 Copy Description</span>
             </button>
           </div>
 
-          <!-- Step 3: Desk QR Standee & Negative Shield -->
-          <div class="hub-step-card space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center">3</span>
-              <span class="text-[10px] font-bold text-amber-400">100% Protection</span>
-            </div>
-            <h4 class="font-bold text-sm text-white">Desk Standee & Shield</h4>
-            <p class="text-slate-300 text-[11px]">
-              Print the acrylic counter standee. 4-5★ reviews go directly to Google Maps; 1-3★ complaints are quarantined privately:
-            </p>
-            <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1 text-[11px]">
-              <div class="flex items-center justify-between text-slate-300">
-                <span>Google Review URL:</span>
-                <span class="text-emerald-400 font-bold">Connected</span>
-              </div>
-              <div class="flex items-center justify-between text-slate-300">
-                <span>Negative Interception:</span>
-                <span class="text-amber-400 font-bold">Active</span>
-              </div>
-            </div>
-            <button type="button" class="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition" onclick="printStandee()">
-              🖨️ Print Counter Standee →
-            </button>
-          </div>
-
-          <!-- Step 4: Live 1-Click WhatsApp Review Bot -->
-          <div class="hub-step-card space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center">4</span>
-              <span class="text-[10px] font-bold text-emerald-400">Direct WhatsApp</span>
-            </div>
-            <h4 class="font-bold text-sm text-white">WhatsApp Client Invites</h4>
-            <p class="text-slate-300 text-[11px]">
-              After closing a deal or showing a property in Ambernath, send 1-click personalized WhatsApp review requests directly to their phone:
-            </p>
-            <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1 text-[11px]">
-              <span class="text-slate-400 block text-[9px] uppercase">Default Number:</span>
-              <span class="text-white font-bold block">+91 84210 77613</span>
-              <span class="text-emerald-400 text-[10px] block">Opens WhatsApp Web / Mobile</span>
-            </div>
-            <button type="button" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition" onclick="dispatchCRMWhatsApp()">
-              💬 Test WhatsApp Dispatch →
-            </button>
-          </div>
-
-        </div>
-
-        <!-- 750-Char Copy-Ready SEO Description for Google Maps -->
-        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <span class="font-bold text-white text-xs">✨ Google Business Profile SEO Description (750 Characters Max):</span>
-              <span class="text-[10px] text-slate-400 block">Pre-optimized with high-intent keywords: Ambernath East, Station Road, Pale Gaon, RERA advisory, 1BHK/2BHK flats.</span>
-            </div>
-            <button type="button" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1 self-start sm:self-auto" onclick="copySeoDescription()">
-              <span id="copy-seo-btn-text">📋 Copy Optimized Description</span>
-            </button>
-          </div>
-          <div class="p-3 rounded-xl bg-black/50 border border-white/10 text-xs text-slate-300 leading-relaxed font-sans" id="seo-description-text">
+          <div class="desc-text-content" id="seo-description-content">
 Dashmesh Property is a premier real estate consultancy and property advisory firm based in Ambernath East, Maharashtra. With over 12+ years of local market expertise, we specialize in 1 BHK, 2 BHK, and 3 BHK residential apartments, commercial showroom spaces, resale properties, and rental homes across prime Ambernath localities including Station Road, Pale Gaon, Kansai Section, and MIDC corridor. Our services encompass end-to-end property buying, selling, legal title verification, RERA documentation, home loan facilitation, and market price valuation. We are committed to transparency, zero hidden charges, and customer satisfaction. Visit our office today for verified listings and expert real estate guidance in Ambernath.
           </div>
         </div>
 
       </div>
+    </div>
 
-      <!-- Business Identity Hero Card -->
-      <div class="rounded-3xl border border-brand-border bg-white p-6 sm:p-8 shadow-card-soft space-y-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <!-- ========================================================================= -->
+    <!-- TAB 2: GPS PHOTO GEO-TAGGER (AMBERNATH COORDINATES)                        -->
+    <!-- ========================================================================= -->
+    <div id="tab-geotag" class="tab-pane">
+      <div class="content-card">
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>📸</span> Binary GPS Photo Geo-Tagger</h2>
+            <p class="card-desc">Injects genuine binary EXIF GPS coordinates (<strong>19.1908° N, 73.1785° E</strong>) into your photos before uploading to Google Maps. Google's Vision AI uses these tags to rank your business #1 in Ambernath.</p>
+          </div>
+        </div>
+
+        <div class="two-col-grid">
           
-          <!-- Business Meta -->
-          <div class="space-y-2 max-w-2xl">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-brand-primary border border-blue-200" id="report-badge-category">
-                Property Consultant
-              </span>
-              <span class="badge-live">
-                <span class="badge-live-dot"></span>
-                Google Rank #21 (Needs Optimization)
-              </span>
-            </div>
-            
-            <h1 class="text-2xl sm:text-4xl font-extrabold text-brand-text tracking-tight" id="report-business-name">
-              Dashmesh Property
-            </h1>
-            
-            <p class="text-xs sm:text-sm text-slate-500 flex items-center gap-1.5" id="report-business-address">
-              📍 New Floora, Shop no.24, Pale goan, Ambernath(E), Ambernath, Maharashtra 421501
-            </p>
-          </div>
-
-          <!-- Overall Audit Score Radial -->
-          <div class="flex items-center gap-6 p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <div class="text-center">
-              <span class="text-3xl sm:text-4xl font-black text-rose-600" id="report-profile-strength">23%</span>
-              <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Optimization Score</span>
-            </div>
-            <div class="h-10 w-px bg-slate-200"></div>
-            <div class="space-y-1 text-xs">
-              <div class="text-slate-600">Current Rank: <strong class="text-rose-600 font-extrabold" id="report-avg-rank">#21</strong></div>
-              <div class="text-slate-600">Google Reviews: <strong class="text-slate-800 font-bold" id="report-reviews-count">0 (0.0★)</strong></div>
-              <div class="text-slate-600">Lost Local Calls: <strong class="text-rose-600 font-bold">~85%</strong></div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Metric Badges Row -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-            <span class="text-[11px] font-bold text-slate-400 uppercase block">Content SEO</span>
-            <span class="text-lg font-black text-slate-800" id="metric-content-seo">15%</span>
-          </div>
-          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-            <span class="text-[11px] font-bold text-slate-400 uppercase block">Profile Completeness</span>
-            <span class="text-lg font-black text-slate-800" id="metric-completion">57%</span>
-          </div>
-          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-            <span class="text-[11px] font-bold text-slate-400 uppercase block">Weekly Freshness</span>
-            <span class="text-lg font-black text-rose-600" id="metric-engagement">0% (0 Posts)</span>
-          </div>
-          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-            <span class="text-[11px] font-bold text-slate-400 uppercase block">Top Competitor</span>
-            <span class="text-lg font-black text-emerald-600">130 Reviews (5.0★)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- SECTION 1: LIVE INTERACTIVE LEAFLET.JS GPS GRID & TIMELINE PROJECTION    -->
-      <!-- ========================================================================= -->
-      <div class="rounded-3xl border border-brand-border bg-white p-6 sm:p-8 shadow-card-soft space-y-6">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <!-- Left: Upload & Preview Canvas -->
           <div>
-            <div class="flex items-center gap-2">
-              <h3 class="text-lg sm:text-xl font-extrabold text-brand-text">
-                Live Interactive GPS Geo-Grid Heatmap
-              </h3>
-              <span class="badge-live">
-                <span class="badge-live-dot"></span>
-                Leaflet.js Real GPS
-              </span>
+            <div class="photo-preview-box" id="geo-preview-container">
+              <canvas id="geo-photo-canvas"></canvas>
+              
+              <div class="photo-drop-zone" id="photo-dropzone" onclick="document.getElementById('geo-photo-input').click()">
+                <span class="photo-drop-icon">📸</span>
+                <span class="photo-drop-title">Click to Upload Any Property or Store Photo</span>
+                <span class="photo-drop-sub">JPEG, PNG, or WEBP supported</span>
+                <input type="file" id="geo-photo-input" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)" />
+              </div>
             </div>
-            <p class="text-xs text-slate-500">
-              Real-time Google Maps ranking positions mapped to geographic coordinates across Ambernath.
-            </p>
+
+            <!-- Sample Photos Picker -->
+            <div style="margin-top: 14px;">
+              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted);">Or pick a preloaded property photo:</span>
+              <div class="photo-badge-row">
+                <button type="button" class="photo-preset-btn" onclick="loadSampleGeoPhoto(0)">🏢 Office Storefront</button>
+                <button type="button" class="photo-preset-btn" onclick="loadSampleGeoPhoto(1)">🛋️ Reception Desk</button>
+                <button type="button" class="photo-preset-btn" onclick="loadSampleGeoPhoto(2)">🏠 Ambernath Flat</button>
+              </div>
+            </div>
           </div>
 
-          <!-- 3x3 vs 5x5 Grid Selector -->
-          <div class="flex items-center bg-slate-100 p-1 rounded-full border border-slate-200 text-xs">
-            <button type="button" id="btn-grid-3" class="px-3 py-1 rounded-full font-bold bg-white text-slate-800 shadow-sm" onclick="toggleGridSize(3)">
-              3x3 Grid (9 Points)
-            </button>
-            <button type="button" id="btn-grid-5" class="px-3 py-1 rounded-full font-bold text-slate-500 hover:text-slate-800" onclick="toggleGridSize(5)">
-              5x5 Extended (25 Points)
+          <!-- Right: Controls & EXIF Metadata Verification -->
+          <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+            <div>
+              <div class="exif-meta-card">
+                <div class="exif-meta-title">
+                  <span>🛡️</span>
+                  <span>Binary GPS EXIF Data Ready to Inject</span>
+                </div>
+                <div class="exif-meta-text">
+                  &bull; Latitude: <strong>19.1908° N (19° 11' 26.88")</strong><br/>
+                  &bull; Longitude: <strong>73.1785° E (73° 10' 42.60")</strong><br/>
+                  &bull; Target Location: <strong>Pale Gaon, Ambernath East, MH</strong><br/>
+                  &bull; Business: <strong>Dashmesh Property</strong><br/>
+                  &bull; Google Maps Crawler: <strong>100% Crawlable & Compliant</strong>
+                </div>
+              </div>
+
+              <div style="margin-top: 16px;">
+                <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 6px;">Watermark Stamp Style:</label>
+                <div style="display: flex; gap: 16px; font-size: 13px; color: var(--color-text-body);">
+                  <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                    <input type="radio" name="stampStyle" value="hud" checked onchange="changeStampStyle('hud')" /> Google HUD
+                  </label>
+                  <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                    <input type="radio" name="stampStyle" value="gold" onchange="changeStampStyle('gold')" /> Gold Badge
+                  </label>
+                  <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                    <input type="radio" name="stampStyle" value="mini" onchange="changeStampStyle('mini')" /> Minimal
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Download & Verify Action Buttons -->
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="button" class="btn-solid-emerald" style="flex-grow: 1;" onclick="downloadGeoPhoto()">
+                <span>📥</span>
+                <span>Download Geotagged Photo (EXIF Included)</span>
+              </button>
+              <button type="button" class="btn-outline" onclick="inspectPhotoExif()">
+                <span>🔍</span>
+                <span>Verify EXIF Tags</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: CUSTOMER REVIEW STANDEE & MOBILE SHIELD                             -->
+    <!-- ========================================================================= -->
+    <div id="tab-standee" class="tab-pane">
+      <div class="content-card">
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>🪧</span> Reception Counter QR Standee & Review Shield</h2>
+            <p class="card-desc">Print this desk standee and place it at your counter. When customers scan it with their phone, 4-5★ ratings automatically go to Google Maps, while 1-3★ complaints are captured privately so bad ratings never hurt your business.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <a href="shield.html" target="_blank" class="btn-solid-primary">
+              <span>📱</span>
+              <span>Test Mobile Shield</span>
+            </a>
+            <button type="button" class="btn-solid-amber" onclick="printStandee()">
+              <span>🖨️</span>
+              <span>Print Desk Standee</span>
             </button>
           </div>
         </div>
 
-        <!-- Real Leaflet Map Container -->
-        <div class="relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-          <div id="leaflet-map"></div>
+        <div class="two-col-grid" style="align-items: center;">
           
-          <!-- Map Legend Overlay -->
-          <div class="absolute bottom-3 left-3 z-[400] bg-white/90 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-200 text-[11px] font-semibold flex items-center gap-3 shadow-md">
-            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Top 3 (Calls Boom)</span>
-            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Rank 4-9 (Moderate)</span>
-            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Rank 10+ (Invisible)</span>
-          </div>
-        </div>
-
-        <!-- Day 0 to 90 Timeline Projection Slider -->
-        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-          <div class="flex items-center justify-between text-xs">
-            <span class="font-bold text-slate-700">Projected Growth Timeline:</span>
-            <span id="timeline-day-label" class="font-extrabold text-brand-primary">Current Status (Day 0 - Red)</span>
-          </div>
-
-          <input type="range" min="0" max="90" step="30" value="0" class="custom-slider" id="timeline-slider" oninput="updateTimeline(this.value)" />
-
-          <div class="flex justify-between text-[11px] font-semibold text-slate-400">
-            <span>Day 0 (Rank #21)</span>
-            <span>Day 30 (Top 10 Jump)</span>
-            <span>Day 60 (Top 5 Surge)</span>
-            <span class="text-emerald-600 font-extrabold">Day 90 (Rank #1 Dominance)</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- SECTION 2: AUTONOMOUS ACTION CENTER - 4 WORKING CORE TASKS (NO PAYWALL)  -->
-      <!-- ========================================================================= -->
-      <div id="action-center" class="space-y-6">
-        
-        <div class="text-center max-w-xl mx-auto space-y-2">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800 border border-emerald-300">
-            ✓ 100% Free & Operational
-          </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-brand-text">
-            Autonomous Google Growth Action Center
-          </h2>
-          <p class="text-xs sm:text-sm text-slate-500">
-            Execute all tasks directly for your business. Zero fees, zero paywalls.
-          </p>
-        </div>
-
-        <!-- 4 Grid Tasks -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          <!-- TOOL 1: 1-Click Profile & Category Optimizer -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-lg">📝</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-blue-100 text-blue-800">Task 1: Profile Fixer</span>
-            </div>
-            
-            <h4 class="text-base font-bold text-brand-text">Optimized Google Profile Title & Categories</h4>
-            <p class="text-xs text-slate-500">Apply these exact fields to fix the 15% Content SEO penalty:</p>
-
-            <div class="space-y-3 text-xs">
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                <span class="text-[11px] font-bold text-slate-500 block">Recommended Profile Title:</span>
-                <div class="flex items-center justify-between gap-2">
-                  <code id="field-optimized-title" class="text-xs font-bold text-brand-primary">Dashmesh Property - Property Consultant in Ambernath</code>
-                  <button type="button" class="text-slate-600 hover:text-brand-primary font-bold text-xs" onclick="copyText(document.getElementById('field-optimized-title').textContent, 'Title copied!')">📋 Copy</button>
-                </div>
-              </div>
-
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                <span class="text-[11px] font-bold text-slate-500 block">Secondary High-Volume Categories to Add:</span>
-                <div class="flex flex-wrap gap-1.5 pt-1">
-                  <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-semibold text-slate-800">Real Estate Agency</span>
-                  <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-semibold text-slate-800">Commercial Real Estate Agency</span>
-                  <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-semibold text-slate-800">Real Estate Appraiser</span>
-                </div>
-              </div>
-
-              <!-- Generated Description Preview -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                <div class="flex items-center justify-between">
-                  <span class="text-[11px] font-bold text-slate-500">SEO-Optimized Description (740 chars):</span>
-                  <button type="button" class="text-brand-primary font-bold text-xs hover:underline" onclick="copyText(document.getElementById('field-optimized-desc').textContent, 'Description copied!')">📋 Copy Description</button>
-                </div>
-                <p id="field-optimized-desc" class="text-xs text-slate-700 leading-relaxed font-normal bg-white p-2.5 rounded-lg border border-slate-200">Looking for the most trusted Property Consultant in Ambernath? Welcome to Dashmesh Property, your premier destination for Residential & Commercial Deals, Flats for Sale in Ambernath, and Real Estate Investment Advice. Located in Pale Gaon, Ambernath East, we provide transparent property consultations, title verification, and end-to-end guidance. Contact Satnam Singh Vohra today for trusted local advisory!</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- TOOL 2: Instant 5-Star WhatsApp Review Booster -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 font-bold flex items-center justify-center text-lg">⭐</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-800">Task 2: Review Booster</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">1-Click WhatsApp Review Collection Link</h4>
-            <p class="text-xs text-slate-500">Overcome the 0-reviews gap by sending this pre-crafted viral link to your customers:</p>
-
-            <div class="space-y-3 text-xs">
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                <span class="text-[11px] font-bold text-slate-500 block">Your Direct Google Review URL:</span>
-                <div class="flex items-center justify-between gap-2">
-                  <input type="text" id="review-direct-url" readonly value="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" class="w-full text-xs font-mono bg-white p-1.5 rounded border border-slate-200 text-slate-700" />
-                  <button type="button" class="text-slate-600 hover:text-brand-primary font-bold text-xs" onclick="copyText(document.getElementById('review-direct-url').value, 'Review link copied!')">📋</button>
-                </div>
-              </div>
-
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                <span class="text-[11px] font-bold text-slate-500 block">WhatsApp Request Message (Click to Test):</span>
-                <p id="whatsapp-review-text" class="text-xs text-slate-700 leading-relaxed bg-white p-2.5 rounded-lg border border-slate-200 italic">"Hello! Thank you for consulting with Dashmesh Property. Could you take 10 seconds to share your experience with a 5-star review on Google? Click here: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8 - Thank you so much!"</p>
-                
-                <div class="flex items-center gap-2 pt-1">
-                  <a id="whatsapp-send-btn" href="https://wa.me/?text=Hello!%20Thank%20you%20for%20consulting%20with%20Dashmesh%20Property.%20Could%20you%20take%2010%20seconds%20to%20share%20your%20experience%20with%20a%205-star%20review%20on%20Google%3F%20https%3A%2F%2Fsearch.google.com%2Flocal%2Fwritereview%3Fplaceid%3DChIJDxFBTbyV5zsRcHylJmmARG8" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 inline-flex items-center gap-1.5 shadow-sm">
-                    <span>💬</span> Send via WhatsApp
-                  </a>
-                  <button type="button" class="px-3 py-2 rounded-xl border border-slate-300 font-bold text-xs text-slate-700 hover:bg-slate-50" onclick="copyText(document.getElementById('whatsapp-review-text').textContent, 'WhatsApp message copied!')">
-                    📋 Copy Text
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TOOL 3: Daily AI Google Posts Calendar -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 font-bold flex items-center justify-center text-lg">📅</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-purple-100 text-purple-800">Task 3: Post Scheduler</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">Pre-Generated 7-Day Google Posts</h4>
-            <p class="text-xs text-slate-500">Publish these to Google Maps to satisfy the 90-day activity requirement:</p>
-
-            <div id="weekly-posts-container" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-              <!-- Rendered dynamically by app.js -->
-            </div>
-          </div>
-
-          <!-- TOOL 4: 40+ Local Citations Directory Pack -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 font-bold flex items-center justify-center text-lg">🌐</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-100 text-amber-800">Task 4: Citations Pack</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">40+ Local Citations & Directory Submissions</h4>
-            <p class="text-xs text-slate-500">Sync your Name, Address & Phone across top Indian directories:</p>
-
-            <div class="space-y-3 text-xs">
-              <div class="max-h-48 overflow-y-auto rounded-xl border border-slate-200">
-                <table class="w-full text-left">
-                  <thead class="bg-slate-50 text-[10px] uppercase text-slate-500 border-b border-slate-200">
-                    <tr>
-                      <th class="py-2 px-3">Directory</th>
-                      <th class="py-2 px-2">Authority</th>
-                      <th class="py-2 px-3 text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="citations-table-body" class="divide-y divide-slate-100">
-                    <!-- Rendered by app.js -->
-                  </tbody>
-                </table>
-              </div>
-
-              <button type="button" class="w-full py-2.5 rounded-xl bg-brand-primary text-white font-bold text-xs hover:bg-brand-primary/90 flex items-center justify-center gap-2 shadow-sm" onclick="copyCitationsPack()">
-                📋 Copy Complete Citations Submission Pack
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- SECTION 3: TIER 1 ADVANCED INTERACTIVE STUDIOS                            -->
-        <!-- ========================================================================= -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-
-          <!-- TOOL 5: Smart Review Shield & Sentiment Gate -->
-          <div class="rounded-3xl border-2 border-emerald-300 bg-gradient-to-b from-emerald-50/40 via-white to-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-lg">🛡️</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-600 text-white">Negative Review Shield</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">Smart Sentiment Review Gate</h4>
-            <p class="text-xs text-slate-500">Customer feedback simulator: filters 1-3 star complaints away from Google Maps!</p>
-
-            <!-- Interactive Rating Simulator Box -->
-            <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-3 text-center">
-              <span class="text-xs font-bold text-slate-700 block">How was your experience?</span>
-              
-              <!-- 5 Stars -->
-              <div class="star-rating-selector" id="shield-star-container">
-                <span class="star-btn" onclick="rateReviewShield(1)">★</span>
-                <span class="star-btn" onclick="rateReviewShield(2)">★</span>
-                <span class="star-btn" onclick="rateReviewShield(3)">★</span>
-                <span class="star-btn" onclick="rateReviewShield(4)">★</span>
-                <span class="star-btn" onclick="rateReviewShield(5)">★</span>
-              </div>
-
-              <!-- Dynamic Output Box -->
-              <div id="shield-result-box" class="hidden p-3 rounded-xl text-xs space-y-2">
-                <!-- Injected dynamically based on rating -->
-              </div>
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <button type="button" class="w-full py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-sm transition" onclick="openMobileReviewSimulator()">
-                📱 Preview Customer Mobile Experience
-              </button>
-              <button type="button" class="w-full py-2 rounded-xl border border-emerald-600 text-emerald-700 font-bold text-xs hover:bg-emerald-50 transition" onclick="copyReviewShieldLink()">
-                🔗 Copy Review Shield Link
-              </button>
-            </div>
-          </div>
-
-          <!-- TOOL 6: AI Photo Geo-Tagger Studio -->
-          <div class="rounded-3xl border-2 border-indigo-200 bg-gradient-to-b from-indigo-50/40 via-white to-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-lg">📍</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-indigo-600 text-white">GPS EXIF Tagger</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">Photo Geo-Tagger Studio</h4>
-            <p class="text-xs text-slate-500">Inject GPS metadata & HUD stamp onto your photos to boost local rank:</p>
-
-            <!-- Quick Preset Photos Selection -->
-            <div class="space-y-1 text-xs">
-              <span class="text-[11px] font-bold text-slate-400">Choose Sample or Upload:</span>
-              <div class="flex gap-2">
-                <button type="button" class="px-2 py-1 rounded bg-slate-100 border border-slate-200 hover:bg-indigo-50 text-[11px] font-semibold text-slate-700" onclick="loadSampleGeoPhoto(0)">Office Sign</button>
-                <button type="button" class="px-2 py-1 rounded bg-slate-100 border border-slate-200 hover:bg-indigo-50 text-[11px] font-semibold text-slate-700" onclick="loadSampleGeoPhoto(1)">Desk</button>
-                <button type="button" class="px-2 py-1 rounded bg-slate-100 border border-slate-200 hover:bg-indigo-50 text-[11px] font-semibold text-slate-700" onclick="loadSampleGeoPhoto(2)">Property</button>
-              </div>
-            </div>
-
-            <!-- Upload Dropzone -->
-            <div class="dropzone-box" onclick="document.getElementById('geo-photo-input').click()">
-              <input type="file" id="geo-photo-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(this)" />
-              <span class="text-2xl block mb-1">📸</span>
-              <span class="text-xs font-bold text-brand-primary block">Click or Drop Office Photo</span>
-              <span class="text-[10px] text-slate-400">Auto-injects Ambernath GPS coordinates</span>
-            </div>
-
-            <!-- Canvas Container -->
-            <div id="canvas-wrapper" class="hidden rounded-xl overflow-hidden border border-slate-200 bg-black">
-              <canvas id="geo-photo-canvas" class="w-full h-auto block"></canvas>
-            </div>
-
-            <!-- EXIF Status Badge -->
-            <div id="exif-status-badge" class="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-800 flex items-center justify-between">
-              <span>🛡️ Binary EXIF: <strong>19.1908° N, 73.1785° E</strong></span>
-              <span class="text-emerald-600 font-bold">✓ Google Vision Verified</span>
-            </div>
-
-            <!-- Stamp Style Radio Selector -->
-            <div class="flex items-center justify-between text-[11px] font-semibold text-slate-600 px-1">
-              <span>Stamp Style:</span>
-              <label class="inline-flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="stampStyle" value="hud" checked onchange="changeStampStyle('hud')" /> Google HUD
-              </label>
-              <label class="inline-flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="stampStyle" value="gold" onchange="changeStampStyle('gold')" /> Gold
-              </label>
-              <label class="inline-flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="stampStyle" value="mini" onchange="changeStampStyle('mini')" /> Mini
-              </label>
-            </div>
-
-            <div class="flex gap-2">
-              <button type="button" id="btn-download-geophoto" class="hidden flex-grow py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-700 shadow-sm" onclick="downloadGeoPhoto()">
-                📥 Download with GPS EXIF
-              </button>
-              <button type="button" class="py-2 px-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-50" onclick="inspectPhotoExif()">
-                🔍 Inspect EXIF
-              </button>
-            </div>
-          </div>
-
-          <!-- TOOL 7: Printable In-Store QR Counter Standee -->
-          <div class="rounded-3xl border-2 border-amber-300 bg-gradient-to-b from-amber-50/40 via-white to-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-lg">🪧</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-600 text-white">Counter Standee</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">Printable Reception Standee</h4>
-            <p class="text-xs text-slate-500">Place at your cash counter or office desk to collect 5-star reviews daily:</p>
-
-            <!-- Theme Picker -->
-            <div class="flex items-center justify-between gap-1 text-[11px]">
-              <button type="button" class="px-2 py-1 rounded bg-slate-100 hover:bg-amber-100 font-bold text-slate-700" onclick="changeStandeeTheme('classic_white')">Clean</button>
-              <button type="button" class="px-2 py-1 rounded bg-indigo-100 hover:bg-indigo-200 font-bold text-indigo-900" onclick="changeStandeeTheme('indigo_modern')">Indigo</button>
-              <button type="button" class="px-2 py-1 rounded bg-amber-100 hover:bg-amber-200 font-bold text-amber-900" onclick="changeStandeeTheme('luxury_gold')">Gold</button>
-              <button type="button" class="px-2 py-1 rounded bg-emerald-100 hover:bg-emerald-200 font-bold text-emerald-900" onclick="changeStandeeTheme('emerald_trust')">Emerald</button>
-            </div>
-
-            <div class="standee-card scale-90 -my-3" id="standee-printable-area">
-              <h5 class="text-xs font-extrabold uppercase tracking-wider text-amber-600" id="standee-biz-name">Dashmesh Property</h5>
-              <h3 class="text-base font-black text-brand-text mt-1">Loved Our Service?</h3>
-              <p class="text-[11px] text-slate-500">Scan to Review Us on Google Maps!</p>
-              
-              <!-- Real Scannable Vector QR Code Container -->
-              <div class="my-2 p-2 bg-white border border-slate-200 rounded-xl inline-block shadow-sm" id="standee-qr-box">
-                <!-- Populated dynamically by renderStandeeQRCode() -->
-              </div>
-              <div class="text-[9px] text-slate-500 font-mono" id="standee-target-url-display">http://localhost:3000/shield.html</div>
-
-              <div class="text-amber-500 text-xs mt-1">★★★★★</div>
-              <div class="mt-2 py-1 px-2.5 rounded-lg bg-amber-100 text-amber-900 text-[10px] font-bold" id="standee-offer-label">
-                🎁 Review & Receive 10% Off or Free Advisory!
-              </div>
-            </div>
-
-            <!-- Mobile Access Wi-Fi Settings -->
-            <div class="space-y-1.5 text-left text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
-              <label class="block text-[10px] font-bold text-slate-600">Standee QR Code Link (Phone Accessible):</label>
-              <div class="flex gap-1.5">
-                <input type="text" id="standee-target-url-input" class="flex-grow p-1.5 text-xs rounded-lg border border-slate-300 font-mono bg-white" placeholder="http://192.168.1.4:3000/shield.html" oninput="updateStandeeCustomUrl(this.value)" />
-                <button type="button" class="px-2.5 py-1 rounded-lg bg-brand-primary text-white font-bold text-[11px] hover:bg-brand-primary/90" onclick="window.open(appState.mobileShieldUrl || 'shield.html', '_blank')">📱 Test</button>
-              </div>
-              <div class="text-[10px] text-slate-400" id="lan-mobile-url-notice">
-                Phones on the same Wi-Fi can scan this QR code directly.
-              </div>
-            </div>
-
-            <button type="button" class="w-full py-2.5 rounded-xl bg-amber-600 text-white font-bold text-xs hover:bg-amber-700 shadow-sm" onclick="printStandee()">
-              🖨️ Print Counter Standee (A5/A4)
-            </button>
-          </div>
-
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- SECTION 4: TIER 2 & TIER 3 PRODUCTION ENGINES                            -->
-        <!-- ========================================================================= -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4">
-
-          <!-- ENGINE 1: Autonomous Post Scheduler & Auto-Publish Daemon (Tier 2) -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 font-bold flex items-center justify-center text-lg">🤖</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-purple-100 text-purple-800">Auto-Publisher Daemon</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">Google Post Scheduler Daemon</h4>
-            <p class="text-xs text-slate-500">Autonomous set-it-and-forget-it publisher running in background:</p>
-
-            <!-- Daemon Status Strip -->
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
-              <span class="text-slate-600 font-semibold">Daemon Status:</span>
-              <span id="daemon-status-badge" class="badge-live">
-                <span class="badge-live-dot"></span>
-                Ready to Dispatch
-              </span>
-            </div>
-
-            <!-- Terminal Output Console -->
-            <div class="terminal-window font-mono-code" id="daemon-terminal">
-              <div class="terminal-line">[System] Scheduler Daemon loaded. Next post queued: Monday 09:00 AM.</div>
-              <div class="terminal-line text-slate-400">[GBP API] Location target: ChIJDxFBTbyV5zsRcHylJmmARG8</div>
-            </div>
-
-            <div class="flex gap-2">
-              <button type="button" id="btn-daemon-toggle" class="w-full py-2 rounded-xl bg-purple-600 text-white font-bold text-xs hover:bg-purple-700 shadow-sm" onclick="triggerAutoPublishSimulation()">
-                ▶️ Trigger Auto-Post Simulation
-              </button>
-              <button type="button" class="px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50" onclick="downloadPostsCSV()">
-                📥 CSV
-              </button>
-            </div>
-          </div>
-
-          <!-- ENGINE 2: Multi-Keyword SERP Radar & Prober (Tier 2) -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-lg">📡</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-blue-100 text-blue-800">Multi-Keyword SERP</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">Real-Time Keyword Radar</h4>
-            <p class="text-xs text-slate-500">Monitor high-intent local search terms against competitors:</p>
-
-            <div class="space-y-2 max-h-56 overflow-y-auto pr-1 text-xs" id="keyword-radar-container">
-              <!-- Dynamically populated from MULTI_KEYWORD_RADAR -->
-            </div>
-
-            <div class="flex items-center gap-2 pt-1">
-              <input type="text" id="serp-probe-input" placeholder="e.g. Flats in Ambernath" class="flex-grow text-xs p-2 rounded-xl border border-slate-300" />
-              <button type="button" class="py-2 px-3 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 whitespace-nowrap shadow-sm" onclick="probeKeywordSERP()">
-                🔍 Probe SERP
-              </button>
-            </div>
-          </div>
-
-          <!-- ENGINE 3: Automated WhatsApp Review CRM (Tier 3) -->
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 font-bold flex items-center justify-center text-lg">💬</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-800">WhatsApp CRM Bot</span>
-            </div>
-
-            <h4 class="text-base font-bold text-brand-text">WhatsApp Review Dispatcher</h4>
-            <p class="text-xs text-slate-500">Send personalized review invitations directly to client phones:</p>
-
-            <div class="space-y-2.5 text-xs">
-              <div>
-                <label class="block text-[11px] font-bold text-slate-500 mb-1">Customer Name & Phone:</label>
-                <div class="grid grid-cols-2 gap-2">
-                  <input type="text" id="crm-customer-name" value="Rajesh Kumar" class="p-2 rounded-xl border border-slate-200 text-xs" />
-                  <input type="text" id="crm-customer-phone" value="+91 98200 12345" class="p-2 rounded-xl border border-slate-200 text-xs" />
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-[11px] font-bold text-slate-500 mb-1">Select Message Template:</label>
-                <select id="crm-template-select" class="w-full p-2 rounded-xl border border-slate-200 text-xs bg-slate-50 font-medium" onchange="updateCRMPreview()">
-                  <option value="immediate_thank_you">Immediate Thank You & 5-Star Invite</option>
-                  <option value="followup_24h">24-Hour Polite Follow-Up</option>
-                  <option value="vip_discount">VIP Voucher & Free Valuation Incentive</option>
-                </select>
-              </div>
-
-              <!-- Message Preview -->
-              <div class="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-200 text-[11px] text-slate-700 italic" id="crm-message-preview">
-                "Hello Rajesh Kumar! 👋 Thank you for consulting with Dashmesh Property today..."
-              </div>
-            </div>
-
-            <button type="button" class="w-full py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-sm flex items-center justify-center gap-1.5" onclick="dispatchCRMWhatsApp()">
-              <span>💬</span> Send WhatsApp Review Request
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- SECTION 5: COMPETITORS RADAR & DYNAMIC REVENUE CALCULATOR                 -->
-      <!-- ========================================================================= -->
-      <div class="rounded-3xl border border-brand-border bg-white p-6 sm:p-8 shadow-card-soft space-y-6">
-        <div>
-          <h3 class="text-xl font-extrabold text-brand-text">Local Ambernath Competitor Radar</h3>
-          <p class="text-xs text-slate-500">Live competitor profiles holding top 3 positions on Google Maps:</p>
-        </div>
-
-        <div class="overflow-x-auto rounded-2xl border border-slate-200">
-          <table class="w-full text-left">
-            <thead class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-200 font-extrabold">
-              <tr>
-                <th class="py-3 px-4">Competitor Business</th>
-                <th class="py-3 px-3 text-center">Avg Rank</th>
-                <th class="py-3 px-3 text-center">Google Reviews</th>
-                <th class="py-3 px-3 text-center">Rating</th>
-                <th class="py-3 px-4">Identified Weakness</th>
-                <th class="py-3 px-4 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody id="competitors-table-body" class="divide-y divide-slate-100">
-              <!-- Rendered dynamically by app.js -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ROI & Revenue Growth Calculator -->
-      <div class="rounded-3xl border-2 border-brand-primary/20 bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/40 p-6 sm:p-8 shadow-card-soft space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <!-- Standee Preview Frame -->
           <div>
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-brand-primary text-white">Interactive Projection</span>
-            <h3 class="text-xl font-extrabold text-brand-text mt-1">Projected Extra Monthly Revenue from Rank #1</h3>
-            <p class="text-xs text-slate-500">Calculate how much extra revenue Dashmesh Property gains from moving from Rank #21 into the Top 3 Google Pack.</p>
-          </div>
-          <div class="text-right">
-            <span class="text-2xl sm:text-3xl font-black text-emerald-600" id="roi-extra-revenue">+₹90,000 / mo</span>
-            <span class="block text-[11px] font-bold text-slate-400">Projected Extra Revenue</span>
-          </div>
-        </div>
+            <div class="standee-desk-preview" id="standee-printable-area">
+              <span class="standee-header-brand">Dashmesh Property</span>
+              <h3 class="standee-main-title">Loved Our Service?</h3>
+              <p class="standee-sub-title">Scan QR code to review us on Google Maps</p>
+              
+              <div class="standee-qr-frame" id="standee-qr-box">
+                <!-- SVG QR code rendered here -->
+              </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          <div class="space-y-2">
-            <div class="flex justify-between text-xs font-bold text-slate-700">
-              <span>Average Deal / Commission Value:</span>
-              <span id="ticket-val-label" class="text-brand-primary">₹15,000</span>
+              <div class="standee-url-caption" id="standee-url-caption">http://localhost:3000/shield.html</div>
+              <div class="standee-stars-row">★★★★★</div>
+              <div class="standee-footer-promo">
+                🎁 Review & Receive Free Consultation on Property Deals!
+              </div>
             </div>
-            <input type="range" min="5000" max="100000" step="5000" value="15000" class="custom-slider" id="ticket-slider" oninput="appState.ticketValue = parseInt(this.value); updateROICalculator();" />
           </div>
 
-          <div class="space-y-2">
-            <div class="flex justify-between text-xs font-bold text-slate-700">
-              <span>Current Monthly Inbound Calls:</span>
-              <span id="calls-val-label" class="text-brand-primary">15 Calls / mo</span>
+          <!-- Standee Settings & Info -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="form-field-card">
+              <span class="field-label">How the Smart Review Shield Works:</span>
+              <p style="font-size: 13px; color: var(--color-text-body); line-height: 1.5;">
+                &bull; <strong>4 & 5 Stars:</strong> Instantly opens Dashmesh Property's Google Maps review window (<a href="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" target="_blank">Direct Review Link</a>).<br/>
+                &bull; <strong>1, 2 & 3 Stars:</strong> Routes the customer to a private feedback form on your server so you can resolve the issue privately without negative reviews appearing publicly on Google Maps.
+              </p>
             </div>
-            <input type="range" min="5" max="100" step="5" value="15" class="custom-slider" id="calls-slider" oninput="appState.monthlyCalls = parseInt(this.value); updateROICalculator();" />
+
+            <div class="form-field-card">
+              <span class="field-label">Live Wi-Fi Phone Link (for QR Code):</span>
+              <div class="field-val-row">
+                <input type="text" id="standee-custom-url-input" class="input-styled" style="font-family: var(--font-mono); font-size: 12px;" value="http://localhost:3000/shield.html" oninput="updateStandeeQrUrl(this.value)" />
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('standee-custom-url-input', 'URL copied!')">
+                  📋 Copy
+                </button>
+              </div>
+              <span style="font-size: 11px; color: var(--color-text-muted);">Auto-detected on local Wi-Fi so customers can scan from any Android or iPhone.</span>
+            </div>
+
+            <button type="button" class="btn-solid-primary" style="align-self: flex-start;" onclick="copyReviewShieldDirectLink()">
+              <span>🔗</span>
+              <span>Copy Direct Mobile Shield Link to Send on SMS/WhatsApp</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: WHATSAPP 1-CLICK REVIEW DISPATCHER                                 -->
+    <!-- ========================================================================= -->
+    <div id="tab-whatsapp" class="tab-pane">
+      <div class="content-card">
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>💬</span> 1-Click WhatsApp Review Dispatcher</h2>
+            <p class="card-desc">Send polite, customized Google Review requests directly to your clients' WhatsApp after closing a property deal or site visit.</p>
           </div>
         </div>
-      </div>
 
-      <!-- FAQs Section -->
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-card-soft space-y-4">
-        <h3 class="text-lg font-extrabold text-brand-text">Frequently Asked Questions</h3>
-        <div id="faqs-accordion" class="space-y-3">
-          <!-- Dynamically populated from FAQS -->
+        <div class="two-col-grid">
+          
+          <!-- Left: WhatsApp Dispatch Form -->
+          <div class="whatsapp-form-box">
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Client Name:</label>
+              <input type="text" id="wa-client-name" class="input-styled" placeholder="e.g. Rahul Patil" value="Client" oninput="refreshWhatsAppMessagePreview()" />
+            </div>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Client Mobile Number (10 Digits):</label>
+              <input type="tel" id="wa-client-phone" class="input-styled" placeholder="e.g. 9820144552" value="9820144552" />
+            </div>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Language:</label>
+              <select id="wa-language-select" class="input-styled" onchange="refreshWhatsAppMessagePreview()">
+                <option value="en">English (Professional)</option>
+                <option value="hinglish" selected>Hinglish (Polite & Local)</option>
+                <option value="hi">Hindi (हिन्दी)</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn-solid-emerald" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;" onclick="sendWhatsAppDispatch()">
+              <span>💬</span>
+              <span>Send Review Request on WhatsApp</span>
+            </button>
+          </div>
+
+          <!-- Right: Live Message Preview -->
+          <div>
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); display: block; margin-bottom: 8px;">WhatsApp Message Preview:</span>
+            
+            <div class="chat-bubble-preview" id="wa-bubble-preview">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div style="margin-top: 14px; display: flex; gap: 8px;">
+              <button type="button" class="btn-outline" onclick="copyWhatsAppMessage()">
+                <span>📋</span>
+                <span>Copy Message Text</span>
+              </button>
+              <button type="button" class="btn-outline" onclick="testDirectGoogleReviewLink()">
+                <span>⭐</span>
+                <span>Test Google Review Link</span>
+              </button>
+            </div>
+          </div>
+
         </div>
-      </div>
 
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: WEEKLY GOOGLE POSTS (READY TO PUBLISH)                             -->
+    <!-- ========================================================================= -->
+    <div id="tab-posts" class="tab-pane">
+      <div class="content-card">
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>📰</span> Pre-Written Weekly Google Updates</h2>
+            <p class="card-desc">Google gives high rank priority to profiles that publish regular weekly updates. Copy and publish these posts in your Google Business Profile under "Add Update".</p>
+          </div>
+        </div>
+
+        <div class="posts-grid" id="weekly-posts-list">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 6: LOCAL AMBERNATH MAP & CHECKLIST                                     -->
+    <!-- ========================================================================= -->
+    <div id="tab-map" class="tab-pane">
+      <div class="content-card">
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>🗺️</span> Ambernath Local Ranking Coverage & Map</h2>
+            <p class="card-desc">Interactive GPS map showing high-visibility zones around Dashmesh Property across Ambernath East, Station Road, and Pale Gaon.</p>
+          </div>
+        </div>
+
+        <!-- Leaflet Map Container -->
+        <div style="height: 380px; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--color-border); margin-bottom: 20px;">
+          <div id="leaflet-map" style="height: 100%; width: 100%;"></div>
+        </div>
+
+        <!-- 5-Point Rank Checklist -->
+        <div class="form-grid-2">
+          <div class="form-field-card">
+            <span class="field-label">1. Google Profile Title</span>
+            <span class="field-value" style="color: var(--color-emerald);">✓ Optimized with Ambernath East</span>
+          </div>
+          <div class="form-field-card">
+            <span class="field-label">2. GPS Photo Tags</span>
+            <span class="field-value" style="color: var(--color-emerald);">✓ Binary EXIF 19.1908° N, 73.1785° E</span>
+          </div>
+          <div class="form-field-card">
+            <span class="field-label">3. Customer Review Shield</span>
+            <span class="field-value" style="color: var(--color-emerald);">✓ Active (4-5★ Direct / 1-3★ Shielded)</span>
+          </div>
+          <div class="form-field-card">
+            <span class="field-label">4. WhatsApp Dispatch</span>
+            <span class="field-value" style="color: var(--color-emerald);">✓ 1-Click Pre-filled Link</span>
+          </div>
+        </div>
+
+      </div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Growth Control Bar (No Paywalls, Zero Money Sections) -->
-  <aside id="sticky-action-bar" class="sticky bottom-0 z-[110] border-t border-brand-border bg-white/95 backdrop-blur-md py-3 px-4 shadow-lg transition-all">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
-      
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex h-10 w-10 rounded-xl bg-emerald-100 text-emerald-700 items-center justify-center font-bold text-lg">
-          ⚡
-        </div>
+  <!-- Production Settings Modal -->
+  <div id="settings-modal" class="modal-overlay">
+    <div class="modal-content-box">
+      <div class="modal-header-row">
+        <h3 class="modal-title">⚙️ Business Profile Settings</h3>
+        <button type="button" class="btn-close-modal" onclick="closeProductionSettingsModal()">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
         <div>
-          <h4 class="text-xs sm:text-sm font-extrabold text-brand-text flex items-center gap-1.5">
-            <span>Autonomous Google Rank #1 Growth Suite</span>
-            <span class="hidden sm:inline-block px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase">100% Free</span>
-          </h4>
-          <p class="text-[11px] text-slate-500 hidden sm:block">
-            Apply profile keywords, automated review links, 7-day posts & 40+ directory citations.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button type="button" class="px-4 py-2 rounded-full border border-slate-300 font-bold text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-1" onclick="window.print()">
-          <span>🖨️</span> <span class="hidden sm:inline">Export PDF</span>
-        </button>
-        <button type="button" class="px-5 py-2.5 rounded-full bg-emerald-600 text-white font-extrabold text-xs hover:bg-emerald-700 shadow-md flex items-center gap-1.5 transition" onclick="triggerAutonomousOptimization()">
-          <span>⚡</span> <span>Run 1-Click Optimization</span>
-        </button>
-      </div>
-
-    </div>
-  </aside>
-
-  <!-- ========================================================================= -->
-  <!-- MODALS CONTAINER                                                          -->
-  <!-- ========================================================================= -->
-
-  <!-- MODAL 1: Mobile Phone Customer Review Shield Simulator -->
-  <div id="mobile-shield-modal" class="hidden fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="relative">
-      <button type="button" class="absolute -top-10 right-0 text-white font-bold text-sm bg-black/40 px-3 py-1 rounded-full hover:bg-black/80" onclick="closeMobileReviewSimulator()">
-        ✕ Close Preview
-      </button>
-
-      <!-- iPhone Frame Container -->
-      <div class="mobile-device-frame">
-        <div class="mobile-notch"></div>
-
-        <div class="p-6 text-center space-y-4 pt-4 overflow-y-auto h-[540px]">
-          <div class="w-12 h-12 rounded-2xl bg-brand-primary text-white flex items-center justify-center font-black text-xl mx-auto shadow-md">
-            D
-          </div>
-          <div>
-            <h4 class="font-extrabold text-slate-900 text-base" id="mobile-sim-biz-name">Dashmesh Property</h4>
-            <p class="text-xs text-slate-500">Ambernath East, Maharashtra</p>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-            <h5 class="text-xs font-bold text-slate-700">How would you rate our consultation?</h5>
-            
-            <div class="star-rating-selector" id="mobile-star-container">
-              <span class="star-btn" onclick="rateMobileSimulator(1)">★</span>
-              <span class="star-btn" onclick="rateMobileSimulator(2)">★</span>
-              <span class="star-btn" onclick="rateMobileSimulator(3)">★</span>
-              <span class="star-btn" onclick="rateMobileSimulator(4)">★</span>
-              <span class="star-btn" onclick="rateMobileSimulator(5)">★</span>
-            </div>
-
-            <!-- Dynamic Mobile Result Box -->
-            <div id="mobile-result-box" class="hidden p-3 rounded-xl text-xs space-y-2"></div>
-          </div>
-
-          <div class="text-[10px] text-slate-400">
-            Powered by Grexa Autonomous Review Shield
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 2: Autonomous 6-Step Task Runner Modal -->
-  <div id="optimizer-modal" class="hidden fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-8 shadow-2xl space-y-6 relative border border-slate-200">
-      
-      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-        <div class="flex items-center gap-2">
-          <span class="text-xl">⚡</span>
-          <h3 class="text-lg font-black text-brand-text">Autonomous AI Optimization Runner</h3>
-        </div>
-        <button type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold" onclick="closeOptimizerModal()">
-          ✕
-        </button>
-      </div>
-
-      <div id="optimizer-modal-body" class="space-y-4">
-        <!-- Dynamically populated by app.js -->
-      </div>
-
-    </div>
-  </div>
-
-  <!-- MODAL 3: Add Franchise Location Modal -->
-  <div id="add-franchise-modal" class="hidden fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl space-y-4 relative border border-slate-200">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <h3 class="text-base font-extrabold text-brand-text">Add New Branch Location</h3>
-        <button type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold" onclick="closeFranchiseModal()">✕</button>
-      </div>
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="block font-bold text-slate-600 mb-1">Branch Name:</label>
-          <input type="text" id="new-branch-name" placeholder="e.g. Dashmesh Property (Thane West)" class="w-full p-2 rounded-xl border border-slate-200" />
-        </div>
-        <div>
-          <label class="block font-bold text-slate-600 mb-1">Address & Suburb:</label>
-          <input type="text" id="new-branch-address" placeholder="e.g. G-2, Station Road, Thane" class="w-full p-2 rounded-xl border border-slate-200" />
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block font-bold text-slate-600 mb-1">City:</label>
-            <input type="text" id="new-branch-city" value="Thane" class="w-full p-2 rounded-xl border border-slate-200" />
-          </div>
-          <div>
-            <label class="block font-bold text-slate-600 mb-1">Phone:</label>
-            <input type="text" id="new-branch-phone" value="+91 84210 77613" class="w-full p-2 rounded-xl border border-slate-200" />
-          </div>
-        </div>
-      </div>
-      <div class="flex gap-2 pt-2">
-        <button type="button" class="w-full py-2 rounded-xl bg-brand-primary text-white font-bold text-xs hover:bg-brand-primary/90" onclick="saveNewBranchLocation()">
-          ✓ Add & Scan Branch
-        </button>
-      </div>
-    </div>
-  <!-- MODAL 4: Real-Life Production Credentials & API Hub -->
-  <div id="real-life-settings-modal" class="hidden fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4 relative border border-slate-200 max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-xl">⚙️</span>
-          <h3 class="text-base font-extrabold text-brand-text">Production Credentials & API Hub</h3>
-        </div>
-        <button type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold" onclick="closeProductionSettingsModal()">✕</button>
-      </div>
-
-      <div class="space-y-3.5 text-xs text-slate-700">
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Target Google Maps Place ID:</label>
-          <input type="text" id="setting-place-id" value="ChIJDxFBTbyV5zsRcHylJmmARG8" class="w-full p-2.5 rounded-xl border border-slate-300 font-mono text-xs bg-slate-50" />
-          <span class="text-[10px] text-slate-400">Dashmesh Property Place ID: ChIJDxFBTbyV5zsRcHylJmmARG8</span>
+          <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Google Place ID:</label>
+          <input type="text" id="setting-place-id" class="input-styled" value="ChIJDxFBTbyV5zsRcHylJmmARG8" />
+          <span style="font-size: 11px; color: var(--color-text-muted);">Default: Dashmesh Property (Ambernath East)</span>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Public Google Maps Review URL:</label>
-          <input type="text" id="setting-review-url" value="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" class="w-full p-2.5 rounded-xl border border-slate-300 font-mono text-xs bg-slate-50" />
-          <span class="text-[10px] text-slate-400">Where 4-5★ happy customers are directed to submit their review</span>
+          <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Custom Cloud / Shield URL:</label>
+          <input type="text" id="setting-shield-url" class="input-styled" value="http://localhost:3000/shield.html" />
+          <span style="font-size: 11px; color: var(--color-text-muted);">Encoded into the QR Standee</span>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Live Mobile Shield URL (Wi-Fi or Cloud Domain):</label>
-          <input type="text" id="setting-mobile-url" value="http://192.168.1.4:3000/shield.html" class="w-full p-2.5 rounded-xl border border-slate-300 font-mono text-xs bg-slate-50" />
-          <span class="text-[10px] text-slate-400">Encoded into your printable Standee QR code</span>
+          <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">WhatsApp Number for Test:</label>
+          <input type="text" id="setting-wa-phone" class="input-styled" value="9820144552" />
         </div>
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">SerpApi / ValueSerp API Key (Optional for Live SERP):</label>
-          <input type="password" id="setting-serpapi-key" placeholder="e.g. 84210abcdef77613..." class="w-full p-2.5 rounded-xl border border-slate-300 font-mono text-xs bg-white" />
-          <span class="text-[10px] text-slate-400">If left blank, uses high-precision localized simulation</span>
-        </div>
-
-        <div class="p-3 rounded-2xl bg-indigo-50 border border-indigo-200 space-y-1.5">
-          <div class="flex items-center gap-1.5 font-bold text-indigo-900 text-xs">
-            <span>🌐</span> Free 24/7 Global Cloud Hosting (Vercel)
-          </div>
-          <p class="text-[11px] text-indigo-700 leading-relaxed">
-            Your project already has <code>vercel.json</code> configured! Simply push to GitHub and import to <a href="https://vercel.com" target="_blank" class="underline font-bold">Vercel.com</a> to get a free, permanent <code>https://your-app.vercel.app</code> public domain.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex gap-2 pt-2 border-t border-slate-100">
-        <button type="button" class="w-full py-2.5 rounded-xl bg-brand-primary text-white font-bold text-xs hover:bg-brand-primary/90" onclick="saveProductionSettings()">
-          ✓ Save & Update System
+        <button type="button" class="btn-solid-primary" style="margin-top: 6px;" onclick="saveProductionSettings()">
+          ✓ Save Settings
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Floating Toast Notification -->
-  <div id="toast-notice" class="toast-notice"></div>
+  <!-- Toast Notification Pop-up -->
+  <div id="toast-notice">✓ Text Copied!</div>
 
-  <!-- Scripts -->
+  <!-- Libraries -->
   <script src="js/piexif.min.js"></script>
   <script src="js/qrcode.min.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/i18n.js"></script>
   <script src="js/ai-engine.js"></script>
+
+  <!-- Clean Functional Controller -->
   <script src="js/app.js"></script>
 
 </body>

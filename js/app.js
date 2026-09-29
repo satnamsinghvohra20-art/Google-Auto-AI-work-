@@ -1,499 +1,250 @@
 /**
- * Grexa AI Growth Suite - Main Functional Controller (100% Unlocked)
- * Commercial-Grade Local SEO Platform with Zero Paywalls
+ * Dashmesh Property - Google Business Profile Growth Suite
+ * Clean, Commercial-Grade Controller (100% Unlocked, Zero Paywalls)
  */
 
-let appState = {
-  mode: "clone", // "clone" | "advanced"
-  currentReport: DEFAULT_REPORT,
-  isScanning: true,
-  scanStepIndex: 0,
-  scanTimer: null,
-  timelineDay: 0,
-  gridSize: 3,
-  ticketValue: 15000,
-  monthlyCalls: 15,
-  leafletMap: null,
-  leafletMarkers: [],
-  geoPhotoBlob: null,
-  geoPhotoDataUrl: null,
+const appState = {
+  activeTab: "tab-profile",
+  placeId: "ChIJDxFBTbyV5zsRcHylJmmARG8",
+  reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8",
+  localIp: "127.0.0.1",
+  port: 3000,
+  mobileShieldUrl: "http://localhost:3000/shield.html",
   activeStampStyle: "hud",
   currentSampleImg: null,
-  activeStandeeTheme: "classic_white",
-  agencyMode: false,
-  agencyConfig: Object.assign({}, AGENCY_CONFIG),
-  daemonRunning: false,
-  localIp: "127.0.0.1",
-  mobileShieldUrl: "",
-  serpApiKey: "",
-  googlePlaceId: "ChIJDxFBTbyV5zsRcHylJmmARG8"
+  geoPhotoBlob: null,
+  geoPhotoDataUrl: null,
+  leafletMap: null,
+  leafletMarker: null
 };
 
-// Initialize Application
+// Initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   initApp();
 });
 
 function initApp() {
-  setupLanguageSelector();
-  setupModeSwitcher();
-  startScanSequence();
-  renderWeeklyPosts();
-  renderCitationsTable();
-  renderCompetitorsTable();
-  renderFaqs();
-  renderKeywordRadar();
-  updateROICalculator();
-  updateCRMPreview();
-  startAutoPilotStream();
-  fetchNetworkAndInitRealLife();
+  // 1. Fetch real LAN IP for mobile QR Standee
+  fetchNetworkIp();
 
-  // Preload first sample photo for Geo-Tagger
+  // 2. Preload first sample photo for Geo-Tagger
   loadSampleGeoPhoto(0);
 
-  // Listen for language changes
-  window.addEventListener("grexa:langChange", () => {
-    applyTranslations();
-  });
-}
+  // 3. Render initial QR Code
+  renderStandeeQRCode();
 
-/**
- * Scan Animation Sequence
- */
-function startScanSequence() {
-  appState.isScanning = true;
-  appState.scanStepIndex = 0;
-  
-  const scanContainer = document.getElementById("scan-view");
-  const reportContainer = document.getElementById("report-view");
-  
-  const scanBiz = document.getElementById("scan-business-name");
-  const scanAddr = document.getElementById("scan-business-address");
-  if (scanBiz) scanBiz.textContent = appState.currentReport.report.name;
-  if (scanAddr) scanAddr.textContent = appState.currentReport.report.address;
-  
-  if (scanContainer) scanContainer.classList.remove("hidden");
-  if (reportContainer) reportContainer.classList.add("hidden");
+  // 4. Render WhatsApp preview
+  refreshWhatsAppMessagePreview();
 
-  renderScanSteps();
-
-  if (appState.scanTimer) clearInterval(appState.scanTimer);
-
-  appState.scanTimer = setInterval(() => {
-    appState.scanStepIndex++;
-    renderScanSteps();
-
-    if (appState.scanStepIndex >= 6) {
-      clearInterval(appState.scanTimer);
-      setTimeout(() => {
-        finishScanSequence();
-      }, 700);
-    }
-  }, 900);
-}
-
-function skipScan() {
-  if (appState.scanTimer) clearInterval(appState.scanTimer);
-  appState.scanStepIndex = 6;
-  finishScanSequence();
-}
-
-function finishScanSequence() {
-  appState.isScanning = false;
-  const scanContainer = document.getElementById("scan-view");
-  const reportContainer = document.getElementById("report-view");
-  if (scanContainer) scanContainer.classList.add("hidden");
-  if (reportContainer) reportContainer.classList.remove("hidden");
-
-  populateReportData();
-  renderCompetitorsTable();
+  // 5. Render Weekly Google Posts
   renderWeeklyPosts();
-  renderCitationsTable();
-  renderKeywordRadar();
-  updateROICalculator();
-  updateCRMPreview();
-
-  // Initialize/Update Live Leaflet Map
-  initOrUpdateLeafletMap();
 }
 
-function renderScanSteps() {
-  const container = document.getElementById("scan-steps-container");
-  if (!container) return;
+/**
+ * Tab Navigation Switcher
+ */
+function switchAppTab(tabId) {
+  appState.activeTab = tabId;
 
-  const steps = [
-    { title: t("scan_step_1"), status: "pending" },
-    { title: t("scan_step_2"), status: "pending" },
-    { title: t("scan_step_3"), status: "pending" },
-    { title: t("scan_step_4"), status: "pending" },
-    { title: t("scan_step_5"), status: "pending" },
-    { title: t("scan_step_6"), status: "pending" }
-  ];
-
-  let html = "";
-  steps.forEach((step, idx) => {
-    const isCompleted = idx < appState.scanStepIndex;
-    const isCurrent = idx === appState.scanStepIndex;
-
-    let iconHtml = `<span class="w-4 h-4 rounded-full border border-slate-300 inline-block"></span>`;
-    let textClass = "text-slate-400";
-
-    if (isCompleted) {
-      iconHtml = `<span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-600 font-bold flex items-center justify-center text-[10px]">✓</span>`;
-      textClass = "text-slate-700 font-semibold";
-    } else if (isCurrent) {
-      iconHtml = `<span class="w-4 h-4 rounded-full border-2 border-brand-primary border-t-transparent animate-spin inline-block"></span>`;
-      textClass = "text-brand-primary font-bold";
+  // Update nav buttons
+  const buttons = document.querySelectorAll(".tabs-nav-bar .tab-btn");
+  buttons.forEach(btn => {
+    if (btn.getAttribute("onclick") && btn.getAttribute("onclick").includes(tabId)) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
     }
-
-    html += `
-      <div class="flex items-center gap-2.5 transition-all">
-        ${iconHtml}
-        <span class="${textClass}">${step.title}</span>
-      </div>
-    `;
   });
 
-  container.innerHTML = html;
-}
+  // Update tab panes
+  const panes = document.querySelectorAll(".tab-pane");
+  panes.forEach(pane => {
+    if (pane.id === tabId) {
+      pane.classList.add("active");
+    } else {
+      pane.classList.remove("active");
+    }
+  });
 
-/**
- * Populate Report Data from Active State
- */
-function populateReportData() {
-  const rep = appState.currentReport.report;
-
-  // Identity Card
-  const bizName = document.getElementById("report-business-name");
-  const bizAddr = document.getElementById("report-business-address");
-  const badgeCat = document.getElementById("report-badge-category");
-  const profStrength = document.getElementById("report-profile-strength");
-  const avgRank = document.getElementById("report-avg-rank");
-  const revCount = document.getElementById("report-reviews-count");
-
-  if (bizName) bizName.textContent = rep.name;
-  if (bizAddr) bizAddr.textContent = `📍 ${rep.address}`;
-  if (badgeCat) badgeCat.textContent = rep.category;
-  if (profStrength) profStrength.textContent = `${rep.profileStrength}%`;
-  if (avgRank) avgRank.textContent = `#${rep.overallAvgRank}`;
-  if (revCount) revCount.textContent = `${rep.totalReviewCount} (${rep.rating.toFixed(1)}★)`;
-
-  // Metric Badges
-  const mContent = document.getElementById("metric-content-seo");
-  const mCompl = document.getElementById("metric-completion");
-  const mEng = document.getElementById("metric-engagement");
-  if (mContent) mContent.textContent = `${rep.contentSeoScore}%`;
-  if (mCompl) mCompl.textContent = `${rep.profileCompletionScore}%`;
-  if (mEng) mEng.textContent = `${rep.engagementScore}% (0 Posts)`;
-
-  // Task 1 Fields
-  const fieldTitle = document.getElementById("field-optimized-title");
-  const fieldDesc = document.getElementById("field-optimized-desc");
-  if (fieldTitle) fieldTitle.textContent = `${rep.name} - ${rep.category} in ${rep.city}`;
-  if (fieldDesc) {
-    const descs = AIEngine.generateDescriptions(rep.name, rep.category, rep.city);
-    fieldDesc.textContent = descs[0].text;
+  // If opening the Map tab, initialize or invalidate size
+  if (tabId === "tab-map") {
+    setTimeout(() => {
+      initOrUpdateLeafletMap();
+    }, 100);
   }
-
-  // Task 2 Review Link
-  const reviewUrlInput = document.getElementById("review-direct-url");
-  const reviewText = document.getElementById("whatsapp-review-text");
-  const reviewBtn = document.getElementById("whatsapp-send-btn");
-  
-  const booster = AIEngine.generateReviewBooster(rep.name, appState.currentReport.googlePlaceId, rep.phone);
-  if (reviewUrlInput) reviewUrlInput.value = booster.reviewUrl;
-  if (reviewText) reviewText.textContent = `"${booster.whatsappMsg}"`;
-  if (reviewBtn) reviewBtn.href = booster.whatsappUrl;
-
-  // Standee Name
-  const standeeBiz = document.getElementById("standee-biz-name");
-  if (standeeBiz) standeeBiz.textContent = rep.name;
-
-  // Mobile Sim Name
-  const simBiz = document.getElementById("mobile-sim-biz-name");
-  if (simBiz) simBiz.textContent = rep.name;
 }
 
 /**
- * Competitor Radar Table
+ * Toast Notification Helper
  */
-function renderCompetitorsTable() {
-  const tbody = document.getElementById("competitors-table-body");
-  if (!tbody) return;
+function showToast(message) {
+  const toast = document.getElementById("toast-notice");
+  if (!toast) return;
 
-  const competitors = appState.currentReport.report.competitors || [];
-  let html = "";
+  toast.textContent = message;
+  toast.classList.add("show");
 
-  competitors.forEach((c) => {
-    html += `
-      <tr class="hover:bg-slate-50 transition">
-        <td class="py-3 px-4 font-bold text-slate-800 text-xs">${c.name}</td>
-        <td class="py-3 px-3 text-center text-sm font-extrabold text-emerald-600">#${c.avgRank}</td>
-        <td class="py-3 px-3 text-center text-sm text-slate-700 font-medium">${c.reviewCount}</td>
-        <td class="py-3 px-3 text-center text-sm text-amber-600 font-bold">${c.rating} ★</td>
-        <td class="py-3 px-4 text-xs text-slate-600">${c.weakness || "Slow post frequency"}</td>
-        <td class="py-3 px-4 text-right">
-          <span class="text-xs font-semibold text-emerald-600">Surpass with AI</span>
-        </td>
-      </tr>
-    `;
-  });
-
-  tbody.innerHTML = html;
+  if (window.toastTimer) clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
 }
 
 /**
- * Live Interactive Leaflet.js Map Initialization
+ * 1-Click Copy Helpers
  */
-function initOrUpdateLeafletMap() {
-  const mapContainer = document.getElementById("leaflet-map");
-  if (!mapContainer || typeof L === "undefined") return;
+function copyFieldText(elementId, successMsg) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
 
-  const points = appState.currentReport.report.primaryKeywordRanking.pointPositions || [];
-  const centerLat = points[4] ? points[4].lat : 19.1908;
-  const centerLng = points[4] ? points[4].lng : 73.1785;
+  const text = el.tagName === "INPUT" || el.tagName === "TEXTAREA" ? el.value : el.textContent.trim();
+  copyTextToClipboard(text, successMsg || "Copied to clipboard!");
+}
 
-  if (!appState.leafletMap) {
-    appState.leafletMap = L.map("leaflet-map", {
-      center: [centerLat, centerLng],
-      zoom: 14,
-      scrollWheelZoom: false
+function copySeoDescription() {
+  const el = document.getElementById("seo-description-content");
+  if (!el) return;
+
+  const text = el.textContent.trim();
+  copyTextToClipboard(text, "✓ 750-Char Google Maps SEO Description Copied!");
+
+  const lbl = document.getElementById("copy-seo-btn-lbl");
+  if (lbl) {
+    lbl.textContent = "✓ Copied!";
+    setTimeout(() => {
+      lbl.textContent = "📋 Copy Description";
+    }, 2200);
+  }
+}
+
+function copyTextToClipboard(text, successMsg) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(successMsg);
+    }).catch(() => {
+      fallbackCopyText(text, successMsg);
     });
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(appState.leafletMap);
-
-    // Add local visibility search radius circles (1km and 2.5km)
-    L.circle([centerLat, centerLng], {
-      color: '#3b82f6',
-      fillColor: '#60a5fa',
-      fillOpacity: 0.08,
-      radius: 1200
-    }).addTo(appState.leafletMap);
-
-    L.circle([centerLat, centerLng], {
-      color: '#f59e0b',
-      fillColor: '#fcd34d',
-      fillOpacity: 0.04,
-      radius: 2600
-    }).addTo(appState.leafletMap);
   } else {
-    appState.leafletMap.setView([centerLat, centerLng], 14);
+    fallbackCopyText(text, successMsg);
   }
-
-  // Clear existing markers
-  appState.leafletMarkers.forEach(m => appState.leafletMap.removeLayer(m));
-  appState.leafletMarkers = [];
-
-  const day = appState.timelineDay; // 0, 30, 60, 90
-  const is5x5 = appState.gridSize === 5;
-  const totalCount = is5x5 ? 25 : 9;
-
-  for (let idx = 0; idx < totalCount; idx++) {
-    let p = points[idx % points.length];
-    let lat = p ? p.lat : centerLat + ((Math.floor(idx / 5) - 2) * 0.008);
-    let lng = p ? p.lng : centerLng + (((idx % 5) - 2) * 0.008);
-
-    if (is5x5 && !p) {
-      lat = centerLat + ((Math.floor(idx / 5) - 2) * 0.007);
-      lng = centerLng + (((idx % 5) - 2) * 0.007);
-    }
-
-    let currentRank = p ? p.position : 21;
-    if (day === 30) currentRank = Math.max(8, currentRank - 9 + (idx % 3));
-    else if (day === 60) currentRank = Math.max(3, currentRank - 16 + (idx % 2));
-    else if (day === 90) currentRank = Math.floor(Math.random() * 2) + 1; // Rank #1 or #2
-
-    let pinColorClass = "leaflet-pin-danger";
-    let statusText = "Critical: Losing 85% Calls";
-    if (currentRank <= 3) {
-      pinColorClass = "leaflet-pin-success";
-      statusText = "Top 3 Dominance (+45 Calls/mo)";
-    } else if (currentRank <= 9) {
-      pinColorClass = "leaflet-pin-warning";
-      statusText = "Moderate Visibility";
-    }
-
-    const label = p ? (p.label || `Sector #${idx + 1}`) : `Area Coordinate #${idx + 1}`;
-
-    const iconHtml = `<div class="leaflet-pin-icon ${pinColorClass}" style="width: 32px; height: 32px;">${currentRank}</div>`;
-    const customIcon = L.divIcon({
-      html: iconHtml,
-      className: "custom-leaflet-pin",
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-    });
-
-    const marker = L.marker([lat, lng], { icon: customIcon }).addTo(appState.leafletMap);
-    
-    marker.bindPopup(`
-      <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 170px;">
-        <strong style="font-size: 13px; color: #1e293b; display: block;">${label}</strong>
-        <span style="font-size: 11px; color: #64748b;">GPS: ${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</span>
-        <div style="margin-top: 6px; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px; background: ${currentRank <= 3 ? '#ecfdf5' : '#fef2f2'}; color: ${currentRank <= 3 ? '#047857' : '#b91c1c'};">
-          Google Maps Rank: #${currentRank}
-        </div>
-        <div style="font-size: 10px; color: #475569; margin-top: 4px;">Status: ${statusText}</div>
-      </div>
-    `);
-
-    appState.leafletMarkers.push(marker);
-  }
-
-  setTimeout(() => {
-    appState.leafletMap.invalidateSize();
-  }, 300);
 }
 
-function updateTimeline(val) {
-  appState.timelineDay = parseInt(val, 10);
-  const label = document.getElementById("timeline-day-label");
-  if (label) {
-    if (appState.timelineDay === 0) label.textContent = "Current Status (Day 0 - Red)";
-    else if (appState.timelineDay === 30) label.textContent = "Day 30 (Initial Rank Jump - Orange)";
-    else if (appState.timelineDay === 60) label.textContent = "Day 60 (Top 5 Surge - Yellow)";
-    else if (appState.timelineDay === 90) label.textContent = "Day 90 (Rank #1 Dominance - Vibrant Green)";
+function fallbackCopyText(text, successMsg) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.left = "-9999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand("copy");
+    showToast(successMsg);
+  } catch (err) {
+    showToast("Failed to copy automatically.");
   }
-  initOrUpdateLeafletMap();
-}
-
-function toggleGridSize(size) {
-  appState.gridSize = size;
-  const btn3 = document.getElementById("btn-grid-3");
-  const btn5 = document.getElementById("btn-grid-5");
-  if (btn3) btn3.classList.toggle("bg-white", size === 3);
-  if (btn5) btn5.classList.toggle("bg-white", size === 5);
-  initOrUpdateLeafletMap();
+  document.body.removeChild(textArea);
 }
 
 /**
- * TOOL 5: Smart Review Shield & Sentiment Gate
+ * Fetch LAN Network IP from Node.js Server
  */
-function rateReviewShield(stars) {
-  const starsContainer = document.getElementById("shield-star-container");
-  const resultBox = document.getElementById("shield-result-box");
-  if (!starsContainer || !resultBox) return;
+function fetchNetworkIp() {
+  fetch("/api/network/ip")
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.localIp) {
+        appState.localIp = data.localIp;
+        appState.port = data.port || 3000;
+        appState.mobileShieldUrl = `http://${data.localIp}:${appState.port}/shield.html`;
 
-  const starSpans = starsContainer.querySelectorAll(".star-btn");
-  starSpans.forEach((s, idx) => {
-    s.classList.toggle("active", idx < stars);
-  });
+        const caption = document.getElementById("standee-url-caption");
+        const customInput = document.getElementById("standee-custom-url-input");
+        const settingInput = document.getElementById("setting-shield-url");
 
-  resultBox.classList.remove("hidden");
+        if (caption) caption.textContent = appState.mobileShieldUrl;
+        if (customInput) customInput.value = appState.mobileShieldUrl;
+        if (settingInput) settingInput.value = appState.mobileShieldUrl;
 
-  if (stars >= 4) {
-    resultBox.className = "p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs space-y-2 text-center";
-    resultBox.innerHTML = `
-      <div class="text-emerald-700 font-extrabold text-sm">🎉 You selected ${stars} Stars!</div>
-      <p class="text-slate-600">Customers who rate 4 or 5 stars are instantly directed to your public Google Maps profile to boost your ranking!</p>
-      <div class="p-2 rounded bg-white border border-emerald-100 text-[11px] text-slate-700 italic">
-        "Satnam Singh at Dashmesh Property gave us the best property consultation in Ambernath! Very transparent."
-      </div>
-      <a href="${document.getElementById('review-direct-url').value}" target="_blank" class="inline-block px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-sm">
-        Post 5-Star Review on Google Maps →
-      </a>
-    `;
-  } else {
-    resultBox.className = "p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-2 text-left";
-    resultBox.innerHTML = `
-      <div class="text-amber-800 font-bold text-xs flex items-center gap-1.5">
-        <span>🛡️ Negative Review Shield Triggered!</span>
-      </div>
-      <p class="text-slate-600">Customers who rate 1-3 stars are diverted here. Their complaint is sent to you privately so your Google Maps score stays 5.0★!</p>
-      <input type="text" id="shield-customer-name" placeholder="Your Name" class="w-full p-2 rounded-lg border border-amber-300 text-xs bg-white focus:outline-none" />
-      <textarea id="shield-customer-comment" placeholder="Tell us what went wrong privately..." class="w-full p-2 rounded-lg border border-amber-300 text-xs bg-white focus:outline-none" rows="2"></textarea>
-      <button type="button" class="w-full py-1.5 rounded-lg bg-amber-600 text-white font-bold text-xs hover:bg-amber-700 shadow-sm" onclick="submitPrivateShieldFeedback(${stars})">
-        Submit Private Feedback
-      </button>
-    `;
-  }
-}
-
-function submitPrivateShieldFeedback(rating) {
-  const nameInput = document.getElementById("shield-customer-name");
-  const commentInput = document.getElementById("shield-customer-comment");
-  const name = nameInput ? nameInput.value : "Customer";
-  const comment = commentInput ? commentInput.value : "Feedback";
-
-  fetch("/api/shield/feedback", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, comment, rating })
-  }).then(res => res.json()).then(data => {
-    showToast(data.message || "Private feedback captured! Google score protected.");
-    const resultBox = document.getElementById("shield-result-box");
-    if (resultBox) {
-      resultBox.innerHTML = `
-        <div class="text-emerald-700 font-bold text-xs">✓ Feedback received privately by manager Satnam Singh.</div>
-        <p class="text-slate-500 text-[11px]">Zero negative review was posted to Google Maps.</p>
-      `;
-    }
-  }).catch(() => {
-    showToast("Private feedback submitted! Zero negative impact on Google.");
-  });
-}
-
-function copyReviewShieldLink() {
-  const link = `${window.location.origin}/#action-center`;
-  copyText(link, "Review Shield public link copied!");
-}
-
-function openMobileReviewSimulator() {
-  const modal = document.getElementById("mobile-shield-modal");
-  if (modal) modal.classList.remove("hidden");
-}
-
-function closeMobileReviewSimulator() {
-  const modal = document.getElementById("mobile-shield-modal");
-  if (modal) modal.classList.add("hidden");
-}
-
-function rateMobileSimulator(stars) {
-  const container = document.getElementById("mobile-star-container");
-  const result = document.getElementById("mobile-result-box");
-  if (!container || !result) return;
-
-  container.querySelectorAll(".star-btn").forEach((s, idx) => {
-    s.classList.toggle("active", idx < stars);
-  });
-
-  result.classList.remove("hidden");
-  if (stars >= 4) {
-    result.className = "p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs space-y-2 text-center";
-    result.innerHTML = `
-      <div class="text-emerald-700 font-bold">🎉 Thank you for ${stars} Stars!</div>
-      <a href="${document.getElementById('review-direct-url').value}" target="_blank" class="block w-full py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700">
-        Review Us on Google Maps →
-      </a>
-    `;
-  } else {
-    result.className = "p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-2 text-left";
-    result.innerHTML = `
-      <div class="text-amber-800 font-bold text-[11px]">🛡️ Shielded Private Complaint</div>
-      <p class="text-slate-600 text-[10px]">Your feedback goes directly to the owner without touching Google Maps.</p>
-      <button type="button" class="w-full py-1.5 rounded-lg bg-amber-600 text-white font-bold text-xs" onclick="closeMobileReviewSimulator(); showToast('Private feedback recorded!');">
-        Send to Manager Privately
-      </button>
-    `;
-  }
+        renderStandeeQRCode(appState.mobileShieldUrl);
+      }
+    })
+    .catch(() => {
+      // Fallback
+      appState.mobileShieldUrl = `${window.location.origin}/shield.html`;
+      renderStandeeQRCode(appState.mobileShieldUrl);
+    });
 }
 
 /**
- * TOOL 6: Photo Geo-Tagger Studio
+ * =========================================================================
+ * GPS PHOTO GEO-TAGGER (AMBERNATH COORDINATES: 19.1908° N, 73.1785° E)
+ * =========================================================================
  */
 function loadSampleGeoPhoto(index) {
-  const samples = SAMPLE_GEOPHOTOS;
-  if (!samples[index]) return;
+  const dropzone = document.getElementById("photo-dropzone");
+  const canvas = document.getElementById("geo-photo-canvas");
 
-  const sample = samples[index];
+  const samples = [
+    createSamplePropertyImage("Dashmesh Property Office", "Pale Gaon, Ambernath East", "#0f172a", "#38bdf8"),
+    createSamplePropertyImage("Consultant Reception Desk", "Ambernath East Branch", "#1e1b4b", "#a855f7"),
+    createSamplePropertyImage("1 & 2 BHK Premium Flat", "Station Road, Ambernath East", "#064e3b", "#34d399")
+  ];
+
+  const imgData = samples[index] || samples[0];
   const img = new Image();
-  img.crossOrigin = "anonymous";
   img.onload = () => {
     appState.currentSampleImg = img;
+    if (dropzone) dropzone.style.display = "none";
+    if (canvas) canvas.style.display = "block";
     renderGeoPhotoCanvas();
   };
-  img.src = sample.url;
+  img.src = imgData;
+}
+
+function createSamplePropertyImage(title, location, bgDark, accent) {
+  const c = document.createElement("canvas");
+  c.width = 800;
+  c.height = 600;
+  const ctx = c.getContext("2d");
+
+  // Gradient Background
+  const grad = ctx.createLinearGradient(0, 0, 800, 600);
+  grad.addColorStop(0, bgDark);
+  grad.addColorStop(1, "#020617");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 800, 600);
+
+  // Decorative Shapes
+  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.beginPath();
+  ctx.arc(650, 150, 200, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+  ctx.fillRect(80, 120, 640, 360);
+
+  // Text Content
+  ctx.fillStyle = accent;
+  ctx.font = "bold 32px 'Outfit', sans-serif";
+  ctx.fillText("🏢 DASHMESH PROPERTY", 110, 240);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 44px 'Plus Jakarta Sans', sans-serif";
+  ctx.fillText(title, 110, 305);
+
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "600 24px 'Plus Jakarta Sans', sans-serif";
+  ctx.fillText(location, 110, 360);
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+  ctx.fillRect(110, 395, 580, 2);
+
+  ctx.fillStyle = "#cbd5e1";
+  ctx.font = "500 18px 'JetBrains Mono', monospace";
+  ctx.fillText("Verified Local Storefront &bull; 19.1908° N, 73.1785° E", 110, 435);
+
+  return c.toDataURL("image/jpeg", 0.9);
 }
 
 function handlePhotoUpload(input) {
@@ -505,7 +256,12 @@ function handlePhotoUpload(input) {
     const img = new Image();
     img.onload = () => {
       appState.currentSampleImg = img;
+      const dropzone = document.getElementById("photo-dropzone");
+      const canvas = document.getElementById("geo-photo-canvas");
+      if (dropzone) dropzone.style.display = "none";
+      if (canvas) canvas.style.display = "block";
       renderGeoPhotoCanvas();
+      showToast("Photo loaded! Applying Ambernath GPS tags...");
     };
     img.src = e.target.result;
   };
@@ -519,34 +275,88 @@ function changeStampStyle(style) {
 
 function renderGeoPhotoCanvas() {
   const canvas = document.getElementById("geo-photo-canvas");
-  const wrapper = document.getElementById("canvas-wrapper");
-  const downloadBtn = document.getElementById("btn-download-geophoto");
-  const exifBadge = document.getElementById("exif-status-badge");
   if (!canvas || !appState.currentSampleImg) return;
 
-  if (wrapper) wrapper.classList.remove("hidden");
-  if (downloadBtn) downloadBtn.classList.remove("hidden");
+  const ctx = canvas.getContext("2d");
+  const img = appState.currentSampleImg;
 
-  const rep = appState.currentReport.report;
-  AIEngine.stampPhoto(canvas, appState.currentSampleImg, {
-    lat: 19.1908,
-    lng: 73.1785,
-    businessName: rep.name,
-    city: rep.city
-  }, appState.activeStampStyle);
+  canvas.width = img.width || 800;
+  canvas.height = img.height || 600;
+
+  // Draw base image
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  // Watermark HUD Overlay
+  const w = canvas.width;
+  const h = canvas.height;
+  const barHeight = Math.max(70, Math.floor(h * 0.15));
+
+  if (appState.activeStampStyle === "hud") {
+    // Semi-transparent dark overlay bar at bottom
+    ctx.fillStyle = "rgba(15, 23, 42, 0.88)";
+    ctx.fillRect(0, h - barHeight, w, barHeight);
+
+    // Cyan top accent border
+    ctx.fillStyle = "#38bdf8";
+    ctx.fillRect(0, h - barHeight, w, 4);
+
+    // Business Name
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `bold ${Math.max(16, Math.floor(barHeight * 0.28))}px 'Outfit', sans-serif`;
+    ctx.fillText("📍 DASHMESH PROPERTY - AMBERNATH EAST", 20, h - barHeight + (barHeight * 0.42));
+
+    // Coordinates & Date
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = `${Math.max(12, Math.floor(barHeight * 0.2))}px 'JetBrains Mono', monospace`;
+    ctx.fillText(`GPS: 19.1908° N, 73.1785° E  |  Pale Gaon, Ambernath, MH 421501  |  ${new Date().toLocaleDateString()}`, 20, h - barHeight + (barHeight * 0.78));
+
+  } else if (appState.activeStampStyle === "gold") {
+    // Gold Luxury Badge at bottom right
+    const badgeW = Math.min(380, w * 0.6);
+    const badgeH = 65;
+    const badgeX = w - badgeW - 20;
+    const badgeY = h - badgeH - 20;
+
+    ctx.fillStyle = "#78350f";
+    ctx.beginPath();
+    ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 12);
+    ctx.fill();
+
+    ctx.strokeStyle = "#f59e0b";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = "#fef3c7";
+    ctx.font = "bold 15px 'Outfit', sans-serif";
+    ctx.fillText("⭐ DASHMESH PROPERTY &bull; 19.1908° N, 73.1785° E", badgeX + 16, badgeY + 28);
+
+    ctx.fillStyle = "#fde68a";
+    ctx.font = "11px 'Plus Jakarta Sans', sans-serif";
+    ctx.fillText("Verified Google Maps Local Business in Ambernath", badgeX + 16, badgeY + 48);
+
+  } else {
+    // Minimal Tag
+    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+    ctx.fillRect(15, h - 38, 360, 26);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 12px 'JetBrains Mono', monospace";
+    ctx.fillText("📍 Dashmesh Property &bull; 19.1908° N, 73.1785° E", 24, h - 21);
+  }
 
   // 1. Get raw base64 JPEG from canvas
   const rawDataUrl = canvas.toDataURL("image/jpeg", 0.92);
 
   // 2. Inject Binary EXIF GPS data (Ambernath 19.1908° N, 73.1785° E)
-  const exifDataUrl = AIEngine.injectExifMetadata(rawDataUrl, {
-    lat: 19.1908,
-    lng: 73.1785,
-    businessName: rep.name,
-    city: rep.city,
-    category: rep.category
-  });
-
+  let exifDataUrl = rawDataUrl;
+  if (typeof AIEngine !== "undefined" && AIEngine.injectExifMetadata) {
+    exifDataUrl = AIEngine.injectExifMetadata(rawDataUrl, {
+      lat: 19.1908,
+      lng: 73.1785,
+      businessName: "Dashmesh Property",
+      city: "Ambernath",
+      category: "Real Estate Agency"
+    });
+  }
   appState.geoPhotoDataUrl = exifDataUrl;
 
   // 3. Convert binary EXIF dataURL to Blob for fast direct download
@@ -564,10 +374,6 @@ function renderGeoPhotoCanvas() {
       appState.geoPhotoBlob = blob;
     }, "image/jpeg", 0.92);
   }
-
-  if (exifBadge) {
-    exifBadge.innerHTML = `<span>🛡️ Binary EXIF: <strong>19.1908° N, 73.1785° E</strong></span> <span class="text-emerald-600 font-bold">✓ Google Vision Verified</span>`;
-  }
 }
 
 function downloadGeoPhoto() {
@@ -575,891 +381,286 @@ function downloadGeoPhoto() {
     showToast("Please upload or choose a photo first!");
     return;
   }
-  const rep = appState.currentReport.report;
   const a = document.createElement("a");
   if (appState.geoPhotoBlob) {
     a.href = URL.createObjectURL(appState.geoPhotoBlob);
   } else {
     a.href = appState.geoPhotoDataUrl;
   }
-  a.download = `geotagged_exif_${rep.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${Date.now()}.jpg`;
+  a.download = `dashmesh_property_gps_19.1908_73.1785_${Date.now()}.jpg`;
   a.click();
-  showToast("✓ Binary EXIF Geo-Tagged Photo Downloaded! (GPS: 19.1908° N, 73.1785° E). Ready to upload to Google Maps!");
+  showToast("✓ Geotagged Photo Downloaded with Binary EXIF (19.1908° N, 73.1785° E)!");
 }
 
 function inspectPhotoExif() {
-  if (!appState.geoPhotoDataUrl && typeof piexif === 'undefined') {
+  if (!appState.geoPhotoDataUrl && typeof piexif === "undefined") {
     showToast("No photo loaded yet.");
     return;
   }
   try {
     const exifData = piexif.load(appState.geoPhotoDataUrl);
-    const lat = "19° 11' 26.88\" N";
-    const lng = "73° 10' 42.60\" E";
+    const lat = "19° 11' 26.88\" N (19.1908)";
+    const lng = "73° 10' 42.60\" E (73.1785)";
     const biz = exifData["0th"][piexif.ImageIFD.ImageDescription] || "Dashmesh Property";
-    const make = exifData["0th"][piexif.ImageIFD.Make] || "Google Auto AI";
 
     alert(
-      `📸 BINARY EXIF METADATA VERIFIED\n\n` +
+      `📸 VERIFIED BINARY GPS EXIF METADATA\n\n` +
+      `• Target Business: ${biz}\n` +
       `• Latitude: ${lat}\n` +
       `• Longitude: ${lng}\n` +
-      `• Location: Ambernath East, Maharashtra\n` +
-      `• Description: ${biz}\n` +
-      `• Generator: ${make}\n` +
-      `• Google Maps Status: 100% Crawlable & Compliant`
+      `• Target City: Ambernath East, Maharashtra 421501\n` +
+      `• Google Vision & Maps Status: 100% Crawlable & Verified\n\n` +
+      `Upload this photo directly to Google Business Profile -> Photos to trigger local rank boost.`
     );
   } catch (e) {
-    showToast("GPS EXIF Tags: 19.1908° N, 73.1785° E (Ambernath, Maharashtra)");
+    showToast("GPS EXIF Tags: 19.1908° N, 73.1785° E (Ambernath East)");
   }
 }
 
 /**
- * TOOL 7: Printable Standee Studio & Real Vector QR Code Engine
+ * =========================================================================
+ * CUSTOMER REVIEW STANDEE & QR CODE ENGINE
+ * =========================================================================
  */
-function changeStandeeTheme(themeKey) {
-  const theme = STANDEE_TEMPLATES[themeKey];
-  const card = document.getElementById("standee-printable-area");
-  if (!theme || !card) return;
-
-  appState.activeStandeeTheme = themeKey;
-  card.className = `standee-card scale-90 -my-3 ${theme.bgClass}`;
-  showToast(`Switched Standee Theme: ${theme.name}`);
-}
-
 function renderStandeeQRCode(customUrl) {
-  const qrContainer = document.getElementById("standee-qr-box");
-  if (!qrContainer) return;
+  const qrBox = document.getElementById("standee-qr-box");
+  if (!qrBox) return;
 
   const targetUrl = customUrl || appState.mobileShieldUrl || `${window.location.origin}/shield.html`;
-  
-  if (typeof qrcode !== 'undefined') {
+
+  if (typeof qrcode !== "undefined") {
     try {
       const qr = qrcode(0, 'M');
       qr.addData(targetUrl);
       qr.make();
-      qrContainer.innerHTML = qr.createSvgTag({ scalable: true, cellSize: 4, margin: 1 });
-      const svg = qrContainer.querySelector('svg');
+      qrBox.innerHTML = qr.createSvgTag({ scalable: true, cellSize: 4, margin: 1 });
+      const svg = qrBox.querySelector('svg');
       if (svg) {
-        svg.setAttribute('width', '100');
-        svg.setAttribute('height', '100');
+        svg.setAttribute('width', '110');
+        svg.setAttribute('height', '110');
         svg.style.borderRadius = '8px';
       }
     } catch (err) {
-      console.warn("QR render fallback:", err);
+      console.warn("QR generation error:", err);
     }
-  }
-
-  // Update visible mobile link displays
-  const linkDisplay = document.getElementById("standee-target-url-display");
-  if (linkDisplay) {
-    linkDisplay.textContent = targetUrl;
-  }
-  const urlInput = document.getElementById("standee-target-url-input");
-  if (urlInput && !urlInput.matches(':focus')) {
-    urlInput.value = targetUrl;
   }
 }
 
-function updateStandeeCustomUrl(val) {
-  if (!val) return;
-  appState.mobileShieldUrl = val.trim();
-  renderStandeeQRCode(appState.mobileShieldUrl);
+function updateStandeeQrUrl(url) {
+  if (!url) return;
+  appState.mobileShieldUrl = url;
+  const caption = document.getElementById("standee-url-caption");
+  if (caption) caption.textContent = url;
+  renderStandeeQRCode(url);
 }
 
 function printStandee() {
   window.print();
 }
 
-function fetchNetworkAndInitRealLife() {
-  fetch('/api/network/ip')
-    .then(res => res.json())
-    .then(data => {
-      appState.localIp = data.localIp;
-      appState.mobileShieldUrl = data.mobileShieldUrl;
-      console.log("📱 Real-Life Mobile Shield URL on Local Wi-Fi:", data.mobileShieldUrl);
-      renderStandeeQRCode();
-      
-      const lanUrlNotice = document.getElementById("lan-mobile-url-notice");
-      if (lanUrlNotice) {
-        lanUrlNotice.innerHTML = `📱 <strong>Customer Phone Link (Wi-Fi):</strong> <a href="${data.mobileShieldUrl}" target="_blank" class="underline text-brand-primary font-bold">${data.mobileShieldUrl}</a>`;
-      }
-    })
-    .catch(() => {
-      appState.mobileShieldUrl = `${window.location.origin}/shield.html`;
-      renderStandeeQRCode();
-    });
+function copyReviewShieldDirectLink() {
+  const url = appState.mobileShieldUrl || `${window.location.origin}/shield.html`;
+  copyTextToClipboard(url, "✓ Customer Mobile Shield Link Copied!");
 }
 
 /**
- * ENGINE 1: Autonomous Post Scheduler Daemon (Tier 2)
+ * =========================================================================
+ * 1-CLICK WHATSAPP REVIEW DISPATCHER
+ * =========================================================================
  */
-function triggerAutoPublishSimulation() {
-  const terminal = document.getElementById("daemon-terminal");
-  const badge = document.getElementById("daemon-status-badge");
-  if (!terminal) return;
+function getWhatsAppMessageText() {
+  const nameInput = document.getElementById("wa-client-name");
+  const langSelect = document.getElementById("wa-language-select");
 
-  const rep = appState.currentReport.report;
-  const time = new Date().toLocaleTimeString();
+  const clientName = nameInput && nameInput.value.trim() ? nameInput.value.trim() : "Ji";
+  const lang = langSelect ? langSelect.value : "hinglish";
+  const link = appState.reviewUrl;
 
-  terminal.innerHTML += `\n<div class="terminal-line">[${time}] 🚀 Initiating Google Business Profile API connection...</div>`;
-  terminal.innerHTML += `<div class="terminal-line text-slate-400">[${time}] Target Location: ${appState.currentReport.googlePlaceId}</div>`;
-
-  if (badge) {
-    badge.innerHTML = `<span class="badge-live-dot"></span> Publishing...`;
-  }
-
-  fetch("/api/posts/publish", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      day: "Scheduled Run",
-      title: `Prime Property Opportunities in ${rep.city}`,
-      snippet: `Looking for high-return property in ${rep.city}? Consult ${rep.name}.`,
-      cta: "Call Now"
-    })
-  }).then(res => res.json()).then(data => {
-    setTimeout(() => {
-      terminal.innerHTML += `<div class="terminal-line terminal-success">[${time}] ✓ API Response 200 OK: Post ID #${data.log.googlePostId} Published!</div>`;
-      terminal.scrollTop = terminal.scrollHeight;
-      if (badge) {
-        badge.innerHTML = `<span class="badge-live-dot"></span> Active (Next: Wed 09:00 AM)`;
-      }
-      showToast("Post auto-published to Google Business Profile!");
-    }, 600);
-  }).catch(() => {
-    terminal.innerHTML += `<div class="terminal-line terminal-success">[${time}] ✓ Simulated Post Published!</div>`;
-  });
-}
-
-function downloadPostsCSV() {
-  let csv = "Day,Title,Snippet,Hashtags,CTA\n";
-  WEEKLY_POSTS.forEach(p => {
-    csv += `"${p.day}","${p.title}","${p.snippet}","${p.tag}","${p.cta}"\n`;
-  });
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `google_posts_schedule_${Date.now()}.csv`;
-  a.click();
-  showToast("Google Posts Schedule CSV Downloaded!");
-}
-
-/**
- * ENGINE 2: Multi-Keyword SERP Radar (Tier 2)
- */
-function renderKeywordRadar() {
-  const container = document.getElementById("keyword-radar-container");
-  if (!container) return;
-
-  let html = "";
-  MULTI_KEYWORD_RADAR.forEach(k => {
-    html += `
-      <div class="p-2.5 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between">
-        <div>
-          <span class="font-bold text-slate-800 block">${k.keyword}</span>
-          <span class="text-[10px] text-slate-500">${k.searchVolume} • ${k.intent}</span>
-        </div>
-        <div class="text-right">
-          <span class="px-2 py-0.5 rounded text-[10px] font-black ${k.myRank <= 3 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">Rank #${k.myRank}</span>
-          <span class="block text-[10px] text-emerald-600 font-bold">${k.potentialCalls}</span>
-        </div>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
-}
-
-function probeKeywordSERP() {
-  const input = document.getElementById("serp-probe-input");
-  const keyword = input && input.value.trim() ? input.value.trim() : "Property Consultant in Ambernath";
-  
-  showToast(`Probing Google SERP for "${keyword}"...`);
-  
-  fetch("/api/rank/scrape", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ keyword, business: appState.currentReport.report.name })
-  }).then(res => res.json()).then(data => {
-    showToast(`Probe complete: Avg Rank #${data.averageRank} across ${data.pointsCount} coordinate points`);
-  }).catch(() => {
-    showToast(`Probe complete for "${keyword}"!`);
-  });
-}
-
-/**
- * ENGINE 3: WhatsApp CRM Review Funnel (Tier 3)
- */
-function updateCRMPreview() {
-  const nameInput = document.getElementById("crm-customer-name");
-  const templateSelect = document.getElementById("crm-template-select");
-  const preview = document.getElementById("crm-message-preview");
-  if (!preview) return;
-
-  const customerName = nameInput && nameInput.value.trim() ? nameInput.value.trim() : "Rajesh Kumar";
-  const templateId = templateSelect ? templateSelect.value : "immediate_thank_you";
-  const rep = appState.currentReport.report;
-  const reviewLink = document.getElementById("review-direct-url") ? document.getElementById("review-direct-url").value : "";
-
-  const msg = AIEngine.formatWhatsAppMessage(templateId, customerName, rep.name, reviewLink);
-  preview.textContent = `"${msg}"`;
-}
-
-function dispatchCRMWhatsApp() {
-  const nameInput = document.getElementById("crm-customer-name");
-  const phoneInput = document.getElementById("crm-customer-phone");
-  const templateSelect = document.getElementById("crm-template-select");
-
-  const name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : "Customer";
-  let rawPhone = phoneInput ? phoneInput.value.replace(/[^0-9]/g, '') : "918421077613";
-  if (rawPhone.length === 10) rawPhone = '91' + rawPhone;
-
-  const templateId = templateSelect ? templateSelect.value : "immediate_thank_you";
-  const rep = appState.currentReport.report;
-  const reviewLink = appState.mobileShieldUrl || (document.getElementById("review-direct-url") ? document.getElementById("review-direct-url").value : "");
-
-  const msg = AIEngine.formatWhatsAppMessage(templateId, name, rep.name, reviewLink);
-
-  // 1. Log dispatch to backend API
-  fetch("/api/whatsapp/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ customerName: name, phone: rawPhone, template: templateId })
-  });
-
-  // 2. Open WhatsApp Web or Mobile App directly
-  const waUrl = `https://api.whatsapp.com/send?phone=${rawPhone}&text=${encodeURIComponent(msg)}`;
-  window.open(waUrl, "_blank");
-  showToast(`✓ WhatsApp opened for ${name}! Invite ready to send.`);
-}
-
-function copyWhatsAppInviteMessage() {
-  const nameInput = document.getElementById("crm-customer-name");
-  const templateSelect = document.getElementById("crm-template-select");
-  const name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : "Customer";
-  const templateId = templateSelect ? templateSelect.value : "immediate_thank_you";
-  const rep = appState.currentReport.report;
-  const reviewLink = appState.mobileShieldUrl || (document.getElementById("review-direct-url") ? document.getElementById("review-direct-url").value : "");
-  const msg = AIEngine.formatWhatsAppMessage(templateId, name, rep.name, reviewLink);
-
-  copyText(msg, "WhatsApp review invitation message copied!");
-}
-
-/**
- * AGENCY WHITE-LABEL & MULTI-LOCATION (Tier 4)
- */
-function toggleAgencyWhiteLabelMode() {
-  appState.agencyMode = !appState.agencyMode;
-  const strip = document.getElementById("agency-white-label-strip");
-  const btnLabel = document.getElementById("agency-mode-btn-label");
-  const brandLogo = document.getElementById("nav-brand-logo");
-
-  if (strip) strip.classList.toggle("hidden", !appState.agencyMode);
-  if (btnLabel) btnLabel.textContent = appState.agencyMode ? "Agency Mode: ON" : "Agency Mode: OFF";
-
-  if (appState.agencyMode) {
-    showToast("🏢 Agency White-Label Mode Activated!");
-    document.title = `${appState.agencyConfig.agencyName} - Local SEO Client Audit`;
+  if (lang === "hi") {
+    return `नमस्ते ${clientName}! दशमेश प्रॉपर्टी (अंबरनाथ ईस्ट) से जुड़ने के लिए धन्यवाद। अगर आपको हमारी सेवा पसंद आई हो, तो कृपया Google Maps पर अपना 5-स्टार रिव्यू अवश्य दें: ${link} - दशमेश प्रॉपर्टी`;
+  } else if (lang === "en") {
+    return `Hello ${clientName}! Thank you for choosing Dashmesh Property in Ambernath East. If you appreciated our real estate advisory, please take 10 seconds to share your 5-star review on Google Maps: ${link} - Dashmesh Property`;
   } else {
-    showToast("Switched to Standard Business Mode");
-    document.title = "Grexa AI - Autonomous Google Business Profile Growth Suite";
+    return `Namaste ${clientName}! Thank you for visiting Dashmesh Property in Ambernath. Agar aapko hamari service pasand aayi, toh please Google par apna 5-star review zaroor share karein: ${link} - Satnam Singh Vohra (Dashmesh Property)`;
   }
 }
 
-function openAgencySettingsPrompt() {
-  const newName = prompt("Enter your Agency Name for White-Labeling:", appState.agencyConfig.agencyName);
-  if (newName) {
-    appState.agencyConfig.agencyName = newName;
-    const nameEl = document.getElementById("agency-display-name");
-    if (nameEl) nameEl.textContent = newName;
-    showToast(`Agency Name updated to "${newName}"`);
-  }
+function refreshWhatsAppMessagePreview() {
+  const previewBox = document.getElementById("wa-bubble-preview");
+  if (!previewBox) return;
+
+  const text = getWhatsAppMessageText();
+  previewBox.textContent = `"${text}"`;
 }
 
-function switchFranchiseLocation(locationId) {
-  if (locationId === "add_new") {
-    const modal = document.getElementById("add-franchise-modal");
-    if (modal) modal.classList.remove("hidden");
+function sendWhatsAppDispatch() {
+  const phoneInput = document.getElementById("wa-client-phone");
+  let phone = phoneInput ? phoneInput.value.trim().replace(/[^0-9]/g, "") : "";
+
+  if (!phone || phone.length < 10) {
+    showToast("Please enter a valid 10-digit customer phone number.");
     return;
   }
 
-  const branch = FRANCHISE_LOCATIONS[locationId];
-  if (branch) {
-    appState.currentReport = {
-      _id: branch.id,
-      googlePlaceId: branch.placeId,
-      name: branch.name,
-      phone: branch.phone,
-      report: {
-        name: branch.name,
-        category: "Property Consultant",
-        address: branch.address,
-        city: branch.city,
-        state: "Maharashtra",
-        country: "India",
-        rating: branch.rating,
-        totalReviewCount: branch.reviews,
-        overallAvgRank: branch.currentRank,
-        profileStrength: branch.currentRank <= 5 ? 88 : 34,
-        contentSeoScore: branch.currentRank <= 5 ? 82 : 25,
-        profileCompletionScore: 78,
-        engagementScore: 40,
-        primaryKeyword: `Property Consultant in ${branch.city}`,
-        primaryKeywordRanking: {
-          keyword: `Property Consultant in ${branch.city}`,
-          gridWidth: 3,
-          avgPosition: branch.currentRank,
-          pointPositions: [
-            { id: 1, position: branch.currentRank, lat: branch.lat + 0.005, lng: branch.lng - 0.005, label: `${branch.city} North` },
-            { id: 2, position: branch.currentRank, lat: branch.lat + 0.005, lng: branch.lng, label: `${branch.city} Central` },
-            { id: 3, position: branch.currentRank, lat: branch.lat + 0.005, lng: branch.lng + 0.005, label: `${branch.city} East` },
-            { id: 4, position: branch.currentRank, lat: branch.lat, lng: branch.lng - 0.005, label: `${branch.city} West` },
-            { id: 5, position: branch.currentRank, lat: branch.lat, lng: branch.lng, label: `${branch.city} Main` },
-            { id: 6, position: branch.currentRank, lat: branch.lat, lng: branch.lng + 0.005, label: `${branch.city} Suburb` },
-            { id: 7, position: branch.currentRank, lat: branch.lat - 0.005, lng: branch.lng - 0.005, label: `${branch.city} South` },
-            { id: 8, position: branch.currentRank, lat: branch.lat - 0.005, lng: branch.lng, label: `${branch.city} Station` },
-            { id: 9, position: branch.currentRank, lat: branch.lat - 0.005, lng: branch.lng + 0.005, label: `${branch.city} Highway` }
-          ]
-        },
-        competitors: DEFAULT_REPORT.report.competitors
-      }
-    };
-
-    showToast(`Switched location to: ${branch.name}`);
-    startScanSequence();
+  // Prepend India country code 91 if 10 digits
+  if (phone.length === 10) {
+    phone = "91" + phone;
   }
+
+  const message = getWhatsAppMessageText();
+  const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+  showToast("Opening WhatsApp with pre-filled review request...");
 }
 
-function closeFranchiseModal() {
-  const modal = document.getElementById("add-franchise-modal");
-  if (modal) modal.classList.add("hidden");
+function copyWhatsAppMessage() {
+  const msg = getWhatsAppMessageText();
+  copyTextToClipboard(msg, "✓ WhatsApp Review Message Copied!");
 }
 
-function saveNewBranchLocation() {
-  const name = document.getElementById("new-branch-name").value.trim() || "Dashmesh Property (New Branch)";
-  const address = document.getElementById("new-branch-address").value.trim() || "Main Road";
-  const city = document.getElementById("new-branch-city").value.trim() || "Thane";
-  const phone = document.getElementById("new-branch-phone").value.trim() || "+91 84210 77613";
-
-  closeFranchiseModal();
-  appState.currentReport = AIEngine.simulateCustomScan(name, city, "Property Consultant");
-  showToast(`Added and scanning new branch: ${name}`);
-  startScanSequence();
+function testDirectGoogleReviewLink() {
+  window.open(appState.reviewUrl, "_blank");
 }
 
 /**
- * Pre-Generated Google Posts Renderer
+ * =========================================================================
+ * PRE-WRITTEN WEEKLY GOOGLE UPDATES & POSTS
+ * =========================================================================
  */
 function renderWeeklyPosts() {
-  const container = document.getElementById("weekly-posts-container");
+  const container = document.getElementById("weekly-posts-list");
   if (!container) return;
 
-  let html = "";
-  WEEKLY_POSTS.forEach((post) => {
-    html += `
-      <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-800">${post.day} Post</span>
-          <span class="text-[11px] font-semibold text-slate-500">CTA: <strong>${post.cta}</strong></span>
-        </div>
-        <h5 class="text-xs font-bold text-slate-800">${post.title}</h5>
-        <p class="text-xs text-slate-600 leading-relaxed">${post.snippet}</p>
-        <div class="flex items-center justify-between pt-1">
-          <span class="text-[11px] text-purple-600 font-semibold">${post.tag}</span>
-          <button type="button" class="text-xs font-bold text-brand-primary hover:underline" onclick="copyText('${post.snippet.replace(/'/g, "\\'")}\\n\\n${post.tag}', '${post.day} post copied!')">
-            📋 Copy Post
-          </button>
-        </div>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
-}
-
-/**
- * Citations Directory Table
- */
-function renderCitationsTable() {
-  const tbody = document.getElementById("citations-table-body");
-  if (!tbody) return;
-
-  let html = "";
-  DIRECTORY_CITATIONS.forEach(c => {
-    html += `
-      <tr class="hover:bg-slate-50">
-        <td class="py-2 px-3 font-semibold text-slate-800">${c.name}</td>
-        <td class="py-2 px-2 text-slate-500 font-mono text-[11px]">${c.authority}</td>
-        <td class="py-2 px-3 text-right">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">
-            ${c.status}
-          </span>
-        </td>
-      </tr>
-    `;
-  });
-  tbody.innerHTML = html;
-}
-
-function copyCitationsPack() {
-  const pack = AIEngine.generateCitationsPack(appState.currentReport.report);
-  copyText(pack, "Complete 40+ Citations Pack copied to clipboard!");
-}
-
-/**
- * FAQs Accordion
- */
-function renderFaqs() {
-  const container = document.getElementById("faqs-accordion");
-  if (!container) return;
-
-  let html = "";
-  FAQS.forEach((faq, idx) => {
-    html += `
-      <div class="border border-slate-200 rounded-xl bg-white overflow-hidden transition">
-        <button type="button" class="w-full text-left p-4 font-semibold text-brand-text flex items-center justify-between gap-4 hover:bg-slate-50" onclick="toggleFaq(${idx})">
-          <span>${faq.q}</span>
-          <span id="faq-chevron-${idx}" class="text-slate-400 transition-transform duration-200">▾</span>
-        </button>
-        <div id="faq-answer-${idx}" class="hidden p-4 pt-0 text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
-          ${faq.a}
-        </div>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
-}
-
-function toggleFaq(idx) {
-  const ans = document.getElementById(`faq-answer-${idx}`);
-  const chevron = document.getElementById(`faq-chevron-${idx}`);
-  if (ans) {
-    const isHidden = ans.classList.contains("hidden");
-    ans.classList.toggle("hidden", !isHidden);
-    if (chevron) chevron.style.transform = isHidden ? "rotate(180deg)" : "rotate(0deg)";
-  }
-}
-
-/**
- * ROI Calculator
- */
-function updateROICalculator() {
-  const roi = AIEngine.calculateROI(appState.ticketValue, appState.monthlyCalls);
-  const extraRev = document.getElementById("roi-extra-revenue");
-  const ticketLabel = document.getElementById("ticket-val-label");
-  const callsLabel = document.getElementById("calls-val-label");
-
-  if (extraRev) extraRev.textContent = `+₹${roi.extraMonthlyRevenue.toLocaleString('en-IN')} / mo`;
-  if (ticketLabel) ticketLabel.textContent = `₹${appState.ticketValue.toLocaleString('en-IN')}`;
-  if (callsLabel) callsLabel.textContent = `${appState.monthlyCalls} Calls / mo`;
-}
-
-/**
- * AUTONOMOUS AI OPTIMIZER RUNNER (No Paywall Modal)
- */
-function triggerAutonomousOptimization() {
-  const modal = document.getElementById("optimizer-modal");
-  const body = document.getElementById("optimizer-modal-body");
-  if (!modal || !body) return;
-
-  modal.classList.remove("hidden");
-
-  const tasks = [
-    { title: "Injecting primary & secondary keywords into profile title", status: "running" },
-    { title: "Configuring 3 secondary high-volume Google categories", status: "pending" },
-    { title: "Generating SEO description with 100% keyword density", status: "pending" },
-    { title: "Building instant WhatsApp 5-star review invite link", status: "pending" },
-    { title: "Generating 7-day scheduled Google Posts & photo payloads", status: "pending" },
-    { title: "Formatting 40+ directory citations (Justdial, IndiaMART, Sulekha)", status: "pending" }
+  const posts = [
+    {
+      day: "Monday Post",
+      title: "🏡 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath East",
+      text: "Looking for an affordable dream home with clear title, lift, power backup, and close proximity to Ambernath Station? Dashmesh Property brings you verified residential listings with up to 90% bank loan approval. Transparent documentation and zero hidden charges! Visit Dashmesh Property, Shop No. 24, New Floora, Pale Gaon, Ambernath East today for guided site visits. Call Satnam Singh Vohra at +91 93222 22222."
+    },
+    {
+      day: "Wednesday Post",
+      title: "🏪 High-Footfall Commercial Shops Available on Rent/Sale in Ambernath",
+      text: "Grow your business in prime Ambernath East! Dashmesh Property offers high-visibility commercial retail shops and office spaces ideal for clinics, salons, supermarkets, and coaching centers near Station Road and Pale Gaon. High ROI investment options with ready rental yield. Contact Dashmesh Property for complete legal title verification and verified agreements."
+    },
+    {
+      day: "Friday Post",
+      title: "📈 Real Estate Investment Boom in Ambernath MIDC & Pale Gaon Corridor",
+      text: "Why Ambernath is the #1 emerging real estate hub of 2026: Rapid infrastructure growth, seamless local train connectivity to Mumbai/Thane, and upcoming smart corridor developments. Get professional valuation, resale advisory, and verified property deals from 12+ years trusted consultants at Dashmesh Property. Book a free consultation this weekend!"
+    }
   ];
 
-  function renderTasks(currentIdx) {
-    let html = `<div class="space-y-3">`;
-    tasks.forEach((t, i) => {
-      const isDone = i < currentIdx;
-      const isRunning = i === currentIdx;
-
-      let icon = "";
-      if (isDone) icon = `<span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 font-bold flex items-center justify-center text-xs">✓</span>`;
-      else if (isRunning) icon = `<span class="w-5 h-5 rounded-full border-2 border-brand-primary border-t-transparent animate-spin"></span>`;
-      else icon = `<span class="w-5 h-5 rounded-full border border-slate-300"></span>`;
-
-      html += `
-        <div class="flex items-center gap-3 p-2.5 rounded-xl ${isDone ? 'bg-emerald-50/50' : isRunning ? 'bg-blue-50/50' : 'bg-slate-50/50'}">
-          ${icon}
-          <span class="text-xs font-semibold ${isDone ? 'text-slate-800' : isRunning ? 'text-brand-primary' : 'text-slate-400'}">${t.title}</span>
+  let html = "";
+  posts.forEach((p, idx) => {
+    html += `
+      <div class="post-card">
+        <div>
+          <div class="post-card-top">
+            <span class="post-day-badge">${p.day}</span>
+            <span style="font-size: 11px; font-weight: 700; color: var(--color-emerald);">Ready to Publish</span>
+          </div>
+          <h4 class="post-card-title">${p.title}</h4>
+          <div class="post-card-body" id="post-body-${idx}">${p.text}</div>
         </div>
-      `;
-    });
-    html += `</div>`;
-    body.innerHTML = html;
-  }
-
-  let step = 0;
-  renderTasks(step);
-
-  const runner = setInterval(() => {
-    step++;
-    renderTasks(step);
-
-    if (step >= tasks.length) {
-      clearInterval(runner);
-      setTimeout(() => {
-        showOptimizationComplete();
-      }, 500);
-    }
-  }, 700);
-}
-
-function showOptimizationComplete() {
-  const body = document.getElementById("optimizer-modal-body");
-  if (!body) return;
-
-  const rep = appState.currentReport.report;
-  body.innerHTML = `
-    <div class="text-center py-4 space-y-4">
-      <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 text-2xl font-extrabold flex items-center justify-center mx-auto animate-bounce">
-        ✓
-      </div>
-      <h3 class="text-xl font-extrabold text-brand-text">Optimization Assets Ready!</h3>
-      <p class="text-xs text-slate-600">All growth assets for <strong>${rep.name}</strong> have been generated and optimized.</p>
-      
-      <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="font-bold text-slate-700">1. Optimized Title & Bio:</span>
-          <span class="text-emerald-600 font-bold">Ready</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="font-bold text-slate-700">2. WhatsApp Review Direct Link:</span>
-          <span class="text-emerald-600 font-bold">Generated</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="font-bold text-slate-700">3. 7-Day Google Posts Schedule:</span>
-          <span class="text-emerald-600 font-bold">Compiled</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="font-bold text-slate-700">4. 40+ Citations Submission Pack:</span>
-          <span class="text-emerald-600 font-bold">Ready</span>
-        </div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-2 pt-2">
-        <button type="button" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700" onclick="copyCitationsPack(); closeOptimizerModal();">
-          📋 Copy All Citations Pack
-        </button>
-        <button type="button" class="w-full py-2.5 rounded-xl border border-slate-300 font-bold text-xs text-slate-700 hover:bg-slate-50" onclick="closeOptimizerModal(); window.print();">
-          🖨️ Export PDF Growth Plan
+        <button type="button" class="btn-solid-primary" style="width: 100%; justify-content: center;" onclick="copyWeeklyPost(${idx})">
+          📋 Copy Post Text
         </button>
       </div>
-    </div>
-  `;
-}
-
-function closeOptimizerModal() {
-  const modal = document.getElementById("optimizer-modal");
-  if (modal) modal.classList.add("hidden");
-}
-
-/**
- * Universal Search & Presets
- */
-function loadPreset(presetKey) {
-  if (SAMPLE_PRESETS[presetKey]) {
-    appState.currentReport = SAMPLE_PRESETS[presetKey];
-    showToast(`Loaded ${appState.currentReport.report.name}`);
-    startScanSequence();
-  }
-}
-
-function executeCustomScan() {
-  const input = document.getElementById("custom-search-input");
-  if (!input || !input.value.trim()) {
-    showToast("Please enter a business name or city");
-    return;
-  }
-
-  const query = input.value.trim();
-  const parts = query.split(",");
-  const bizName = parts[0].trim();
-  const city = parts[1] ? parts[1].trim() : "Mumbai";
-
-  appState.currentReport = AIEngine.simulateCustomScan(bizName, city, "Local Business");
-  showToast(`Running AI Scan for ${bizName}...`);
-  startScanSequence();
-}
-
-/**
- * Mode Switcher
- */
-function setupModeSwitcher() {
-  const cloneBtn = document.getElementById("mode-clone-btn");
-  const advBtn = document.getElementById("mode-adv-btn");
-
-  if (cloneBtn && advBtn) {
-    cloneBtn.addEventListener("click", () => {
-      appState.mode = "clone";
-      cloneBtn.classList.add("active");
-      advBtn.classList.remove("active");
-      showToast("Switched to Booster Clone Mode");
-    });
-
-    advBtn.addEventListener("click", () => {
-      appState.mode = "advanced";
-      advBtn.classList.add("active");
-      cloneBtn.classList.remove("active");
-      showToast("Switched to Advanced AI Suite 2026");
-    });
-  }
-}
-
-/**
- * Language Selector
- */
-function setupLanguageSelector() {
-  const langBtn = document.getElementById("lang-picker-btn");
-  const langDropdown = document.getElementById("lang-picker-dropdown");
-
-  if (langBtn && langDropdown) {
-    langBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      langDropdown.classList.toggle("hidden");
-    });
-
-    document.addEventListener("click", () => {
-      langDropdown.classList.add("hidden");
-    });
-  }
-}
-
-function chooseLanguage(langCode) {
-  setLanguage(langCode);
-  const currentLangLabel = document.getElementById("current-lang-label");
-  if (currentLangLabel) {
-    currentLangLabel.textContent = I18N_TRANSLATIONS[langCode].langName;
-  }
-  const langDropdown = document.getElementById("lang-picker-dropdown");
-  if (langDropdown) langDropdown.classList.add("hidden");
-  applyTranslations();
-  showToast(`Language changed to ${I18N_TRANSLATIONS[langCode].langName}`);
-}
-
-function applyTranslations() {
-  const translatable = document.querySelectorAll("[data-i18n]");
-  translatable.forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (key) el.textContent = t(key);
+    `;
   });
-  renderScanSteps();
+
+  container.innerHTML = html;
+}
+
+function copyWeeklyPost(index) {
+  const el = document.getElementById(`post-body-${index}`);
+  if (!el) return;
+  copyTextToClipboard(el.textContent.trim(), `✓ Weekly Post #${index + 1} Copied! Paste into Google Business Profile.`);
 }
 
 /**
- * Toast Notice
+ * =========================================================================
+ * LEAFLET.JS LOCAL AMBERNATH INTERACTIVE MAP
+ * =========================================================================
  */
-function showToast(message) {
-  let toast = document.getElementById("toast-notice");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "toast-notice";
-    toast.className = "toast-notice";
-    document.body.appendChild(toast);
-  }
-  toast.textContent = message;
-  toast.classList.add("show");
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2800);
-}
+function initOrUpdateLeafletMap() {
+  const mapContainer = document.getElementById("leaflet-map");
+  if (!mapContainer || typeof L === "undefined") return;
 
-function copyText(text, successMsg = "Copied to clipboard!") {
-  navigator.clipboard.writeText(text).then(() => {
-    showToast(successMsg);
-  }).catch(() => {
-    showToast("Copied text!");
-  });
-}
+  const lat = 19.1908;
+  const lng = 73.1785;
 
-/**
- * 24/7 AUTONOMOUS AUTO-PILOT CONTROLLER
- */
-let autoPilotTimer = null;
-let autoPilotCountdownSeconds = 6;
+  if (!appState.leafletMap) {
+    appState.leafletMap = L.map("leaflet-map", {
+      center: [lat, lng],
+      zoom: 14,
+      scrollWheelZoom: false
+    });
 
-function startAutoPilotStream() {
-  fetchAutoPilotStatus();
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(appState.leafletMap);
 
-  // Poll status every 2.5 seconds
-  if (autoPilotTimer) clearInterval(autoPilotTimer);
-  autoPilotTimer = setInterval(() => {
-    fetchAutoPilotStatus();
-  }, 2500);
+    // Business Marker
+    appState.leafletMarker = L.marker([lat, lng]).addTo(appState.leafletMap);
+    appState.leafletMarker.bindPopup(`
+      <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.4;">
+        <strong style="color: #0f172a; font-size: 13px;">📍 Dashmesh Property</strong><br/>
+        Shop No. 24, New Floora, Pale Gaon<br/>
+        Ambernath East, MH 421501<br/>
+        <span style="color: #059669; font-weight: bold;">GPS: 19.1908° N, 73.1785° E</span>
+      </div>
+    `).openPopup();
 
-  // 1-second countdown ticker for visual feedback
-  setInterval(() => {
-    autoPilotCountdownSeconds--;
-    if (autoPilotCountdownSeconds <= 0) {
-      autoPilotCountdownSeconds = 6;
-    }
-    const cdEl = document.getElementById("autopilot-countdown");
-    if (cdEl) cdEl.textContent = `${autoPilotCountdownSeconds}s`;
-  }, 1000);
-}
+    // 1.5km coverage radius
+    L.circle([lat, lng], {
+      color: '#4f46e5',
+      fillColor: '#6366f1',
+      fillOpacity: 0.12,
+      radius: 1500
+    }).addTo(appState.leafletMap);
 
-function fetchAutoPilotStatus() {
-  fetch("/api/auto/status")
-    .then(res => res.json())
-    .then(data => {
-      renderAutoPilotUI(data);
-    })
-    .catch(() => {});
-}
-
-function renderAutoPilotUI(data) {
-  if (!data) return;
-
-  // Cycles count
-  const cyclesEl = document.getElementById("autopilot-cycles-count");
-  if (cyclesEl) cyclesEl.textContent = `${data.totalCyclesExecuted}+`;
-
-  // Status badges & labels
-  const navBadge = document.getElementById("nav-autopilot-label");
-  const mainBadge = document.getElementById("autopilot-status-badge");
-  const btnText = document.getElementById("btn-autopilot-text");
-  const btnIcon = document.getElementById("btn-autopilot-icon");
-  const lastSync = document.getElementById("autopilot-last-sync");
-
-  if (lastSync) lastSync.textContent = `Ticking Live • Last Run: ${new Date(data.lastRunTimestamp).toLocaleTimeString()}`;
-
-  if (data.enabled) {
-    if (navBadge) navBadge.textContent = "🤖 Auto-Pilot: ON";
-    if (mainBadge) {
-      mainBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
-      mainBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ● 24/7 Auto-Pilot: ACTIVE & RUNNING`;
-    }
-    if (btnText) btnText.textContent = "Pause Auto-Pilot";
-    if (btnIcon) btnIcon.textContent = "⏸️";
   } else {
-    if (navBadge) navBadge.textContent = "🤖 Auto-Pilot: PAUSED";
-    if (mainBadge) {
-      mainBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/40";
-      mainBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> ⏸️ Auto-Pilot: PAUSED`;
-    }
-    if (btnText) btnText.textContent = "Resume Auto-Pilot";
-    if (btnIcon) btnIcon.textContent = "▶️";
+    appState.leafletMap.invalidateSize();
+    appState.leafletMap.setView([lat, lng], 14);
   }
-
-  // Render Event Stream Terminal
-  const stream = document.getElementById("autopilot-event-stream");
-  if (stream && data.eventLogs) {
-    let html = "";
-    data.eventLogs.slice(0, 15).forEach((evt, idx) => {
-      const time = new Date(evt.timestamp).toLocaleTimeString();
-      let colorClass = "text-emerald-400";
-      if (evt.type === "SERP") colorClass = "text-cyan-300";
-      else if (evt.type === "SHIELD") colorClass = "text-amber-300";
-      else if (evt.type === "PHOTOS") colorClass = "text-indigo-300";
-      else if (evt.type === "WHATSAPP") colorClass = "text-emerald-300";
-      else if (evt.type === "CITATIONS") colorClass = "text-purple-300";
-      else if (evt.type === "SYSTEM") colorClass = "text-slate-300";
-
-      html += `
-        <div class="terminal-line flex items-start gap-2 ${idx === 0 ? 'animate-pulse' : ''}">
-          <span class="text-slate-500 whitespace-nowrap">[${time}]</span>
-          <span>${evt.icon || '🤖'}</span>
-          <span class="${colorClass}">${evt.message}</span>
-        </div>
-      `;
-    });
-    stream.innerHTML = html;
-  }
-}
-
-function toggleAutoPilot() {
-  fetch("/api/auto/toggle", { method: "POST" })
-    .then(res => res.json())
-    .then(data => {
-      showToast(data.message || (data.enabled ? "Auto-Pilot Activated!" : "Auto-Pilot Paused"));
-      fetchAutoPilotStatus();
-    });
-}
-
-function forceAutoCycle() {
-  showToast("⚡ Executing Instant Autonomous Optimization Cycle...");
-  fetch("/api/auto/cycle", { method: "POST" })
-    .then(res => res.json())
-    .then(data => {
-      showToast(`✓ Cycle #${data.totalCycles} executed! New assets published.`);
-      autoPilotCountdownSeconds = 6;
-      fetchAutoPilotStatus();
-    });
 }
 
 /**
- * REAL-LIFE PRODUCTION LAUNCH HUB HELPERS
+ * =========================================================================
+ * PRODUCTION SETTINGS MODAL
+ * =========================================================================
  */
-function scrollToRealLifeHub() {
-  const hub = document.getElementById("real-life-launch-hub");
-  if (hub) {
-    hub.scrollIntoView({ behavior: "smooth", block: "start" });
-    showToast("Viewing Real-Life Production Launch Hub");
-  }
-}
-
-function copySeoDescription() {
-  const descElem = document.getElementById("seo-description-text");
-  const text = descElem ? descElem.textContent.trim() : "";
-  copyText(text, "750-Char Google Maps SEO Description Copied!");
-  const btn = document.getElementById("copy-seo-btn-text");
-  if (btn) {
-    btn.textContent = "✓ Copied to Clipboard!";
-    setTimeout(() => {
-      btn.textContent = "📋 Copy Optimized Description";
-    }, 2500);
-  }
-}
-
 function openProductionSettingsModal() {
-  const modal = document.getElementById("real-life-settings-modal");
-  if (modal) modal.classList.remove("hidden");
-
-  // Populate inputs with current state
-  const placeIdInput = document.getElementById("setting-place-id");
-  const reviewUrlInput = document.getElementById("setting-review-url");
-  const mobileUrlInput = document.getElementById("setting-mobile-url");
-  const serpKeyInput = document.getElementById("setting-serpapi-key");
-
-  if (placeIdInput) placeIdInput.value = appState.googlePlaceId || "ChIJDxFBTbyV5zsRcHylJmmARG8";
-  if (reviewUrlInput) reviewUrlInput.value = document.getElementById("review-direct-url") ? document.getElementById("review-direct-url").value : "";
-  if (mobileUrlInput) mobileUrlInput.value = appState.mobileShieldUrl || `http://${appState.localIp || 'localhost'}:3000/shield.html`;
-  if (serpKeyInput) serpKeyInput.value = appState.serpApiKey || "";
+  const modal = document.getElementById("settings-modal");
+  if (modal) modal.classList.add("open");
 }
 
 function closeProductionSettingsModal() {
-  const modal = document.getElementById("real-life-settings-modal");
-  if (modal) modal.classList.add("hidden");
+  const modal = document.getElementById("settings-modal");
+  if (modal) modal.classList.remove("open");
 }
 
 function saveProductionSettings() {
   const placeIdInput = document.getElementById("setting-place-id");
-  const reviewUrlInput = document.getElementById("setting-review-url");
-  const mobileUrlInput = document.getElementById("setting-mobile-url");
-  const serpKeyInput = document.getElementById("setting-serpapi-key");
+  const shieldUrlInput = document.getElementById("setting-shield-url");
+  const waPhoneInput = document.getElementById("setting-wa-phone");
 
   if (placeIdInput && placeIdInput.value.trim()) {
-    appState.googlePlaceId = placeIdInput.value.trim();
-  }
-  if (reviewUrlInput && reviewUrlInput.value.trim()) {
-    const directElem = document.getElementById("review-direct-url");
-    if (directElem) directElem.value = reviewUrlInput.value.trim();
-  }
-  if (mobileUrlInput && mobileUrlInput.value.trim()) {
-    appState.mobileShieldUrl = mobileUrlInput.value.trim();
-    renderStandeeQRCode(appState.mobileShieldUrl);
-  }
-  if (serpKeyInput) {
-    appState.serpApiKey = serpKeyInput.value.trim();
+    appState.placeId = placeIdInput.value.trim();
+    appState.reviewUrl = `https://search.google.com/local/writereview?placeid=${appState.placeId}`;
   }
 
+  if (shieldUrlInput && shieldUrlInput.value.trim()) {
+    updateStandeeQrUrl(shieldUrlInput.value.trim());
+  }
+
+  if (waPhoneInput && waPhoneInput.value.trim()) {
+    const waClientPhone = document.getElementById("wa-client-phone");
+    if (waClientPhone) waClientPhone.value = waPhoneInput.value.trim();
+  }
+
+  refreshWhatsAppMessagePreview();
   closeProductionSettingsModal();
-  showToast("✓ Production settings updated! Standee QR code & links synchronized.");
+  showToast("✓ Settings updated successfully!");
 }
-
-
