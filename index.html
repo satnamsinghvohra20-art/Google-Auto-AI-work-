@@ -672,6 +672,40 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
           <span style="font-size: 11px; color: var(--color-text-muted);">Encoded into the QR Standee for customer review collection</span>
         </div>
 
+        <!-- Meta WhatsApp Cloud API Credentials Section -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 12px; font-weight: 800; color: #0f172a;">💬 Meta WhatsApp Cloud API Setup</span>
+            <span style="font-size: 10px; font-weight: 700; background: #e0e7ff; color: #4338ca; padding: 2px 6px; border-radius: 4px;">Live Integration</span>
+          </div>
+
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 2px;">Meta Phone Number ID:</label>
+            <input type="text" id="setting-meta-phone-id" class="input-styled" placeholder="e.g. 104820177613942" value="" />
+            <span style="font-size: 10px; color: var(--color-text-muted);">From Meta for Developers &rarr; WhatsApp &rarr; API Setup</span>
+          </div>
+
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 2px;">Meta Permanent Access Token:</label>
+            <input type="password" id="setting-meta-access-token" class="input-styled" placeholder="Paste EAA... token here" value="" />
+            <span style="font-size: 10px; color: var(--color-text-muted);">From Meta Business Settings &rarr; System Users &rarr; Generate Token</span>
+          </div>
+
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 2px;">Webhook Callback URL:</label>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="setting-meta-webhook-url" class="input-styled" style="font-family: monospace; font-size: 11px;" value="http://localhost:3000/api/whatsapp/webhook" />
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('setting-meta-webhook-url', 'Webhook URL Copied!')">📋 Copy</button>
+            </div>
+            <span style="font-size: 10px; color: var(--color-text-muted);">Paste in Meta Developer Portal &rarr; WhatsApp &rarr; Configuration &rarr; Webhook</span>
+          </div>
+
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 2px;">Webhook Verify Token:</label>
+            <input type="text" id="setting-meta-verify-token" class="input-styled" value="dashmesh_auto_whatsapp_2026" />
+          </div>
+        </div>
+
         <button type="button" class="btn-solid-primary" style="margin-top: 6px; padding: 12px;" onclick="saveProductionSettings()">
           ✓ Save Settings & Update Bot
         </button>

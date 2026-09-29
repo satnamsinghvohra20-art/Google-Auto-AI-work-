@@ -528,6 +528,13 @@ function loadWhatsAppConversations() {
         const verifyToken = document.getElementById("meta-verify-token");
         if (webhookUrl && data.config.webhookUrl) webhookUrl.textContent = data.config.webhookUrl;
         if (verifyToken && data.config.verifyToken) verifyToken.textContent = data.config.verifyToken;
+
+        const metaPhoneIdInput = document.getElementById("setting-meta-phone-id");
+        const metaVerifyTokenInput = document.getElementById("setting-meta-verify-token");
+        const metaWebhookUrlInput = document.getElementById("setting-meta-webhook-url");
+        if (metaPhoneIdInput && data.config.phoneNumberId) metaPhoneIdInput.value = data.config.phoneNumberId;
+        if (metaVerifyTokenInput && data.config.verifyToken) metaVerifyTokenInput.value = data.config.verifyToken;
+        if (metaWebhookUrlInput && data.config.webhookUrl) metaWebhookUrlInput.value = data.config.webhookUrl;
       }
     })
     .catch(() => {
@@ -972,6 +979,14 @@ function saveProductionSettings() {
     if (waClientPhone) waClientPhone.value = phone;
   }
 
+  const metaPhoneIdInput = document.getElementById("setting-meta-phone-id");
+  const metaTokenInput = document.getElementById("setting-meta-access-token");
+  const metaVerifyInput = document.getElementById("setting-meta-verify-token");
+
+  const phoneNumberId = metaPhoneIdInput ? metaPhoneIdInput.value.trim() : "";
+  const accessToken = metaTokenInput ? metaTokenInput.value.trim() : "";
+  const verifyToken = metaVerifyInput ? metaVerifyInput.value.trim() : "dashmesh_auto_whatsapp_2026";
+
   // Persist locally in browser
   try {
     localStorage.setItem("dashmesh_office_config", JSON.stringify({
@@ -979,23 +994,30 @@ function saveProductionSettings() {
       officeLandmark,
       officeTimings,
       phone,
-      placeId: appState.placeId
+      placeId: appState.placeId,
+      phoneNumberId,
+      verifyToken
     }));
   } catch(e) {}
 
   // Sync with backend server
+  const payload = {
+    officeAddress,
+    officeLandmark,
+    officeTimings,
+    phone
+  };
+  if (phoneNumberId) payload.phoneNumberId = phoneNumberId;
+  if (accessToken) payload.accessToken = accessToken;
+  if (verifyToken) payload.verifyToken = verifyToken;
+
   fetch("/api/whatsapp/config", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      officeAddress,
-      officeLandmark,
-      officeTimings,
-      phone
-    })
+    body: JSON.stringify(payload)
   }).catch(() => {});
 
   refreshWhatsAppMessagePreview();
   closeProductionSettingsModal();
-  showToast("✓ Office address, timings & WhatsApp bot updated!");
+  showToast("✓ Office address, Meta credentials & WhatsApp bot updated!");
 }
