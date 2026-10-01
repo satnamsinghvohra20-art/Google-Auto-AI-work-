@@ -686,9 +686,15 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
           </div>
 
           <div>
-            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 2px;">Meta Permanent Access Token:</label>
-            <input type="password" id="setting-meta-access-token" class="input-styled" placeholder="Paste EAA... token here" value="" />
-            <span style="font-size: 10px; color: var(--color-text-muted);">From Meta Business Settings &rarr; System Users &rarr; Generate Token</span>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 2px;">Meta Access Token (Temporary or Permanent System User):</label>
+            <div style="display: flex; gap: 6px;">
+              <input type="password" id="setting-meta-access-token" class="input-styled" placeholder="Paste EAA... token here" value="" />
+              <button type="button" class="btn-copy-small" style="white-space: nowrap; font-weight: 700;" onclick="testMetaTokenLive()">⚡ Test Token</button>
+            </div>
+            <div id="meta-token-status" style="font-size: 11px; margin-top: 4px; display: none;"></div>
+            <span style="font-size: 10px; color: var(--color-text-muted); display: block; margin-top: 2px;">
+              💡 <em>Temporary tokens expire in 24 hrs. For non-stop 24/7 WhatsApp, use a Permanent System User token from Meta Business Suite.</em>
+            </span>
           </div>
 
           <div>

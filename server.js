@@ -33,6 +33,28 @@ if (fs.existsSync(envPath)) {
   }
 }
 
+function updateEnvFile(updates) {
+  try {
+    let content = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8') : '';
+    for (const [key, val] of Object.entries(updates)) {
+      if (val === undefined || val === null) continue;
+      process.env[key] = String(val);
+      const regex = new RegExp(`^${key}=.*$`, 'm');
+      if (regex.test(content)) {
+        content = content.replace(regex, `${key}=${val}`);
+      } else {
+        content += (content.endsWith('\n') || !content ? '' : '\n') + `${key}=${val}\n`;
+      }
+    }
+    fs.writeFileSync(envPath, content, 'utf8');
+    console.log('[System] .env updated successfully with keys:', Object.keys(updates).join(', '));
+    return true;
+  } catch (err) {
+    console.warn('[System] Failed to update .env:', err.message);
+    return false;
+  }
+}
+
 function getLocalIpAddress() {
   const interfaces = os.networkInterfaces();
   for (const devName of Object.keys(interfaces)) {
@@ -163,13 +185,18 @@ const whatsappConversations = [
 ];
 
 function sendMetaWhatsAppMessage(toPhone, messageText, config) {
-  if (!config.accessToken || !config.phoneNumberId) return;
+  if (!config.accessToken || !config.phoneNumberId) {
+    console.warn('[Meta WhatsApp] Missing accessToken or phoneNumberId, skipping dispatch.');
+    return;
+  }
 
+  const cleanPhone = toPhone.replace(/[^0-9]/g, '');
   const postData = JSON.stringify({
     messaging_product: 'whatsapp',
-    to: toPhone.replace(/[^0-9]/g, ''),
+    recipient_type: 'individual',
+    to: cleanPhone,
     type: 'text',
-    text: { body: messageText }
+    text: { preview_url: false, body: messageText }
   });
 
   const options = {
@@ -188,12 +215,47 @@ function sendMetaWhatsAppMessage(toPhone, messageText, config) {
     let responseBody = '';
     res.on('data', chunk => responseBody += chunk);
     res.on('end', () => {
-      console.log(`[Meta WhatsApp] Dispatched to ${toPhone}: status ${res.statusCode}`);
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        console.log(`[Meta WhatsApp] Dispatched to +${cleanPhone}: status ${res.statusCode}`);
+      } else {
+        console.error(`[Meta WhatsApp] Dispatch failed (${res.statusCode}):`, responseBody);
+        let errorDetail = `HTTP ${res.statusCode}`;
+        try {
+          const errObj = JSON.parse(responseBody);
+          if (errObj && errObj.error) {
+            errorDetail = errObj.error.message || errorDetail;
+            if (errObj.error.code === 190) {
+              errorDetail += ' (Token Expired. Please update Meta Access Token)';
+            }
+          }
+        } catch (_) {}
+
+        if (typeof autoPilotState !== 'undefined' && autoPilotState.eventLogs) {
+          autoPilotState.eventLogs.unshift({
+            id: 'evt_err_wa_' + Date.now(),
+            timestamp: new Date().toISOString(),
+            type: 'ERROR',
+            icon: '⚠️',
+            message: `[WhatsApp Error] Delivery failed to +${cleanPhone}: ${errorDetail}`,
+            status: 'error'
+          });
+        }
+      }
     });
   });
 
   req.on('error', (e) => {
-    console.error(`[Meta WhatsApp] Dispatch error:`, e.message);
+    console.error(`[Meta WhatsApp] Dispatch network error:`, e.message);
+    if (typeof autoPilotState !== 'undefined' && autoPilotState.eventLogs) {
+      autoPilotState.eventLogs.unshift({
+        id: 'evt_err_wa_' + Date.now(),
+        timestamp: new Date().toISOString(),
+        type: 'ERROR',
+        icon: '⚠️',
+        message: `[WhatsApp Network Error] ${e.message}`,
+        status: 'error'
+      });
+    }
   });
 
   req.write(postData);
@@ -701,8 +763,12 @@ const server = http.createServer((req, res) => {
           });
           conv.lastUpdated = new Date().toISOString();
 
-          if (whatsappConfig.accessToken && whatsappConfig.phoneNumberId) {
-            sendMetaWhatsAppMessage(from, autoRes.reply, whatsappConfig);
+          const targetPhoneId = (value && value.metadata && value.metadata.phone_number_id) || whatsappConfig.phoneNumberId;
+          if (whatsappConfig.accessToken && targetPhoneId) {
+            sendMetaWhatsAppMessage(from, autoRes.reply, {
+              ...whatsappConfig,
+              phoneNumberId: targetPhoneId
+            });
           }
 
           autoPilotState.eventLogs.unshift({
@@ -828,15 +894,33 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const data = JSON.parse(body || '{}');
+        const envUpdates = {};
+
         if (typeof data.enabled === 'boolean') whatsappConfig.enabled = data.enabled;
-        if (data.phoneNumberId) whatsappConfig.phoneNumberId = data.phoneNumberId;
-        if (data.accessToken) whatsappConfig.accessToken = data.accessToken;
-        if (data.verifyToken) whatsappConfig.verifyToken = data.verifyToken;
-        if (data.phone) whatsappConfig.phone = data.phone;
+        if (data.phoneNumberId) {
+          whatsappConfig.phoneNumberId = data.phoneNumberId;
+          envUpdates.WHATSAPP_PHONE_NUMBER_ID = data.phoneNumberId;
+        }
+        if (data.accessToken) {
+          whatsappConfig.accessToken = data.accessToken;
+          envUpdates.META_ACCESS_TOKEN = data.accessToken;
+        }
+        if (data.verifyToken) {
+          whatsappConfig.verifyToken = data.verifyToken;
+          envUpdates.VERIFY_TOKEN = data.verifyToken;
+        }
+        if (data.phone) {
+          whatsappConfig.phone = data.phone;
+          envUpdates.WHATSAPP_NUMBER = data.phone;
+        }
         if (data.officeAddress) whatsappConfig.officeAddress = data.officeAddress;
         if (data.officeLandmark) whatsappConfig.officeLandmark = data.officeLandmark;
         if (data.officeTimings) whatsappConfig.officeTimings = data.officeTimings;
         if (data.officeMap) whatsappConfig.officeMap = data.officeMap;
+
+        if (Object.keys(envUpdates).length > 0) {
+          updateEnvFile(envUpdates);
+        }
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
@@ -857,6 +941,62 @@ const server = http.createServer((req, res) => {
       } catch (e) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Invalid config payload' }));
+      }
+    });
+    return;
+  }
+
+  // 16b. WhatsApp Meta Token Live Diagnostic API
+  if (pathname === '/api/whatsapp/verify-token' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const tokenToTest = (data.accessToken || whatsappConfig.accessToken || '').trim();
+        const phoneIdToTest = (data.phoneNumberId || whatsappConfig.phoneNumberId || '').trim();
+
+        if (!tokenToTest) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ valid: false, message: 'No access token provided to verify' }));
+          return;
+        }
+
+        const url = `https://graph.facebook.com/v19.0/me?access_token=${tokenToTest}`;
+        https.get(url, (apiRes) => {
+          let resData = '';
+          apiRes.on('data', c => resData += c);
+          apiRes.on('end', () => {
+            try {
+              const resJson = JSON.parse(resData);
+              if (apiRes.statusCode === 200) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                  valid: true,
+                  message: `Token is Active! Connected as: ${resJson.name || 'Meta App'} (ID: ${resJson.id})`,
+                  app: resJson
+                }));
+              } else {
+                const errMsg = (resJson.error && resJson.error.message) || `HTTP ${apiRes.statusCode}`;
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                  valid: false,
+                  message: `Token Rejected by Meta: ${errMsg}`,
+                  error: resJson.error
+                }));
+              }
+            } catch (parseErr) {
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ valid: false, message: 'Failed to parse Meta response' }));
+            }
+          });
+        }).on('error', (err) => {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ valid: false, message: `Network error reaching Meta Graph API: ${err.message}` }));
+        });
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ valid: false, message: 'Invalid JSON request' }));
       }
     });
     return;

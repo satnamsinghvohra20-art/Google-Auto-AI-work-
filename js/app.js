@@ -1021,3 +1021,37 @@ function saveProductionSettings() {
   closeProductionSettingsModal();
   showToast("✓ Office address, Meta credentials & WhatsApp bot updated!");
 }
+
+async function testMetaTokenLive() {
+  const tokenInput = document.getElementById("setting-meta-access-token");
+  const phoneIdInput = document.getElementById("setting-meta-phone-id");
+  const statusDiv = document.getElementById("meta-token-status");
+  if (!statusDiv) return;
+
+  const token = tokenInput ? tokenInput.value.trim() : "";
+  const phoneId = phoneIdInput ? phoneIdInput.value.trim() : "";
+
+  statusDiv.style.display = "block";
+  statusDiv.style.color = "#d97706";
+  statusDiv.innerHTML = "⏳ Verifying token with Meta Graph API...";
+
+  try {
+    const res = await fetch("/api/whatsapp/verify-token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accessToken: token, phoneNumberId: phoneId })
+    });
+    const data = await res.json();
+    if (data.valid) {
+      statusDiv.style.color = "#16a34a";
+      statusDiv.innerHTML = `✅ <strong>Success!</strong> ${data.message}`;
+    } else {
+      statusDiv.style.color = "#dc2626";
+      statusDiv.innerHTML = `❌ <strong>Failed:</strong> ${data.message}`;
+    }
+  } catch (err) {
+    statusDiv.style.color = "#dc2626";
+    statusDiv.innerHTML = `❌ Connection Error: ${err.message}`;
+  }
+}
+
