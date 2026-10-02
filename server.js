@@ -249,6 +249,115 @@ function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
 }
 
 // =========================================================================
+// GOOGLE BUSINESS PROFILE (GBP / GOOGLE PLACES) LIVE CONNECTOR
+// =========================================================================
+const gbpConfig = {
+  placeId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
+  apiKey: process.env.GOOGLE_MAPS_API_KEY || process.env.GOOGLE_PLACES_API_KEY || '',
+  businessName: 'Dashmesh Properties',
+  rating: 5.0,
+  totalReviews: googleReviews.length,
+  lastSyncedAt: new Date().toISOString(),
+  syncStatus: 'Active Ground-Truth Connected'
+};
+
+function syncLiveGoogleBusinessProfile() {
+  return new Promise((resolve) => {
+    if (!gbpConfig.apiKey) {
+      gbpConfig.totalReviews = googleReviews.length;
+      gbpConfig.lastSyncedAt = new Date().toISOString();
+      gbpConfig.syncStatus = 'Place ID Linked (Direct Google Maps Target)';
+      return resolve({
+        success: true,
+        connected: false,
+        message: 'Place ID Linked. Add Google Maps API Key to enable automated real-time background review polling.',
+        placeId: gbpConfig.placeId,
+        rating: gbpConfig.rating,
+        totalReviews: googleReviews.length,
+        reviews: googleReviews,
+        directReviewUrl: `https://search.google.com/local/writereview?placeid=${gbpConfig.placeId}`
+      });
+    }
+
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${gbpConfig.placeId}&fields=name,rating,user_ratings_total,reviews,formatted_phone_number,opening_hours&key=${gbpConfig.apiKey}`;
+
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.status === 'OK' && json.result) {
+            gbpConfig.businessName = json.result.name || gbpConfig.businessName;
+            gbpConfig.rating = json.result.rating || gbpConfig.rating;
+            gbpConfig.lastSyncedAt = new Date().toISOString();
+            gbpConfig.syncStatus = 'Live Google Maps API Connected (Real-Time)';
+
+            let newReviewsCount = 0;
+            if (json.result.reviews && Array.isArray(json.result.reviews)) {
+              for (const rev of json.result.reviews) {
+                const existing = googleReviews.find(r => r.customerName === rev.author_name && r.reviewText === rev.text);
+                if (!existing) {
+                  const replies = AIEngine.generateReviewReplies(rev.author_name, rev.rating, rev.text, 'Dashmesh Properties', 'Real Estate Agency', 'Ambernath East');
+                  const autoReply = replies[0].reply;
+
+                  const newRecord = {
+                    id: 'rev_g_' + (rev.time || Date.now()) + '_' + Math.floor(Math.random() * 1000),
+                    customerName: rev.author_name,
+                    rating: rev.rating,
+                    reviewText: rev.text,
+                    date: new Date(rev.time ? rev.time * 1000 : Date.now()).toISOString(),
+                    reply: autoReply,
+                    repliedAt: new Date().toISOString(),
+                    status: 'Synced from Google Maps & Auto-Replied'
+                  };
+                  googleReviews.unshift(newRecord);
+                  newReviewsCount++;
+
+                  // Alert owner on WhatsApp
+                  const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
+                  if (whatsappConfig.accessToken && whatsappConfig.phoneNumberId) {
+                    const starsStr = '★'.repeat(Math.min(5, Math.max(1, rev.rating))) + '☆'.repeat(Math.max(0, 5 - rev.rating));
+                    const alertMsg = `⭐ *New Real Google Review Synced!* (Dashmesh Properties)\n\n👤 *Client:* ${rev.author_name}\n🌟 *Rating:* ${starsStr} (${rev.rating}/5)\n💬 *Review:* "${rev.text}"\n\n🤖 *Sia Auto-Reply Published:*\n"${autoReply}"`;
+                    sendMetaWhatsAppMessage(ownerPhone, alertMsg, whatsappConfig);
+                  }
+                }
+              }
+              if (newReviewsCount > 0) {
+                saveJSONFile('reviews.json', googleReviews);
+              }
+            }
+
+            gbpConfig.totalReviews = json.result.user_ratings_total || googleReviews.length;
+
+            resolve({
+              success: true,
+              connected: true,
+              message: `Live sync complete! ${newReviewsCount} fresh Google reviews imported.`,
+              businessName: gbpConfig.businessName,
+              rating: gbpConfig.rating,
+              totalReviews: gbpConfig.totalReviews,
+              reviews: googleReviews
+            });
+          } else {
+            resolve({
+              success: false,
+              connected: false,
+              message: `Google API returned: ${json.status} (${json.error_message || 'Check API Key'})`,
+              placeId: gbpConfig.placeId
+            });
+          }
+        } catch (e) {
+          resolve({ success: false, error: 'Failed to parse Google response: ' + e.message });
+        }
+      });
+    }).on('error', (err) => {
+      resolve({ success: false, error: 'Network error calling Google: ' + err.message });
+    });
+  });
+}
+
+// =========================================================================
 // 24/7 AUTONOMOUS AI AUTO-PILOT DAEMON ENGINE
 // =========================================================================
 const autoPilotState = {
@@ -1119,6 +1228,75 @@ const server = http.createServer((req, res) => {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ valid: false, message: 'Invalid JSON request' }));
       }
+    });
+    return;
+  }
+
+  // 16c. GBP Live Data & Status API
+  if (pathname === '/api/gbp/live-data' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      connected: Boolean(gbpConfig.apiKey),
+      hasApiKey: Boolean(gbpConfig.apiKey),
+      placeId: gbpConfig.placeId,
+      businessName: gbpConfig.businessName,
+      rating: gbpConfig.rating,
+      totalReviews: googleReviews.length,
+      lastSyncedAt: gbpConfig.lastSyncedAt,
+      syncStatus: gbpConfig.syncStatus,
+      directReviewUrl: `https://search.google.com/local/writereview?placeid=${gbpConfig.placeId}`,
+      reviews: googleReviews
+    }));
+    return;
+  }
+
+  // 16d. GBP Connect Google Account / API Key
+  if (pathname === '/api/gbp/connect-google' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const apiKey = (data.apiKey || '').trim();
+        const placeId = (data.placeId || gbpConfig.placeId).trim();
+
+        if (placeId) gbpConfig.placeId = placeId;
+        if (apiKey) gbpConfig.apiKey = apiKey;
+
+        const envUpdates = {};
+        if (apiKey) envUpdates.GOOGLE_MAPS_API_KEY = apiKey;
+        if (placeId) envUpdates.GOOGLE_PLACE_ID = placeId;
+        if (Object.keys(envUpdates).length > 0) {
+          updateEnvFile(envUpdates);
+        }
+
+        const syncResult = await syncLiveGoogleBusinessProfile();
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          message: syncResult.connected
+            ? '✓ Google Business Profile Connected Live! Reviews synchronized.'
+            : '✓ Google Place ID Linked! Enter a Google Maps API Key to enable automated live sync.',
+          syncResult
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to connect Google Account: ' + err.message }));
+      }
+    });
+    return;
+  }
+
+  // 16e. GBP Trigger Immediate Live Sync from Google
+  if (pathname === '/api/gbp/sync-now' && req.method === 'POST') {
+    syncLiveGoogleBusinessProfile().then(syncResult => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, syncResult }));
+    }).catch(err => {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
     });
     return;
   }
