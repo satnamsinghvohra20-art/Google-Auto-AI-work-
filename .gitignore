@@ -21,6 +21,6 @@ shop_v10.html
 node18_text_dump.json
 extracted_ui_text.json
 *.tmp
-.meta_token.tmp
 scratch/
+backups/
 

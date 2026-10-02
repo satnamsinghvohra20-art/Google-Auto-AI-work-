@@ -83,7 +83,9 @@ const MIME_TYPES = {
   '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
   '.webp': 'image/webp',
-  '.ico': 'image/x-icon'
+  '.ico': 'image/x-icon',
+  '.md': 'text/markdown; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8'
 };
 
 // Persistent File-Backed Storage (data/*.json)
@@ -528,7 +530,35 @@ const server = http.createServer((req, res) => {
 
   // --- API Endpoints ---
 
-  // 0. Local Network IP & Mobile Shield URL API
+  // 0a. Production & Docker Healthcheck API
+  if (pathname === '/api/health' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'UP',
+      service: 'Dashmesh Properties AI & GBP Growth Suite',
+      assistant: {
+        name: 'Sia',
+        gender: 'female',
+        role: 'AI Senior Executive Concierge & Property Advisor'
+      },
+      uptime: Math.floor(process.uptime()),
+      memoryUsageMB: Math.round(process.memoryUsage().rss / 1024 / 1024),
+      cyclesExecuted: autoPilotState.totalCyclesExecuted,
+      telemetry: {
+        leadsStored: whatsappConversations.length,
+        reviewsStored: googleReviews.length,
+        postsStored: publishedPostLogs.length,
+        feedbackQuarantined: privateFeedbacks.length,
+        googlePlaceId: gbpConfig.placeId,
+        googleConnected: Boolean(gbpConfig.apiKey),
+        whatsappWebhookActive: Boolean(whatsappConfig.accessToken && whatsappConfig.phoneNumberId)
+      },
+      timestamp: new Date().toISOString()
+    }));
+    return;
+  }
+
+  // 0b. Local Network IP & Mobile Shield URL API
   if (pathname === '/api/network/ip' && req.method === 'GET') {
     const localIp = getLocalIpAddress();
     res.writeHead(200, { 'Content-Type': 'application/json' });

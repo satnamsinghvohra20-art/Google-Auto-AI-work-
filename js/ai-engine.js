@@ -251,20 +251,20 @@ const AIEngine = {
     else if (istHour >= 17 && istHour < 22) timeGreeting = "Good evening";
 
     const openers = [
-      `${timeGreeting} ${ownerName}! Sia here. `,
-      `Ji ${ownerName}! Sia at your service. `,
-      `Sat Sri Akal ${ownerName}! Sia reporting live. `,
-      `Hello ${ownerName}! Sia yahan hai. `,
-      `Aadesh kijiye ${ownerName}! Sia live report karti hai: `,
-      `Shubh Prabhat ${ownerName}! Sia online hai. `,
-      `Haan ji ${ownerName}! Sia ready hai aapke command ke liye. `
+      `${timeGreeting} ${ownerName}! Sia here. 🌸 `,
+      `Ji ${ownerName}! Main Sia aapki seva mein hazir hoon. 🌸 `,
+      `Sat Sri Akal ${ownerName}! Main Sia, live reporting de rahi hoon. 🌸 `,
+      `Hello ${ownerName}! Sia yahan hai, batayein main kya help kar sakti hoon? 🌸 `,
+      `Aadesh kijiye ${ownerName}! Sia live report karti hai: 🌸 `,
+      `Shubh Prabhat ${ownerName}! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 `,
+      `Haan ji ${ownerName}! Main tayyar hoon aapke agle command ke liye. 🌸 `
     ];
     return openers[Math.floor(Math.random() * openers.length)];
   },
 
   /**
    * Generates dynamic, warm, non-repetitive greetings and conversational bridges for Sia
-   * Never sounds like a boring, repetitive robot!
+   * Never sounds like a boring, repetitive robot! Speaks with polite female executive warmth.
    */
   getSiaGreetingPrefix(name, lang, isOngoing) {
     const istHour = (new Date().getUTCHours() + 5.5) % 24;
@@ -282,12 +282,12 @@ const AIEngine = {
     }
 
     if (!isOngoing) {
-      // First contact / Initial message: Warm, personalized introduction as Sia
+      // First contact / Initial message: Warm, personalized introduction as Sia (Female AI)
       if (lang === "marathi") {
         const marathiGreetings = [
-          `Namaskar ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties madhun aple swagat karte. 🌸 `,
-          `Aple manasparvak swagat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties chi property advisor. ✨ `,
-          `Suprabhat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties desk varun aple swagat aahe. 🏡 `
+          `Namaskar ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties madhun aple manasparvak swagat karte. 🌸 `,
+          `Aple swagat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties chi senior property advisor. ✨ `,
+          `Suprabhat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties desk varun aple swagat karte. 🏡 `
         ];
         return marathiGreetings[Math.floor(Math.random() * marathiGreetings.length)];
       }
@@ -295,19 +295,19 @@ const AIEngine = {
       if (lang === "english") {
         const englishGreetings = [
           `Hello ${name ? name : 'there'}! I am *Sia* from Dashmesh Properties. Great to connect with you! 🌸 `,
-          `${timeGreetingFull} ${name ? name : ''}! Welcome to Dashmesh Properties, I'm *Sia*, your property advisor. ✨ `,
-          `Warm welcome ${name ? name : ''}! I'm *Sia* from Dashmesh Properties — here to help you find your dream space. 🏡 `
+          `${timeGreetingFull} ${name ? name : ''}! Welcome to Dashmesh Properties, I'm *Sia*, your dedicated property advisor. ✨ `,
+          `Warm welcome ${name ? name : ''}! I'm *Sia* from Dashmesh Properties — delighted to help you find your dream space. 🏡 `
         ];
         return englishGreetings[Math.floor(Math.random() * englishGreetings.length)];
       }
 
-      // Hinglish / Hindi
+      // Hinglish / Hindi (Polite female executive grammar)
       const hinglishGreetings = [
-        `Hello ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat hai! 🌸 `,
-        `Welcome ${name ? name + ' ji! ' : '! '}Main *Sia* hoon — Dashmesh Properties ki property advisor. Khushi hui aapse connect karke! ✨ `,
-        `${timeHinglish} ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties desk par aapka swagat hai. 🏡 `,
-        `Sat Sri Akal ${name ? name + ' ji! ' : '! '}Welcome to Dashmesh Properties! Main *Sia* aapki guide hoon. 🙏 `,
-        `Namaskar ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search aasan banate hain! 🤝 `
+        `Hello ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat karti hoon! 🌸 `,
+        `Welcome ${name ? name + ' ji! ' : '! '}Main *Sia* hoon — Dashmesh Properties ki property advisor. Bahut khushi hui aapse connect karke! ✨ `,
+        `${timeHinglish} ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 `,
+        `Sat Sri Akal ${name ? name + ' ji! ' : '! '}Welcome to Dashmesh Properties! Main *Sia* aapki property guide hoon. 🌸 `,
+        `Namaskar ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search main bohot aasan bana deti hoon! 🤝 `
       ];
       return hinglishGreetings[Math.floor(Math.random() * hinglishGreetings.length)];
     } else {

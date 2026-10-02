@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  dashmesh-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dashmesh-ai-suite
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    env_file:
+      - .env
+    volumes:
+      # Persistent Ground-Truth Storage (leads, reviews, posts, feedbacks)
+      - ./data:/app/data
+      # Environment configuration
+      - ./.env:/app/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - dashmesh-net
+
+networks:
+  dashmesh-net:
+    driver: bridge

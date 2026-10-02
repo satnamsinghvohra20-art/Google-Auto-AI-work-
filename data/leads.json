@@ -26,7 +26,7 @@
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-02T16:04:36.894Z",
+    "lastUpdated": "2026-10-02T18:18:36.459Z",
     "messages": [
       {
         "id": "msg_in_1790955961608",
@@ -141,9 +141,87 @@
         "text": "Hello Satnam Sir! Sia yahan hai. 🤖 *Dashmesh Properties AI (Sia) Status:*\n\n✅ Sia WhatsApp Assistant: *ONLINE (Active 24/7)*\n✅ 24h Client Follow-up Drip: *RUNNING*\n✅ Google Review Auto-Responder: *ACTIVE*\n✅ Meta Cloud API: *CONNECTED*\n✅ Tunnel URL: https://plod-extrude-lumpish.ngrok-free.dev\n\nAap mujhe koi bhi command de sakte hain jaise 'leads report', 'publish post', 'review status', ya property rates!",
         "intent": "OWNER_SYSTEM_STATUS",
         "timestamp": "2026-10-02T16:04:36.894Z"
+      },
+      {
+        "id": "msg_in_1790964755565",
+        "sender": "owner",
+        "text": "kitne logo se baat hue abhi tk..??",
+        "timestamp": "2026-10-02T18:12:35.565Z"
+      },
+      {
+        "id": "msg_out_1790964755565",
+        "sender": "bot",
+        "text": "Aadesh kijiye Satnam Sir! Sia live report karti hai: 📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *0*\n• Total Verified Leads: *1*\n• 24/7 Follow-Up Bot: *Active*\n\n📋 *Real Inquiries:*\n1. *Sukhjyot Singh Vohra* (+918421940013) - _RENTAL_INQUIRY_ \n\n👉 Detailed CRM pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "timestamp": "2026-10-02T18:12:35.565Z"
+      },
+      {
+        "id": "msg_in_1790964967932",
+        "sender": "owner",
+        "text": "iss se phale ki koi enquery..??",
+        "timestamp": "2026-10-02T18:16:07.932Z"
+      },
+      {
+        "id": "msg_out_1790964967932",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"iss se phale ki koi enquery..??\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-02T18:16:07.932Z"
+      },
+      {
+        "id": "msg_in_1790964987261",
+        "sender": "owner",
+        "text": "📊 Leads",
+        "timestamp": "2026-10-02T18:16:27.261Z"
+      },
+      {
+        "id": "msg_out_1790964987261",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia yahan hai, batayein main kya help kar sakti hoon? 🌸 📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *0*\n• Total Verified Leads: *1*\n• 24/7 Follow-Up Bot: *Active*\n\n📋 *Real Inquiries:*\n1. *Sukhjyot Singh Vohra* (+918421940013) - _RENTAL_INQUIRY_ \n\n👉 Detailed CRM pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "timestamp": "2026-10-02T18:16:27.261Z"
+      },
+      {
+        "id": "msg_in_1790965010539",
+        "sender": "owner",
+        "text": "📋 Live CRM",
+        "timestamp": "2026-10-02T18:16:50.539Z"
+      },
+      {
+        "id": "msg_out_1790965010539",
+        "sender": "bot",
+        "text": "Aadesh kijiye Satnam Sir! Sia live report karti hai: 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"📋 Live CRM\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-02T18:16:50.539Z"
+      },
+      {
+        "id": "msg_in_1790965075164",
+        "sender": "owner",
+        "text": "any more past leads...??",
+        "timestamp": "2026-10-02T18:17:55.164Z"
+      },
+      {
+        "id": "msg_out_1790965075164",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia here. 🌸 📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *0*\n• Total Verified Leads: *1*\n• 24/7 Follow-Up Bot: *Active*\n\n📋 *Real Inquiries:*\n1. *Sukhjyot Singh Vohra* (+918421940013) - _RENTAL_INQUIRY_ \n\n👉 Detailed CRM pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "timestamp": "2026-10-02T18:17:55.164Z"
+      },
+      {
+        "id": "msg_in_1790965116459",
+        "sender": "owner",
+        "text": "📰 New Post",
+        "timestamp": "2026-10-02T18:18:36.459Z"
+      },
+      {
+        "id": "msg_out_1790965116459",
+        "sender": "bot",
+        "text": "Ji Satnam Sir! Main Sia aapki seva mein hazir hoon. 🌸 ✅ Command executed! Sia ne Google Maps par naya property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• SBI/HDFC Bank Loan Tie-ups\n• Lift, Water, Clear Title\n• Contact: +91 84210 77613\n\nLive on Google Business Profile!",
+        "intent": "OWNER_TRIGGER_POST",
+        "timestamp": "2026-10-02T18:18:36.459Z"
       }
     ],
-    "lastIntent": "OWNER_SYSTEM_STATUS",
+    "lastIntent": "OWNER_TRIGGER_POST",
     "language": "hinglish"
   }
 ]
