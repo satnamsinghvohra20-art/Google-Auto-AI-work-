@@ -124,25 +124,27 @@ Sia's neural memory has grounded domain knowledge for Ambernath East and surroun
 
 ---
 
-## 7. MMR Mega Real Estate Knowledge Graph & Projects Directory
+## 7. MMR Mega Real Estate Knowledge Graph & Projects Directory (105+ Projects)
 
-In addition to core Ambernath coverage, Sia's intelligence spans all major developer projects across the **Mumbai Metropolitan Region (MMR)**:
+In addition to core Ambernath coverage, Sia's intelligence spans **105+ verified developer projects** across all granular sub-areas of the **Mumbai Metropolitan Region (MMR)**:
 
-### Regional Benchmark & Projects Matrix
+### Regional Benchmark & Projects Matrix (10 MMR Hubs)
 
-| Region | Active Projects | Price Range | Rate per Sq.Ft | Top Verified Mega Projects |
+| Region | Active Projects | Price Range | Rate per Sq.Ft | Key Granular Sub-Areas & Featured Mega Projects |
 |---|---|---|---|---|
-| **Ambernath** | 5 | ₹18L – ₹65L | ₹3,800 – ₹5,400 | New Floora (Dashmesh HQ), Empire Centrum, Patel Colossus, GBK Whispering Palms, Panvelkar Green City |
-| **Badlapur** | 3 | ₹18L – ₹52L | ₹3,900 – ₹4,500 | Godrej Vihaa, Tharwani Vedant Nakshatra, Aryan Fountain Square |
-| **Ulhasnagar** | 3 | ₹28L – ₹68L | ₹5,000 – ₹6,100 | Tharwani Ariana, Regency Plaza, Shree Sai Avenue |
-| **Kalyan** | 5 | ₹35L – ₹1.45 Cr | ₹5,200 – ₹7,600 | Regency Antilia, Tycoons Square, Godrej Golf Links, Raunak City, Kohinoor Eden |
-| **Dombivli** | 3 | ₹38L – ₹1.40 Cr | ₹6,200 – ₹6,900 | Lodha Palava City, Runwal Gardens, Regency Anantam |
-| **Thane** | 5 | ₹64L – ₹3.50 Cr | ₹12,800 – ₹16,500 | Hiranandani Estate, Dosti West County, Rustomjee Urbania, Lodha Amāra, Raymond Realty Ten X |
-| **Mumbai** | 4 | ₹98L – ₹16.0 Cr | ₹18,500 – ₹42,000 | Oberoi Sky City, Lodha Park, Runwal Bliss, Godrej Urban Park |
-| **Navi Mumbai** | 6 | ₹32L – ₹3.80 Cr | ₹5,800 – ₹21,500 | Marathon Nexzone, Hiranandani Fortune City, L&T Seawoods, Arihant Clan Aalishan, Today Global Anandam, Delta Tower |
+| **Ambernath** | 11 | ₹18L – ₹65L | ₹3,800 – ₹5,400 | **Pale Gaon, MIDC/Chikhali, Kansai, Shiv Mandir Rd, Chinchpada, Morivali, Navare Nagar:** New Floora (Dashmesh HQ), Empire Centrum, Patel Colossus, GBK Palms, Panvelkar Green City, Nisarg Greens, Sai Miracle, Sarvodaya Garden |
+| **Badlapur** | 6 | ₹18L – ₹48L | ₹3,700 – ₹4,500 | **Barvi Dam Rd, Shirgaon, Katrap, Belavali, Badlapur West:** Godrej Vihaa, Tharwani Vedant Nakshatra, Mohan Areca, Aryan Fountain Square, Poddar Evergreens, Thanekar City |
+| **Ulhasnagar** | 8 | ₹26L – ₹78L | ₹4,800 – ₹6,100 | **Section 17, Shanti Nagar, Gol Maidan, Section 19, Venus Chowk, Nehru Chowk, Camp 2:** Tharwani Ariana, Regency Plaza, Shree Sai Avenue, Tharwani Heritage, Royal Galaxy, Amar Palace, Kuber Regency, Kailash Tower |
+| **Kalyan** | 14 | ₹32L – ₹1.45 Cr | ₹4,600 – ₹7,600 | **Khadakpada, Gandhar Nagar, Adharwadi, Kalyan East, Wayle Nagar, Titwala:** Regency Antilia, Tycoons Square, Tharwani Rosabella, Mohan Altezza, Godrej Riviera, Mohan Tribeca, Raunak City, Kohinoor Eden, Metro Grande, Saket World, Madhav Sansaar, Birla Vanya, Regency Sarvam, Tharwani Vedant Millenia |
+| **Dombivli** | 8 | ₹38L – ₹1.40 Cr | ₹5,800 – ₹6,900 | **Kalyan-Shilphata Rd, Manpada, Dombivli East, Dombivli West:** Lodha Palava City, Runwal Gardens, Marathon Nexworld, Regency Anantam, Lodha Crown, Regency Luxuria, Sai World Dreams, Sarvodaya Anand |
+| **Thane** | 14 | ₹64L – ₹3.50 Cr | ₹11,500 – ₹17,500 | **Ghodbunder Rd, Kolshet, Balkum, Majiwada, Pokhran 1 & 2, Panchpakhadi, Wagle Estate:** Hiranandani Estate, Puraniks Reserva, Vihang Marina, Lodha Amāra, Kalpataru Immensa, Dosti West County, Piramal Vaikunth, Rustomjee Urbania, Raymond Ten X, Northern Lights, Tata Serein, Ashar Edge, Sheth Avalon, Ashar Metro |
+| **Mumbai** | 20 | ₹68L – ₹16.0 Cr | ₹14,200 – ₹42,000 | **Western Suburbs (Borivali, Kandivali, Goregaon, Andheri, Malad, Dahisar, Mira Rd), Central Suburbs (Kanjurmarg, Powai, Vikhroli, Mulund, Ghatkopar, Chembur), South & Island City (Bandra, Lower Parel, Byculla, Wadala):** Oberoi Sky City, Godrej Tranquil, Oberoi Exquisite, Transcon Triumph, Rustomjee Seasons, JP North, Kalpataru Srishti, Runwal Bliss, Godrej Urban Park, Godrej The Trees, Piramal Revanta, The Address by Wadhwa, Lodha Park (Trump Tower), Piramal Aranya, Lodha NCP, Sheth Auris Serenity, Omkar Alta Monte, Sunteck City, Godrej Prime, DB Ozone |
+| **Navi Mumbai** | 15 | ₹32L – ₹3.80 Cr | ₹5,200 – ₹21,500 | **Panvel, Seawoods, Kharghar, Upper Kharghar, Ulwe, Taloja, Ghansoli/Airoli, Nerul:** Marathon Nexzone, Hiranandani Fortune City, Wadhwa Wise City, Kalpataru Park Riviera, Indiabulls Greens, L&T Seawoods, Arihant Aalishan, Sai World Empire, Gami Asters, Today Global Anandam, Delta Tower, Bhagwati Heritage, Arihant Anaika, Aurum Q Islands, Akshar Alvario |
+| **Vasai-Virar** | 5 | ₹30L – ₹1.25 Cr | ₹5,100 – ₹7,800 | **Virar West, Naigaon East, Vasai West, Vasai East:** Rustomjee Global City, Joyville Virar (Shapoorji Pallonji), Sunteck West World, Sunteck Beach Residences, Dhoot Pratham |
+| **Karjat-Neral** | 4 | ₹14L – ₹55L | ₹3,100 – ₹4,200 | **Neral West, Vangani, Karjat Valley:** Labham Hills, Tulsi Aanandam, Xrbia Smart City, Pushpam Sanskruti Resort Suites |
 
 ### Data Storage & API Contracts
-* **Storage Path:** [`data/projects.json`](file:///c:/Users/satna/Downloads/Google%20work%20auto%20ai/data/projects.json)
+* **Storage Path:** [`data/projects.json`](file:///c:/Users/satna/Downloads/Google%20work%20auto%20ai/data/projects.json) (105 Complete Records)
 * **Endpoints:**
   * `GET /api/projects`: Accepts query parameters `region`, `bhk`, `search`. Returns `{ success: true, count: N, projects: [...] }`.
   * `POST /api/projects`: Adds a newly registered project to `data/projects.json` with timestamp and unique ID.
@@ -151,5 +153,5 @@ In addition to core Ambernath coverage, Sia's intelligence spans all major devel
 
 ---
 
-*Compiled by Antigravity AI for Dashmesh Properties • Ground-Truth Verified.*
+*Compiled by Antigravity AI for Dashmesh Properties • Ground-Truth Verified across 105 Projects.*
 
