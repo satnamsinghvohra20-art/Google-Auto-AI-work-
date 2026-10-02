@@ -10,7 +10,7 @@ const appState = {
   localIp: "127.0.0.1",
   port: 3000,
   mobileShieldUrl: "http://localhost:3000/shield.html",
-  activeStampStyle: "hud",
+  activeStampStyle: "clean",
   currentSampleImg: null,
   geoPhotoBlob: null,
   geoPhotoDataUrl: null,
@@ -276,9 +276,9 @@ function createSamplePropertyImage(title, location, bgDark, accent) {
   ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
   ctx.fillRect(110, 395, 580, 2);
 
-  ctx.fillStyle = "#cbd5e1";
-  ctx.font = "500 18px 'JetBrains Mono', monospace";
-  ctx.fillText("Verified Local Storefront &bull; 19.1908° N, 73.1785° E", 110, 435);
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "600 18px 'Plus Jakarta Sans', sans-serif";
+  ctx.fillText("📍 Verified Storefront • Shop No. 24, Pale Gaon, Ambernath (E)", 110, 435);
 
   return c.toDataURL("image/jpeg", 0.9);
 }
@@ -325,58 +325,79 @@ function renderGeoPhotoCanvas() {
   // Watermark HUD Overlay
   const w = canvas.width;
   const h = canvas.height;
-  const barHeight = Math.max(70, Math.floor(h * 0.15));
 
-  if (appState.activeStampStyle === "hud") {
-    // Semi-transparent dark overlay bar at bottom
-    ctx.fillStyle = "rgba(15, 23, 42, 0.88)";
+  if (appState.activeStampStyle === "clean" || appState.activeStampStyle === "none") {
+    // 100% Clean Image: No visual watermark overlay stamped on the photo.
+    // The photo remains completely natural and professional.
+    // The binary GPS EXIF is still invisibly injected into the JPEG file bytes for Google Maps ranking!
+  } else if (appState.activeStampStyle === "hud") {
+    // Semi-transparent dark overlay ribbon at bottom
+    const barHeight = Math.max(50, Math.floor(h * 0.11));
+    ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
     ctx.fillRect(0, h - barHeight, w, barHeight);
 
     // Cyan top accent border
     ctx.fillStyle = "#38bdf8";
-    ctx.fillRect(0, h - barHeight, w, 4);
+    ctx.fillRect(0, h - barHeight, w, 3);
 
     // Business Name
     ctx.fillStyle = "#ffffff";
-    ctx.font = `bold ${Math.max(16, Math.floor(barHeight * 0.28))}px 'Outfit', sans-serif`;
-    ctx.fillText("📍 DASHMESH PROPERTY - AMBERNATH EAST", 20, h - barHeight + (barHeight * 0.42));
+    ctx.font = `bold ${Math.max(14, Math.floor(barHeight * 0.32))}px 'Outfit', sans-serif`;
+    ctx.fillText("📍 DASHMESH PROPERTIES • AMBERNATH (EAST)", 20, h - barHeight + (barHeight * 0.44));
 
-    // Coordinates & Date
+    // Address & Consultation
     ctx.fillStyle = "#94a3b8";
-    ctx.font = `${Math.max(12, Math.floor(barHeight * 0.2))}px 'JetBrains Mono', monospace`;
-    ctx.fillText(`GPS: 19.1908° N, 73.1785° E  |  Pale Gaon, Ambernath, MH 421501  |  ${new Date().toLocaleDateString()}`, 20, h - barHeight + (barHeight * 0.78));
+    ctx.font = `500 ${Math.max(11, Math.floor(barHeight * 0.22))}px 'Plus Jakarta Sans', sans-serif`;
+    ctx.fillText("New Floora, Shop No. 24, Pale Gaon | Verified Property Consultants", 20, h - barHeight + (barHeight * 0.80));
+
+    // Right Verified Badge
+    ctx.fillStyle = "#34d399";
+    ctx.font = `bold ${Math.max(11, Math.floor(barHeight * 0.24))}px 'Plus Jakarta Sans', sans-serif`;
+    const tagText = "✓ VERIFIED LOCAL CONSULTANT";
+    const tagWidth = ctx.measureText(tagText).width;
+    ctx.fillText(tagText, w - tagWidth - 20, h - barHeight + (barHeight * 0.50));
 
   } else if (appState.activeStampStyle === "gold") {
     // Gold Luxury Badge at bottom right
-    const badgeW = Math.min(380, w * 0.6);
-    const badgeH = 65;
+    const badgeW = Math.min(380, w * 0.55);
+    const badgeH = 58;
     const badgeX = w - badgeW - 20;
     const badgeY = h - badgeH - 20;
 
-    ctx.fillStyle = "#78350f";
+    ctx.fillStyle = "rgba(24, 20, 14, 0.92)";
     ctx.beginPath();
-    ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 12);
+    ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 10);
     ctx.fill();
 
     ctx.strokeStyle = "#f59e0b";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 
     ctx.fillStyle = "#fef3c7";
-    ctx.font = "bold 15px 'Outfit', sans-serif";
-    ctx.fillText("⭐ DASHMESH PROPERTY &bull; 19.1908° N, 73.1785° E", badgeX + 16, badgeY + 28);
+    ctx.font = "bold 14px 'Outfit', sans-serif";
+    ctx.fillText("⭐ DASHMESH PROPERTIES • AMBERNATH (E)", badgeX + 16, badgeY + 24);
 
-    ctx.fillStyle = "#fde68a";
-    ctx.font = "11px 'Plus Jakarta Sans', sans-serif";
-    ctx.fillText("Verified Google Maps Local Business in Ambernath", badgeX + 16, badgeY + 48);
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "500 11px 'Plus Jakarta Sans', sans-serif";
+    ctx.fillText("Pale Gaon • Buy, Rent & Commercial Properties", badgeX + 16, badgeY + 44);
 
   } else {
-    // Minimal Tag
-    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
-    ctx.fillRect(15, h - 38, 360, 26);
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 12px 'JetBrains Mono', monospace";
-    ctx.fillText("📍 Dashmesh Property &bull; 19.1908° N, 73.1785° E", 24, h - 21);
+    // Discrete Minimalist Address Tag at bottom left
+    const text = "📍 Dashmesh Properties • Pale Gaon, Ambernath (E)";
+    ctx.font = "600 12px 'Plus Jakarta Sans', sans-serif";
+    const textWidth = ctx.measureText(text).width;
+    const pillW = textWidth + 24;
+    const pillH = 28;
+    const pillX = 16;
+    const pillY = h - pillH - 16;
+
+    ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+    ctx.beginPath();
+    ctx.roundRect(pillX, pillY, pillW, pillH, 6);
+    ctx.fill();
+
+    ctx.fillStyle = "#f8fafc";
+    ctx.fillText(text, pillX + 12, pillY + 18);
   }
 
   // 1. Get raw base64 JPEG from canvas
@@ -423,9 +444,9 @@ function downloadGeoPhoto() {
   } else {
     a.href = appState.geoPhotoDataUrl;
   }
-  a.download = `dashmesh_property_gps_19.1908_73.1785_${Date.now()}.jpg`;
+  a.download = `dashmesh_property_ambernath_${Date.now()}.jpg`;
   a.click();
-  showToast("✓ Geotagged Photo Downloaded with Binary EXIF (19.1908° N, 73.1785° E)!");
+  showToast("✓ Geo-tagged Photo Downloaded (Ready for Google Maps)!");
 }
 
 function inspectPhotoExif() {
@@ -437,19 +458,19 @@ function inspectPhotoExif() {
     const exifData = piexif.load(appState.geoPhotoDataUrl);
     const lat = "19° 11' 26.88\" N (19.1908)";
     const lng = "73° 10' 42.60\" E (73.1785)";
-    const biz = exifData["0th"][piexif.ImageIFD.ImageDescription] || "Dashmesh Property";
+    const biz = exifData["0th"][piexif.ImageIFD.ImageDescription] || "Dashmesh Properties";
 
     alert(
-      `📸 VERIFIED BINARY GPS EXIF METADATA\n\n` +
-      `• Target Business: ${biz}\n` +
-      `• Latitude: ${lat}\n` +
-      `• Longitude: ${lng}\n` +
-      `• Target City: Ambernath East, Maharashtra 421501\n` +
-      `• Google Vision & Maps Status: 100% Crawlable & Verified\n\n` +
-      `Upload this photo directly to Google Business Profile -> Photos to trigger local rank boost.`
+      `📸 VERIFIED GOOGLE MAPS GEO-TAGGING (EXIF METADATA)\n\n` +
+      `• Business: ${biz}\n` +
+      `• Target Location: Pale Gaon, Ambernath East, MH 421501\n` +
+      `• Geo Positioning: Ambernath East (Verified)\n` +
+      `• Google Vision & Maps Status: 100% Crawlable & Compliant\n` +
+      `• Visual Quality: Clean & Unobtrusive (No messy coordinates)\n\n` +
+      `Upload this photo to your Google Business Profile -> Photos to boost local SEO ranking!`
     );
   } catch (e) {
-    showToast("GPS EXIF Tags: 19.1908° N, 73.1785° E (Ambernath East)");
+    showToast("Geo-Tag Status: Active for Pale Gaon, Ambernath East");
   }
 }
 
@@ -917,10 +938,10 @@ function initOrUpdateLeafletMap() {
     appState.leafletMarker = L.marker([lat, lng]).addTo(appState.leafletMap);
     appState.leafletMarker.bindPopup(`
       <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.4;">
-        <strong style="color: #0f172a; font-size: 13px;">📍 Dashmesh Property</strong><br/>
+        <strong style="color: #0f172a; font-size: 13px;">📍 Dashmesh Properties</strong><br/>
         Shop No. 24, New Floora, Pale Gaon<br/>
         Ambernath East, MH 421501<br/>
-        <span style="color: #059669; font-weight: bold;">GPS: 19.1908° N, 73.1785° E</span>
+        <span style="color: #059669; font-weight: bold;">✓ Verified Ambernath (E) Local Hub</span>
       </div>
     `).openPopup();
 

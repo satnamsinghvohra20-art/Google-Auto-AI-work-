@@ -731,8 +731,13 @@ Target Directories:
     const city = meta.city || "Ambernath";
     const timestamp = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
+    if (style === "clean" || style === "none") {
+      // 100% Clean Image: No visual watermark overlay.
+      return;
+    }
+
     if (style === "hud") {
-      // Sleek Translucent Dark HUD Bar
+      // Sleek Translucent Dark Ribbon
       const barHeight = Math.max(54, Math.round(canvas.height * 0.12));
       ctx.fillStyle = "rgba(15, 23, 42, 0.82)";
       ctx.fillRect(0, canvas.height - barHeight, canvas.width, barHeight);
@@ -743,11 +748,11 @@ Target Directories:
 
       ctx.fillStyle = "#ffffff";
       ctx.font = `bold ${Math.max(14, Math.round(canvas.width * 0.022))}px sans-serif`;
-      ctx.fillText(`📍 ${biz} • ${city}`, 20, canvas.height - barHeight + (barHeight * 0.42));
+      ctx.fillText(`📍 ${biz} • ${city} (East)`, 20, canvas.height - barHeight + (barHeight * 0.42));
 
       ctx.fillStyle = "#94a3b8";
-      ctx.font = `500 ${Math.max(11, Math.round(canvas.width * 0.016))}px monospace`;
-      ctx.fillText(`GPS: ${lat}° N, ${lng}° E  |  VERIFIED ON: ${timestamp}`, 20, canvas.height - (barHeight * 0.22));
+      ctx.font = `500 ${Math.max(11, Math.round(canvas.width * 0.016))}px sans-serif`;
+      ctx.fillText(`Shop No. 24, Pale Gaon | Verified Property Consultant`, 20, canvas.height - (barHeight * 0.22));
 
       // Right-aligned Google Maps Verified Badge
       ctx.fillStyle = "#10b981";
@@ -763,18 +768,18 @@ Target Directories:
 
       ctx.fillStyle = "#fef08a";
       ctx.font = `bold ${Math.max(14, Math.round(canvas.width * 0.022))}px serif`;
-      ctx.fillText(`★ ${biz.toUpperCase()} — ${city.toUpperCase()} ★`, 20, canvas.height - barHeight + 24);
+      ctx.fillText(`★ ${biz.toUpperCase()} — ${city.toUpperCase()} (EAST) ★`, 20, canvas.height - barHeight + 24);
 
       ctx.fillStyle = "#e2e8f0";
-      ctx.font = `600 ${Math.max(11, Math.round(canvas.width * 0.016))}px monospace`;
-      ctx.fillText(`COORD: ${lat}N, ${lng}E • TIMESTAMP: ${timestamp}`, 20, canvas.height - 12);
+      ctx.font = `600 ${Math.max(11, Math.round(canvas.width * 0.016))}px sans-serif`;
+      ctx.fillText(`PALE GAON, AMBERNATH (EAST) • VERIFIED CONSULTANT`, 20, canvas.height - 12);
     } else {
-      // Minimalist Coordinates
-      ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-      ctx.fillRect(canvas.width - 280, canvas.height - 35, 270, 30);
+      // Minimalist Tag
+      ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+      ctx.fillRect(canvas.width - 290, canvas.height - 35, 280, 30);
       ctx.fillStyle = "#ffffff";
-      ctx.font = "12px monospace";
-      ctx.fillText(`📍 ${lat}° N, ${lng}° E | ${city}`, canvas.width - 265, canvas.height - 15);
+      ctx.font = "600 12px sans-serif";
+      ctx.fillText(`📍 Pale Gaon, Ambernath (E)`, canvas.width - 275, canvas.height - 15);
     }
   },
 
