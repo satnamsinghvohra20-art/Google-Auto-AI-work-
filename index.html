@@ -718,55 +718,105 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
     <!-- ========================================================================= -->
     <!-- TAB 5: GOOGLE BUSINESS PROFILE AUTO-PILOT & REVIEWS                        -->
     <!-- ========================================================================= -->
+    <!-- TAB 5: GOOGLE BUSINESS PROFILE AUTO-PILOT & REVIEWS                        -->
+    <!-- ========================================================================= -->
     <div id="tab-posts" class="tab-pane">
       <div class="content-card">
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <h2 class="card-title"><span>📰</span> 24/7 Google Business Profile Auto-Pilot</h2>
-            <p class="card-desc">Autonomous engine publishes regular weekly Google updates and auto-responds to customer reviews on Google Maps with SEO-injected local keywords.</p>
-          </div>
-          <button type="button" class="btn-solid-emerald" onclick="triggerAutoPostPublish()">
-            <span>🚀</span>
-            <span>Publish Next Google Update Now</span>
-          </button>
-        </div>
-
-        <!-- 3 Ready Google Posts Grid -->
-        <div class="posts-grid" id="weekly-posts-list">
-          <!-- Populated dynamically by app.js -->
-        </div>
-
-        <!-- Google Review Auto-Responder Simulator -->
-        <div style="margin-top: 24px;" class="desc-box-container">
-          <div class="card-header-row" style="margin-bottom: 12px;">
-            <div class="card-title-group">
-              <h3 class="card-title" style="font-size: 15px;"><span>⭐</span> Google Review Auto-Responder (Live Engine)</h3>
-              <p class="card-desc">When customers leave a review on Google Maps, the auto-responder instantly generates and posts an SEO-optimized thank you reply.</p>
+        
+        <!-- Master AI Rank Autopilot Banner -->
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; border-radius: 14px; padding: 22px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px #34d399;"></span>
+              <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #34d399;">AI Autonomous Google Ranking Agent • 24/7 Active</span>
             </div>
-            <button type="button" class="btn-solid-primary" onclick="simulateGoogleReviewAutoReply()">
-              <span>💬</span>
-              <span>Simulate Auto-Reply</span>
+            <h3 style="font-size: 17px; font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">Auto-Optimizing for #1 Rank in Ambernath East</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin: 0;">Automatically creates weekly Google posts, injects local keywords, and writes 100% instant review replies on Google Maps.</p>
+          </div>
+          <div style="display: flex; gap: 14px; align-items: center;">
+            <div style="text-align: right; background: rgba(255,255,255,0.06); padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+              <span style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block;">Profile Rank Score</span>
+              <strong id="optimizer-score-val" style="font-size: 18px; font-weight: 800; color: #38bdf8;">98/100 (Optimal for #1)</strong>
+            </div>
+            <button type="button" class="btn-solid-emerald" onclick="runProfileAutoOptimizer()">
+              <span>⚡ Run AI Auto-Optimizer</span>
             </button>
           </div>
+        </div>
 
-          <div style="background: var(--color-surface-soft); padding: 16px; border-radius: 14px; border: 1px solid var(--color-border);">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 13px; font-weight: 800; color: #0f172a;">Sample Incoming Review from: Amit Sharma</span>
-              <span style="color: #f59e0b; font-size: 13px;">★★★★★ (5 Stars)</span>
+        <!-- Section 1: Weekly Google Posts Engine -->
+        <div style="margin-bottom: 30px;">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <h2 class="card-title"><span>📰</span> Autonomous Google Posts & Updates</h2>
+              <p class="card-desc">AI auto-publishes high-converting property listings with verified rates and CTA buttons to keep your profile fresh.</p>
             </div>
-            <p style="font-size: 12px; color: var(--color-text-body); font-style: italic;">
-              "Bought a 2 BHK flat in Pale Gaon through Dashmesh Property. Satnam ji provided completely transparent consultation, clear title papers, and quick home loan assistance. Best consultant in Ambernath!"
-            </p>
-
-            <div style="margin-top: 12px; padding: 12px; background: #ffffff; border-radius: 10px; border: 1px solid var(--color-border);" id="review-auto-reply-box">
-              <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--color-emerald); display: block; margin-bottom: 4px;">
-                🤖 AI Auto-Generated Google Reply (SEO Injected):
-              </span>
-              <p style="font-size: 12px; color: var(--color-text-body); line-height: 1.5;" id="review-reply-content">
-                Thank you so much, Amit, for your kind 5-star review! The team at Dashmesh Property is thrilled to hear that your experience with our real estate agency in Ambernath East was seamless and rewarding. We strive every day to provide top-tier consultation, verified title deeds, and hassle-free home loan facilitation for our valued clients in Pale Gaon and Ambernath. We look forward to serving you again soon!
-              </p>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" class="btn-solid-primary" onclick="generateFreshAIPost()">
+                <span>✨ Generate Fresh AI Property Post</span>
+              </button>
+              <button type="button" class="btn-solid-emerald" onclick="triggerAutoPostPublish()">
+                <span>🚀 Publish Update to Google</span>
+              </button>
             </div>
           </div>
+
+          <!-- 3 Ready Google Posts Grid -->
+          <div class="posts-grid" id="weekly-posts-list">
+            <!-- Populated dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Section 2: Live Google Reviews & AI Auto-Responder Engine -->
+        <div style="margin-top: 30px; border-top: 1px solid var(--color-border); padding-top: 24px;">
+          <div class="card-header-row" style="margin-bottom: 16px;">
+            <div class="card-title-group">
+              <h3 class="card-title" style="font-size: 16px;"><span>⭐</span> Google Review Auto-Responder (Live Engine)</h3>
+              <p class="card-desc">When any customer posts a review on Google Maps, the AI instantly detects it, writes an SEO-optimized thank you reply, and alerts the owner on WhatsApp.</p>
+            </div>
+            <span class="badge-pill badge-pill-emerald">● Auto-Reply Status: 100% Instant Response</span>
+          </div>
+
+          <!-- Live Review Submission / Test Box -->
+          <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 14px; padding: 18px; margin-bottom: 20px;">
+            <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0 0 10px 0;">Test / Process an Incoming Customer Review:</h4>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 12px;">
+              <div>
+                <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Customer Name:</label>
+                <input type="text" id="new-review-name" class="input-styled" placeholder="e.g. Ramesh Kulkarni" value="Ramesh Kulkarni" />
+              </div>
+              <div>
+                <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Star Rating:</label>
+                <select id="new-review-rating" class="input-styled" style="padding: 7px 10px;">
+                  <option value="5" selected>★★★★★ (5 Stars - Positive)</option>
+                  <option value="4">★★★★☆ (4 Stars - Good)</option>
+                  <option value="3">★★★☆☆ (3 Stars - Neutral)</option>
+                  <option value="1">★☆☆☆☆ (1 Star - Shield Mode)</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Customer Review Text:</label>
+              <textarea id="new-review-text" class="input-styled" rows="2" style="width: 100%; resize: vertical;" placeholder="e.g. Bought a 1 BHK flat in Pale Gaon through Dashmesh Properties. Great deal and quick loan sanction!">Bought a 1 BHK flat in Pale Gaon through Dashmesh Properties. Satnam ji provided completely honest guidance, transparent legal paperwork, and got my SBI loan sanctioned quickly!</textarea>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <span style="font-size: 11px; color: var(--color-text-muted);">
+                📱 Automatically alerts owner at <strong>+91 84210 77613</strong> via WhatsApp when replied.
+              </span>
+              <button type="button" class="btn-solid-primary" onclick="submitNewReviewFromUI()">
+                <span>🤖 Process Review & Auto-Publish AI Reply</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Reviews Feed -->
+          <div>
+            <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0 0 12px 0;">Live Reviews & Published AI Replies:</h4>
+            <div id="google-reviews-feed">
+              <!-- Populated dynamically by app.js from /api/gbp/reviews -->
+            </div>
+          </div>
+
         </div>
 
       </div>
