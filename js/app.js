@@ -591,7 +591,7 @@ function renderWhatsAppThreadList() {
           <span style="font-size: 10px; color: #94a3b8;">${lastTime}</span>
         </div>
         <div class="thread-snippet">${lastMsg.text.replace(/\n/g, ' ')}</div>
-        <span class="thread-badge-bot">🤖 Auto-Bot Replied</span>
+        <span class="thread-badge-bot">🤖 Sia Replied</span>
       </div>
     `;
   });
@@ -623,7 +623,7 @@ function renderWhatsAppChat(index) {
     html += `
       <div class="chat-bubble ${isClient ? 'bubble-incoming' : 'bubble-outgoing'}">
         <span style="font-size: 10px; font-weight: 800; color: ${isClient ? '#4f46e5' : '#059669'}; display: block; margin-bottom: 2px;">
-          ${isClient ? '👤 ' + conv.name : '🤖 Dashmesh AI Auto-Bot'}
+          ${isClient ? '👤 ' + conv.name : '🌸 Sia (AI Property Advisor)'}
         </span>
         <div>${msg.text}</div>
         <span class="bubble-time">${time} ${!isClient ? '✓✓' : ''}</span>

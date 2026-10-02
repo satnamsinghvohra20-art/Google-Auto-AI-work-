@@ -241,8 +241,118 @@ const AIEngine = {
   },
 
   /**
-   * Dedicated Owner / Boss AI Executive Assistant
-   * When messages arrive from +91 84210 77613, this engine obeys the owner's commands,
+   * Generates respectful, dynamic greetings for Satnam Sir (Owner) without monotonous "Namaste"
+   */
+  getSiaOwnerSalutation(ownerName = "Satnam Sir") {
+    const istHour = (new Date().getUTCHours() + 5.5) % 24;
+    let timeGreeting = "Hello";
+    if (istHour >= 5 && istHour < 12) timeGreeting = "Good morning";
+    else if (istHour >= 12 && istHour < 17) timeGreeting = "Good afternoon";
+    else if (istHour >= 17 && istHour < 22) timeGreeting = "Good evening";
+
+    const openers = [
+      `${timeGreeting} ${ownerName}! Sia here. `,
+      `Ji ${ownerName}! Sia at your service. `,
+      `Sat Sri Akal ${ownerName}! Sia reporting live. `,
+      `Hello ${ownerName}! Sia yahan hai. `,
+      `Aadesh kijiye ${ownerName}! Sia live report karti hai: `,
+      `Shubh Prabhat ${ownerName}! Sia online hai. `,
+      `Haan ji ${ownerName}! Sia ready hai aapke command ke liye. `
+    ];
+    return openers[Math.floor(Math.random() * openers.length)];
+  },
+
+  /**
+   * Generates dynamic, warm, non-repetitive greetings and conversational bridges for Sia
+   * Never sounds like a boring, repetitive robot!
+   */
+  getSiaGreetingPrefix(name, lang, isOngoing) {
+    const istHour = (new Date().getUTCHours() + 5.5) % 24;
+    let timeGreetingFull = "Good day";
+    let timeHinglish = "Namaste";
+    if (istHour >= 5 && istHour < 12) {
+      timeGreetingFull = "Good morning";
+      timeHinglish = "Shubh Prabhat";
+    } else if (istHour >= 12 && istHour < 17) {
+      timeGreetingFull = "Good afternoon";
+      timeHinglish = "Shubh Dopahar";
+    } else if (istHour >= 17 && istHour < 22) {
+      timeGreetingFull = "Good evening";
+      timeHinglish = "Shubh Sandhya";
+    }
+
+    if (!isOngoing) {
+      // First contact / Initial message: Warm, personalized introduction as Sia
+      if (lang === "marathi") {
+        const marathiGreetings = [
+          `Namaskar ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties madhun aple swagat karte. 🌸 `,
+          `Aple manasparvak swagat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties chi property advisor. ✨ `,
+          `Suprabhat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties desk varun aple swagat aahe. 🏡 `
+        ];
+        return marathiGreetings[Math.floor(Math.random() * marathiGreetings.length)];
+      }
+
+      if (lang === "english") {
+        const englishGreetings = [
+          `Hello ${name ? name : 'there'}! I am *Sia* from Dashmesh Properties. Great to connect with you! 🌸 `,
+          `${timeGreetingFull} ${name ? name : ''}! Welcome to Dashmesh Properties, I'm *Sia*, your property advisor. ✨ `,
+          `Warm welcome ${name ? name : ''}! I'm *Sia* from Dashmesh Properties — here to help you find your dream space. 🏡 `
+        ];
+        return englishGreetings[Math.floor(Math.random() * englishGreetings.length)];
+      }
+
+      // Hinglish / Hindi
+      const hinglishGreetings = [
+        `Hello ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat hai! 🌸 `,
+        `Welcome ${name ? name + ' ji! ' : '! '}Main *Sia* hoon — Dashmesh Properties ki property advisor. Khushi hui aapse connect karke! ✨ `,
+        `${timeHinglish} ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties desk par aapka swagat hai. 🏡 `,
+        `Sat Sri Akal ${name ? name + ' ji! ' : '! '}Welcome to Dashmesh Properties! Main *Sia* aapki guide hoon. 🙏 `,
+        `Namaskar ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search aasan banate hain! 🤝 `
+      ];
+      return hinglishGreetings[Math.floor(Math.random() * hinglishGreetings.length)];
+    } else {
+      // Ongoing conversation: NEVER repeat boring "Namaste"!
+      // Use lively, natural human conversational bridge words:
+      if (lang === "marathi") {
+        const marathiBridges = [
+          "Ho nakki! ",
+          "Agdi barobar! Mi lagech mahiti share karte: ",
+          "Aapan agdi yogya vichar kelat! ",
+          "Kahi kalji nako, mi purna madat karte: ",
+          "Mi Sia, lagech aamche best options sangte: "
+        ];
+        return marathiBridges[Math.floor(Math.random() * marathiBridges.length)];
+      }
+
+      if (lang === "english") {
+        const englishBridges = [
+          "Certainly! Here are the verified details: ",
+          "Glad you asked! Let me share the exact options: ",
+          "Absolutely! Here is what you need to know: ",
+          "Great question! Sia here with verified updates: ",
+          "I will be happy to guide you on this! "
+        ];
+        return englishBridges[Math.floor(Math.random() * englishBridges.length)];
+      }
+
+      // Hinglish / Hindi ongoing bridges
+      const hinglishBridges = [
+        "Ji bilkul! ",
+        "Haan ji, zaroor! ",
+        "Arey bilkul! ",
+        "Bilkul sahi sawal pucha aapne! ",
+        "Main abhi aapko verified details batati hoon: ",
+        "Khushi hui sunkar! Aaiye main explain karti hoon: ",
+        "Sahi decision hai! Ambernath East mein ye best choice hai: ",
+        "Aap bilkul chinta mat kijiye, main poori help karti hoon: "
+      ];
+      return hinglishBridges[Math.floor(Math.random() * hinglishBridges.length)];
+    }
+  },
+
+  /**
+   * Dedicated Owner / Boss AI Executive Assistant (Sia)
+   * When messages arrive from +91 84210 77613, Sia obeys the owner's commands,
    * reports real-time business metrics (leads, rank, reviews, posts), and executes actions.
    */
   generateOwnerExecutiveResponse(incomingText, ownerName = "Satnam Sir", context = {}) {
@@ -251,6 +361,7 @@ const AIEngine = {
     const totalLeads = context.totalLeads || 0;
     const leadsList = context.leads || [];
     const reviewsCount = context.reviewsCount || 0;
+    const sal = this.getSiaOwnerSalutation(ownerName);
 
     // 1. Leads & Inquiries Inquiry
     if (text.includes("lead") || text.includes("inquir") || text.includes("enquir") || text.includes("grahak") || text.includes("customer") || text.includes("kitne log") || text.includes("baat ki")) {
@@ -263,36 +374,36 @@ const AIEngine = {
       }
       return {
         intent: "OWNER_LEADS_REPORT",
-        reply: `Namaste ${ownerName}! 📊 *Dashmesh Properties Leads Report:*\n\n• Total Inquiries in System: *${totalLeads}*\n• 24/7 Follow-Up Bot: *Active* (sending soft reminders)${leadsPreview}\n\n👉 Detailed pipeline dekhne ke liye dashboard kholein: ${publicUrl}`,
+        reply: `${sal}📊 *Dashmesh Properties Leads Report:*\n\n• Total Inquiries in System: *${totalLeads}*\n• 24/7 Follow-Up Bot (Sia): *Active* (sending soft reminders)${leadsPreview}\n\n👉 Detailed pipeline dekhne ke liye dashboard kholein: ${publicUrl}`,
         suggestedActions: ["📋 All Leads", "⭐ Reviews", "📰 New Post"]
       };
     }
 
-    // 2. Google Ranking, Search & SEO Status
-    if (text.includes("rank") || text.includes("top") || text.includes("search") || text.includes("google") || text.includes("seo") || text.includes("kaha hai")) {
-      return {
-        intent: "OWNER_RANK_STATUS",
-        reply: `Namaste ${ownerName}! 🚀 *Live Google Search & Maps Status:*\n\n• Target Area: *Pale Gaon & Ambernath East (421 501)*\n• Profile Optimization Score: *98/100 (Optimal for #1)*\n• Top Competitor: Rudra Realty (130 reviews)\n• Status: AI 100% review auto-reply active & weekly auto-posts running!\n• Digital Rate Card: ${publicUrl}/rate-card\n\n10-15 aur customer reviews aate hi listing top spot par lock ho jayegi!`,
-        suggestedActions: ["⭐ Reviews", "📰 New Post", "📊 Leads"]
-      };
-    }
-
-    // 3. Reviews & Ratings Inquiry
-    if (text.includes("review") || text.includes("rating") || text.includes("feedback") || text.includes("star")) {
-      return {
-        intent: "OWNER_REVIEWS_REPORT",
-        reply: `Namaste ${ownerName}! ⭐ *Google Reviews Status:*\n\n• Total Reviews Logged: *${reviewsCount}*\n• Average Rating: *5.0 ★*\n• AI Auto-Reply Rate: *100% Instant*\n\nJab bhi koi naya customer Google Maps par review dalega, AI turant SEO reply post karega aur aapko WhatsApp alert bhejega!`,
-        suggestedActions: ["⭐ Reviews", "📰 New Post", "📊 Leads"]
-      };
-    }
-
-    // 4. Publish or Schedule Google Post Command
-    if (text.includes("post") || text.includes("publish") || text.includes("update") || text.includes("dalo") || text.includes("bhejo post")) {
+    // 2. Publish or Schedule Google Post Command (High Priority Action Command)
+    if (text.includes("post") || text.includes("publish") || (text.includes("dalo") && !text.includes("rent")) || text.includes("bhejo post")) {
       return {
         intent: "OWNER_TRIGGER_POST",
         triggerAction: "PUBLISH_POST",
-        reply: `Namaste ${ownerName}! ✅ Command received. Google Maps par naya property post publish kar diya gaya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• SBI/HDFC Bank Loan Tie-ups\n• Lift, Water, Clear Title\n• Contact: +91 84210 77613\n\nLive on Google Business Profile!`,
+        reply: `${sal}✅ Command executed! Sia ne Google Maps par naya property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• SBI/HDFC Bank Loan Tie-ups\n• Lift, Water, Clear Title\n• Contact: +91 84210 77613\n\nLive on Google Business Profile!`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 Next Post"]
+      };
+    }
+
+    // 3. Google Ranking, Search & SEO Status
+    if (text.includes("rank") || text.includes("top") || text.includes("search") || (text.includes("google") && !text.includes("post")) || text.includes("seo") || text.includes("kaha hai")) {
+      return {
+        intent: "OWNER_RANK_STATUS",
+        reply: `${sal}🚀 *Live Google Search & Maps Status:*\n\n• Target Area: *Pale Gaon & Ambernath East (421 501)*\n• Profile Optimization Score: *98/100 (Optimal for #1)*\n• Top Competitor: Rudra Realty (130 reviews)\n• Status: AI 100% review auto-reply active & weekly auto-posts running!\n• Digital Rate Card: ${publicUrl}/rate-card\n\n10-15 aur customer reviews aate hi listing top spot par lock ho jayegi!`,
+        suggestedActions: ["⭐ Reviews", "📰 New Post", "📊 Leads"]
+      };
+    }
+
+    // 4. Reviews & Ratings Inquiry
+    if (text.includes("review") || text.includes("rating") || text.includes("feedback") || text.includes("star")) {
+      return {
+        intent: "OWNER_REVIEWS_REPORT",
+        reply: `${sal}⭐ *Google Reviews Status:*\n\n• Total Reviews Logged: *${reviewsCount}*\n• Average Rating: *5.0 ★*\n• AI Auto-Reply Rate: *100% Instant*\n\nJab bhi koi naya customer Google Maps par review dalega, Sia turant SEO reply post karegi aur aapko WhatsApp alert bhejegi!`,
+        suggestedActions: ["⭐ Reviews", "📰 New Post", "📊 Leads"]
       };
     }
 
@@ -300,7 +411,7 @@ const AIEngine = {
     if (text.includes("rate") || text.includes("bhav") || text.includes("price") || text.includes("flat") || text.includes("shop") || text.includes("1 bhk") || text.includes("2 bhk")) {
       return {
         intent: "OWNER_RATES_QUERY",
-        reply: `Namaste ${ownerName}! 🏡 *Current Verified Ambernath Rates:*\n\n• *1 BHK (Pale Gaon):* ₹18L - ₹30L (Rent: ₹4.5k - ₹8k/mo)\n• *2 BHK (Ambernath E):* ₹32L - ₹55L (Rent: ₹9k - ₹15k/mo)\n• *Commercial Shops:* ₹25L - ₹65L (Rent: ₹8k - ₹35k/mo)\n• *MIDC Industrial:* ₹45L - ₹1.5 Cr\n\n🌐 Live Rate Card: ${publicUrl}/rate-card`,
+        reply: `${sal}🏡 *Current Verified Ambernath Rates:*\n\n• *1 BHK (Pale Gaon):* ₹18L - ₹30L (Rent: ₹4.5k - ₹8k/mo)\n• *2 BHK (Ambernath E):* ₹32L - ₹55L (Rent: ₹9k - ₹15k/mo)\n• *Commercial Shops:* ₹25L - ₹65L (Rent: ₹8k - ₹35k/mo)\n• *MIDC Industrial:* ₹45L - ₹1.5 Cr\n\n🌐 Live Rate Card: ${publicUrl}/rate-card`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
       };
     }
@@ -309,7 +420,7 @@ const AIEngine = {
     if (text.includes("status") || text.includes("on hai") || text.includes("chal raha") || text.includes("bot") || text.includes("system") || text.includes("help") || text.includes("kya kar sakte")) {
       return {
         intent: "OWNER_SYSTEM_STATUS",
-        reply: `Namaste ${ownerName}! 🤖 *Dashmesh Properties AI Manager Status:*\n\n✅ WhatsApp Auto-Bot: *ONLINE (Active 24/7)*\n✅ 24h Client Follow-up Drip: *RUNNING*\n✅ Google Review Auto-Responder: *ACTIVE*\n✅ Meta Cloud API: *CONNECTED*\n✅ Tunnel URL: ${publicUrl}\n\nAap mujhe koi bhi command de sakte hain jaise 'leads report', 'publish post', 'review status', ya property rates!`,
+        reply: `${sal}🤖 *Dashmesh Properties AI (Sia) Status:*\n\n✅ Sia WhatsApp Assistant: *ONLINE (Active 24/7)*\n✅ 24h Client Follow-up Drip: *RUNNING*\n✅ Google Review Auto-Responder: *ACTIVE*\n✅ Meta Cloud API: *CONNECTED*\n✅ Tunnel URL: ${publicUrl}\n\nAap mujhe koi bhi command de sakte hain jaise 'leads report', 'publish post', 'review status', ya property rates!`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
       };
     }
@@ -317,15 +428,15 @@ const AIEngine = {
     // 7. General Custom Command / Question
     return {
       intent: "OWNER_GENERAL_QUERY",
-      reply: `Namaste ${ownerName}! Ji Sir, main aapka AI Business Assistant hoon. Maine aapka message note kar liya hai: "${incomingText}".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karunga!`,
+      reply: `${sal}Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: "${incomingText}".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!`,
       suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
     };
   },
 
   /**
-   * Autonomous WhatsApp Client Auto-Responder Engine
+   * Autonomous WhatsApp Client Auto-Responder Engine (Sia)
    * Matches customer intents (Office Location, Timings, 1/2 BHK flats, shops, prices, review follow-up)
-   * Minds the ongoing conversation: NEVER repeats 'Namaste' after first contact; keeps client warmly engaged.
+   * Minds the ongoing conversation: NEVER repeats boring greetings; uses pleasant, dynamic, human bridges.
    * Multi-Language: Seamlessly switches between Hinglish, Marathi, and English!
    */
   generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
@@ -334,20 +445,8 @@ const AIEngine = {
     const isOngoing = Boolean(context.isOngoing || context.messageCount > 1);
     const lang = context.language || this.detectLanguage(text);
     
-    // Polite greeting on first message or explicit hello
-    let greetingPrefix = "";
-    if (!isOngoing) {
-      if (lang === "marathi") {
-        greetingPrefix = name ? `Namaskar ${name} ji! ` : "Namaskar! ";
-      } else if (lang === "english") {
-        greetingPrefix = name ? `Hello ${name}! ` : "Hello! ";
-      } else {
-        greetingPrefix = name ? `Namaste ${name} ji! ` : "Namaste! ";
-      }
-    } else {
-      const greetingWord = text.startsWith("hi") || text.startsWith("hello") || text.startsWith("namaste") || text.startsWith("hey") ? (lang === "marathi" ? "Namaskar" : "Namaste") : "";
-      if (greetingWord) greetingPrefix = `${greetingWord}! `;
-    }
+    // Dynamic, warm, non-repetitive greeting or conversational bridge by Sia
+    const greetingPrefix = this.getSiaGreetingPrefix(name, lang, isOngoing);
 
     const reviewUrl = context.reviewUrl || "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
     const officeAddr = context.officeAddress || "New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501";
@@ -790,13 +889,13 @@ Aapko specific kis area ya budget mein property chahiye?`,
       };
     }
 
-    // 16. DEFAULT INITIAL GREETING / FIRST CONTACT
+    // 16. DEFAULT INITIAL GREETING / FIRST CONTACT (Sia Warm Welcome)
     if (!isOngoing) {
       if (lang === "marathi") {
         return {
           intent: "GREETING",
           language: "marathi",
-          reply: `Namaskar ${name ? name + ' ji' : ''}! Dashmesh Properties madhe aple swagat aahe. 🙏
+          reply: `${greetingPrefix}
 *"Aapla Vishwas, Aamchi Baddhata — Finding Spaces, Building Relationships"*
 
 🏢 Karyalay: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
@@ -808,7 +907,7 @@ Aamhi Ambernath East & Pale Gaon che verified real estate consultants aahot:
 4️⃣ *Bank Loan Desk:* 90% SBI / HDFC Loan Approval
 
 🌐 Digital Rate Card: ${rateCardUrl}
-Aaplyala kashachi mahiti hawi aahe? Aamhi lagech verified options share karto!`,
+Aaplyala kashachi mahiti hawi aahe? Sia lagech verified options share karel!`,
           suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
         };
       }
@@ -817,7 +916,7 @@ Aaplyala kashachi mahiti hawi aahe? Aamhi lagech verified options share karto!`,
         return {
           intent: "GREETING",
           language: "english",
-          reply: `Hello ${name ? name : ''}! Welcome to Dashmesh Properties. 🙏
+          reply: `${greetingPrefix}
 *"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
 
 🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
@@ -829,7 +928,7 @@ We specialize in verified residential & commercial properties in Ambernath:
 4️⃣ *Home Loan Assistance:* Up to 90% SBI / HDFC loan sanction
 
 🌐 Digital Catalog: ${rateCardUrl}
-What type of property are you looking for today?`,
+What type of property are you looking for today? Sia is here to guide you step-by-step!`,
           suggestedActions: ["1 BHK / 2 BHK", "Rental Homes", "Commercial", "Office Location"]
         };
       }
@@ -837,8 +936,8 @@ What type of property are you looking for today?`,
       return {
         intent: "GREETING",
         language: "hinglish",
-        reply: `Namaste ${name ? name + ' ji' : ''}! Dashmesh Properties mein aapka swagat hai. 🙏
-*"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
+        reply: `${greetingPrefix}
+*"Aapka Vishwas, Hamari Pratibaddhta — Finding Spaces, Building Relationships"*
 
 🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
 
@@ -849,7 +948,7 @@ Hum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Re
 4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval
 
 🌐 Digital Rate Card: ${rateCardUrl}
-Aapko kis type ki property ki requirement hai? Hum turant verified options share karenge!`,
+Aapko kis type ki property ki requirement hai? Sia aapke saath verified options turant share karegi!`,
         suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
       };
     }
@@ -858,9 +957,9 @@ Aapko kis type ki property ki requirement hai? Hum turant verified options share
     return {
       intent: "CONVERSATIONAL_FOLLOWUP",
       language: lang,
-      reply: `Ji, main samajh gaya. Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.
+      reply: `Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.
 
-Aap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, hum turant verified options bhejte hain!`,
+Aap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!`,
       suggestedActions: ["📍 Office Map", "📊 Rate Card", "📞 Call Office"]
     };
   },

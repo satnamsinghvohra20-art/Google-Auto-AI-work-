@@ -944,7 +944,7 @@ const server = http.createServer((req, res) => {
 
             // 2. If it's a real client inquiry (NOT the owner), alert Owner on personal WhatsApp (+91 84210 77613)
             if (!isOwner) {
-              const leadAlert = `🔔 *New Client Inquiry Received!* (Dashmesh Properties)\n\n👤 *Client:* ${name}\n📞 *Phone:* +${cleanFrom}\n💬 *Client Message:* "${text}"\n🏷️ *Inquiry Type:* ${autoRes.intent}\n\n🤖 *Bot Action:* Verified details, office timings & maps sent instantly!`;
+              const leadAlert = `🔔 *New Client Inquiry Received!* (Dashmesh Properties)\n\n👤 *Client:* ${name}\n📞 *Phone:* +${cleanFrom}\n💬 *Client Message:* "${text}"\n🏷️ *Inquiry Type:* ${autoRes.intent}\n\n🤖 *Sia Action:* Verified details, office timings & maps sent instantly!`;
               sendMetaWhatsAppMessage(ownerPhone, leadAlert, {
                 ...whatsappConfig,
                 phoneNumberId: targetPhoneId
@@ -958,8 +958,8 @@ const server = http.createServer((req, res) => {
             type: 'WHATSAPP',
             icon: isOwner ? '👑' : '💬',
             message: isOwner
-              ? `AI Executive Assistant answered Owner Satnam Singh (+${cleanFrom}): [${autoRes.intent}] "${text.substring(0, 30)}..."`
-              : `Auto-replied to client ${name} (${from}): [${autoRes.intent}] "${text.substring(0, 30)}..."`,
+              ? `Sia (AI Executive Assistant) answered Owner Satnam Singh (+${cleanFrom}): [${autoRes.intent}] "${text.substring(0, 30)}..."`
+              : `Sia auto-replied to client ${name} (${from}): [${autoRes.intent}] "${text.substring(0, 30)}..."`,
             status: 'active'
           });
         }
@@ -1084,7 +1084,7 @@ const server = http.createServer((req, res) => {
           timestamp: new Date().toISOString(),
           type: 'WHATSAPP',
           icon: '🤖',
-          message: `[Auto-Bot] Replied to ${name} (${phone}): Intent: ${autoRes.intent}`,
+          message: `[Sia AI] Replied to ${name} (${phone}): Intent: ${autoRes.intent}`,
           status: 'success'
         });
 
