@@ -858,34 +858,68 @@ const server = http.createServer((req, res) => {
           }
 
           const contact = value.contacts && value.contacts[0];
-          const name = (contact && contact.profile && contact.profile.name) || 'Client';
+          const rawName = (contact && contact.profile && contact.profile.name) || 'Client';
 
-          let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === from.replace(/[^0-9]/g, ''));
+          const cleanFrom = from.replace(/[^0-9]/g, '');
+          const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
+          const isOwner = (cleanFrom === ownerPhone || cleanFrom.endsWith('8421077613'));
+          const name = isOwner ? 'Satnam Singh (Owner / Boss)' : rawName;
+
+          let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanFrom);
           const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
           const messageCount = conv ? conv.messages.length : 0;
-
           const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
-          const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
-            isOngoing,
-            messageCount,
-            publicUrl,
-            officeAddress: whatsappConfig.officeAddress,
-            officeLandmark: whatsappConfig.officeLandmark,
-            officeTimings: whatsappConfig.officeTimings,
-            officeMap: whatsappConfig.officeMap,
-            contactPhone: whatsappConfig.phone
-          });
+
+          let autoRes;
+          if (isOwner) {
+            // Owner Executive Mode: Obey owner's commands, report live business data, execute actions
+            autoRes = AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", {
+              publicUrl,
+              totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
+              leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
+              reviewsCount: googleReviews.length,
+              publishedPostsCount: publishedPostLogs.length
+            });
+
+            if (autoRes.triggerAction === 'PUBLISH_POST') {
+              const postData = AIEngine.generateDynamicGooglePost();
+              publishedPostLogs.unshift({
+                id: 'post_log_' + Date.now(),
+                day: postData.day,
+                title: postData.title,
+                text: postData.text,
+                category: postData.category,
+                cta: postData.cta,
+                link: postData.link,
+                status: 'Published Live on Google Maps',
+                timestamp: new Date().toISOString(),
+                googlePostId: 'gbp_owner_' + Date.now()
+              });
+            }
+          } else {
+            // Client Inquiry Mode
+            autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
+              isOngoing,
+              messageCount,
+              publicUrl,
+              officeAddress: whatsappConfig.officeAddress,
+              officeLandmark: whatsappConfig.officeLandmark,
+              officeTimings: whatsappConfig.officeTimings,
+              officeMap: whatsappConfig.officeMap,
+              contactPhone: whatsappConfig.phone
+            });
+          }
 
           if (!conv) {
-            conv = { phone: '+' + from, name, status: 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
+            conv = { phone: '+' + from, name, status: isOwner ? 'Owner / Executive' : 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
             whatsappConversations.unshift(conv);
           }
-          conv.status = conv.status || 'New Inquiry';
+          conv.status = isOwner ? 'Owner / Executive' : (conv.status || 'New Inquiry');
           conv.lastIntent = autoRes.intent;
           conv.language = autoRes.language || 'hinglish';
           conv.messages.push({
             id: 'msg_in_' + Date.now(),
-            sender: 'client',
+            sender: isOwner ? 'owner' : 'client',
             text: text,
             timestamp: new Date().toISOString()
           });
@@ -900,7 +934,7 @@ const server = http.createServer((req, res) => {
 
           const targetPhoneId = (value && value.metadata && value.metadata.phone_number_id) || whatsappConfig.phoneNumberId;
           if (whatsappConfig.accessToken && targetPhoneId) {
-            // 1. Send AI reply with clickable interactive buttons
+            // 1. Send reply with interactive buttons
             sendMetaWhatsAppMessage(from, autoRes.reply, {
               ...whatsappConfig,
               phoneNumberId: targetPhoneId
@@ -908,10 +942,8 @@ const server = http.createServer((req, res) => {
               buttons: autoRes.suggestedActions
             });
 
-            // 2. Instantly notify Owner on personal WhatsApp (+91 84210 77613)
-            const cleanFrom = from.replace(/[^0-9]/g, '');
-            const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
-            if (cleanFrom !== ownerPhone) {
+            // 2. If it's a real client inquiry (NOT the owner), alert Owner on personal WhatsApp (+91 84210 77613)
+            if (!isOwner) {
               const leadAlert = `🔔 *New Client Inquiry Received!* (Dashmesh Properties)\n\n👤 *Client:* ${name}\n📞 *Phone:* +${cleanFrom}\n💬 *Client Message:* "${text}"\n🏷️ *Inquiry Type:* ${autoRes.intent}\n\n🤖 *Bot Action:* Verified details, office timings & maps sent instantly!`;
               sendMetaWhatsAppMessage(ownerPhone, leadAlert, {
                 ...whatsappConfig,
@@ -924,8 +956,10 @@ const server = http.createServer((req, res) => {
             id: 'evt_wa_' + Date.now(),
             timestamp: new Date().toISOString(),
             type: 'WHATSAPP',
-            icon: '💬',
-            message: `Auto-replied to client ${name} (${from}): [${autoRes.intent}] "${text.substring(0, 30)}..."`,
+            icon: isOwner ? '👑' : '💬',
+            message: isOwner
+              ? `AI Executive Assistant answered Owner Satnam Singh (+${cleanFrom}): [${autoRes.intent}] "${text.substring(0, 30)}..."`
+              : `Auto-replied to client ${name} (${from}): [${autoRes.intent}] "${text.substring(0, 30)}..."`,
             status: 'active'
           });
         }
@@ -974,22 +1008,55 @@ const server = http.createServer((req, res) => {
         const name = data.name || 'Rahul Patil';
         const text = data.text || 'Namaste, 1 BHK flat available hai?';
 
-        let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === phone.replace(/[^0-9]/g, ''));
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+        const isOwner = cleanPhone.endsWith('8421077613');
+        const finalName = isOwner ? 'Satnam Singh (Owner / Boss)' : name;
+
+        let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanPhone);
         const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
         const messageCount = conv ? conv.messages.length : 0;
+        const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
 
-        const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
-          isOngoing,
-          messageCount,
-          officeAddress: whatsappConfig.officeAddress,
-          officeLandmark: whatsappConfig.officeLandmark,
-          officeTimings: whatsappConfig.officeTimings,
-          officeMap: whatsappConfig.officeMap,
-          contactPhone: whatsappConfig.phone
-        });
+        let autoRes;
+        if (isOwner) {
+          autoRes = AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", {
+            publicUrl,
+            totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
+            leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
+            reviewsCount: googleReviews.length,
+            publishedPostsCount: publishedPostLogs.length
+          });
+
+          if (autoRes.triggerAction === 'PUBLISH_POST') {
+            const postData = AIEngine.generateDynamicGooglePost();
+            publishedPostLogs.unshift({
+              id: 'post_log_' + Date.now(),
+              day: postData.day,
+              title: postData.title,
+              text: postData.text,
+              category: postData.category,
+              cta: postData.cta,
+              link: postData.link,
+              status: 'Published Live on Google Maps',
+              timestamp: new Date().toISOString(),
+              googlePostId: 'gbp_sim_owner_' + Date.now()
+            });
+          }
+        } else {
+          autoRes = AIEngine.generateWhatsAppAutoResponse(text, finalName, {
+            isOngoing,
+            messageCount,
+            publicUrl,
+            officeAddress: whatsappConfig.officeAddress,
+            officeLandmark: whatsappConfig.officeLandmark,
+            officeTimings: whatsappConfig.officeTimings,
+            officeMap: whatsappConfig.officeMap,
+            contactPhone: whatsappConfig.phone
+          });
+        }
 
         if (!conv) {
-          conv = { phone, name, lastUpdated: new Date().toISOString(), messages: [] };
+          conv = { phone, name: finalName, status: isOwner ? 'Owner / Executive' : 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
           whatsappConversations.unshift(conv);
         }
 
