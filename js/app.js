@@ -869,7 +869,7 @@ function renderWeeklyPosts() {
     {
       day: "Monday Post",
       title: "🏡 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath East",
-      text: "Looking for an affordable dream home with clear title, lift, power backup, and close proximity to Ambernath Station? Dashmesh Property brings you verified residential listings with up to 90% bank loan approval. Transparent documentation and zero hidden charges! Visit Dashmesh Property, Shop No. 24, New Floora, Pale Gaon, Ambernath East today for guided site visits. Call Satnam Singh Vohra at +91 93222 22222."
+      text: "Looking for an affordable dream home with clear title, lift, power backup, and close proximity to Ambernath Station? Dashmesh Property brings you verified residential listings with up to 90% bank loan approval. Transparent documentation and zero hidden charges! Visit Dashmesh Property, Shop No. 24, New Floora, Pale Gaon, Ambernath East today for guided site visits. Call Satnam Singh Vohra at +91 84210 77613."
     },
     {
       day: "Wednesday Post",

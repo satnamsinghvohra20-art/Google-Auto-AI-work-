@@ -186,9 +186,9 @@
           
           <!-- Field 1: Business Title -->
           <div class="form-field-card">
-            <span class="field-label">Verified Business Name:</span>
+            <span class="field-label">Verified Business Name (Recommended for #1 Rank):</span>
             <div class="field-val-row">
-              <span class="field-value" id="val-biz-name">Dashmesh Property - Real Estate Consultant</span>
+              <span class="field-value" id="val-biz-name">Dashmesh Properties - Real Estate Agency & Property Consultant</span>
               <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-name', 'Business Name copied!')">
                 📋 Copy
               </button>
@@ -197,7 +197,7 @@
 
           <!-- Field 2: Primary Category -->
           <div class="form-field-card">
-            <span class="field-label">Primary Google Category:</span>
+            <span class="field-label">Primary Google Category (Required):</span>
             <div class="field-val-row">
               <span class="field-value" id="val-biz-cat">Real Estate Agency</span>
               <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-cat', 'Primary Category copied!')">
@@ -208,9 +208,9 @@
 
           <!-- Field 3: Secondary Categories -->
           <div class="form-field-card">
-            <span class="field-label">Secondary Categories to Add:</span>
+            <span class="field-label">Secondary Categories to Add (Boosts Ranking):</span>
             <div class="field-val-row">
-              <span class="field-value" id="val-biz-subcat">Real Estate Consultant, Commercial Real Estate Agency</span>
+              <span class="field-value" id="val-biz-subcat">Real Estate Consultant, Commercial Real Estate Agency, Real Estate Rental Agency, Real Estate Appraiser</span>
               <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-subcat', 'Secondary Categories copied!')">
                 📋 Copy
               </button>
@@ -228,10 +228,32 @@
             </div>
           </div>
 
+          <!-- Field 5: Website & Appointment Link -->
+          <div class="form-field-card">
+            <span class="field-label">Website & Digital Brochure Link:</span>
+            <div class="field-val-row">
+              <span class="field-value" id="val-biz-web">https://plod-extrude-lumpish.ngrok-free.dev/rate-card</span>
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-web', 'Website Link copied!')">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Field 6: Service Areas -->
+          <div class="form-field-card">
+            <span class="field-label">Service Areas to Add in Google:</span>
+            <div class="field-val-row">
+              <span class="field-value" id="val-biz-areas">Pale Gaon, Ambernath East, Kansai Section, Station Road, Shiv Mandir Road, B-Cabin Road, MIDC Ambernath (421501)</span>
+              <button type="button" class="btn-copy-small" onclick="copyFieldText('val-biz-areas', 'Service Areas copied!')">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+
         </div>
 
         <!-- 750-Character High-SEO Description -->
-        <div class="desc-box-container">
+        <div class="desc-box-container" style="margin-top: 18px;">
           <div class="card-header-row" style="margin-bottom: 8px;">
             <div class="card-title-group">
               <h3 class="card-title" style="font-size: 15px;"><span>✨</span> 750-Character Google Maps SEO Description</h3>
@@ -243,7 +265,157 @@
           </div>
 
           <div class="desc-text-content" id="seo-description-content">
-Dashmesh Property is a premier real estate consultancy and property advisory firm based in Ambernath East, Maharashtra. With over 12+ years of local market expertise, we specialize in 1 BHK, 2 BHK, and 3 BHK residential apartments, commercial showroom spaces, resale properties, and rental homes across prime Ambernath localities including Station Road, Pale Gaon, Kansai Section, and MIDC corridor. Our services encompass end-to-end property buying, selling, legal title verification, RERA documentation, home loan facilitation, and market price valuation. We are committed to transparency, zero hidden charges, and customer satisfaction. Visit our office today for verified listings and expert real estate guidance in Ambernath.
+Dashmesh Properties is a premier real estate consultancy and property advisory firm based in Pale Gaon, Ambernath East, Maharashtra. With over 12+ years of trusted local market expertise, we specialize in verified 1 BHK, 2 BHK, and 3 BHK residential apartments, prime commercial showroom and shop spaces, resale properties, and rental homes across prime Ambernath localities including Station Road, Pale Gaon, Kansai Section, Shiv Mandir Road, and MIDC corridor. Our end-to-end services include legal title verification, clear documentation, RERA compliance checks, and up to 90% home loan facilitation with nationalized banks. We are committed to complete transparency, fair dealing, and zero hidden charges. Visit our office at Shop No. 24, New Floora, Pale Gaon, Ambernath East for verified property listings and expert consultation.
+          </div>
+        </div>
+
+        <!-- Google Business Profile Products & Services Catalog -->
+        <div style="margin-top: 24px;">
+          <div class="card-header-row" style="margin-bottom: 12px;">
+            <div class="card-title-group">
+              <h3 class="card-title" style="font-size: 15px;"><span>🛍️</span> Google Profile Products & Services (Add to "Edit Products" in Google)</h3>
+              <p class="card-desc">Adding these 4 products on Google makes your listings show directly on Google Search when customers search for flats or shops!</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+            
+            <!-- Product 1 -->
+            <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0;">🏡 1 BHK Ready Flats in Pale Gaon</h4>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('prod-desc-1', 'Product 1 copied!')">📋 Copy</button>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--color-emerald); display: block; margin-bottom: 6px;">Category: Residential Properties • ₹18 Lakhs - ₹30 Lakhs</span>
+              <p id="prod-desc-1" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0;">
+                Verified ready-to-move and new project 1 BHK flats in Pale Gaon, Ambernath East. Clear title, lift, power backup, water supply, and up to 90% bank loan approval available. Call Dashmesh Properties: +91 84210 77613.
+              </p>
+            </div>
+
+            <!-- Product 2 -->
+            <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0;">🏢 2 BHK Luxury Apartments (Ambernath E)</h4>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('prod-desc-2', 'Product 2 copied!')">📋 Copy</button>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--color-emerald); display: block; margin-bottom: 6px;">Category: Residential Properties • ₹32 Lakhs - ₹55 Lakhs</span>
+              <p id="prod-desc-2" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0;">
+                Spacious 2 BHK flats with master bedrooms, balconies, modular kitchen, and modern amenities in prime Ambernath East & Pale Gaon. Complete RERA documentation and loan assistance. Call: +91 84210 77613.
+              </p>
+            </div>
+
+            <!-- Product 3 -->
+            <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0;">🏪 Commercial Shops on Rent & Sale</h4>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('prod-desc-3', 'Product 3 copied!')">📋 Copy</button>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--color-emerald); display: block; margin-bottom: 6px;">Category: Commercial Real Estate • Rent: ₹8k-₹35k/mo</span>
+              <p id="prod-desc-3" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0;">
+                High-footfall roadside commercial shops and retail spaces for clinics, salons, pharmacies, grocery stores, and offices in Pale Gaon and Ambernath East. Ready possession. Call: +91 84210 77613.
+              </p>
+            </div>
+
+            <!-- Product 4 -->
+            <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0;">📜 Home Loan & Legal Title Services</h4>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('prod-desc-4', 'Product 4 copied!')">📋 Copy</button>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: var(--color-emerald); display: block; margin-bottom: 6px;">Category: Property Legal Services • Free Consultation</span>
+              <p id="prod-desc-4" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0;">
+                End-to-end legal title verification, agreement registration, market price valuation, and up to 90% home loan facilitation through SBI, HDFC, ICICI, and nationalized banks. Call: +91 84210 77613.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Google Profile Q&A Seed Kit -->
+        <div style="margin-top: 24px;">
+          <div class="card-header-row" style="margin-bottom: 12px;">
+            <div class="card-title-group">
+              <h3 class="card-title" style="font-size: 15px;"><span>❓</span> Google Profile Q&A Seed Kit (Post on Your Google Maps Listing)</h3>
+              <p class="card-desc">Ask and answer these questions on your Google Maps listing. Google's AI reads these to rank Dashmesh Properties #1 for these exact buyer queries!</p>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            
+            <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 12px; color: #0f172a;">Q: Are 1 BHK and 2 BHK ready possession flats available in Pale Gaon, Ambernath East?</strong>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('qa-ans-1', 'Answer 1 copied!')">📋 Copy Answer</button>
+              </div>
+              <p id="qa-ans-1" style="font-size: 11px; color: var(--color-text-body); margin: 0; line-height: 1.4;">
+                <strong>A (Dashmesh Properties - Owner):</strong> Yes! We have verified 1 BHK (starting ₹18 Lakhs) and 2 BHK (starting ₹32 Lakhs) ready-possession flats with lift, parking, and 90% bank loan approval in Pale Gaon and Ambernath East. Contact us at +91 84210 77613 or visit Shop No. 24, New Floora, Pale Gaon.
+              </p>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 12px; color: #0f172a;">Q: Does Dashmesh Properties provide home loan and legal title verification?</strong>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('qa-ans-2', 'Answer 2 copied!')">📋 Copy Answer</button>
+              </div>
+              <p id="qa-ans-2" style="font-size: 11px; color: var(--color-text-body); margin: 0; line-height: 1.4;">
+                <strong>A (Dashmesh Properties - Owner):</strong> Yes, we handle complete legal title verification, agreement drafting, and hassle-free home loan processing with all major banks (SBI, HDFC, Bank of Baroda) with zero hidden fees.
+              </p>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 12px; color: #0f172a;">Q: Are commercial shops and retail spaces available for rent in Pale Gaon?</strong>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('qa-ans-3', 'Answer 3 copied!')">📋 Copy Answer</button>
+              </div>
+              <p id="qa-ans-3" style="font-size: 11px; color: var(--color-text-body); margin: 0; line-height: 1.4;">
+                <strong>A (Dashmesh Properties - Owner):</strong> Yes, we have roadside commercial shops and offices available for rent (₹8,000 - ₹35,000/mo) ideal for clinics, salons, groceries, and businesses in Pale Gaon and Ambernath East.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Fast 5-Star Review Generator (WhatsApp Templates) -->
+        <div style="margin-top: 24px;">
+          <div class="card-header-row" style="margin-bottom: 12px;">
+            <div class="card-title-group">
+              <h3 class="card-title" style="font-size: 15px;"><span>⭐</span> Fast 5-Star Review Booster (Send to Past Happy Clients via WhatsApp)</h3>
+              <p class="card-desc">Competitor Rudra Realty has reviews. Send these pre-written messages to 10-15 happy clients to quickly get genuine 5-star reviews on Google Maps!</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+            
+            <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <strong style="font-size: 12px; color: #0f172a;">Review Script 1 (Flat Buyer)</strong>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('rev-script-1', 'Review Script 1 copied!')">📋 Copy</button>
+              </div>
+              <p id="rev-script-1" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0; font-style: italic;">
+                "Bought our 1 BHK flat in Pale Gaon through Dashmesh Properties. Satnam ji provided completely honest guidance, transparent legal paperwork, and got our home loan sanctioned quickly. Highly recommended real estate consultant in Ambernath East!"
+              </p>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <strong style="font-size: 12px; color: #0f172a;">Review Script 2 (Rental / Tenant)</strong>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('rev-script-2', 'Review Script 2 copied!')">📋 Copy</button>
+              </div>
+              <p id="rev-script-2" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0; font-style: italic;">
+                "Found a great rental apartment in Pale Gaon Ambernath East within 2 days with Dashmesh Properties. Very smooth agreement process, professional service, and zero hassle. Best property agent in Ambernath!"
+              </p>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <strong style="font-size: 12px; color: #0f172a;">Review Script 3 (Commercial Shop)</strong>
+                <button type="button" class="btn-copy-small" onclick="copyFieldText('rev-script-3', 'Review Script 3 copied!')">📋 Copy</button>
+              </div>
+              <p id="rev-script-3" style="font-size: 11px; color: var(--color-text-body); line-height: 1.4; margin: 0; font-style: italic;">
+                "Dashmesh Properties helped us get a prime commercial shop on rent in Pale Gaon. Excellent market knowledge, fair dealing, and prompt support. 5 stars for Satnam ji and his team in Ambernath East!"
+              </p>
+            </div>
+
           </div>
         </div>
 
