@@ -461,30 +461,36 @@ Live on Google Maps!`,
       };
     }
 
-    // 5. MMR Mega Projects Directory Report for Owner
-    if (text.includes("project") || text.includes("mmr") || text.includes("kalyan") || text.includes("thane") || text.includes("mumbai") || text.includes("ulhasnagar") || text.includes("directory") || text.includes("vasai") || text.includes("virar") || text.includes("karjat") || text.includes("neral")) {
+    // 5. MMR Mega Projects & Real Estate Directory Report for Owner
+    if (text.includes("project") || text.includes("mmr") || text.includes("kalyan") || text.includes("thane") || text.includes("mumbai") || text.includes("ulhasnagar") || text.includes("directory") || text.includes("vasai") || text.includes("virar") || text.includes("karjat") || text.includes("neral") || text.includes("bhiwandi") || text.includes("boisar") || text.includes("palghar") || text.includes("shahapur") || text.includes("alibaug") || text.includes("khopoli") || text.includes("state") || text.includes("estate")) {
       return {
         intent: "OWNER_MMR_PROJECTS_REPORT",
-        reply: `${sal}🏢 *Dashmesh Properties — Live MMR Mega Projects Directory Report:*
+        reply: `${sal}🏢 *Dashmesh Properties — Live MMR Mega Real Estate & Estates Directory Report:*
 
-• *Total Verified Projects:* 105+ Mega Projects (Har Sub-Area Ground-Truth Data)
-• *Coverage Regions:* 10 Major Hubs (Ambernath, Badlapur, Ulhasnagar, Kalyan, Dombivli, Thane, Mumbai, Navi Mumbai, Vasai-Virar, Karjat-Neral)
-• *Price Span:* ₹14 Lakhs (Affordable / Budget) to ₹16 Crore (Super Luxury / Penthouse)
+• *Total Verified Projects & Estates:* 168+ Projects (Ground-Truth Verified Data)
+• *Coverage Regions:* 16 Major Hubs / Micro-Markets across Greater Mumbai
+• *Price Span:* ₹13.5 Lakhs (Affordable) to ₹25.0 Crore (Ultra Luxury / Sky Villas)
 • *Direct Client Route:* Direct WhatsApp link to your phone (+91 84210 77613)
 
-📍 *Region & Sub-Area Breakdown (105 Projects):*
-1. *Ambernath (11):* Pale Gaon (Dashmesh HQ, GBK Palms, Laxmi Niwas), Chikhali/MIDC (Empire Centrum), Kansai (Patel Colossus, Mohan Suburbia), Shiv Mandir (Panvelkar Green City), Chinchpada (Nisarg Greens), Morivali (Everest Countryside), Navare Nagar (Sai Miracle)
-2. *Badlapur (6):* Barvi Dam Rd (Godrej Vihaa), Shirgaon (Tharwani Vedant, Mohan Areca), Katrap (Aryan Fountain Square), Belavali (Poddar Evergreens), Badlapur W (Thanekar City)
-3. *Ulhasnagar (8):* Sec 17 (Tharwani Ariana), Shanti Nagar (Regency Plaza), Gol Maidan (Shree Sai Ave), Sec 19 (Tharwani Heritage, Kuber Regency), Venus Chowk (Royal Galaxy), Nehru Chowk (Amar Palace), Camp 2 (Kailash Tower)
-4. *Kalyan (14):* Khadakpada (Regency Antilia, Tycoons Square, Tharwani Rosabella, Mohan Altezza), Gandhar Nagar (Godrej Riviera, Mohan Tribeca), Adharwadi (Raunak City), Kalyan E (Kohinoor Eden, Metro Grande, Saket World, Madhav Sansaar), Wayle Nagar (Birla Vanya), Titwala (Regency Sarvam, Tharwani Vedant Millenia)
-5. *Dombivli (8):* Kalyan-Shilphata (Lodha Palava, Runwal Gardens, Marathon Nexworld), Manpada/Dombivli E (Regency Anantam, Lodha Crown, Regency Luxuria, Sai World Dreams), Dombivli W (Sarvodaya Anand)
-6. *Thane (14):* Ghodbunder (Hiranandani Estate, Puraniks Reserva, Vihang Marina), Kolshet (Lodha Amāra, Kalpataru Immensa), Balkum (Dosti West County, Piramal Vaikunth), Majiwada (Rustomjee Urbania), Pokhran 1 & 2 (Raymond Ten X, Northern Lights, Tata Serein, Ashar Edge), Panchpakhadi (Sheth Avalon), Wagle Estate (Ashar Metro)
-7. *Mumbai (20):* Borivali (Oberoi Sky City), Kandivali (Godrej Tranquil), Goregaon (Oberoi Exquisite, Sunteck City), Andheri (Transcon Triumph), Bandra/BKC (Rustomjee Seasons), Mira Road (JP North, Kalpataru Srishti), Kanjurmarg (Runwal Bliss), Powai/Chandivali (Godrej Urban Park), Vikhroli (Godrej The Trees), Mulund (Piramal Revanta), Ghatkopar (The Address), Lower Parel (Lodha Park), Byculla (Piramal Aranya), Wadala (Lodha NCP), Malad (Sheth Auris, Omkar Alta Monte), Chembur (Godrej Prime), Dahisar (DB Ozone)
-8. *Navi Mumbai (15):* Panvel (Marathon Nexzone, Hiranandani Fortune City, Wadhwa Wise City, Kalpataru Park Riviera, Indiabulls Greens), Seawoods (L&T Seawoods), Kharghar (Arihant Aalishan, Sai World Empire, Gami Asters), Upper Kharghar (Today Anandam), Ulwe (Delta Tower, Bhagwati Heritage), Taloja (Arihant Anaika), Ghansoli/Airoli (Aurum Q Islands), Nerul (Akshar Alvario)
-9. *Vasai-Virar (5):* Virar W (Rustomjee Global City, Joyville Virar), Naigaon E (Sunteck West World), Vasai W (Sunteck Beach Residences), Vasai E (Dhoot Pratham)
-10. *Karjat-Neral (4):* Neral (Labham Hills, Tulsi Aanandam), Vangani (Xrbia Smart City), Karjat (Pushpam Sanskruti)
+📍 *Comprehensive 16-Region Breakdown (168 Projects):*
+1. *Ambernath (12):* Pale Gaon (Dashmesh HQ, GBK Palms, Laxmi Niwas), MIDC (Empire Centrum), Kansai (Patel Colossus, Mohan Suburbia), Shiv Mandir (Panvelkar Green City), Chinchpada (Nisarg Greens), Morivali, Navare Nagar, B-Cabin
+2. *Badlapur (8):* Barvi Dam Rd (Godrej Vihaa), Shirgaon (Tharwani Vedant, Mohan Areca), Katrap (Aryan Fountain Square, Tulsi City), Belavali (Poddar Evergreens), Badlapur W (Thanekar City, Panvelkar Estate)
+3. *Ulhasnagar (10):* Sec 17 (Tharwani Ariana), Shanti Nagar (Regency Plaza), Gol Maidan (Shree Sai Ave), Sec 19 (Tharwani Heritage, Kuber Regency), Venus Chowk, Nehru Chowk, Camp 2, Press Bazar, Sec 25
+4. *Kalyan (16):* Khadakpada (Regency Antilia, Tycoons Square, Tharwani Rosabella, Mohan Altezza), Gandhar Nagar (Godrej Riviera, Mohan Tribeca, Vasant Valley), Adharwadi (Raunak City), Kalyan E (Kohinoor Eden, Metro Grande, Saket World, Madhav Sansaar), Wayle Nagar (Birla Vanya), Titwala (Regency Sarvam, Tharwani Vedant Millenia), Chikan Ghar
+5. *Dombivli (10):* Kalyan-Shilphata (Lodha Palava, Runwal Gardens, Marathon Nexworld, Casa Bella Gold, Sai World Dreams), Manpada (Regency Anantam, Lodha Crown), Dombivli E (Regency Luxuria, Shankheshwar), Dombivli W (Sarvodaya Anand)
+6. *Thane (16):* Ghodbunder (Hiranandani Estate, Puraniks Reserva, Vihang Marina), Kolshet (Lodha Amāra, Kalpataru Immensa), Balkum (Dosti West County, Piramal Vaikunth, Runwal Eirene), Majiwada (Rustomjee Urbania), Pokhran 1 & 2 (Raymond Ten X, Northern Lights, Tata Serein, Ashar Edge), Panchpakhadi (Sheth Avalon), Wagle Estate (Ashar Metro), Shilphata (Dosti Planet North)
+7. *Mumbai (30):* Western Suburbs (Oberoi Sky City, Godrej Tranquil, Oberoi Exquisite, Sunteck City, Transcon Triumph, Sheth Auris, Omkar Alta Monte, Rustomjee Seasons, Kalpataru Srishti, JP North, DB Ozone, Kanakia Silicon Valley, Adani Western Heights, Ruparel Westsky) & South/Central (Lodha Park, Piramal Aranya, Lodha NCP, Runwal Bliss, Godrej Urban Park, Godrej The Trees, Piramal Revanta, The Address, Godrej Prime, L&T Crescent Bay, Kalpataru Avana, Shapoorji Vicinia, Dosti Eastern Bay, Rustomjee Crown, Lodha World One, Kanakia Paris)
+8. *Navi Mumbai (18):* Panvel (Marathon Nexzone, Hiranandani Fortune City, Wadhwa Wise City, Kalpataru Riviera, Indiabulls Greens), Seawoods (L&T Seawoods), Kharghar (Arihant Aalishan, Sai World Empire, Gami Asters), Upper Kharghar (Today Anandam), Ulwe (Delta Tower, Bhagwati Heritage), Taloja (Arihant Anaika), Ghansoli (Aurum Q Islands), Nerul (Akshar Alvario), Dronagiri (Akshar Empyrean, Prajapati Magnum), Vashi (Moraj Riverside)
+9. *Mira-Bhayandar (6):* Beverly Park (Kanakia Heights), Mira Road (Jangid Galaxy, Man Opus, Hubtown Gardenia), Bhayandar W (Salasar Exotica), Bhayandar E (Modispaces Victoria)
+10. *Vasai-Virar (8):* Virar W (Rustomjee Global City, Joyville Virar, Poonam Estate), Naigaon E (Sunteck West World), Vasai W (Sunteck Beach Residences), Vasai E (Dhoot Pratham, Evershine City), Nalasopara W (Reliable Prestige)
+11. *Bhiwandi (6):* Kalyan-Bhiwandi Bypass (Arihant City, Regent Park), Kasheli (Kasheli Urban Hub), Kalher (Kalher Pride Metro), Anjurphata (Ornate Galaxy), Temghar (Silver Park)
+12. *Boisar-Palghar (6):* Boisar (Tata Shubh Griha, Mahindra Happinest, Oswal Nagari), Boisar E (Agate Park), Palghar (HDIL Paradise City, Sukh Shanti)
+13. *Karjat-Neral (6):* Neral (Labham Hills, Tulsi Aanandam), Vangani (Xrbia Smart City), Karjat (Pushpam Sanskruti, Godrej Sky Greens), Shelu (Shelu Greens)
+14. *Shahapur-Asangaon (6):* Shahapur (Poddar Riviera, Nirvana Woods, Shiv Garden), Asangaon (Aakash Heritage), Vashind (Deep Paradise), Atgaon (Samruddhi Valley)
+15. *Alibaug-Coastal (5):* Mandwa/Awas (House of Abhinandan Lodha, Samira Habitats), Nagaon (Hiranandani Sands), Varsoli (Godrej Coastal Retreat), Chontal (Alibaug Palms)
+16. *Khopoli-Expressway (5):* Khopoli (Arihant Arshiya, Unimont Aurum, Samarth Heights), Imagicaa (Imagicaa Living), Khalapur (Sahyadri Greens)
 
-Sir, Tab 8 (MMR Projects Directory) aur /api/projects par 105 projects live searchable hain!`,
+Sir, Tab 8 Directory aur /api/projects par sabhi 168+ projects with real-time filters fully operational hain!`,
         suggestedActions: ["🏢 Tab 8 Directory", "📊 Leads", "⭐ Reviews"]
       };
     }
@@ -1166,6 +1172,166 @@ Aapko retirement/holiday home ke liye dekhna hai ya budget investment?`,
       };
     }
 
+    // 19d. MIRA-BHAYANDAR SATELLITE TOWNSHIP INQUIRY
+    if (
+      text.includes("mira bhayandar") ||
+      text.includes("mira road") ||
+      text.includes("bhayandar") ||
+      text.includes("beverly park") ||
+      text.includes("kanakia beverly") ||
+      text.includes("jangid galaxy")
+    ) {
+      return {
+        intent: "MIRA_BHAYANDAR_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🌅 *Mira Road & Bhayandar Prime Township Projects:*
+*(Direct Western Express Highway & Metro 9 connectivity to Mumbai)*
+
+🌟 *Featured Projects in Mira-Bhayandar:*
+1. *Kanakia Beverly Heights (Beverly Park):* 1 & 2 BHK starting ₹65L - ₹1.15 Cr (Rate: ₹12,800/sq.ft)
+2. *Jangid Galaxy (Mira Road East):* 1 & 2 BHK starting ₹62L - ₹1.05 Cr (Rate: ₹12,200/sq.ft)
+3. *Man Opus (Dahisar Check Naka):* 1 & 2 BHK starting ₹66L - ₹1.12 Cr (Rate: ₹12,500/sq.ft)
+4. *Salasar Exotica (Bhayandar West):* 1, 2 & 3 BHK near Maxus Mall starting ₹72L - ₹1.35 Cr (Rate: ₹13,500/sq.ft)
+5. *JP North Garden City (Vinay Nagar):* 1, 2 & 3 BHK 27-acre Spanish township starting ₹59L - ₹1.28 Cr
+
+✅ High rental yields & immediate transit to Western Mumbai
+Aap Mira Road East dekh rahe hain ya Bhayandar West?`,
+        suggestedActions: ["Kanakia Beverly", "Jangid Galaxy", "JP North", "📞 Talk to Satnam Sir"]
+      };
+    }
+
+    // 19e. BHIWANDI & KASHELI-KALHER LOGISTICS & RESIDENTIAL CORRIDOR
+    if (
+      text.includes("bhiwandi") ||
+      text.includes("kasheli") ||
+      text.includes("kalher") ||
+      text.includes("anjurphata") ||
+      text.includes("arihant city") ||
+      text.includes("temghar")
+    ) {
+      return {
+        intent: "BHIWANDI_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🏭 *Bhiwandi, Kasheli & Kalher Growth Corridor Projects:*
+*(Directly connected to Thane Balkum & upcoming Metro Line 5)*
+
+🌟 *Top Projects in Bhiwandi Belt:*
+1. *Arihant City (Kalyan-Bhiwandi Bypass):* 1 & 2 BHK township starting ₹26L - ₹45L (Rate: ₹4,800/sq.ft)
+2. *Kasheli Urban Hub (Near Thane Toll):* 1 RK, 1 & 2 BHK starting ₹19L - ₹36L (Rate: ₹4,200/sq.ft) — *Only 10 mins from Thane Balkum!*
+3. *Kalher Pride (Kalher Metro Corridor):* 1 & 2 BHK starting ₹24L - ₹41L (Rate: ₹4,400/sq.ft)
+4. *Ornate Galaxy (Anjurphata):* 1 & 2 BHK starting ₹28L - ₹48L (Rate: ₹4,900/sq.ft)
+
+✅ Immense price difference vs Thane with 90% loan sanction
+Aap Kasheli (Thane border) prefer karenge ya Bypass township?`,
+        suggestedActions: ["Arihant City", "Kasheli Urban Hub", "Kalher Pride", "📅 Site Visit"]
+      };
+    }
+
+    // 19f. BOISAR & PALGHAR INDUSTRIAL & BULLET TRAIN CORRIDOR
+    if (
+      text.includes("boisar") ||
+      text.includes("palghar") ||
+      text.includes("tata shubh griha") ||
+      text.includes("mahindra happinest") ||
+      text.includes("tarapur")
+    ) {
+      return {
+        intent: "BOISAR_PALGHAR_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🏗️ *Boisar & Palghar Affordable & Industrial Township Projects:*
+*(Hub of Maharashtra's largest MIDC & upcoming Mumbai-Ahmedabad Bullet Train station)*
+
+🌟 *Featured Projects in Boisar & Palghar:*
+1. *Tata Shubh Griha & New Haven (Boisar):* Tata branded 1 RK, 1 & 2 BHK starting ₹15L - ₹32L (Rate: ₹3,400/sq.ft)
+2. *Mahindra Happinest (Boisar MIDC):* Green 1 RK, 1 & 2 BHK starting ₹16L - ₹35L (Rate: ₹3,500/sq.ft)
+3. *HDIL Paradise City (Palghar):* 1 RK, 1 & 2 BHK starting ₹14L - ₹28L (Rate: ₹3,200/sq.ft)
+4. *Agate Park (Betegaon, Boisar E):* 1 & 2 BHK starting ₹17L - ₹29L (Rate: ₹3,350/sq.ft)
+
+✅ Branded developers (Tata & Mahindra) under ₹20 Lakhs!
+✅ High rental demand from industrial engineers & corporate executives
+Aap investment ke liye dekh rahe hain ya self-use?`,
+        suggestedActions: ["Tata Shubh Griha", "Mahindra Happinest", "Palghar Flats", "📞 Call Direct"]
+      };
+    }
+
+    // 19g. SHAHAPUR & ASANGAON WATER SANCTUARY & NASHIK HIGHWAY
+    if (
+      text.includes("shahapur") ||
+      text.includes("asangaon") ||
+      text.includes("vashind") ||
+      text.includes("atgaon") ||
+      text.includes("poddar riviera")
+    ) {
+      return {
+        intent: "SHAHAPUR_ASANGAON_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🌲 *Shahapur & Asangaon Green Sanctuary Projects:*
+*(Chemical-free tourism zone, pure dam water reservoirs & Samruddhi Mahamarg link)*
+
+🌟 *Top Projects in Shahapur-Asangaon:*
+1. *Poddar Riviera (Shahapur NH 3):* 1 RK, 1 & 2 BHK riverfront township starting ₹15L - ₹29L (Rate: ₹3,200/sq.ft)
+2. *Aakash Heritage (Asangaon Station):* 1 & 2 BHK starting ₹18L - ₹32L (Rate: ₹3,400/sq.ft) — *Walking distance to local train terminal!*
+3. *Nirvana Woods (Shahapur):* Nature resort holiday homes starting ₹24L - ₹52L (Rate: ₹3,800/sq.ft)
+4. *Deep Paradise (Vashind):* 1 RK & 1 BHK starting ₹14L - ₹23L (Rate: ₹3,150/sq.ft)
+
+✅ Direct Central Railway local train frequency to Mumbai CSMT
+✅ Pollution-free healthy living for family and retirement`,
+        suggestedActions: ["Poddar Riviera", "Aakash Asangaon", "Nirvana Woods", "📅 Book Visit"]
+      };
+    }
+
+    // 19h. ALIBAUG & COASTAL LUXURY ESTATES
+    if (
+      text.includes("alibaug") ||
+      text.includes("mandwa") ||
+      text.includes("awas") ||
+      text.includes("nagaon") ||
+      text.includes("ro-ro") ||
+      text.includes("hoabl")
+    ) {
+      return {
+        intent: "ALIBAUG_COASTAL_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}⛵ *Alibaug & Mandwa Coastal Luxury Estates & Villas:*
+*(Just 20 mins from Colaba / South Mumbai via Speedboat & connected by Atal Setu MTHL)*
+
+🌟 *Premier Coastal Developments:*
+1. *The House of Abhinandan Lodha (HoABL Awas/Mandwa):* Luxury villa estates starting ₹1.25 Cr - ₹4.50 Cr (Rate: ₹7,500/sq.ft)
+2. *Hiranandani Sands (Nagaon Beach):* 2 & 3 BHK coastal villas starting ₹1.45 Cr - ₹3.80 Cr (Rate: ₹8,200/sq.ft)
+3. *Samira Habitats Sante (Mandwa Jetty):* 2 & 3 BHK luxury suites starting ₹95L - ₹2.50 Cr (Rate: ₹7,800/sq.ft)
+4. *Godrej Coastal Retreat (Varsoli Beach):* 1, 2 & 3 BHK starting ₹78L - ₹1.75 Cr (Rate: ₹7,400/sq.ft)
+
+✅ Prestigious holiday homes for Mumbai's top corporate & business leaders
+✅ Lucrative Airbnb weekend holiday rental returns`,
+        suggestedActions: ["HoABL Alibaug", "Hiranandani Sands", "Samira Mandwa", "Consult Satnam Sir"]
+      };
+    }
+
+    // 19i. KHOPOLI & MUMBAI-PUNE EXPRESSWAY CORRIDOR
+    if (
+      text.includes("khopoli") ||
+      text.includes("khalapur") ||
+      text.includes("imagicaa") ||
+      text.includes("expressway") ||
+      text.includes("arshiya")
+    ) {
+      return {
+        intent: "KHOPOLI_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🛣️ *Khopoli & Mumbai-Pune Expressway Corridor Projects:*
+*(Scenic foothills of Khandala with Central suburban rail and Expressway access)*
+
+🌟 *Top Projects in Khopoli Corridor:*
+1. *Arihant Arshiya (Khopoli):* 20-acre township, 1 RK, 1 & 2 BHK starting ₹18L - ₹38L (Rate: ₹3,900/sq.ft)
+2. *Unimont Aurum (Karjat-Khopoli Rd):* 1 & 2 BHK starting ₹22L - ₹42L (Rate: ₹4,100/sq.ft)
+3. *Adlabs Imagicaa Living:* Resort holiday suites starting ₹27L - ₹54L (Rate: ₹4,300/sq.ft)
+4. *Samarth Heights (Khopoli Station):* 1 RK & 1 BHK starting ₹16L - ₹27L (Rate: ₹3,700/sq.ft)
+
+✅ Excellent bridge connectivity between Mumbai, Navi Mumbai & Pune`,
+        suggestedActions: ["Arihant Arshiya", "Unimont Aurum", "Imagicaa Living", "📞 Contact Us"]
+      };
+    }
+
     // 20. WHOLE MMR PROJECTS DIRECTORY INQUIRY (All Projects / Master Directory)
     if (
       text.includes("projects") ||
@@ -1175,30 +1341,38 @@ Aapko retirement/holiday home ke liye dekhna hai ya budget investment?`,
       text.includes("pura mumbai") ||
       text.includes("sab project") ||
       text.includes("options dikhao") ||
-      text.includes("total projects")
+      text.includes("total projects") ||
+      text.includes("all states") ||
+      text.includes("har jagha")
     ) {
       return {
         intent: "MMR_PROJECTS_DIRECTORY",
         language: lang,
-        reply: `${greetingPrefix}🏢 *Dashmesh Properties — Whole MMR Real Estate Mega Projects Directory:*
-*(105+ Verified Projects across 10 Strategic Hubs & All Granular Sub-Areas)*
+        reply: `${greetingPrefix}🏢 *Dashmesh Properties — Whole MMR Real Estate Mega Projects & Estates Directory:*
+*(168+ Verified Projects across 16 Strategic Regional Hubs & All Granular Sub-Areas)*
 
-🌍 *All 10 Regions & Granular Sub-Areas Covered:*
-• *Ambernath (11):* Pale Gaon, MIDC/Chikhali, Kansai, Shiv Mandir Rd, Chinchpada, Morivali, Navare Nagar (₹18L - ₹65L)
-• *Badlapur (6):* Barvi Dam Rd, Shirgaon, Katrap, Belavali, Badlapur West (₹18L - ₹48L)
-• *Ulhasnagar (8):* Section 17, Shanti Nagar, Gol Maidan, Section 19, Venus Chowk, Nehru Chowk (₹26L - ₹78L)
-• *Kalyan (14):* Khadakpada, Gandhar Nagar, Adharwadi, Kalyan East, Wayle Nagar, Titwala (₹32L - ₹1.45 Cr)
-• *Dombivli (8):* Kalyan-Shilphata Rd, Manpada, Dombivli East, Dombivli West (₹38L - ₹1.40 Cr)
-• *Thane (14):* Ghodbunder Rd, Kolshet, Balkum, Majiwada, Pokhran 1 & 2, Panchpakhadi, Wagle Estate (₹64L - ₹3.5 Cr)
-• *Mumbai (20):* Borivali, Kandivali, Goregaon, Andheri, Bandra, Mira Road, Kanjurmarg, Powai, Mulund, Ghatkopar, Lower Parel, Byculla, Wadala, Malad, Chembur, Dahisar (₹68L - ₹16 Cr)
-• *Navi Mumbai (15):* Panvel, Seawoods, Kharghar, Upper Kharghar, Ulwe, Taloja, Ghansoli/Airoli, Nerul (₹32L - ₹3.8 Cr)
-• *Vasai-Virar (5):* Virar West, Naigaon East, Vasai West/East (₹30L - ₹1.25 Cr)
-• *Karjat-Neral (4):* Neral, Vangani, Karjat (₹14L - ₹55L)
+🌍 *All 16 Strategic Regions & Micro-Markets Covered:*
+• *Ambernath (12):* Pale Gaon, MIDC/Chikhali, Kansai, Shiv Mandir Rd, Chinchpada, Morivali, Navare Nagar, B-Cabin (₹18L - ₹65L)
+• *Badlapur (8):* Barvi Dam Rd, Shirgaon, Katrap, Belavali, Badlapur West, Manjarli (₹18L - ₹48L)
+• *Ulhasnagar (10):* Section 17, Shanti Nagar, Gol Maidan, Section 19, Venus Chowk, Nehru Chowk, Press Bazar, Camp 2 (₹26L - ₹78L)
+• *Kalyan (16):* Khadakpada, Gandhar Nagar, Adharwadi, Kalyan East, Wayle Nagar, Titwala, Chikan Ghar (₹32L - ₹1.45 Cr)
+• *Dombivli (10):* Kalyan-Shilphata Rd, Manpada, Dombivli East, Dombivli West, Casa Bella, Palava (₹38L - ₹1.40 Cr)
+• *Thane (16):* Ghodbunder Rd, Kolshet, Balkum, Majiwada, Pokhran 1 & 2, Panchpakhadi, Wagle Estate, Shilphata (₹64L - ₹3.5 Cr)
+• *Mumbai (30):* Western Suburbs (Borivali, Kandivali, Goregaon, Andheri, Malad, Dahisar, Mira Rd) & South/Central (Lower Parel, Byculla, Wadala, Powai, Kanjurmarg, Mulund, Chembur, Ghatkopar, Parel, Worli, Prabhadevi) (₹68L - ₹25 Cr)
+• *Navi Mumbai (18):* Panvel, Seawoods, Kharghar, Upper Kharghar, Ulwe, Taloja, Ghansoli, Nerul, Dronagiri, Vashi (₹32L - ₹3.8 Cr)
+• *Mira-Bhayandar (6):* Beverly Park, Mira Road East, Bhayandar West, Bhayandar East (₹58L - ₹1.35 Cr)
+• *Vasai-Virar (8):* Virar West, Naigaon East, Vasai West, Vasai East, Nalasopara West (₹26L - ₹1.25 Cr)
+• *Bhiwandi (6):* Kalyan-Bhiwandi Bypass, Kasheli, Kalher, Anjurphata, Temghar (₹19L - ₹48L)
+• *Boisar-Palghar (6):* Boisar MIDC, Palghar, Betegaon (Tata & Mahindra Townships) (₹14L - ₹35L)
+• *Karjat-Neral (6):* Neral, Vangani, Karjat Valley, Shelu (₹14L - ₹65L)
+• *Shahapur-Asangaon (6):* Shahapur Dam Belt, Asangaon Station, Vashind, Atgaon (₹13.5L - ₹52L)
+• *Alibaug-Coastal (5):* Mandwa Jetty, Awas, Nagaon Beach, Varsoli (HoABL & Hiranandani Villas) (₹65L - ₹4.5 Cr)
+• *Khopoli-Expressway (5):* Khopoli, Khalapur, Imagicaa Corridor (₹16L - ₹54L)
 
 🌐 *Browse Live Directory & Rates:* ${publicUrl}
-*(Go to Tab 8: MMR Projects Directory — Full RERA, Carpet Area & Rates)*
+*(Go to Tab 8: MMR Projects Directory — Full RERA, Carpet Area & Verified Rates)*
 
-Aapko kaunse sub-area ya budget mein project dekhna hai? Sia turant direct brochure aur floor plans bhej degi!`,
+Aapko kaunse micro-market ya budget bracket mein options dekhne hain? Sia turant direct builder inventory aur brochure share kar degi!`,
         suggestedActions: ["Kalyan Projects", "Thane Projects", "Dombivli Palava", "Ambernath Base"]
       };
     }

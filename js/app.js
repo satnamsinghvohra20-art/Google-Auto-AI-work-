@@ -1597,8 +1597,8 @@ async function fetchMMRProjects() {
     grid.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
         <div style="font-size: 32px; margin-bottom: 12px; animation: spin 2s linear infinite;">⏳</div>
-        <p style="font-weight: 700; font-size: 15px;">Loading Verified MMR Projects...</p>
-        <p style="font-size: 12px; color: #94a3b8;">Covering Mumbai, Thane, Kalyan, Ulhasnagar, Dombivli, Ambernath, Badlapur, Navi Mumbai, Vasai-Virar & Karjat-Neral</p>
+        <p style="font-weight: 700; font-size: 15px;">Loading 168+ Verified MMR Real Estate Projects & Estates...</p>
+        <p style="font-size: 12px; color: #94a3b8;">Covering 16 Major Hubs: Mumbai, Thane, Kalyan, Dombivli, Ulhasnagar, Ambernath, Badlapur, Navi Mumbai, Mira-Bhayandar, Vasai-Virar, Bhiwandi, Boisar-Palghar, Karjat-Neral, Shahapur, Alibaug & Khopoli</p>
       </div>
     `;
   }
