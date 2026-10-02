@@ -75,7 +75,22 @@ function initApp() {
     }
   } catch(e) {}
 
-  // 7. Sync 24/7 Auto-Pilot Status & stream
+  // 10. Global Modal Keyboard & Outside Click Listeners
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("open", "active"));
+    }
+  });
+
+  document.querySelectorAll(".modal-overlay").forEach(modal => {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("open", "active");
+      }
+    });
+  });
+
+  // 11. Sync 24/7 Auto-Pilot Status & stream
   syncAutoPilotStatus();
   setInterval(syncAutoPilotStatus, 6000);
 }
@@ -87,7 +102,7 @@ function switchAppTab(tabId) {
   appState.activeTab = tabId;
 
   // Update nav buttons
-  const buttons = document.querySelectorAll(".tabs-nav-bar .tab-btn");
+  const buttons = document.querySelectorAll(".tab-btn");
   buttons.forEach(btn => {
     if (btn.getAttribute("onclick") && btn.getAttribute("onclick").includes(tabId)) {
       btn.classList.add("active");
@@ -1244,12 +1259,12 @@ function initOrUpdateLeafletMap() {
  */
 function openProductionSettingsModal() {
   const modal = document.getElementById("settings-modal");
-  if (modal) modal.classList.add("open");
+  if (modal) modal.classList.add("open", "active");
 }
 
 function closeProductionSettingsModal() {
   const modal = document.getElementById("settings-modal");
-  if (modal) modal.classList.remove("open");
+  if (modal) modal.classList.remove("open", "active");
 }
 
 function saveProductionSettings() {
@@ -1378,11 +1393,13 @@ async function fetchCRMLeads() {
       const newEl = document.getElementById("crm-new-leads");
       const visitsEl = document.getElementById("crm-visits-leads");
       const closedEl = document.getElementById("crm-closed-leads");
+      const navBadge = document.getElementById("nav-crm-badge");
 
       if (totalEl) totalEl.textContent = data.stats.total || 0;
       if (newEl) newEl.textContent = data.stats.newInquiries || 0;
       if (visitsEl) visitsEl.textContent = data.stats.siteVisits || 0;
       if (closedEl) closedEl.textContent = data.stats.closed || 0;
+      if (navBadge) navBadge.textContent = `${data.stats.total || 0} Leads`;
 
       renderCRMLeads();
     }
@@ -1543,32 +1560,83 @@ async function deleteCRMLead(phone) {
   }
 }
 
-async function registerNewWalkInLead() {
-  const name = prompt("Enter Client Name:", "");
-  if (!name || !name.trim()) return;
-  const phone = prompt("Enter Client Phone Number (e.g. +91 98201 44552):", "+91 ");
-  if (!phone || !phone.trim() || phone.replace(/[^0-9]/g, '').length < 8) {
-    showToast("Valid phone number required.");
+function openAddLeadModal() {
+  const modal = document.getElementById("add-lead-modal");
+  if (modal) {
+    modal.classList.add("open", "active");
+    const nameInput = document.getElementById("new-lead-name");
+    if (nameInput) setTimeout(() => nameInput.focus(), 100);
+  }
+}
+
+function closeAddLeadModal() {
+  const modal = document.getElementById("add-lead-modal");
+  if (modal) modal.classList.remove("open", "active");
+}
+
+function registerNewWalkInLead() {
+  openAddLeadModal();
+}
+
+async function submitNewLeadFromModal() {
+  const nameInput = document.getElementById("new-lead-name");
+  const phoneInput = document.getElementById("new-lead-phone");
+  const intentSelect = document.getElementById("new-lead-intent");
+  const regionSelect = document.getElementById("new-lead-region");
+  const budgetInput = document.getElementById("new-lead-budget");
+  const statusSelect = document.getElementById("new-lead-status");
+  const notesInput = document.getElementById("new-lead-notes");
+
+  const name = nameInput ? nameInput.value.trim() : "";
+  const phone = phoneInput ? phoneInput.value.trim() : "";
+  const intent = intentSelect ? intentSelect.value : "1 BHK Flat";
+  const region = regionSelect ? regionSelect.value : "Ambernath";
+  const budget = budgetInput ? budgetInput.value.trim() : "";
+  const status = statusSelect ? statusSelect.value : "New Inquiry";
+  const notes = notesInput ? notesInput.value.trim() : "";
+
+  if (!name) {
+    showToast("Please enter the client's name.");
+    if (nameInput) nameInput.focus();
     return;
   }
-  const intent = prompt("Inquiry Requirement (1 BHK Flat / 2 BHK Flat / Commercial Shop / Office Space / Investment):", "1 BHK Flat");
-  const notes = prompt("Client Notes / Budget (e.g. Budget 22 Lakhs, Pale Gaon):", "");
+
+  const cleanPhone = phone.replace(/[^0-9]/g, '');
+  if (!cleanPhone || cleanPhone.length < 8) {
+    showToast("Please enter a valid phone number (at least 8-10 digits).");
+    if (phoneInput) phoneInput.focus();
+    return;
+  }
+
+  const combinedNotes = [
+    region ? `Target Region: ${region}` : "",
+    budget ? `Budget: ${budget}` : "",
+    notes
+  ].filter(Boolean).join(" | ");
 
   try {
     const res = await fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: name.trim(),
-        phone: phone.trim(),
+        name,
+        phone,
         intent: intent || 'PROPERTY_INQUIRY',
-        notes: notes || '',
-        status: 'New Inquiry'
+        notes: combinedNotes,
+        status: status || 'New Inquiry'
       })
     });
     const data = await res.json();
     if (data.success) {
-      showToast("✓ Real Walk-in Client Saved to CRM!");
+      showToast(`✓ Lead "${name}" registered successfully to CRM!`);
+      closeAddLeadModal();
+
+      // Reset form
+      if (nameInput) nameInput.value = "";
+      if (phoneInput) phoneInput.value = "";
+      if (budgetInput) budgetInput.value = "";
+      if (notesInput) notesInput.value = "";
+
       fetchCRMLeads();
       loadWhatsAppConversations();
     } else {
@@ -1841,12 +1909,12 @@ function resetProjectFilters() {
  */
 function openAddProjectModal() {
   const modal = document.getElementById("add-project-modal");
-  if (modal) modal.classList.add("active");
+  if (modal) modal.classList.add("open", "active");
 }
 
 function closeAddProjectModal() {
   const modal = document.getElementById("add-project-modal");
-  if (modal) modal.classList.remove("active");
+  if (modal) modal.classList.remove("open", "active");
 }
 
 /**

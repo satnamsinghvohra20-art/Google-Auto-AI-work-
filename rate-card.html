@@ -39,6 +39,83 @@
       padding-bottom: 60px;
     }
 
+    /* Top Sticky Navigation Bar */
+    .top-nav-bar {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .top-nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-nav-back {
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-nav-back:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
+    }
+    .nav-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-nav-shield {
+      background: #1e293b;
+      color: #f1f5f9;
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .btn-nav-shield:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+    .btn-nav-hotline {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-nav-hotline:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+      color: #ffffff;
+    }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -347,6 +424,27 @@
   </style>
 </head>
 <body>
+
+  <!-- Top Sticky Navigation Bar -->
+  <nav class="top-nav-bar">
+    <div class="top-nav-inner">
+      <a href="/" class="btn-nav-back" title="Back to Main Growth Suite Dashboard">
+        <span>←</span>
+        <span>Growth Suite Dashboard</span>
+      </a>
+      <div class="nav-actions-right">
+        <a href="shield.html" target="_blank" class="btn-nav-shield" title="Customer Review Shield">
+          <span>📱</span>
+          <span>Review Shield</span>
+        </a>
+        <a href="https://wa.me/918421077613?text=Namaste%20Satnam%20Sir%2C%20inquiry%20regarding%20MMR%20property%20rates." target="_blank" class="btn-nav-hotline" title="Direct WhatsApp Satnam Sir">
+          <span>📞</span>
+          <span>Satnam Sir: +91 84210 77613</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <!-- Header Card -->
     <header class="header-card">

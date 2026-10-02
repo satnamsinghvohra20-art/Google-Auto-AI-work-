@@ -18,6 +18,7 @@
 
   <!-- Clean, High-Contrast App Stylesheet (Guaranteed Readability - No CDN Dependency) -->
   <link rel="stylesheet" href="css/clean-app.css" />
+  <link rel="stylesheet" href="css/advanced.css" />
 </head>
 <body>
 
@@ -37,17 +38,27 @@
 
         <!-- Status & Direct Actions -->
         <div class="header-actions">
-          <div class="status-badge">
+          <div class="status-badge" title="24/7 Background Auto-Pilot Daemon Active">
             <span class="dot"></span>
             <span>24/7 Auto-Pilot: ON</span>
           </div>
 
-          <a href="shield.html" target="_blank" class="btn-header-action" title="Open customer review rating page">
-            <span>📱</span>
-            <span>Customer Mobile Shield</span>
+          <a href="rate-card.html" target="_blank" class="btn-header-ratecard" title="View 168+ Verified MMR Real Estate Rates">
+            <span>🌐</span>
+            <span>Digital Rate Card</span>
           </a>
 
-          <button type="button" class="btn-header-primary" onclick="openProductionSettingsModal()">
+          <a href="shield.html" target="_blank" class="btn-header-action" title="Open customer review rating page">
+            <span>📱</span>
+            <span>Mobile Shield</span>
+          </a>
+
+          <a href="https://wa.me/918421077613?text=Namaste%20Satnam%20Sir%2C%20connecting%20via%20Dashmesh%20Properties%20Growth%20Suite." target="_blank" class="btn-header-hotline" title="Direct WhatsApp / Call Owner Satnam Sir">
+            <span>📞</span>
+            <span>Satnam Sir: +91 84210 77613</span>
+          </a>
+
+          <button type="button" class="btn-header-primary" onclick="openProductionSettingsModal()" title="Office & API Configuration">
             <span>⚙️</span>
             <span>Settings</span>
           </button>
@@ -131,47 +142,82 @@
       </div>
     </div>
 
-    <!-- Clean Tab Navigation (The 6 Essential Functions) -->
-    <nav class="tabs-nav-bar" aria-label="Main Tool Navigation">
-      <button type="button" class="tab-btn active" onclick="switchAppTab('tab-profile')">
-        <span>📋</span>
-        <span>1. Google Profile & SEO</span>
-      </button>
+    <!-- Systematic 3-Hub Navigation Command Center -->
+    <nav class="nav-hub-bar" aria-label="Main Tool Navigation">
+      <div class="nav-hub-clusters">
+        
+        <!-- HUB 1: Local SEO & Ambernath Presence -->
+        <div class="nav-hub-cluster">
+          <div class="nav-hub-title">
+            <span>📍 HUB 1: LOCAL SEO & MAP PRESENCE</span>
+            <span class="hub-tag">Ambernath (E)</span>
+          </div>
+          <div class="nav-hub-buttons">
+            <button type="button" class="tab-btn active" onclick="switchAppTab('tab-profile')" id="nav-btn-profile">
+              <span>📋</span>
+              <span>1. Google Profile & SEO</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-geotag')" id="nav-btn-geotag">
+              <span>📸</span>
+              <span>2. Photo Geo-Tagger</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-standee')" id="nav-btn-standee">
+              <span>🪧</span>
+              <span>3. QR Review Standee</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-map')" id="nav-btn-map">
+              <span>🗺️</span>
+              <span>6. Ambernath Map</span>
+            </button>
+          </div>
+        </div>
 
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-geotag')">
-        <span>📸</span>
-        <span>2. Photo Geo-Tagger (Google Maps)</span>
-      </button>
+        <!-- HUB 2: 24/7 AI Automation & CRM -->
+        <div class="nav-hub-cluster">
+          <div class="nav-hub-title">
+            <span>🌸 HUB 2: AI CONCIERGE & CRM</span>
+            <span class="hub-tag">Sia 24/7 Active</span>
+          </div>
+          <div class="nav-hub-buttons">
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-whatsapp')" id="nav-btn-whatsapp">
+              <span>🌸</span>
+              <span>4. WhatsApp AI Bot (Sia)</span>
+              <span class="tab-badge">24/7 Live</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-posts')" id="nav-btn-posts">
+              <span>📰</span>
+              <span>5. Google Auto-Pilot & Reviews</span>
+              <span class="tab-badge">Auto</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-crm')" id="nav-btn-crm">
+              <span>💼</span>
+              <span>7. Lead CRM & Pipeline</span>
+              <span class="tab-badge emerald" id="nav-crm-badge">Active</span>
+            </button>
+          </div>
+        </div>
 
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-standee')">
-        <span>🪧</span>
-        <span>3. QR Review Standee</span>
-      </button>
+        <!-- HUB 3: MMR Real Estate Inventory -->
+        <div class="nav-hub-cluster">
+          <div class="nav-hub-title">
+            <span>🏢 HUB 3: REAL ESTATE INVENTORY</span>
+            <span class="hub-tag">16 MMR Regions</span>
+          </div>
+          <div class="nav-hub-buttons">
+            <button type="button" class="tab-btn" onclick="switchAppTab('tab-projects')" id="nav-btn-projects" style="flex: 1;">
+              <span>🏢</span>
+              <span>8. MMR Projects Directory</span>
+              <span class="tab-badge emerald">168+ Verified</span>
+            </button>
+            <a href="rate-card.html" target="_blank" class="tab-btn" style="text-decoration: none; color: #0284c7; background: #e0f2fe; border: 1px solid #bae6fd;">
+              <span>🌐</span>
+              <span>Rate Card</span>
+              <span class="tab-badge">₹/sq.ft</span>
+            </a>
+          </div>
+        </div>
 
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-whatsapp')">
-        <span>🌸</span>
-        <span>4. WhatsApp AI Bot (Sia)</span>
-      </button>
-
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-posts')">
-        <span>📰</span>
-        <span>5. Google Auto-Pilot & Reviews</span>
-      </button>
-
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-map')">
-        <span>🗺️</span>
-        <span>6. Local Ambernath Map</span>
-      </button>
-
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-crm')">
-        <span>💼</span>
-        <span>7. Lead CRM & Pipeline</span>
-      </button>
-
-      <button type="button" class="tab-btn" onclick="switchAppTab('tab-projects')">
-        <span>🏢</span>
-        <span>8. MMR Projects Directory</span>
-      </button>
+      </div>
     </nav>
 
     <!-- ========================================================================= -->
@@ -930,7 +976,7 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
             <p class="card-desc">Track, qualify, and convert incoming WhatsApp client inquiries into site visits and closed property deals.</p>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn-solid-primary" style="padding: 8px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;" onclick="registerNewWalkInLead()">
+            <button type="button" class="btn-solid-primary" style="padding: 8px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;" onclick="openAddLeadModal()">
               <span>➕</span> Add Walk-in / Caller Lead
             </button>
             <a href="/api/leads/export-csv" target="_blank" class="btn-solid-emerald" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
@@ -1051,28 +1097,28 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
         <div style="margin-bottom: 18px;">
           <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); display: block; margin-bottom: 8px;">Filter by Region / Micro-Market:</span>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="mmr-region-pills">
-            <button type="button" class="mmr-region-btn active" onclick="filterProjectsByRegion('All', this)">🌍 All MMR (168+)</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Ambernath', this)">📍 Ambernath</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Badlapur', this)">🏡 Badlapur</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Ulhasnagar', this)">🏘️ Ulhasnagar</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Kalyan', this)">🏙️ Kalyan</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Dombivli', this)">🏢 Dombivli</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Thane', this)">🌳 Thane</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Mumbai', this)">🌊 Mumbai</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Navi Mumbai', this)">🚢 Navi Mumbai</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Mira-Bhayandar', this)">🌅 Mira-Bhayandar</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Vasai-Virar', this)">🏖️ Vasai-Virar</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Bhiwandi', this)">🏭 Bhiwandi</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Boisar-Palghar', this)">🏗️ Boisar-Palghar</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Karjat-Neral', this)">⛰️ Karjat-Neral</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Shahapur-Asangaon', this)">🌲 Shahapur-Asangaon</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Alibaug-Coastal', this)">⛵ Alibaug-Coastal</button>
-            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Khopoli-Expressway', this)">🛣️ Khopoli-Expressway</button>
+            <button type="button" class="mmr-region-btn active" onclick="filterProjectsByRegion('All', this)">🌍 All MMR <span class="region-badge">168+</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Ambernath', this)">📍 Ambernath <span class="region-badge">12</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Badlapur', this)">🏡 Badlapur <span class="region-badge">8</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Ulhasnagar', this)">🏘️ Ulhasnagar <span class="region-badge">10</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Kalyan', this)">🏙️ Kalyan <span class="region-badge">16</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Dombivli', this)">🏢 Dombivli <span class="region-badge">10</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Thane', this)">🌳 Thane <span class="region-badge">16</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Mumbai', this)">🌊 Mumbai <span class="region-badge">30</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Navi Mumbai', this)">🚢 Navi Mumbai <span class="region-badge">18</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Mira-Bhayandar', this)">🌅 Mira-Bhayandar <span class="region-badge">6</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Vasai-Virar', this)">🏖️ Vasai-Virar <span class="region-badge">8</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Bhiwandi', this)">🏭 Bhiwandi <span class="region-badge">6</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Boisar-Palghar', this)">🏗️ Boisar-Palghar <span class="region-badge">6</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Karjat-Neral', this)">⛰️ Karjat-Neral <span class="region-badge">6</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Shahapur-Asangaon', this)">🌲 Shahapur-Asangaon <span class="region-badge">6</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Alibaug-Coastal', this)">⛵ Alibaug-Coastal <span class="region-badge">5</span></button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Khopoli-Expressway', this)">🛣️ Khopoli-Expressway <span class="region-badge">5</span></button>
           </div>
         </div>
 
         <!-- Search & Sub-Filter Bar -->
-        <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px; margin-bottom: 22px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; align-items: center;">
+        <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px; margin-bottom: 22px; display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 12px; align-items: flex-end;">
           <div>
             <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Search Project, Builder or Locality:</label>
             <input type="text" id="mmr-project-search" class="input-styled" placeholder="e.g. Regency, Khadakpada, Lodha Palava, Hiranandani, Pale Gaon..." oninput="onProjectSearchChange()" />
@@ -1097,6 +1143,11 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
               <option value="60L_1Cr">₹60L - ₹1.2 Cr (Premium)</option>
               <option value="above_1Cr">Above ₹1.2 Cr (Luxury & Prime)</option>
             </select>
+          </div>
+          <div>
+            <button type="button" class="btn-copy-small" style="padding: 10px 14px; font-weight: 700; height: 38px; display: flex; align-items: center; gap: 4px;" onclick="resetProjectFilters()" title="Reset All Filters">
+              <span>🔄</span> Reset
+            </button>
           </div>
         </div>
 
@@ -1222,6 +1273,84 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
     </div>
   </div>
 
+  <!-- Add Walk-in / Caller Lead Modal -->
+  <div id="add-lead-modal" class="modal-overlay">
+    <div class="modal-content-box" style="max-width: 520px; width: 92%;">
+      <div class="modal-header-row">
+        <h3 class="modal-title">➕ Register Walk-in / Caller Lead (CRM)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeAddLeadModal()">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Client Name *:</label>
+            <input type="text" id="new-lead-name" class="input-styled" placeholder="e.g. Jaspreet Singh" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Phone Number *:</label>
+            <input type="text" id="new-lead-phone" class="input-styled" placeholder="+91 98201 44552" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Requirement Type *:</label>
+            <select id="new-lead-intent" class="input-styled">
+              <option value="1 BHK Flat">1 BHK Flat (Residential)</option>
+              <option value="2 BHK Flat">2 BHK Flat (Family / Luxury)</option>
+              <option value="3 BHK Flat">3 BHK Luxury Apartment</option>
+              <option value="Commercial Shop">Commercial Retail Shop</option>
+              <option value="Office Space">Commercial Office Space</option>
+              <option value="Rental Property">Rental Flat / Tenant</option>
+              <option value="Plot / Land">NA Residential Plot / Land</option>
+              <option value="Home Loan Service">Home Loan / Title Verification</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Target Region / Hub:</label>
+            <select id="new-lead-region" class="input-styled">
+              <option value="Ambernath (Pale Gaon)">Ambernath (Pale Gaon / Station)</option>
+              <option value="Badlapur">Badlapur East / West</option>
+              <option value="Ulhasnagar">Ulhasnagar (1-5)</option>
+              <option value="Kalyan">Kalyan (Khadakpada / West)</option>
+              <option value="Dombivli">Dombivli (Palava / Manpada)</option>
+              <option value="Thane">Thane (Ghodbunder / Majiwada)</option>
+              <option value="Mumbai">Mumbai Suburbs / Island</option>
+              <option value="Navi Mumbai">Navi Mumbai (Panvel / Kharghar)</option>
+              <option value="Mira-Bhayandar">Mira-Bhayandar</option>
+              <option value="Vasai-Virar">Vasai-Virar</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Budget Range:</label>
+            <input type="text" id="new-lead-budget" class="input-styled" placeholder="e.g. ₹25L - ₹35 Lakhs" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Initial Pipeline Status:</label>
+            <select id="new-lead-status" class="input-styled">
+              <option value="New Inquiry" selected>🟡 New Inquiry</option>
+              <option value="Contacted">🔵 Contacted</option>
+              <option value="Site Visit Scheduled">🟣 Site Visit Scheduled</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Client Notes & Specific Preferences:</label>
+          <textarea id="new-lead-notes" class="input-styled" rows="2" placeholder="e.g. Needs ready possession, 90% SBI loan required, prefers 3rd floor with balcony"></textarea>
+        </div>
+
+        <button type="button" class="btn-solid-primary" style="margin-top: 6px; padding: 12px; font-weight: 700;" onclick="submitNewLeadFromModal()">
+          ✓ Save Lead to Pipeline & CRM
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Production Settings Modal -->
   <div id="settings-modal" class="modal-overlay">
     <div class="modal-content-box" style="max-width: 540px; width: 92%;">
@@ -1250,8 +1379,8 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div>
-            <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">📞 WhatsApp / Direct Phone:</label>
-            <input type="text" id="setting-wa-phone" class="input-styled" value="+91 84120 70183" />
+            <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">📞 WhatsApp / Direct Phone (Satnam Sir):</label>
+            <input type="text" id="setting-wa-phone" class="input-styled" value="+91 84210 77613" />
           </div>
           <div>
             <label style="font-size: 12px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 4px;">Google Place ID:</label>

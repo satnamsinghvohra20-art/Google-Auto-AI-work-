@@ -1134,7 +1134,7 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const data = JSON.parse(body || '{}');
-        const phone = data.phone || '+91 98200 12345';
+        const phone = data.phone || data.from || '+91 98200 12345';
         const name = data.name || 'Client';
         const text = data.text || 'Namaste, 1 BHK flat available hai?';
 
@@ -1223,6 +1223,8 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           success: true,
+          assistant: 'Sia',
+          isOwner,
           incoming: inMsg,
           reply: outMsg,
           conversation: conv
