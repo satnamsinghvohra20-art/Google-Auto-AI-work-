@@ -765,10 +765,22 @@ const server = http.createServer((req, res) => {
 
           const targetPhoneId = (value && value.metadata && value.metadata.phone_number_id) || whatsappConfig.phoneNumberId;
           if (whatsappConfig.accessToken && targetPhoneId) {
+            // 1. Send AI reply to the inquiring client
             sendMetaWhatsAppMessage(from, autoRes.reply, {
               ...whatsappConfig,
               phoneNumberId: targetPhoneId
             });
+
+            // 2. Instantly notify Owner on personal WhatsApp (+91 84210 77613)
+            const cleanFrom = from.replace(/[^0-9]/g, '');
+            const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
+            if (cleanFrom !== ownerPhone) {
+              const leadAlert = `🔔 *New Client Inquiry Received!* (Dashmesh Properties)\n\n👤 *Client:* ${name}\n📞 *Phone:* +${cleanFrom}\n💬 *Client Message:* "${text}"\n🏷️ *Inquiry Type:* ${autoRes.intent}\n\n🤖 *Bot Action:* Verified details, office timings & maps sent instantly!`;
+              sendMetaWhatsAppMessage(ownerPhone, leadAlert, {
+                ...whatsappConfig,
+                phoneNumberId: targetPhoneId
+              });
+            }
           }
 
           autoPilotState.eventLogs.unshift({
