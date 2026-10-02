@@ -120,6 +120,7 @@ function saveJSONFile(filename, data) {
 const privateFeedbacks = loadJSONFile('feedback.json', []);
 const publishedPostLogs = loadJSONFile('posts.json', []);
 const googleReviews = loadJSONFile('reviews.json', []);
+const realEstateProjects = loadJSONFile('projects.json', []);
 
 // WhatsApp Auto-Pilot Configuration & Live Conversations Store
 const whatsappConfig = {
@@ -548,6 +549,7 @@ const server = http.createServer((req, res) => {
         leadsStored: whatsappConversations.length,
         reviewsStored: googleReviews.length,
         postsStored: publishedPostLogs.length,
+        projectsStored: realEstateProjects.length,
         feedbackQuarantined: privateFeedbacks.length,
         googlePlaceId: gbpConfig.placeId,
         googleConnected: Boolean(gbpConfig.apiKey),
@@ -569,6 +571,92 @@ const server = http.createServer((req, res) => {
       mobileShieldUrl: `http://${localIp}:${PORT}/shield.html`,
       isLive: true
     }));
+    return;
+  }
+
+  // 0c. MMR Real Estate Mega Projects API (GET & POST)
+  if (pathname === '/api/projects' && req.method === 'GET') {
+    const regionFilter = parsedUrl.searchParams.get('region');
+    const bhkFilter = parsedUrl.searchParams.get('bhk');
+    const searchFilter = (parsedUrl.searchParams.get('search') || '').toLowerCase().trim();
+
+    let filtered = [...realEstateProjects];
+
+    if (regionFilter && regionFilter !== 'All') {
+      filtered = filtered.filter(p => p.region.toLowerCase() === regionFilter.toLowerCase());
+    }
+
+    if (bhkFilter && bhkFilter !== 'All') {
+      filtered = filtered.filter(p => Array.isArray(p.configurations) && p.configurations.some(c => c.toLowerCase().includes(bhkFilter.toLowerCase())));
+    }
+
+    if (searchFilter) {
+      filtered = filtered.filter(p => 
+        (p.name || '').toLowerCase().includes(searchFilter) ||
+        (p.developer || '').toLowerCase().includes(searchFilter) ||
+        (p.locality || '').toLowerCase().includes(searchFilter) ||
+        (p.region || '').toLowerCase().includes(searchFilter) ||
+        (p.highlights || '').toLowerCase().includes(searchFilter) ||
+        (p.reraNumber || '').toLowerCase().includes(searchFilter)
+      );
+    }
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      count: filtered.length,
+      totalStored: realEstateProjects.length,
+      projects: filtered
+    }));
+    return;
+  }
+
+  if (pathname === '/api/projects' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const p = JSON.parse(body || '{}');
+        if (!p.name || !p.locality) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project name and locality are required.' }));
+          return;
+        }
+
+        const newProject = {
+          id: p.id || 'proj_' + Date.now(),
+          name: p.name.trim(),
+          developer: (p.developer || 'Dashmesh Associated Developer').trim(),
+          region: p.region || 'Ambernath',
+          locality: p.locality.trim(),
+          startingPrice: p.startingPrice || '₹25 Lakhs',
+          priceRange: p.priceRange || '₹25L - ₹55L',
+          rateSqFt: p.rateSqFt || '₹4,500/sq.ft',
+          configurations: Array.isArray(p.configurations) ? p.configurations : ['1 BHK', '2 BHK'],
+          carpetArea: p.carpetArea || '450 - 750 sq.ft',
+          status: p.status || 'Ready to Move',
+          reraNumber: p.reraNumber || 'Applied / Verified',
+          contactPhone: p.contactPhone || '+91 84210 77613',
+          highlights: p.highlights || 'Verified builder property with bank loan approved',
+          amenities: Array.isArray(p.amenities) ? p.amenities : ['Clubhouse', 'Gymnasium', 'Security'],
+          addedAt: new Date().toISOString()
+        };
+
+        realEstateProjects.unshift(newProject);
+        saveJSONFile('projects.json', realEstateProjects);
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          message: `✓ Project "${newProject.name}" saved to MMR Directory!`,
+          project: newProject,
+          totalProjects: realEstateProjects.length
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON request: ' + err.message }));
+      }
+    });
     return;
   }
 
@@ -1707,6 +1795,88 @@ const server = http.createServer((req, res) => {
       'Content-Disposition': `attachment; filename="dashmesh_leads_${new Date().toISOString().slice(0, 10)}.csv"`
     });
     res.end(csvContent);
+    return;
+  }
+
+  // 21. MMR Mega Real Estate Projects Directory API (GET)
+  if (pathname === '/api/projects' && req.method === 'GET') {
+    const regionParam = parsedUrl.searchParams.get('region');
+    const searchParam = (parsedUrl.searchParams.get('search') || '').toLowerCase().trim();
+    const bhkParam = parsedUrl.searchParams.get('bhk');
+
+    let filtered = [...realEstateProjects];
+
+    if (regionParam && regionParam !== 'All') {
+      filtered = filtered.filter(p => (p.region || '').toLowerCase() === regionParam.toLowerCase());
+    }
+
+    if (bhkParam && bhkParam !== 'All') {
+      filtered = filtered.filter(p => (p.configurations || []).some(c => c.toLowerCase().includes(bhkParam.toLowerCase())));
+    }
+
+    if (searchParam) {
+      filtered = filtered.filter(p =>
+        (p.name && p.name.toLowerCase().includes(searchParam)) ||
+        (p.developer && p.developer.toLowerCase().includes(searchParam)) ||
+        (p.locality && p.locality.toLowerCase().includes(searchParam)) ||
+        (p.region && p.region.toLowerCase().includes(searchParam))
+      );
+    }
+
+    const availableRegions = [...new Set(realEstateProjects.map(p => p.region).filter(Boolean))];
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      total: filtered.length,
+      allTotal: realEstateProjects.length,
+      regions: availableRegions,
+      projects: filtered
+    }));
+    return;
+  }
+
+  // 21b. MMR Mega Projects: Add New Project Listing (POST)
+  if (pathname === '/api/projects' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        if (!data.name || !data.locality) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project name and locality are required' }));
+          return;
+        }
+
+        const newProject = {
+          id: 'proj_custom_' + Date.now(),
+          name: data.name.trim(),
+          developer: data.developer ? data.developer.trim() : 'Verified Builder',
+          region: data.region ? data.region.trim() : 'Ambernath',
+          locality: data.locality.trim(),
+          configurations: Array.isArray(data.configurations) ? data.configurations : [data.configurations || '1 BHK', '2 BHK'],
+          startingPrice: data.startingPrice ? data.startingPrice.trim() : 'Price on Request',
+          priceRange: data.priceRange ? data.priceRange.trim() : (data.startingPrice || ''),
+          ratePerSqFt: data.ratePerSqFt ? data.ratePerSqFt.trim() : '',
+          carpetArea: data.carpetArea ? data.carpetArea.trim() : '450 - 850 sq.ft',
+          status: data.status ? data.status.trim() : 'Under Construction',
+          reraNumber: data.reraNumber ? data.reraNumber.trim() : 'MahaRERA Registered',
+          amenities: Array.isArray(data.amenities) ? data.amenities : (data.amenities || 'Lift, Security, Power Backup, Water Supply').split(',').map(s => s.trim()),
+          highlights: data.highlights ? data.highlights.trim() : 'Verified clear title property with bank loan assistance.',
+          contactPhone: data.contactPhone ? data.contactPhone.trim() : '+91 84210 77613'
+        };
+
+        realEstateProjects.unshift(newProject);
+        saveJSONFile('projects.json', realEstateProjects);
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, message: 'Project added to MMR directory successfully', project: newProject }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to add project: ' + err.message }));
+      }
+    });
     return;
   }
 

@@ -167,6 +167,11 @@
         <span>💼</span>
         <span>7. Lead CRM & Pipeline</span>
       </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-projects')">
+        <span>🏢</span>
+        <span>8. MMR Projects Directory</span>
+      </button>
     </nav>
 
     <!-- ========================================================================= -->
@@ -994,7 +999,212 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
       </div>
     </div>
 
+    <!-- ========================================================================= -->
+    <!-- TAB 8: MMR REAL ESTATE MEGA PROJECTS DIRECTORY                            -->
+    <!-- (Mumbai, Thane, Kalyan, Ulhasnagar, Ambernath, Badlapur, Dombivli, Navi M)-->
+    <!-- ========================================================================= -->
+    <div id="tab-projects" class="tab-pane">
+      <div class="content-card">
+        
+        <!-- Master Banner -->
+        <div style="background: linear-gradient(135deg, #091322 0%, #1e293b 100%); color: #ffffff; border-radius: 14px; padding: 22px; margin-bottom: 24px; border: 1px solid #334155;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8;"></span>
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #38bdf8;">MMR Real Estate Knowledge Engine • Verified Listings</span>
+              </div>
+              <h2 style="font-size: 20px; font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">🏢 MMR Mega Projects Explorer & Inventory Directory</h2>
+              <p style="font-size: 12px; color: #94a3b8; margin: 0; max-width: 680px; line-height: 1.5;">
+                Verified residential, commercial, township and luxury projects across <strong>Mumbai, Thane, Kalyan, Ulhasnagar, Ambernath, Badlapur, Dombivli & Navi Mumbai</strong> with exact rates, carpet areas, MahaRERA numbers, and direct builder tie-ups by Dashmesh Properties.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" class="btn-solid-emerald" onclick="openAddProjectModal()">
+                <span>➕ Add New Project</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
+            <div style="background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <span style="font-size: 10px; color: #94a3b8; text-transform: uppercase; display: block;">Total Projects</span>
+              <strong id="mmr-total-count" style="font-size: 20px; color: #38bdf8;">34</strong>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <span style="font-size: 10px; color: #94a3b8; text-transform: uppercase; display: block;">MMR Hubs</span>
+              <strong style="font-size: 20px; color: #34d399;">8 Regions</strong>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <span style="font-size: 10px; color: #94a3b8; text-transform: uppercase; display: block;">Price Range</span>
+              <strong style="font-size: 16px; color: #f59e0b; display: block; margin-top: 3px;">₹16.5L - ₹16 Cr</strong>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <span style="font-size: 10px; color: #94a3b8; text-transform: uppercase; display: block;">Bank Loans</span>
+              <strong style="font-size: 16px; color: #a78bfa; display: block; margin-top: 3px;">Up to 90% SBI/HDFC</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Region Quick Filter Tabs -->
+        <div style="margin-bottom: 18px;">
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); display: block; margin-bottom: 8px;">Filter by Region:</span>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="mmr-region-pills">
+            <button type="button" class="mmr-region-btn active" onclick="filterProjectsByRegion('All', this)">🌍 All MMR (34+)</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Ambernath', this)">📍 Ambernath</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Badlapur', this)">🏡 Badlapur</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Ulhasnagar', this)">🏘️ Ulhasnagar</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Kalyan', this)">🏙️ Kalyan</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Dombivli', this)">🏢 Dombivli</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Thane', this)">🌳 Thane</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Mumbai', this)">🌊 Mumbai</button>
+            <button type="button" class="mmr-region-btn" onclick="filterProjectsByRegion('Navi Mumbai', this)">🚢 Navi Mumbai</button>
+          </div>
+        </div>
+
+        <!-- Search & Sub-Filter Bar -->
+        <div style="background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px; margin-bottom: 22px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; align-items: center;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Search Project, Builder or Locality:</label>
+            <input type="text" id="mmr-project-search" class="input-styled" placeholder="e.g. Regency, Khadakpada, Lodha Palava, Hiranandani, Pale Gaon..." oninput="onProjectSearchChange()" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Configuration:</label>
+            <select id="mmr-bhk-select" class="input-styled" onchange="onProjectSearchChange()">
+              <option value="All">All Configurations</option>
+              <option value="1 RK">1 RK Studio</option>
+              <option value="1 BHK">1 BHK Flats</option>
+              <option value="2 BHK">2 BHK Apartments</option>
+              <option value="3 BHK">3 BHK Luxury</option>
+              <option value="Commercial">Commercial Shops / Galas</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 4px;">Budget Range:</label>
+            <select id="mmr-budget-select" class="input-styled" onchange="onProjectSearchChange()">
+              <option value="All">All Budgets</option>
+              <option value="under_30L">Under ₹30 Lakhs (Affordable)</option>
+              <option value="30L_60L">₹30L - ₹60L (Mid-Segment)</option>
+              <option value="60L_1Cr">₹60L - ₹1.2 Cr (Premium)</option>
+              <option value="above_1Cr">Above ₹1.2 Cr (Luxury & Prime)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Projects Grid Container -->
+        <div id="mmr-projects-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+          <!-- Dynamically populated from /api/projects -->
+        </div>
+
+      </div>
+    </div>
+
   </main>
+
+  <!-- Add New Project Listing Modal -->
+  <div id="add-project-modal" class="modal-overlay">
+    <div class="modal-content-box" style="max-width: 620px; width: 92%;">
+      <div class="modal-header-row">
+        <h3 class="modal-title">➕ Add New Project Listing (MMR Directory)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeAddProjectModal()">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Project Name *:</label>
+            <input type="text" id="new-proj-name" class="input-styled" placeholder="e.g. Tycoons Square" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Region *:</label>
+            <select id="new-proj-region" class="input-styled">
+              <option value="Ambernath">Ambernath</option>
+              <option value="Badlapur">Badlapur</option>
+              <option value="Ulhasnagar">Ulhasnagar</option>
+              <option value="Kalyan">Kalyan</option>
+              <option value="Dombivli">Dombivli</option>
+              <option value="Thane">Thane</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Navi Mumbai">Navi Mumbai</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Developer / Builder:</label>
+            <input type="text" id="new-proj-developer" class="input-styled" placeholder="e.g. Regency Group" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Locality / Exact Address *:</label>
+            <input type="text" id="new-proj-locality" class="input-styled" placeholder="e.g. Khadakpada, Kalyan West" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Starting Price:</label>
+            <input type="text" id="new-proj-starting-price" class="input-styled" placeholder="e.g. ₹58 Lakhs" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Price Range:</label>
+            <input type="text" id="new-proj-price-range" class="input-styled" placeholder="e.g. ₹58L - ₹1.15 Cr" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Rate per Sq.Ft:</label>
+            <input type="text" id="new-proj-rate-sqft" class="input-styled" placeholder="e.g. ₹7,600/sq.ft" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Configurations:</label>
+            <input type="text" id="new-proj-configs" class="input-styled" placeholder="e.g. 1 BHK, 2 BHK, 3 BHK" value="1 BHK, 2 BHK" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Carpet Area Range:</label>
+            <input type="text" id="new-proj-carpet" class="input-styled" placeholder="e.g. 450 - 950 sq.ft" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Possession Status:</label>
+            <select id="new-proj-status" class="input-styled">
+              <option value="Ready to Move">Ready to Move</option>
+              <option value="Nearing Possession">Nearing Possession</option>
+              <option value="Under Construction (2026)">Under Construction (2026)</option>
+              <option value="Under Construction (2027)">Under Construction (2027)</option>
+              <option value="Pre-Launch Phase">Pre-Launch Phase</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">MahaRERA Number:</label>
+            <input type="text" id="new-proj-rera" class="input-styled" placeholder="e.g. P51700025983" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Contact Phone:</label>
+            <input type="text" id="new-proj-phone" class="input-styled" value="+91 84210 77613" />
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Key Highlights & Locality USPs:</label>
+          <input type="text" id="new-proj-highlights" class="input-styled" placeholder="e.g. 5 mins from station, 90% SBI loan approved, river view" />
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--color-text-main); display: block; margin-bottom: 3px;">Key Amenities (comma separated):</label>
+          <input type="text" id="new-proj-amenities" class="input-styled" placeholder="Clubhouse, Swimming Pool, Gymnasium, Children Play Area, High Speed Lifts" />
+        </div>
+
+        <button type="button" class="btn-solid-primary" style="margin-top: 6px; padding: 12px; font-weight: 700;" onclick="submitNewProjectFromModal()">
+          ✓ Save Project to MMR Directory
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Production Settings Modal -->
   <div id="settings-modal" class="modal-overlay">

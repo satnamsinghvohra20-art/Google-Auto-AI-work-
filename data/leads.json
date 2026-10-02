@@ -26,7 +26,7 @@
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-02T18:18:36.459Z",
+    "lastUpdated": "2026-10-02T18:19:34.360Z",
     "messages": [
       {
         "id": "msg_in_1790955961608",
@@ -219,9 +219,22 @@
         "text": "Ji Satnam Sir! Main Sia aapki seva mein hazir hoon. 🌸 ✅ Command executed! Sia ne Google Maps par naya property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• SBI/HDFC Bank Loan Tie-ups\n• Lift, Water, Clear Title\n• Contact: +91 84210 77613\n\nLive on Google Business Profile!",
         "intent": "OWNER_TRIGGER_POST",
         "timestamp": "2026-10-02T18:18:36.459Z"
+      },
+      {
+        "id": "msg_in_1790965174360",
+        "sender": "owner",
+        "text": "📋 Live CRM",
+        "timestamp": "2026-10-02T18:19:34.360Z"
+      },
+      {
+        "id": "msg_out_1790965174360",
+        "sender": "bot",
+        "text": "Sat Sri Akal Satnam Sir! Main Sia, live reporting de rahi hoon. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"📋 Live CRM\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-02T18:19:34.360Z"
       }
     ],
-    "lastIntent": "OWNER_TRIGGER_POST",
+    "lastIntent": "OWNER_GENERAL_QUERY",
     "language": "hinglish"
   }
 ]

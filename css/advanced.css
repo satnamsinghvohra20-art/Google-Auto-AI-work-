@@ -554,3 +554,207 @@ input[type="range"].custom-slider::-webkit-slider-thumb:hover {
   color: #94a3b8 !important;
 }
 
+/* ========================================================================= */
+/* MMR Mega Real Estate Projects Directory Styling                           */
+/* ========================================================================= */
+.mmr-region-btn {
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text-main, #334155);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mmr-region-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.mmr-region-btn.active {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.mmr-project-card {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mmr-project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+  border-color: #93c5fd;
+}
+
+.mmr-card-header {
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  position: relative;
+}
+
+.mmr-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mmr-region-tag {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.mmr-status-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.mmr-status-tag.uc {
+  background: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.mmr-proj-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 3px 0;
+  line-height: 1.3;
+}
+
+.mmr-proj-builder {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mmr-card-body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mmr-locality-row {
+  font-size: 12px;
+  color: #475569;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.mmr-pricing-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mmr-price-val {
+  font-size: 16px;
+  font-weight: 900;
+  color: #0284c7;
+  display: block;
+}
+
+.mmr-rate-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #059669;
+  display: block;
+}
+
+.mmr-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.mmr-spec-item {
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #334155;
+}
+
+.mmr-spec-item strong {
+  display: block;
+  font-size: 12px;
+  color: #0f172a;
+}
+
+.mmr-amenities-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.mmr-amenity-chip {
+  font-size: 10px;
+  font-weight: 600;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.mmr-rera-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #64748b;
+  padding-top: 6px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.mmr-card-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #f1f5f9;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+

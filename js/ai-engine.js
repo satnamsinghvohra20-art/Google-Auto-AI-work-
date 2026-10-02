@@ -461,7 +461,33 @@ Live on Google Maps!`,
       };
     }
 
-    // 5. Property Rates & Inventory Inquiry
+    // 5. MMR Mega Projects Directory Report for Owner
+    if (text.includes("project") || text.includes("mmr") || text.includes("kalyan") || text.includes("thane") || text.includes("mumbai") || text.includes("ulhasnagar") || text.includes("directory")) {
+      return {
+        intent: "OWNER_MMR_PROJECTS_REPORT",
+        reply: `${sal}🏢 *Dashmesh Properties — Live MMR Mega Projects Directory Report:*
+
+• *Total Verified Projects:* 34+ Mega Projects
+• *Coverage Regions:* 8 Major Hubs (Ambernath, Badlapur, Ulhasnagar, Kalyan, Dombivli, Thane, Mumbai, Navi Mumbai)
+• *Price Span:* ₹16.5 Lakhs (Affordable) to ₹16 Crore (Super Luxury)
+• *Direct Client Route:* Lead routed to your phone (+91 84210 77613)
+
+📍 *Region Breakdown:*
+1. *Ambernath (5):* New Floora (Dashmesh HQ), Empire Centrum, Patel Colossus, GBK Palms, Panvelkar City
+2. *Badlapur (3):* Godrej Vihaa, Tharwani Vedant, Aryan Fountain Square
+3. *Ulhasnagar (3):* Tharwani Ariana, Regency Plaza, Shree Sai Avenue
+4. *Kalyan (5):* Regency Antilia, Tycoons Square, Godrej Golf Links, Raunak City, Kohinoor Eden
+5. *Dombivli (3):* Lodha Palava City, Runwal Gardens, Regency Anantam
+6. *Thane (5):* Hiranandani Estate, Dosti West County, Rustomjee Urbania, Lodha Amāra, Raymond Ten X
+7. *Mumbai (4):* Oberoi Sky City, Lodha Park, Runwal Bliss, Godrej Urban Park
+8. *Navi Mumbai (6):* Marathon Nexzone, Hiranandani Fortune City, L&T Seawoods, Arihant Aalishan
+
+Tab 8 (MMR Projects Directory) par sabhi rates, RERA aur direct inquiry buttons live hain!`,
+        suggestedActions: ["🏢 Tab 8 Directory", "📊 Leads", "⭐ Reviews"]
+      };
+    }
+
+    // 6. Property Rates & Inventory Inquiry
     if (text.includes("rate") || text.includes("bhav") || text.includes("price") || text.includes("flat") || text.includes("shop") || text.includes("1 bhk") || text.includes("2 bhk")) {
       return {
         intent: "OWNER_RATES_QUERY",
@@ -868,7 +894,250 @@ Ambernath West mein aapka preferred location kaunsa hai?`,
       };
     }
 
-    // 13. 1 BHK FLAT SPECIFIC INQUIRY
+    // 13. KALYAN MEGA PROJECTS INQUIRY (Regency Antilia, Tycoons Square, Godrej Golf Links, Raunak City, Kohinoor Eden)
+    if (
+      text.includes("kalyan") ||
+      text.includes("khadakpada") ||
+      text.includes("gandhar nagar") ||
+      text.includes("regency antilia") ||
+      text.includes("tycoons") ||
+      text.includes("raunak city") ||
+      text.includes("kohinoor eden")
+    ) {
+      return {
+        intent: "KALYAN_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🏙️ *Kalyan Prime Real Estate & Mega Projects Directory:*
+*(Dashmesh Properties Verified Partner Projects)*
+
+🌟 *Featured Top Projects in Kalyan:*
+1. *Regency Antilia (Khadakpada):* Ultra-luxury 2, 3, 4 BHK starting ₹82L - ₹1.45 Cr (Rate: ₹7,600/sq.ft)
+2. *Tycoons Square (Khadakpada):* 1 & 2 BHK lifestyle towers starting ₹58L - ₹88L (Rate: ₹7,200/sq.ft)
+3. *Godrej Golf Links (Gandhar Nagar):* Premium 2 & 3 BHK golf-facing homes starting ₹68L - ₹1.15 Cr
+4. *Raunak City (Adharwadi):* Budget-friendly township 1 & 2 BHK starting ₹35L - ₹56L (Rate: ₹5,400/sq.ft)
+5. *Kohinoor Eden (Kalyan East):* 1 & 2 BHK with 30+ amenities starting ₹38L - ₹62L
+
+✅ Up to 90% SBI / HDFC Home Loan Sanction
+✅ Clear MahaRERA Verified Title & Zero Brokerage on direct partner inventory
+
+Aapko Kalyan West (Khadakpada) mein dekhna hai ya Kalyan East? Hum floor plans aur inventory details share karte hain!`,
+        suggestedActions: ["Regency Antilia", "Tycoons Square", "Raunak City Budget", "📅 Site Visit"]
+      };
+    }
+
+    // 14. THANE MEGA PROJECTS INQUIRY (Hiranandani Estate, Dosti West County, Rustomjee, Lodha Amāra, Raymond Ten X)
+    if (
+      text.includes("thane") ||
+      text.includes("ghodbunder") ||
+      text.includes("kolshet") ||
+      text.includes("pokhran") ||
+      text.includes("hiranandani estate") ||
+      text.includes("dosti west county") ||
+      text.includes("rustomjee urbania") ||
+      text.includes("lodha amara") ||
+      text.includes("raymond")
+    ) {
+      return {
+        intent: "THANE_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🌳 *Thane Mega Township & High-Growth Projects Directory:*
+*(Direct Developer Tie-ups via Dashmesh Properties)*
+
+🌟 *Premier Projects in Thane:*
+1. *Hiranandani Estate (Ghodbunder Rd):* 1, 2, 3 BHK starting ₹85L - ₹2.8 Cr (Rate: ₹15,500/sq.ft)
+2. *Lodha Amāra (Kolshet Rd):* 1, 2, 3 BHK 40-acre grand clubhouse township starting ₹75L - ₹1.85 Cr
+3. *Dosti West County (Balkum):* 1, 2, 3 BHK starting ₹64L - ₹1.45 Cr (Rate: ₹12,800/sq.ft)
+4. *Rustomjee Urbania (Majiwada):* 2 & 3 BHK urban township starting ₹98L - ₹1.75 Cr
+5. *Raymond Realty Ten X Habitat (Pokhran Rd 1):* Smart 2 BHK homes starting ₹92L - ₹1.35 Cr
+
+✅ Direct builder discount assistance & inventory allotment
+✅ Complete bank loan financing with nationalized banks
+
+Aapka budget segment ₹65L - ₹1 Cr mein hai ya ₹1 Cr+ luxury township?`,
+        suggestedActions: ["Lodha Amāra", "Dosti West County", "Hiranandani Estate", "Talk to Satnam Sir"]
+      };
+    }
+
+    // 15. ULHASNAGAR MEGA PROJECTS INQUIRY (Tharwani Ariana, Regency Plaza, Shree Sai Avenue)
+    if (
+      text.includes("ulhasnagar") ||
+      text.includes("unr") ||
+      text.includes("ariana") ||
+      text.includes("regency plaza") ||
+      text.includes("sai avenue") ||
+      text.includes("section 17") ||
+      text.includes("gol maidan")
+    ) {
+      return {
+        intent: "ULHASNAGAR_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🏘️ *Ulhasnagar Prime Residential & Commercial Projects:*
+*(Connected via Ambernath-Ulhasnagar central arterial belt)*
+
+🌟 *Top Projects in Ulhasnagar:*
+1. *Tharwani Ariana (Near Section 17):* 1 & 2 BHK high-rise with luxury lifestyle starting ₹34L - ₹58L (Rate: ₹5,800/sq.ft)
+2. *Regency Plaza (Shanti Nagar):* 1, 2 & 3 BHK premium apartments starting ₹42L - ₹78L (Rate: ₹6,100/sq.ft)
+3. *Shree Sai Avenue (Gol Maidan):* 1 & 2 BHK with podium amenities starting ₹28L - ₹48L (Rate: ₹5,000/sq.ft)
+
+✅ Clear title & 100% bank loan approval
+✅ Close to commercial markets, schools, and station connectivity
+
+Aapko 1 BHK dekhna hai ya 2 BHK? Hum turant verified options bhejte hain!`,
+        suggestedActions: ["Tharwani Ariana", "Regency Plaza", "Shree Sai Avenue", "📞 Call Direct"]
+      };
+    }
+
+    // 16. DOMBIVLI MEGA PROJECTS INQUIRY (Lodha Palava, Runwal Gardens, Regency Anantam)
+    if (
+      text.includes("dombivli") ||
+      text.includes("palava") ||
+      text.includes("runwal gardens") ||
+      text.includes("regency anantam") ||
+      text.includes("shilphata")
+    ) {
+      return {
+        intent: "DOMBIVLI_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🏢 *Dombivli & Kalyan-Shilphata Smart Mega Projects:*
+*(Top Integrated Townships & High-Rental Demand Hubs)*
+
+🌟 *Featured Projects:*
+1. *Lodha Palava City (Kalyan-Shil Rd):* 1, 2, 3 BHK smart city with Olympic sports complex, ICSE schools starting ₹38L - ₹95L (Rate: ₹6,200/sq.ft)
+2. *Runwal Gardens (Kalyan-Shilphata):* 115-acre mega township with shopping mall, cricket academy, 1, 2, 3 BHK starting ₹42L - ₹88L (Rate: ₹6,500/sq.ft)
+3. *Regency Anantam (Dombivli East):* 1 & 2 BHK luxury air-conditioned homes starting ₹48L - ₹78L (Rate: ₹6,900/sq.ft)
+
+✅ Ready-to-move and under-construction options
+✅ High rental demand from Airoli & Navi Mumbai IT professionals
+
+Kya aap investment ke liye plan kar rahe hain ya self-use?`,
+        suggestedActions: ["Lodha Palava", "Runwal Gardens", "Regency Anantam", "📅 Site Visit"]
+      };
+    }
+
+    // 17. BADLAPUR MEGA PROJECTS INQUIRY (Godrej Vihaa, Tharwani Vedant, Aryan Fountain Square)
+    if (
+      text.includes("badlapur") ||
+      text.includes("vihaa") ||
+      text.includes("godrej vihaa") ||
+      text.includes("vedant nakshatra") ||
+      text.includes("katrap") ||
+      text.includes("shirgaon")
+    ) {
+      return {
+        intent: "BADLAPUR_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🏡 *Badlapur Affordable & Branded Mega Projects:*
+*(Clean green environment with 100% bank loan availability)*
+
+🌟 *Top Projects in Badlapur:*
+1. *Godrej Vihaa (Barvi Dam Rd):* Branded 1 & 2 BHK township starting ₹26L - ₹45L (Rate: ₹4,500/sq.ft)
+2. *Tharwani Vedant Nakshatra (Shirgaon):* 1 & 2 BHK with podium amenities starting ₹22L - ₹40L (Rate: ₹4,100/sq.ft)
+3. *Aryan Fountain Square (Katrap):* 1 & 2 BHK starting ₹18L - ₹32L (Rate: ₹3,900/sq.ft)
+
+✅ Budget under ₹30 Lakhs with minimum down-payment
+✅ Clear titles & ready possession flats available
+
+Kya aapka budget 1 BHK ke liye ₹20L - ₹25L ke aas-paas hai?`,
+        suggestedActions: ["Godrej Vihaa", "Tharwani Vedant", "Katrap Flats", "📅 Book Visit"]
+      };
+    }
+
+    // 18. MUMBAI ISLAND & SUBURBS INQUIRY (Oberoi Sky City, Lodha Park, Runwal Bliss)
+    if (
+      text.includes("mumbai") ||
+      text.includes("borivali") ||
+      text.includes("lower parel") ||
+      text.includes("kanjurmarg") ||
+      text.includes("chandivali") ||
+      text.includes("oberoi sky city") ||
+      text.includes("lodha park") ||
+      text.includes("runwal bliss")
+    ) {
+      return {
+        intent: "MUMBAI_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🌊 *Mumbai Suburbs & Island City Luxury Projects:*
+*(High-Profile Developer Portfolios via Dashmesh Network)*
+
+🌟 *Iconic Projects in Mumbai:*
+1. *Oberoi Sky City (Borivali East):* 3 & 4 BHK luxury residences on WEH starting ₹3.2 Cr - ₹5.8 Cr (Rate: ₹27,500/sq.ft)
+2. *Lodha Park (Lower Parel):* 2, 3, 4 BHK 7-acre private park living starting ₹4.5 Cr - ₹16 Cr (Rate: ₹42,000/sq.ft)
+3. *Runwal Bliss (Kanjurmarg East):* 2 & 3 BHK green township starting ₹1.48 Cr - ₹2.65 Cr (Rate: ₹19,800/sq.ft)
+4. *Godrej Urban Park (Chandivali, Powai):* 1, 2, 3 BHK starting ₹98L - ₹2.2 Cr (Rate: ₹18,500/sq.ft)
+
+✅ Pre-launch pricing, NRI advisory & structured developer payment schemes
+
+Aap Mumbai mein Central Suburbs (Powai/Kanjurmarg) dekh rahe hain ya Western (Borivali)?`,
+        suggestedActions: ["Runwal Bliss", "Godrej Urban Park", "Oberoi Sky City", "Consult Satnam Sir"]
+      };
+    }
+
+    // 19. NAVI MUMBAI MEGA PROJECTS INQUIRY (Marathon Nexzone, Fortune City, Seawoods, Kharghar)
+    if (
+      text.includes("navi mumbai") ||
+      text.includes("panvel") ||
+      text.includes("kharghar") ||
+      text.includes("seawoods") ||
+      text.includes("ulwe") ||
+      text.includes("taloja") ||
+      text.includes("marathon nexzone") ||
+      text.includes("fortune city")
+    ) {
+      return {
+        intent: "NAVI_MUMBAI_PROJECTS_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}🚢 *Navi Mumbai High-Appreciation Mega Projects:*
+*(Near Navi Mumbai International Airport, Atal Setu MTHL & Metro Corridor)*
+
+🌟 *Top Projects in Navi Mumbai:*
+1. *Marathon Nexzone (Panvel):* 1 & 2 BHK township starting ₹48L - ₹85L (Rate: ₹7,200/sq.ft)
+2. *Hiranandani Fortune City (Panvel):* 1, 2, 3 BHK 588-acre mega city starting ₹68L - ₹1.75 Cr
+3. *L&T Seawoods Residences (Seawoods Grand Central):* 2 & 3 BHK transit-oriented luxury starting ₹1.85 Cr - ₹3.8 Cr (Rate: ₹21,500/sq.ft)
+4. *Arihant Clan Aalishan (Kharghar):* 1, 2, 3 BHK Persian-themed palace living starting ₹72L - ₹1.6 Cr
+5. *Today Global Anandam (Upper Kharghar):* 1 & 2 BHK starting ₹32L - ₹56L (Rate: ₹5,800/sq.ft)
+6. *Delta Tower (Ulwe):* 2 & 3 BHK near Atal Setu starting ₹78L - ₹1.25 Cr (Rate: ₹9,500/sq.ft)
+
+✅ High capital appreciation driven by Airport & Metro operations
+
+Aap Panvel, Kharghar ya Seawoods mein se kahan prefer karte hain?`,
+        suggestedActions: ["Marathon Nexzone", "Hiranandani Panvel", "L&T Seawoods", "Upper Kharghar"]
+      };
+    }
+
+    // 20. WHOLE MMR PROJECTS DIRECTORY INQUIRY (All Projects / Master Directory)
+    if (
+      text.includes("projects") ||
+      text.includes("all projects") ||
+      text.includes("directory") ||
+      text.includes("whole mumbai") ||
+      text.includes("pura mumbai") ||
+      text.includes("sab project") ||
+      text.includes("options dikhao") ||
+      text.includes("total projects")
+    ) {
+      return {
+        intent: "MMR_PROJECTS_DIRECTORY",
+        language: lang,
+        reply: `${greetingPrefix}🏢 *Dashmesh Properties — Whole MMR Real Estate Mega Projects Directory:*
+*(Over 34+ Verified Projects across 8 Key Hubs)*
+
+🌍 *Regions Covered:*
+• *Ambernath & Badlapur:* ₹18L - ₹55L (Budget & Mid-segment)
+• *Ulhasnagar:* ₹28L - ₹68L (Central Market & Commercial)
+• *Kalyan & Dombivli:* ₹35L - ₹1.45 Cr (Smart Cities & High Growth)
+• *Thane:* ₹64L - ₹3.5 Cr (Ghodbunder, Kolshet, Pokhran)
+• *Mumbai Suburbs & Island:* ₹98L - ₹16 Cr (Powai, Borivali, Lower Parel)
+• *Navi Mumbai (Panvel/Kharghar):* ₹32L - ₹3.8 Cr (Airport Corridor)
+
+🌐 *Browse Live Directory & Rates:* ${publicUrl}
+*(Go to Tab 8: MMR Projects Directory)*
+
+Aapko kaunse region mein verified builder inventory dekhni hai? Sia turant full details aur brochures WhatsApp par bhej degi!`,
+        suggestedActions: ["Kalyan Projects", "Thane Projects", "Dombivli Palava", "Ambernath Base"]
+      };
+    }
+
+    // 21. 1 BHK FLAT SPECIFIC INQUIRY
     if (text.includes("1 bhk") || text.includes("1bhk") || text.includes("one bhk")) {
       return {
         intent: "RESIDENTIAL_1BHK",

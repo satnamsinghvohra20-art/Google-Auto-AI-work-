@@ -122,12 +122,34 @@ Sia's neural memory has grounded domain knowledge for Ambernath East and surroun
 
 ## 6. Autonomous Daemon Cycle & Drip Follow-Up
 
-The server daemon runs a 24/7 background cycle:
-1. **WhatsApp Webhook Listener:** Active on port 3000 (`/api/whatsapp/webhook`).
-2. **Follow-Up Drip Engine:** Scans conversations between 18 and 72 hours old. Dispatches a courteous, personalized property catalog link (`/rate-card`) and alerts Satnam Sir.
-3. **Google Business Profile Poller:** Synchronizes reviews when Google Maps API Key is active.
-4. **Health Monitor:** Provides real-time metrics at `/api/health`.
+---
+
+## 7. MMR Mega Real Estate Knowledge Graph & Projects Directory
+
+In addition to core Ambernath coverage, Sia's intelligence spans all major developer projects across the **Mumbai Metropolitan Region (MMR)**:
+
+### Regional Benchmark & Projects Matrix
+
+| Region | Active Projects | Price Range | Rate per Sq.Ft | Top Verified Mega Projects |
+|---|---|---|---|---|
+| **Ambernath** | 5 | ₹18L – ₹65L | ₹3,800 – ₹5,400 | New Floora (Dashmesh HQ), Empire Centrum, Patel Colossus, GBK Whispering Palms, Panvelkar Green City |
+| **Badlapur** | 3 | ₹18L – ₹52L | ₹3,900 – ₹4,500 | Godrej Vihaa, Tharwani Vedant Nakshatra, Aryan Fountain Square |
+| **Ulhasnagar** | 3 | ₹28L – ₹68L | ₹5,000 – ₹6,100 | Tharwani Ariana, Regency Plaza, Shree Sai Avenue |
+| **Kalyan** | 5 | ₹35L – ₹1.45 Cr | ₹5,200 – ₹7,600 | Regency Antilia, Tycoons Square, Godrej Golf Links, Raunak City, Kohinoor Eden |
+| **Dombivli** | 3 | ₹38L – ₹1.40 Cr | ₹6,200 – ₹6,900 | Lodha Palava City, Runwal Gardens, Regency Anantam |
+| **Thane** | 5 | ₹64L – ₹3.50 Cr | ₹12,800 – ₹16,500 | Hiranandani Estate, Dosti West County, Rustomjee Urbania, Lodha Amāra, Raymond Realty Ten X |
+| **Mumbai** | 4 | ₹98L – ₹16.0 Cr | ₹18,500 – ₹42,000 | Oberoi Sky City, Lodha Park, Runwal Bliss, Godrej Urban Park |
+| **Navi Mumbai** | 6 | ₹32L – ₹3.80 Cr | ₹5,800 – ₹21,500 | Marathon Nexzone, Hiranandani Fortune City, L&T Seawoods, Arihant Clan Aalishan, Today Global Anandam, Delta Tower |
+
+### Data Storage & API Contracts
+* **Storage Path:** [`data/projects.json`](file:///c:/Users/satna/Downloads/Google%20work%20auto%20ai/data/projects.json)
+* **Endpoints:**
+  * `GET /api/projects`: Accepts query parameters `region`, `bhk`, `search`. Returns `{ success: true, count: N, projects: [...] }`.
+  * `POST /api/projects`: Adds a newly registered project to `data/projects.json` with timestamp and unique ID.
+* **Lead Conversion Mechanism:**
+  * Every project card in the frontend Directory (Tab 8) and Rate Card catalog provides a 1-click WhatsApp inquiry pre-filling the project's name, locality, configurations, and pricing directly to **Satnam Sir's phone (`+91 84210 77613`)**.
 
 ---
 
 *Compiled by Antigravity AI for Dashmesh Properties • Ground-Truth Verified.*
+

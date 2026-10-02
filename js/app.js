@@ -18,7 +18,9 @@ const appState = {
   leafletMarker: null,
   whatsappConversations: [],
   activeConversationIndex: 0,
-  autoPilotEnabled: true
+  autoPilotEnabled: true,
+  mmrProjects: [],
+  selectedRegion: "All"
 };
 
 // Initialize when DOM is ready
@@ -50,6 +52,9 @@ function initApp() {
 
   // 8. Load Live Google Business Profile Connection & Telemetry
   loadGoogleBusinessLiveData();
+
+  // 9. Fetch Real MMR Mega Projects Directory
+  fetchMMRProjects();
 
   // Restore saved office configuration if present
   try {
@@ -111,6 +116,13 @@ function switchAppTab(tabId) {
   // If opening CRM tab, fetch fresh leads
   if (tabId === "tab-crm") {
     fetchCRMLeads();
+  }
+
+  // If opening MMR Projects tab, ensure projects loaded
+  if (tabId === "tab-projects") {
+    if (!appState.mmrProjects || appState.mmrProjects.length === 0) {
+      fetchMMRProjects();
+    }
   }
 }
 
@@ -1571,4 +1583,358 @@ async function registerNewWalkInLead() {
 document.addEventListener("DOMContentLoaded", () => {
   fetchCRMLeads();
 });
+
+// =========================================================================
+// MMR MEGA REAL ESTATE PROJECTS DIRECTORY CONTROLLER
+// =========================================================================
+
+/**
+ * Fetch all MMR projects from /api/projects
+ */
+async function fetchMMRProjects() {
+  const grid = document.getElementById("mmr-projects-grid");
+  if (grid && (!appState.mmrProjects || appState.mmrProjects.length === 0)) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
+        <div style="font-size: 32px; margin-bottom: 12px; animation: spin 2s linear infinite;">⏳</div>
+        <p style="font-weight: 700; font-size: 15px;">Loading Verified MMR Projects...</p>
+        <p style="font-size: 12px; color: #94a3b8;">Covering Mumbai, Thane, Kalyan, Ulhasnagar, Dombivli, Ambernath, Badlapur & Navi Mumbai</p>
+      </div>
+    `;
+  }
+
+  try {
+    const res = await fetch("/api/projects");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.success && Array.isArray(data.projects)) {
+      appState.mmrProjects = data.projects;
+      const countEl = document.getElementById("mmr-total-count");
+      if (countEl) countEl.innerText = `${data.count || data.projects.length}+`;
+      filterAndRenderProjects();
+    }
+  } catch (err) {
+    console.error("Failed to load MMR projects:", err);
+    if (grid) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; color: #e11d48;">
+          <p style="font-weight: 800; font-size: 16px;">⚠️ Unable to Load MMR Projects</p>
+          <p style="font-size: 12px; margin-top: 6px;">${err.message}</p>
+          <button type="button" class="btn-solid-primary" style="margin-top: 12px; padding: 8px 16px;" onclick="fetchMMRProjects()">🔄 Retry Connection</button>
+        </div>
+      `;
+    }
+  }
+}
+
+/**
+ * Filter projects by selected Region pill
+ */
+function filterProjectsByRegion(region, btnElement) {
+  appState.selectedRegion = region;
+  
+  // Highlight active pill
+  const pills = document.querySelectorAll("#mmr-region-pills .mmr-region-btn");
+  pills.forEach(p => p.classList.remove("active"));
+  if (btnElement) {
+    btnElement.classList.add("active");
+  }
+
+  filterAndRenderProjects();
+}
+
+/**
+ * Filter change handler for search input, BHK select, budget select
+ */
+function onProjectSearchChange() {
+  filterAndRenderProjects();
+}
+
+/**
+ * Filter and Render Project Cards based on active filters
+ */
+function filterAndRenderProjects() {
+  if (!appState.mmrProjects) return;
+
+  const searchQuery = (document.getElementById("mmr-project-search")?.value || "").toLowerCase().trim();
+  const bhkFilter = document.getElementById("mmr-bhk-select")?.value || "All";
+  const budgetFilter = document.getElementById("mmr-budget-select")?.value || "All";
+  const selectedRegion = appState.selectedRegion || "All";
+
+  const filtered = appState.mmrProjects.filter(p => {
+    // 1. Region match
+    if (selectedRegion !== "All" && p.region.toLowerCase() !== selectedRegion.toLowerCase()) {
+      return false;
+    }
+
+    // 2. Search query match (name, developer, locality, highlights, rera, region)
+    if (searchQuery) {
+      const matchName = (p.name || "").toLowerCase().includes(searchQuery);
+      const matchDev = (p.developer || "").toLowerCase().includes(searchQuery);
+      const matchLoc = (p.locality || "").toLowerCase().includes(searchQuery);
+      const matchHigh = (p.highlights || "").toLowerCase().includes(searchQuery);
+      const matchRera = (p.reraNumber || "").toLowerCase().includes(searchQuery);
+      const matchReg = (p.region || "").toLowerCase().includes(searchQuery);
+      if (!matchName && !matchDev && !matchLoc && !matchHigh && !matchRera && !matchReg) {
+        return false;
+      }
+    }
+
+    // 3. BHK match
+    if (bhkFilter !== "All") {
+      const hasBhk = Array.isArray(p.configurations) && p.configurations.some(c => c.toLowerCase().includes(bhkFilter.toLowerCase()));
+      if (!hasBhk) return false;
+    }
+
+    // 4. Budget filter match
+    if (budgetFilter !== "All") {
+      const priceStr = (p.startingPrice || p.priceRange || "").toLowerCase();
+      let estimatedLakhs = 0;
+      if (priceStr.includes("cr")) {
+        const match = priceStr.match(/([0-9.]+)\s*cr/);
+        if (match) estimatedLakhs = parseFloat(match[1]) * 100;
+      } else if (priceStr.includes("l")) {
+        const match = priceStr.match(/([0-9.]+)\s*l/);
+        if (match) estimatedLakhs = parseFloat(match[1]);
+      }
+
+      if (budgetFilter === "under_30L" && estimatedLakhs > 30) return false;
+      if (budgetFilter === "30L_60L" && (estimatedLakhs < 28 || estimatedLakhs > 65)) return false;
+      if (budgetFilter === "60L_1Cr" && (estimatedLakhs < 60 || estimatedLakhs > 125)) return false;
+      if (budgetFilter === "above_1Cr" && estimatedLakhs < 100) return false;
+    }
+
+    return true;
+  });
+
+  renderMMRProjectsGrid(filtered);
+}
+
+/**
+ * Render cards into #mmr-projects-grid
+ */
+function renderMMRProjectsGrid(projects) {
+  const grid = document.getElementById("mmr-projects-grid");
+  if (!grid) return;
+
+  if (!projects || projects.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 16px;">
+        <span style="font-size: 38px; display: block; margin-bottom: 8px;">🔍</span>
+        <h4 style="font-size: 17px; font-weight: 800; color: #1e293b; margin-bottom: 6px;">No Projects Match Your Active Filters</h4>
+        <p style="font-size: 13px; color: #64748b; max-width: 480px; margin: 0 auto 16px auto;">Try changing the region, configuration, or search terms, or add a custom project directly to the database.</p>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+          <button type="button" class="btn-copy-small" onclick="resetProjectFilters()" style="padding: 8px 16px; font-weight: 700;">🔄 Reset All Filters</button>
+          <button type="button" class="btn-solid-emerald" onclick="openAddProjectModal()" style="padding: 8px 16px;">➕ Add New Project</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = projects.map(p => {
+    const isUC = (p.status || "").toLowerCase().includes("construction") || (p.status || "").toLowerCase().includes("pre-launch");
+    const statusClass = isUC ? "mmr-status-tag uc" : "mmr-status-tag";
+    const configsStr = Array.isArray(p.configurations) ? p.configurations.join(", ") : (p.configurations || "1 BHK, 2 BHK");
+    const amenitiesArr = Array.isArray(p.amenities) ? p.amenities : (typeof p.amenities === "string" ? p.amenities.split(",") : []);
+    
+    // Satnam Sir WhatsApp message
+    const waText = encodeURIComponent(
+      `Namaste Satnam Sir! I saw ${p.name} in ${p.locality}, ${p.region} on Dashmesh Properties MMR Directory.\n\n` +
+      `📌 Configurations: ${configsStr}\n` +
+      `💰 Budget/Price: ${p.priceRange || p.startingPrice} (${p.rateSqFt || ''})\n` +
+      `Please share brochure, latest inventory, and schedule my site visit.`
+    );
+    const waLink = `https://wa.me/918421077613?text=${waText}`;
+
+    return `
+      <div class="mmr-project-card">
+        <div class="mmr-card-header">
+          <div class="mmr-badge-row">
+            <span class="mmr-region-tag">📍 ${p.region}</span>
+            <span class="${statusClass}">● ${p.status || 'Verified'}</span>
+          </div>
+          <h3 class="mmr-proj-title">${p.name}</h3>
+          <div class="mmr-proj-builder">
+            <span>🏗️</span>
+            <span>${p.developer || 'Dashmesh Associate Builder'}</span>
+          </div>
+        </div>
+
+        <div class="mmr-card-body">
+          <div class="mmr-locality-row">
+            <span style="font-size: 14px;">🧭</span>
+            <span><strong>${p.locality}</strong></span>
+          </div>
+
+          <div class="mmr-pricing-box">
+            <div>
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; display: block;">Price Range</span>
+              <strong class="mmr-price-val">${p.priceRange || p.startingPrice}</strong>
+              <span style="font-size: 10px; color: #0284c7;">Starts ${p.startingPrice}</span>
+            </div>
+            <div>
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; display: block;">Rate / Sq.Ft</span>
+              <strong class="mmr-rate-val">${p.rateSqFt || 'Market Best'}</strong>
+              <span style="font-size: 10px; color: #059669;">Bank Loan 90%</span>
+            </div>
+          </div>
+
+          <div class="mmr-spec-grid">
+            <div class="mmr-spec-item">
+              <span style="font-size: 10px; color: #64748b; display: block;">Configurations</span>
+              <strong>${configsStr}</strong>
+            </div>
+            <div class="mmr-spec-item">
+              <span style="font-size: 10px; color: #64748b; display: block;">Carpet Area</span>
+              <strong>${p.carpetArea || 'As per layout'}</strong>
+            </div>
+          </div>
+
+          ${p.highlights ? `
+            <div style="font-size: 11px; color: #334155; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 7px 10px; line-height: 1.4;">
+              <strong style="color: #b45309;">🌟 Highlight:</strong> ${p.highlights}
+            </div>
+          ` : ''}
+
+          <div class="mmr-amenities-row">
+            ${amenitiesArr.slice(0, 4).map(a => `<span class="mmr-amenity-chip">✨ ${a.trim()}</span>`).join('')}
+            ${amenitiesArr.length > 4 ? `<span class="mmr-amenity-chip">+${amenitiesArr.length - 4} more</span>` : ''}
+          </div>
+
+          <div class="mmr-rera-row">
+            <span><strong>MahaRERA:</strong> ${p.reraNumber || 'Verified Registration'}</span>
+            <span style="color: #10b981; font-weight: 700;">✓ RERA Approved</span>
+          </div>
+        </div>
+
+        <div class="mmr-card-footer">
+          <a href="${waLink}" target="_blank" class="btn-solid-emerald" style="padding: 10px 14px; text-decoration: none; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>💬</span> Inquire with Satnam Sir
+          </a>
+          <a href="tel:${(p.contactPhone || '+918421077613').replace(/\s+/g, '')}" class="btn-copy-small" style="padding: 10px 12px; text-decoration: none; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;" title="Call Direct">
+            <span>📞</span> Call
+          </a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/**
+ * Reset project filters
+ */
+function resetProjectFilters() {
+  const searchInput = document.getElementById("mmr-project-search");
+  const bhkSelect = document.getElementById("mmr-bhk-select");
+  const budgetSelect = document.getElementById("mmr-budget-select");
+  if (searchInput) searchInput.value = "";
+  if (bhkSelect) bhkSelect.value = "All";
+  if (budgetSelect) budgetSelect.value = "All";
+  
+  const allPill = document.querySelector("#mmr-region-pills .mmr-region-btn");
+  filterProjectsByRegion('All', allPill);
+}
+
+/**
+ * Modal handlers
+ */
+function openAddProjectModal() {
+  const modal = document.getElementById("add-project-modal");
+  if (modal) modal.classList.add("active");
+}
+
+function closeAddProjectModal() {
+  const modal = document.getElementById("add-project-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+/**
+ * Submit new project from modal
+ */
+async function submitNewProjectFromModal() {
+  const nameInput = document.getElementById("new-proj-name");
+  const regionInput = document.getElementById("new-proj-region");
+  const devInput = document.getElementById("new-proj-developer");
+  const locInput = document.getElementById("new-proj-locality");
+  const startPriceInput = document.getElementById("new-proj-starting-price");
+  const priceRangeInput = document.getElementById("new-proj-price-range");
+  const rateInput = document.getElementById("new-proj-rate-sqft");
+  const configsInput = document.getElementById("new-proj-configs");
+  const carpetInput = document.getElementById("new-proj-carpet");
+  const statusInput = document.getElementById("new-proj-status");
+  const reraInput = document.getElementById("new-proj-rera");
+  const phoneInput = document.getElementById("new-proj-phone");
+  const highInput = document.getElementById("new-proj-highlights");
+  const amenInput = document.getElementById("new-proj-amenities");
+
+  const name = nameInput?.value?.trim();
+  const locality = locInput?.value?.trim();
+  const region = regionInput?.value || "Ambernath";
+
+  if (!name) {
+    alert("Please enter the Project Name.");
+    nameInput?.focus();
+    return;
+  }
+  if (!locality) {
+    alert("Please enter the Exact Locality / Address.");
+    locInput?.focus();
+    return;
+  }
+
+  const configs = (configsInput?.value || "1 BHK, 2 BHK")
+    .split(",")
+    .map(c => c.trim())
+    .filter(Boolean);
+
+  const amenities = (amenInput?.value || "Clubhouse, Gymnasium, Security")
+    .split(",")
+    .map(a => a.trim())
+    .filter(Boolean);
+
+  const payload = {
+    name,
+    developer: devInput?.value?.trim() || "Dashmesh Associated Developer",
+    region,
+    locality,
+    startingPrice: startPriceInput?.value?.trim() || "₹25 Lakhs",
+    priceRange: priceRangeInput?.value?.trim() || "₹25L - ₹55L",
+    rateSqFt: rateInput?.value?.trim() || "₹4,500/sq.ft",
+    configurations: configs,
+    carpetArea: carpetInput?.value?.trim() || "450 - 750 sq.ft",
+    status: statusInput?.value || "Ready to Move",
+    reraNumber: reraInput?.value?.trim() || "Applied / RERA Approved",
+    contactPhone: phoneInput?.value?.trim() || "+91 84210 77613",
+    highlights: highInput?.value?.trim() || "Prime location with high connectivity and fast appreciation",
+    amenities
+  };
+
+  try {
+    const res = await fetch("/api/projects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const result = await res.json();
+    if (result.success) {
+      showToast(`✓ Project "${name}" saved to MMR Directory!`);
+      closeAddProjectModal();
+      // Reset form
+      if (nameInput) nameInput.value = "";
+      if (locInput) locInput.value = "";
+      if (devInput) devInput.value = "";
+      if (startPriceInput) startPriceInput.value = "";
+      if (priceRangeInput) priceRangeInput.value = "";
+      if (rateInput) rateInput.value = "";
+      if (highInput) highInput.value = "";
+      fetchMMRProjects();
+    } else {
+      alert(result.error || "Failed to save project.");
+    }
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
+}
+
 
