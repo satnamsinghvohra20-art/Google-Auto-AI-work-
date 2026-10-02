@@ -1,0 +1,113 @@
+[
+  {
+    "phone": "918421077613",
+    "name": "Satnam Singh (Owner / Boss)",
+    "status": "Owner / Executive",
+    "lastUpdated": "2026-10-02T15:48:42.895Z",
+    "messages": [
+      {
+        "id": "msg_in_1790955961608",
+        "sender": "client",
+        "text": "aaj ka summary batao",
+        "timestamp": "2026-10-02T15:46:01.608Z"
+      },
+      {
+        "id": "msg_out_1790955961609",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Sia ready hai aapke command ke liye. Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"aaj ka summary batao\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "suggestedActions": [
+          "📊 Leads",
+          "⭐ Reviews",
+          "📰 New Post"
+        ],
+        "timestamp": "2026-10-02T15:46:02.408Z"
+      },
+      {
+        "id": "msg_in_1790955981941",
+        "sender": "owner",
+        "text": "⭐ Reviews",
+        "timestamp": "2026-10-02T15:46:21.941Z"
+      },
+      {
+        "id": "msg_out_1790955981941",
+        "sender": "bot",
+        "text": "Sat Sri Akal Satnam Sir! Sia reporting live. ⭐ *Google Reviews Status (Real-Time Ground Truth):*\n\n• Total Real Reviews Logged: *0*\n• Direct Google Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n• Smart Review Shield: *Active on Reception Standee*\n\nAap apne genuine clients ko Review Standee QR ya direct link share karke 5★ reviews collect kar sakte hain. Jaise hi real review aayega, Sia turant live SEO auto-reply karegi aur aapko alert bhejegi!",
+        "intent": "OWNER_REVIEWS_REPORT",
+        "timestamp": "2026-10-02T15:46:21.941Z"
+      },
+      {
+        "id": "msg_in_1790955993365",
+        "sender": "client",
+        "text": "aaj ki leads batao",
+        "timestamp": "2026-10-02T15:46:33.365Z"
+      },
+      {
+        "id": "msg_out_1790955993366",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Sia ready hai aapke command ke liye. 📊 *Dashmesh Properties - Real-Time Leads Telemetry:*\n\n• Aaj Real Inquiries: *0*\n• Total Real Leads in Database: *0*\n• Live WhatsApp Gateway: *+91 92702 77281 (Active 24/7)*\n\n✅ *Real Status:* Sia live listener active hai. Zero fake records. Jaise hi koi genuine grahak WhatsApp par message karega, Sia turant unka verified record capture karke aapko instant alert bhejegi!\n\n👉 Live CRM Dashboard: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "suggestedActions": [
+          "📋 Live CRM",
+          "⭐ Reviews",
+          "📰 New Post"
+        ],
+        "timestamp": "2026-10-02T15:46:34.165Z"
+      },
+      {
+        "id": "msg_in_1790956030401",
+        "sender": "owner",
+        "text": "google reviews check rko",
+        "timestamp": "2026-10-02T15:47:10.401Z"
+      },
+      {
+        "id": "msg_out_1790956030401",
+        "sender": "bot",
+        "text": "Good evening Satnam Sir! Sia here. 🚀 *Live Google Business Profile Status (Dashmesh Properties):*\n\n• Business Name: *Dashmesh Properties*\n• Google Place ID: *ChIJDxFBTbyV5zsRcHylJmmARG8*\n• Office Location: *Shop No. 24, New Floora, Pale Gaon, Ambernath East (421 501)*\n• Verified Phone: *+91 84210 77613 / +91 92702 77281*\n• Real Reviews Logged: *0*\n• Digital Rate Card: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nTab 1 se 1-click Google Profile SEO setup complete karke listing ko top position par lock karein!",
+        "intent": "OWNER_RANK_STATUS",
+        "timestamp": "2026-10-02T15:47:10.401Z"
+      },
+      {
+        "id": "msg_in_1790956059060",
+        "sender": "owner",
+        "text": "📋 Tab 1 Setup",
+        "timestamp": "2026-10-02T15:47:39.060Z"
+      },
+      {
+        "id": "msg_out_1790956059060",
+        "sender": "bot",
+        "text": "Sat Sri Akal Satnam Sir! Sia reporting live. Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"📋 Tab 1 Setup\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-02T15:47:39.060Z"
+      },
+      {
+        "id": "msg_in_1790956065914",
+        "sender": "owner",
+        "text": "📰 New Post",
+        "timestamp": "2026-10-02T15:47:45.914Z"
+      },
+      {
+        "id": "msg_out_1790956065914",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia yahan hai. ✅ Command executed! Sia ne Google Maps par naya property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• SBI/HDFC Bank Loan Tie-ups\n• Lift, Water, Clear Title\n• Contact: +91 84210 77613\n\nLive on Google Business Profile!",
+        "intent": "OWNER_TRIGGER_POST",
+        "timestamp": "2026-10-02T15:47:45.914Z"
+      },
+      {
+        "id": "msg_in_1790956122895",
+        "sender": "owner",
+        "text": "no contact to only kuldeep kaur and sukhjyot singh only",
+        "timestamp": "2026-10-02T15:48:42.895Z"
+      },
+      {
+        "id": "msg_out_1790956122895",
+        "sender": "bot",
+        "text": "Shubh Prabhat Satnam Sir! Sia online hai. Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"no contact to only kuldeep kaur and sukhjyot singh only\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-02T15:48:42.895Z"
+      }
+    ],
+    "lastIntent": "OWNER_GENERAL_QUERY",
+    "language": "hinglish"
+  }
+]

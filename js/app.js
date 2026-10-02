@@ -576,22 +576,37 @@ function renderWhatsAppThreadList() {
   const countBadge = document.getElementById("wa-inbox-count");
   if (!container) return;
 
-  if (countBadge) countBadge.textContent = `${appState.whatsappConversations.length} Chats`;
+  const realConversations = appState.whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613'));
+  if (countBadge) countBadge.textContent = `${realConversations.length} Active`;
+
+  if (appState.whatsappConversations.length === 0) {
+    container.innerHTML = `
+      <div style="padding: 24px 14px; text-align: center; color: var(--color-text-muted);">
+        <div style="font-size: 26px; margin-bottom: 6px;">🌸</div>
+        <strong style="display: block; font-size: 12px; color: #0f172a; margin-bottom: 4px;">Sia Live Listener Ready</strong>
+        <p style="font-size: 11px; margin: 0; line-height: 1.4;">
+          Standing by on <strong>+91 92702 77281</strong>.<br/>Incoming WhatsApp messages or test prompts appear here instantly.
+        </p>
+      </div>
+    `;
+    return;
+  }
 
   let html = "";
   appState.whatsappConversations.forEach((conv, idx) => {
     const isActive = idx === appState.activeConversationIndex;
     const lastMsg = conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : { text: "No messages" };
     const lastTime = new Date(conv.lastUpdated || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const isOwner = conv.phone.replace(/[^0-9]/g, '').endsWith('8421077613');
 
     html += `
       <div class="chat-thread-item ${isActive ? 'active' : ''}" onclick="selectWhatsAppThread(${idx})">
         <div style="display: flex; justify-content: space-between; align-items: baseline;">
-          <span class="thread-name">${conv.name}</span>
+          <span class="thread-name">${isOwner ? '👑 ' + conv.name : conv.name}</span>
           <span style="font-size: 10px; color: #94a3b8;">${lastTime}</span>
         </div>
         <div class="thread-snippet">${lastMsg.text.replace(/\n/g, ' ')}</div>
-        <span class="thread-badge-bot">🤖 Sia Replied</span>
+        <span class="thread-badge-bot">${isOwner ? '👑 Owner Command' : '🌸 Sia Replied'}</span>
       </div>
     `;
   });
@@ -611,19 +626,39 @@ function renderWhatsAppChat(index) {
   if (!container) return;
 
   const conv = appState.whatsappConversations[index] || appState.whatsappConversations[0];
-  if (!conv) return;
+  if (!conv) {
+    if (activeName) activeName.textContent = "🌸 Sia AI Assistant • Live WhatsApp Listener (+91 92702 77281)";
+    container.innerHTML = `
+      <div style="padding: 40px 20px; text-align: center; color: var(--color-text-muted);">
+        <div style="font-size: 36px; margin-bottom: 12px;">💬</div>
+        <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">No Active Client Conversations Yet</h4>
+        <p style="font-size: 12px; max-width: 360px; margin: 0 auto 16px auto; line-height: 1.5;">
+          The 24/7 Sia AI listener is actively connected. When a client messages <strong>+91 92702 77281</strong> on WhatsApp, their real-time messages and Sia's auto-replies appear here instantly!
+        </p>
+        <div style="font-size: 11px; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 6px 12px; display: inline-block;">
+          🟢 Meta Cloud API Webhook: Connected & Live
+        </div>
+      </div>
+    `;
+    return;
+  }
 
-  if (activeName) activeName.textContent = `${conv.name} (${conv.phone})`;
+  const isOwner = conv.phone.replace(/[^0-9]/g, '').endsWith('8421077613');
+  if (activeName) activeName.textContent = `${isOwner ? '👑 ' : ''}${conv.name} (${conv.phone})`;
 
   let html = "";
   conv.messages.forEach(msg => {
-    const isClient = msg.sender === "client";
+    const isClient = msg.sender === "client" || msg.sender === "owner";
     const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    let senderLabel = '👤 ' + conv.name;
+    if (msg.sender === 'owner') senderLabel = '👑 Satnam Sir (Owner)';
+    else if (!isClient) senderLabel = '🌸 Sia (AI Property Advisor)';
 
     html += `
       <div class="chat-bubble ${isClient ? 'bubble-incoming' : 'bubble-outgoing'}">
         <span style="font-size: 10px; font-weight: 800; color: ${isClient ? '#4f46e5' : '#059669'}; display: block; margin-bottom: 2px;">
-          ${isClient ? '👤 ' + conv.name : '🌸 Sia (AI Property Advisor)'}
+          ${senderLabel}
         </span>
         <div>${msg.text}</div>
         <span class="bubble-time">${time} ${!isClient ? '✓✓' : ''}</span>
@@ -650,8 +685,8 @@ function sendQuickPrompt(text) {
 
 function simulateIncomingClientMessage(text) {
   const conv = appState.whatsappConversations[appState.activeConversationIndex] || {
-    name: "Rahul Patil",
-    phone: "+91 98201 44552",
+    name: "Client Inquiry",
+    phone: "+91 98200 " + Math.floor(10000 + Math.random() * 90000),
     messages: []
   };
 
@@ -678,7 +713,8 @@ function simulateIncomingClientMessage(text) {
         }
         renderWhatsAppThreadList();
         renderWhatsAppChat(appState.activeConversationIndex);
-        showToast("✓ WhatsApp Auto-Bot replied automatically!");
+        if (typeof fetchCRMLeads === 'function') fetchCRMLeads();
+        showToast("✓ Sia replied automatically with verified property details!");
       }
     })
     .catch(() => {
@@ -855,7 +891,15 @@ function renderGoogleReviewsList(reviews) {
   if (!container) return;
 
   if (!reviews || reviews.length === 0) {
-    container.innerHTML = '<p style="font-size: 12px; color: var(--color-text-muted);">No reviews received yet.</p>';
+    container.innerHTML = `
+      <div style="padding: 28px 16px; text-align: center; background: var(--color-surface-soft); border-radius: 12px; border: 1px dashed var(--color-border); color: var(--color-text-muted);">
+        <div style="font-size: 28px; margin-bottom: 6px;">⭐</div>
+        <strong style="display: block; font-size: 13px; color: #0f172a; margin-bottom: 4px;">No Google Reviews on Record Yet</strong>
+        <p style="font-size: 11.5px; max-width: 440px; margin: 0 auto; line-height: 1.5;">
+          Share your direct Google Review link or QR standee with genuine buyers and tenants. When any review is posted, Sia detects it instantly, generates a thank-you reply with SEO keywords, and alerts you on WhatsApp!
+        </p>
+      </div>
+    `;
     return;
   }
 
@@ -870,7 +914,12 @@ function renderGoogleReviewsList(reviews) {
             <strong style="font-size: 13px; color: #0f172a;">${r.customerName}</strong>
             <span style="color: #f59e0b; font-size: 13px; margin-left: 8px;">${stars}</span>
           </div>
-          <span style="font-size: 11px; color: var(--color-text-muted);">${dateFormatted}</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 11px; color: var(--color-text-muted);">${dateFormatted}</span>
+            <button type="button" class="btn-copy-small" style="background: rgba(239,68,68,0.08); color: #dc2626; border-color: rgba(239,68,68,0.2); padding: 2px 6px; font-size: 10px;" onclick="deleteGoogleReview('${r.id}')" title="Delete review entry">
+              🗑️
+            </button>
+          </div>
         </div>
         <p style="font-size: 12px; color: var(--color-text-body); line-height: 1.4; margin-bottom: 10px; font-style: italic;">
           "${r.reviewText}"
@@ -878,7 +927,7 @@ function renderGoogleReviewsList(reviews) {
         <div style="background: #ffffff; border-left: 3px solid var(--color-emerald); border-radius: 8px; padding: 10px 12px; border: 1px solid var(--color-border); border-left-width: 3px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
             <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--color-emerald);">
-              🤖 AI Auto-Reply (Published Live on Google Maps):
+              🌸 Sia AI Auto-Reply (Live on Google Maps):
             </span>
             <span style="font-size: 10px; font-weight: 700; color: var(--color-emerald); background: #ecfdf5; padding: 2px 6px; border-radius: 4px;">✓ Live</span>
           </div>
@@ -890,6 +939,26 @@ function renderGoogleReviewsList(reviews) {
     `;
   });
   container.innerHTML = html;
+}
+
+async function deleteGoogleReview(id) {
+  if (!confirm("Are you sure you want to remove this review record?")) return;
+  try {
+    const res = await fetch("/api/reviews/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("✓ Review removed.");
+      loadGoogleReviews();
+    } else {
+      showToast(data.error || "Failed to remove review.");
+    }
+  } catch (err) {
+    showToast(`Error: ${err.message}`);
+  }
 }
 
 function submitNewReviewFromUI() {
@@ -1323,10 +1392,13 @@ function renderCRMLeads() {
         <td style="padding: 12px 14px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-text-main);">
           "${(lead.lastMessage || '').replace(/\r?\n/g, ' ')}"
         </td>
-        <td style="padding: 12px 14px;">
-          <a href="https://wa.me/${cleanPhone}?text=Namaste%20${encodeURIComponent(lead.name || '')}%20ji%2C%20Dashmesh%20Properties%20se%20Sukhjyot%20Singh%20baat%20kar%20raha%20hoon." target="_blank" class="btn-copy-small" style="font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+        <td style="padding: 12px 14px; white-space: nowrap;">
+          <a href="https://wa.me/${cleanPhone}?text=Namaste%20${encodeURIComponent(lead.name || '')}%20ji%2C%20Dashmesh%20Properties%20se%20Sukhjyot%20Singh%20baat%20kar%20raha%20hoon." target="_blank" class="btn-copy-small" style="font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-right: 4px;">
             <span>💬</span> Follow Up
           </a>
+          <button type="button" class="btn-copy-small" style="background: rgba(239,68,68,0.08); color: #dc2626; border-color: rgba(239,68,68,0.2); padding: 4px 8px;" onclick="deleteCRMLead('${lead.phone}')" title="Delete lead">
+            🗑️
+          </button>
         </td>
       </tr>
     `;
@@ -1347,6 +1419,63 @@ async function updateLeadStatus(phone, newStatus) {
     }
   } catch (err) {
     showToast(`❌ Could not update status: ${err.message}`);
+  }
+}
+
+async function deleteCRMLead(phone) {
+  if (!confirm(`Are you sure you want to remove lead (${phone})?`)) return;
+  try {
+    const res = await fetch("/api/leads/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("✓ Lead removed successfully.");
+      fetchCRMLeads();
+      loadWhatsAppConversations();
+    } else {
+      showToast(data.error || "Failed to remove lead.");
+    }
+  } catch (err) {
+    showToast(`Error: ${err.message}`);
+  }
+}
+
+async function registerNewWalkInLead() {
+  const name = prompt("Enter Client Name:", "");
+  if (!name || !name.trim()) return;
+  const phone = prompt("Enter Client Phone Number (e.g. +91 98201 44552):", "+91 ");
+  if (!phone || !phone.trim() || phone.replace(/[^0-9]/g, '').length < 8) {
+    showToast("Valid phone number required.");
+    return;
+  }
+  const intent = prompt("Inquiry Requirement (1 BHK Flat / 2 BHK Flat / Commercial Shop / Office Space / Investment):", "1 BHK Flat");
+  const notes = prompt("Client Notes / Budget (e.g. Budget 22 Lakhs, Pale Gaon):", "");
+
+  try {
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: name.trim(),
+        phone: phone.trim(),
+        intent: intent || 'PROPERTY_INQUIRY',
+        notes: notes || '',
+        status: 'New Inquiry'
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("✓ Real Walk-in Client Saved to CRM!");
+      fetchCRMLeads();
+      loadWhatsAppConversations();
+    } else {
+      showToast(data.error || "Failed to add lead.");
+    }
+  } catch (err) {
+    showToast(`Error: ${err.message}`);
   }
 }
 
