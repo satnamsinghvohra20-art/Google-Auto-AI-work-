@@ -157,6 +157,11 @@
         <span>🗺️</span>
         <span>6. Local Ambernath Map</span>
       </button>
+
+      <button type="button" class="tab-btn" onclick="switchAppTab('tab-crm')">
+        <span>💼</span>
+        <span>7. Lead CRM & Pipeline</span>
+      </button>
     </nav>
 
     <!-- ========================================================================= -->
@@ -624,6 +629,83 @@ Dashmesh Property is a premier real estate consultancy and property advisory fir
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 7: SMART LEAD CRM & PIPELINE                                          -->
+    <!-- ========================================================================= -->
+    <div id="tab-crm" class="tab-pane">
+      <div class="content-card">
+        <div class="card-header-row" style="flex-wrap: wrap; gap: 12px;">
+          <div class="card-title-group">
+            <h2 class="card-title"><span>💼</span> Dashmesh Real Estate Lead CRM & Pipeline</h2>
+            <p class="card-desc">Track, qualify, and convert incoming WhatsApp client inquiries into site visits and closed property deals.</p>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="/api/leads/export-csv" target="_blank" class="btn-solid-emerald" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+              <span>📥</span> Export to Excel (CSV)
+            </a>
+            <a href="/rate-card" target="_blank" class="btn-outline" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: rgba(2,132,199,0.08); border-color: rgba(2,132,199,0.3); color: #0284c7;">
+              <span>🌐</span> Digital Rate Card
+            </a>
+            <button type="button" class="btn-copy-small" onclick="fetchCRMLeads()" style="font-weight: 700;">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <!-- 4 Metric Pipeline Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+          <div class="form-field-card" style="border-left: 4px solid #0284c7;">
+            <span class="field-label">Total Inquiries</span>
+            <span class="field-value" id="crm-total-leads" style="font-size: 24px; font-weight: 800; color: #0284c7;">0</span>
+          </div>
+          <div class="form-field-card" style="border-left: 4px solid #f59e0b;">
+            <span class="field-label">New Inquiries</span>
+            <span class="field-value" id="crm-new-leads" style="font-size: 24px; font-weight: 800; color: #f59e0b;">0</span>
+          </div>
+          <div class="form-field-card" style="border-left: 4px solid #6366f1;">
+            <span class="field-label">Site Visits Scheduled</span>
+            <span class="field-value" id="crm-visits-leads" style="font-size: 24px; font-weight: 800; color: #6366f1;">0</span>
+          </div>
+          <div class="form-field-card" style="border-left: 4px solid #10b981;">
+            <span class="field-label">Deals Closed</span>
+            <span class="field-value" id="crm-closed-leads" style="font-size: 24px; font-weight: 800; color: #10b981;">0</span>
+          </div>
+        </div>
+
+        <!-- Filters & Search -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 8px; flex: 1; min-width: 260px; max-width: 420px;">
+            <input type="text" id="crm-search-input" class="input-styled" placeholder="🔍 Search by client name, phone, or requirement..." oninput="filterCRMLeads()" />
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="btn-copy-small crm-filter-btn active" style="font-weight: 700;" onclick="setCRMFilter('all', this)">All Leads</button>
+            <button type="button" class="btn-copy-small crm-filter-btn" onclick="setCRMFilter('New Inquiry', this)">New</button>
+            <button type="button" class="btn-copy-small crm-filter-btn" onclick="setCRMFilter('Site Visit Scheduled', this)">Site Visits</button>
+            <button type="button" class="btn-copy-small crm-filter-btn" onclick="setCRMFilter('Contacted', this)">Contacted</button>
+            <button type="button" class="btn-copy-small crm-filter-btn" onclick="setCRMFilter('Closed Deal', this)">Closed</button>
+          </div>
+        </div>
+
+        <!-- Leads Table -->
+        <div style="overflow-x: auto; border: 1px solid var(--color-border); border-radius: 8px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+            <thead>
+              <tr style="background: #f8fafc; border-bottom: 1px solid var(--color-border);">
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Client</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Phone</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Inquiry Requirement</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Pipeline Status</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Language</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Last Message</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--color-text-main);">Action</th>
+              </tr>
+            </thead>
+            <tbody id="crm-leads-tbody">
+              <!-- Dynamically populated from /api/leads -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

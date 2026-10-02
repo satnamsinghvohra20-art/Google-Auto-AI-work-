@@ -184,22 +184,52 @@ const whatsappConversations = [
   }
 ];
 
-function sendMetaWhatsAppMessage(toPhone, messageText, config) {
+function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
   if (!config.accessToken || !config.phoneNumberId) {
     console.warn('[Meta WhatsApp] Missing accessToken or phoneNumberId, skipping dispatch.');
     return;
   }
 
   const cleanPhone = toPhone.replace(/[^0-9]/g, '');
-  const postData = JSON.stringify({
-    messaging_product: 'whatsapp',
-    recipient_type: 'individual',
-    to: cleanPhone,
-    type: 'text',
-    text: { preview_url: false, body: messageText }
-  });
+  const buttons = options.buttons;
 
-  const options = {
+  let payload;
+  // Meta Cloud API interactive buttons support: max 3 buttons, body <= 1024 chars, title <= 20 chars
+  if (buttons && Array.isArray(buttons) && buttons.length > 0 && messageText.length <= 1000) {
+    const formattedButtons = buttons.slice(0, 3).map((btn, idx) => {
+      const rawTitle = typeof btn === 'string' ? btn : (btn.title || 'Option');
+      const title = rawTitle.trim().substring(0, 20);
+      const id = typeof btn === 'string' ? `btn_${idx}_${Date.now()}` : (btn.id || `btn_${idx}`);
+      return {
+        type: 'reply',
+        reply: { id: id.substring(0, 256), title }
+      };
+    });
+
+    payload = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: cleanPhone,
+      type: 'interactive',
+      interactive: {
+        type: 'button',
+        body: { text: messageText },
+        action: { buttons: formattedButtons }
+      }
+    };
+  } else {
+    payload = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: cleanPhone,
+      type: 'text',
+      text: { preview_url: true, body: messageText }
+    };
+  }
+
+  const postData = JSON.stringify(payload);
+
+  const reqOptions = {
     hostname: 'graph.facebook.com',
     port: 443,
     path: `/v19.0/${config.phoneNumberId}/messages`,
@@ -211,14 +241,22 @@ function sendMetaWhatsAppMessage(toPhone, messageText, config) {
     }
   };
 
-  const req = https.request(options, (res) => {
+  const req = https.request(reqOptions, (res) => {
     let responseBody = '';
     res.on('data', chunk => responseBody += chunk);
     res.on('end', () => {
       if (res.statusCode >= 200 && res.statusCode < 300) {
-        console.log(`[Meta WhatsApp] Dispatched to +${cleanPhone}: status ${res.statusCode}`);
+        console.log(`[Meta WhatsApp] Dispatched to +${cleanPhone}: status ${res.statusCode} (${payload.type})`);
       } else {
-        console.error(`[Meta WhatsApp] Dispatch failed (${res.statusCode}):`, responseBody);
+        console.warn(`[Meta WhatsApp] Dispatch (${payload.type}) warning (${res.statusCode}):`, responseBody);
+
+        // Resilient Fallback: If Meta rejected the interactive buttons, immediately send as plain text
+        if (payload.type === 'interactive') {
+          console.log(`[Meta WhatsApp] Resending as plain text fallback to +${cleanPhone}`);
+          sendMetaWhatsAppMessage(toPhone, messageText, config, { buttons: null });
+          return;
+        }
+
         let errorDetail = `HTTP ${res.statusCode}`;
         try {
           const errObj = JSON.parse(responseBody);
@@ -244,18 +282,8 @@ function sendMetaWhatsAppMessage(toPhone, messageText, config) {
     });
   });
 
-  req.on('error', (e) => {
-    console.error(`[Meta WhatsApp] Dispatch network error:`, e.message);
-    if (typeof autoPilotState !== 'undefined' && autoPilotState.eventLogs) {
-      autoPilotState.eventLogs.unshift({
-        id: 'evt_err_wa_' + Date.now(),
-        timestamp: new Date().toISOString(),
-        type: 'ERROR',
-        icon: '⚠️',
-        message: `[WhatsApp Network Error] ${e.message}`,
-        status: 'error'
-      });
-    }
+  req.on('error', (err) => {
+    console.error(`[Meta WhatsApp] Network error dispatching to +${cleanPhone}:`, err.message);
   });
 
   req.write(postData);
@@ -355,8 +383,67 @@ const autoActions = [
     execute: () => {
       return `Verified NAP consistency across Justdial, IndiaMART, Sulekha, and 99acres. 100% address synchronization confirmed.`;
     }
+  },
+  {
+    type: 'FOLLOWUP_DRIP',
+    icon: '⏰',
+    execute: () => {
+      return run24HourFollowUpCheck();
+    }
   }
 ];
+
+function run24HourFollowUpCheck() {
+  if (!whatsappConfig.enabled || !whatsappConfig.autoFollowUpEnabled) {
+    return '24h Follow-up Bot: Standing by (Auto follow-up enabled).';
+  }
+
+  const now = Date.now();
+  const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
+  const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
+
+  let sentTo = null;
+  for (const conv of whatsappConversations) {
+    const cleanPhone = (conv.phone || '').replace(/[^0-9]/g, '');
+    if (cleanPhone === ownerPhone) continue;
+    if (conv.followUpSent) continue;
+
+    // Check if last activity was between 18 hours and 72 hours ago
+    const lastTime = new Date(conv.lastUpdated || 0).getTime();
+    const diffHours = (now - lastTime) / (3600 * 1000);
+
+    if (diffHours >= 18 && diffHours <= 72) {
+      conv.followUpSent = true;
+      sentTo = conv;
+
+      const followUpText = `Namaste ${conv.name && conv.name !== 'Client' ? conv.name + ' ji' : ''}! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: ${publicUrl}/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?`;
+
+      if (whatsappConfig.accessToken && whatsappConfig.phoneNumberId) {
+        sendMetaWhatsAppMessage(cleanPhone, followUpText, whatsappConfig, {
+          buttons: ["📸 Send Photos", "📅 Book Visit", "📍 Office Map"]
+        });
+
+        // Notify Owner
+        sendMetaWhatsAppMessage(ownerPhone, `⏰ *24-Hour Follow-Up Dispatched!*\n\n👤 *Client:* ${conv.name || 'Client'}\n📞 *Phone:* +${cleanPhone}\n🤖 *Action:* Soft follow-up & catalog link sent automatically!`, whatsappConfig);
+      }
+
+      conv.messages.push({
+        id: 'msg_followup_' + Date.now(),
+        sender: 'bot',
+        text: followUpText,
+        intent: 'FOLLOWUP_DRIP',
+        timestamp: new Date().toISOString()
+      });
+      conv.lastUpdated = new Date().toISOString();
+      break;
+    }
+  }
+
+  if (sentTo) {
+    return `24h Follow-up Bot sent automated reminder to ${sentTo.name || 'Client'} (${sentTo.phone}).`;
+  }
+  return `24h Follow-up Queue scanned. All client leads are up to date!`;
+}
 
 // Start Server Autonomous Timer
 setInterval(() => {
@@ -726,7 +813,17 @@ const server = http.createServer((req, res) => {
         if (messages && messages.length > 0) {
           const msg = messages[0];
           const from = msg.from;
-          const text = (msg.text && msg.text.body) || '';
+          let text = '';
+          if (msg.type === 'text') {
+            text = (msg.text && msg.text.body) || '';
+          } else if (msg.type === 'interactive' && msg.interactive) {
+            if (msg.interactive.type === 'button_reply') {
+              text = (msg.interactive.button_reply && msg.interactive.button_reply.title) || '';
+            } else if (msg.interactive.type === 'list_reply') {
+              text = (msg.interactive.list_reply && msg.interactive.list_reply.title) || '';
+            }
+          }
+
           const contact = value.contacts && value.contacts[0];
           const name = (contact && contact.profile && contact.profile.name) || 'Client';
 
@@ -734,9 +831,11 @@ const server = http.createServer((req, res) => {
           const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
           const messageCount = conv ? conv.messages.length : 0;
 
+          const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
           const autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
             isOngoing,
             messageCount,
+            publicUrl,
             officeAddress: whatsappConfig.officeAddress,
             officeLandmark: whatsappConfig.officeLandmark,
             officeTimings: whatsappConfig.officeTimings,
@@ -745,9 +844,12 @@ const server = http.createServer((req, res) => {
           });
 
           if (!conv) {
-            conv = { phone: '+' + from, name, lastUpdated: new Date().toISOString(), messages: [] };
+            conv = { phone: '+' + from, name, status: 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
             whatsappConversations.unshift(conv);
           }
+          conv.status = conv.status || 'New Inquiry';
+          conv.lastIntent = autoRes.intent;
+          conv.language = autoRes.language || 'hinglish';
           conv.messages.push({
             id: 'msg_in_' + Date.now(),
             sender: 'client',
@@ -765,10 +867,12 @@ const server = http.createServer((req, res) => {
 
           const targetPhoneId = (value && value.metadata && value.metadata.phone_number_id) || whatsappConfig.phoneNumberId;
           if (whatsappConfig.accessToken && targetPhoneId) {
-            // 1. Send AI reply to the inquiring client
+            // 1. Send AI reply with clickable interactive buttons
             sendMetaWhatsAppMessage(from, autoRes.reply, {
               ...whatsappConfig,
               phoneNumberId: targetPhoneId
+            }, {
+              buttons: autoRes.suggestedActions
             });
 
             // 2. Instantly notify Owner on personal WhatsApp (+91 84210 77613)
@@ -1044,12 +1148,104 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // 18. Smart Lead CRM: Get All Leads with Pipeline Metrics
+  if (pathname === '/api/leads' && req.method === 'GET') {
+    const leads = whatsappConversations.map((c, idx) => {
+      const clientMsgs = (c.messages || []).filter(m => m.sender === 'client');
+      const lastMsg = (c.messages && c.messages.length > 0) ? c.messages[c.messages.length - 1] : null;
+      return {
+        id: c.id || `lead_${c.phone.replace(/[^0-9]/g, '')}`,
+        name: c.name || 'Inquiring Client',
+        phone: c.phone,
+        status: c.status || 'New Inquiry',
+        intent: c.lastIntent || 'GENERAL_INQUIRY',
+        language: c.language || 'hinglish',
+        inquiryCount: clientMsgs.length,
+        lastMessage: lastMsg ? lastMsg.text : '',
+        lastUpdated: c.lastUpdated,
+        notes: c.notes || '',
+        followUpSent: Boolean(c.followUpSent)
+      };
+    });
+
+    const stats = {
+      total: leads.length,
+      newInquiries: leads.filter(l => l.status === 'New Inquiry').length,
+      siteVisits: leads.filter(l => l.status === 'Site Visit Scheduled').length,
+      contacted: leads.filter(l => l.status === 'Contacted').length,
+      closed: leads.filter(l => l.status === 'Closed Deal').length
+    };
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: true, stats, leads }));
+    return;
+  }
+
+  // 19. Smart Lead CRM: Update Lead Status & Notes
+  if (pathname === '/api/leads/update-status' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const phone = (data.phone || '').replace(/[^0-9]/g, '');
+        const conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === phone);
+        if (conv) {
+          if (data.status) conv.status = data.status;
+          if (data.notes !== undefined) conv.notes = data.notes;
+          if (data.name) conv.name = data.name;
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Lead updated successfully', conv }));
+        } else {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Lead not found' }));
+        }
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+      }
+    });
+    return;
+  }
+
+  // 20. Smart Lead CRM: Export Leads to Excel (CSV)
+  if (pathname === '/api/leads/export-csv' && req.method === 'GET') {
+    const csvRows = [
+      ['Phone', 'Name', 'Status', 'Inquiry Intent', 'Language', 'Client Inquiries', 'Last Message', 'Last Updated', 'Notes']
+    ];
+    whatsappConversations.forEach(c => {
+      const clientMsgs = (c.messages || []).filter(m => m.sender === 'client');
+      const lastMsg = (c.messages && c.messages.length > 0) ? c.messages[c.messages.length - 1].text : '';
+      csvRows.push([
+        `"${c.phone}"`,
+        `"${(c.name || 'Client').replace(/"/g, '""')}"`,
+        `"${(c.status || 'New Inquiry').replace(/"/g, '""')}"`,
+        `"${(c.lastIntent || 'GENERAL').replace(/"/g, '""')}"`,
+        `"${(c.language || 'hinglish').replace(/"/g, '""')}"`,
+        clientMsgs.length,
+        `"${lastMsg.replace(/\r?\n/g, ' ').replace(/"/g, '""')}"`,
+        `"${c.lastUpdated}"`,
+        `"${(c.notes || '').replace(/"/g, '""')}"`
+      ]);
+    });
+
+    const csvContent = csvRows.map(r => r.join(',')).join('\n');
+    res.writeHead(200, {
+      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Disposition': `attachment; filename="dashmesh_leads_${new Date().toISOString().slice(0, 10)}.csv"`
+    });
+    res.end(csvContent);
+    return;
+  }
+
   // --- Static Files Serving ---
   let filePath;
   if (pathname === '/' || pathname === '/index.html') {
     filePath = path.join(BASE_DIR, 'index.html');
   } else if (pathname === '/shield' || pathname === '/shield.html') {
     filePath = path.join(BASE_DIR, 'shield.html');
+  } else if (pathname === '/rate-card' || pathname === '/rate-card.html' || pathname === '/brochure') {
+    filePath = path.join(BASE_DIR, 'rate-card.html');
   } else {
     filePath = path.join(BASE_DIR, pathname);
   }

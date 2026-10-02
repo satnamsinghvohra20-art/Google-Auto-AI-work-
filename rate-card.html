@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashmesh Properties — Official Property Rate Card & Catalog (Ambernath East)</title>
+  <meta name="description" content="Official verified property rates for Pale Gaon, Station Road, Kansai, and Ambernath East. Residential flats, rental homes, commercial shops by Dashmesh Properties.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      --border: #e2e8f0;
+      --card-bg: #ffffff;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: var(--slate-900);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    /* Header */
+    .header-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 30px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::after {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(14, 165, 233, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .brand-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .brand-tagline {
+      font-size: 14px;
+      color: #94a3b8;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .header-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: #cbd5e1;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .contact-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.2s;
+    }
+
+    .contact-chip:hover {
+      background: rgba(14, 165, 233, 0.3);
+    }
+
+    /* Actions Bar */
+    .actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-whatsapp {
+      background: #10b981;
+      color: #ffffff;
+    }
+
+    .btn-whatsapp:hover {
+      background: #059669;
+    }
+
+    .btn-map {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    .btn-map:hover {
+      background: #0369a1;
+    }
+
+    .btn-print {
+      background: #ffffff;
+      color: var(--slate-700);
+      border: 1px solid var(--border);
+    }
+
+    .btn-print:hover {
+      background: var(--slate-100);
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--slate-900);
+    }
+
+    /* Grid cards */
+    .rates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .rate-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .rate-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+    }
+
+    .rate-card.featured {
+      border: 2px solid #0284c7;
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    }
+
+    .card-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .card-badge.gold {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .card-badge.green {
+      background: #d1fae5;
+      color: #047857;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--slate-900);
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--slate-600);
+      margin-bottom: 14px;
+    }
+
+    .rate-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 13px;
+    }
+
+    .rate-item:last-child {
+      border-bottom: none;
+    }
+
+    .rate-name {
+      color: var(--slate-700);
+      font-weight: 500;
+    }
+
+    .rate-val {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Comparison Table */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--slate-700);
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--slate-800);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    /* Office Banner */
+    .office-banner {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 30px;
+    }
+
+    .office-banner h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .office-banner p {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      .actions-bar {
+        display: none;
+      }
+      .rate-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Card -->
+    <header class="header-card">
+      <div class="brand-badge">✓ Verified Real Estate Catalog 2026</div>
+      <h1 class="brand-title">Dashmesh Properties</h1>
+      <p class="brand-tagline">"Your Trust, Our Commitment — Finding Spaces, Building Relationships"</p>
+      
+      <div class="header-contacts">
+        <span class="contact-chip">📍 New Floora Shop No. 24, Pale Gaon, Ambernath (E)</span>
+        <a href="tel:+918412070183" class="contact-chip">📞 Kuldeep Kaur: +91 84120 70183</a>
+        <a href="tel:+918421940013" class="contact-chip">📞 Sukhjyot Singh: +91 84219 40013</a>
+        <span class="contact-chip">⏰ 10:00 AM - 8:30 PM (All 7 Days)</span>
+      </div>
+    </header>
+
+    <!-- Quick Actions Bar -->
+    <div class="actions-bar">
+      <a href="https://wa.me/919270277281?text=Hi%2C%20I%20want%20to%20inquire%20about%20Ambernath%20properties" target="_blank" class="btn-action btn-whatsapp">
+        <span>💬</span> Chat on WhatsApp (+91 92702 77281)
+      </a>
+      <a href="https://maps.google.com/?q=19.1908,73.1785" target="_blank" class="btn-action btn-map">
+        <span>📍</span> Open Google Maps Direction
+      </a>
+      <button onclick="window.print()" class="btn-action btn-print">
+        <span>🖨️</span> Save as PDF / Print
+      </button>
+    </div>
+
+    <!-- Section 1: Locality Overview -->
+    <h2 class="section-title"><span>🏡</span> Locality-Wise Verified Property Rates</h2>
+    <div class="rates-grid">
+      <!-- Pale Gaon -->
+      <div class="rate-card featured">
+        <span class="card-badge">Head Office Locality</span>
+        <h3 class="card-title">Pale Gaon (Ambernath East)</h3>
+        <p class="card-subtitle">7 mins from Station, bus stop connectivity, peaceful family area</p>
+        
+        <div class="rate-item">
+          <span class="rate-name">1 RK Studio Flat:</span>
+          <span class="rate-val">₹12 Lakh - ₹16 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">1 BHK Ready/New:</span>
+          <span class="rate-val">₹21 Lakh - ₹28 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">2 BHK Spacious Flat:</span>
+          <span class="rate-val">₹34 Lakh - ₹48 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">1 BHK Rent (Monthly):</span>
+          <span class="rate-val">₹5,000 - ₹7,500</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">Retail Shops (Rent):</span>
+          <span class="rate-val">₹6,000 - ₹20,000</span>
+        </div>
+      </div>
+
+      <!-- Station Road & Kansai -->
+      <div class="rate-card">
+        <span class="card-badge gold">High Footfall Corridor</span>
+        <h3 class="card-title">Station Road & Kansai</h3>
+        <p class="card-subtitle">Walking distance to station, prime shopping, gated townships</p>
+        
+        <div class="rate-item">
+          <span class="rate-name">1 BHK (Near Station):</span>
+          <span class="rate-val">₹28 Lakh - ₹38 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">2 BHK Township:</span>
+          <span class="rate-val">₹44 Lakh - ₹62 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">3 BHK Luxury:</span>
+          <span class="rate-val">₹65 Lakh - ₹90 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">1 BHK Rent (Monthly):</span>
+          <span class="rate-val">₹8,000 - ₹12,000</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">Main Road Shop (Sale):</span>
+          <span class="rate-val">₹32 Lakh - ₹85 Lakh</span>
+        </div>
+      </div>
+
+      <!-- Morivali / MIDC -->
+      <div class="rate-card">
+        <span class="card-badge green">Budget & High Rental Yield</span>
+        <h3 class="card-title">Morivali & MIDC / Anand Nagar</h3>
+        <p class="card-subtitle">Affordable entry pricing, consistent tenant rental demand</p>
+        
+        <div class="rate-item">
+          <span class="rate-name">1 RK Budget Flat:</span>
+          <span class="rate-val">₹10 Lakh - ₹14 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">1 BHK Value Flat:</span>
+          <span class="rate-val">₹19 Lakh - ₹25 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">2 BHK Flat:</span>
+          <span class="rate-val">₹30 Lakh - ₹42 Lakh</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">1 BHK Rent (Monthly):</span>
+          <span class="rate-val">₹4,500 - ₹6,500</span>
+        </div>
+        <div class="rate-item">
+          <span class="rate-name">Industrial Gala (Rent):</span>
+          <span class="rate-val">₹8,000 - ₹25,000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Master Comparison Table -->
+    <h2 class="section-title"><span>📊</span> Comprehensive Price Matrix</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Property Type</th>
+            <th>Pale Gaon</th>
+            <th>Station Road / Kansai</th>
+            <th>Morivali / Anand Nagar</th>
+            <th>Ambernath West</th>
+            <th>Loan Funding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1 RK Studio</strong></td>
+            <td>₹12L - ₹16L</td>
+            <td>—</td>
+            <td>₹10L - ₹14L</td>
+            <td>₹14L - ₹18L</td>
+            <td>90% Approved</td>
+          </tr>
+          <tr>
+            <td><strong>1 BHK Flat</strong></td>
+            <td>₹21L - ₹28L</td>
+            <td>₹28L - ₹38L</td>
+            <td>₹19L - ₹25L</td>
+            <td>₹26L - ₹35L</td>
+            <td>90% Approved</td>
+          </tr>
+          <tr>
+            <td><strong>2 BHK Flat</strong></td>
+            <td>₹34L - ₹48L</td>
+            <td>₹44L - ₹62L</td>
+            <td>₹30L - ₹42L</td>
+            <td>₹40L - ₹58L</td>
+            <td>90% Approved</td>
+          </tr>
+          <tr>
+            <td><strong>3 BHK Flat</strong></td>
+            <td>₹55L - ₹70L</td>
+            <td>₹65L - ₹90L</td>
+            <td>—</td>
+            <td>₹60L - ₹85L</td>
+            <td>85-90% Approved</td>
+          </tr>
+          <tr>
+            <td><strong>1 BHK Monthly Rent</strong></td>
+            <td>₹5,000 - ₹7,500</td>
+            <td>₹8,000 - ₹12,000</td>
+            <td>₹4,500 - ₹6,500</td>
+            <td>₹6,500 - ₹9,000</td>
+            <td>Police Verification</td>
+          </tr>
+          <tr>
+            <td><strong>Commercial Shops</strong></td>
+            <td>₹18L - ₹40L</td>
+            <td>₹32L - ₹85L</td>
+            <td>₹15L - ₹35L</td>
+            <td>₹25L - ₹60L</td>
+            <td>Clear Commercial OC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 3: Home Loan & Legal Advisory Desk -->
+    <h2 class="section-title"><span>🏦</span> 90% Bank Loan & Legal Advisory Desk</h2>
+    <div class="rates-grid">
+      <div class="rate-card">
+        <span class="card-badge green">Nationalized & Private Banks</span>
+        <h3 class="card-title">Leading Bank Tie-Ups</h3>
+        <p class="card-subtitle">Fast 7-day sanction with minimum paperwork</p>
+        <div class="rate-item"><span class="rate-name">SBI Home Loan:</span><span class="rate-val">Starting @ 8.40%</span></div>
+        <div class="rate-item"><span class="rate-name">HDFC Bank:</span><span class="rate-val">Starting @ 8.45%</span></div>
+        <div class="rate-item"><span class="rate-name">ICICI & Axis:</span><span class="rate-val">Instant In-Principle</span></div>
+        <div class="rate-item"><span class="rate-name">Bank of Baroda:</span><span class="rate-val">Subsidized processing</span></div>
+      </div>
+
+      <div class="rate-card">
+        <span class="card-badge">Monthly EMI Guidelines</span>
+        <h3 class="card-title">Estimated Monthly EMI</h3>
+        <p class="card-subtitle">Calculated @ 8.5% interest on 20-year tenure</p>
+        <div class="rate-item"><span class="rate-name">₹15 Lakh Loan:</span><span class="rate-val">~₹13,015 / month</span></div>
+        <div class="rate-item"><span class="rate-name">₹20 Lakh Loan:</span><span class="rate-val">~₹17,350 / month</span></div>
+        <div class="rate-item"><span class="rate-name">₹30 Lakh Loan:</span><span class="rate-val">~₹26,035 / month</span></div>
+        <div class="rate-item"><span class="rate-name">₹40 Lakh Loan:</span><span class="rate-val">~₹34,715 / month</span></div>
+      </div>
+    </div>
+
+    <!-- Office & Visit Banner -->
+    <div class="office-banner">
+      <h3>📍 Visit Dashmesh Properties Desk Today</h3>
+      <p>
+        <strong>Office:</strong> New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501.<br>
+        <strong>Timings:</strong> 10:00 AM to 8:30 PM (All 7 Days Open for Guided Site Visits).<br>
+        <strong>Direct Advisors:</strong> Kuldeep Kaur (+91 84120 70183) & Sukhjyot Singh (+91 84219 40013).
+      </p>
+      <a href="https://maps.google.com/?q=19.1908,73.1785" target="_blank" class="btn-action btn-map" style="background: #38bdf8; color: #0f172a; font-weight: 800;">
+        📍 Get Live Driving Directions
+      </a>
+    </div>
+  </div>
+</body>
+</html>

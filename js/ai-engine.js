@@ -93,24 +93,70 @@ const AIEngine = {
    * Formats responses in clean, polite, local Hinglish/English like the Grexa WhatsApp bot!
    */
   /**
+   * Smart Multi-Language Detector (Marathi, English, Hinglish/Hindi)
+   */
+  detectLanguage(text) {
+    const raw = (text || "").toLowerCase();
+    const marathiKeywords = [
+      "madhe", "aahe", "ahe", "kiti", "kuthe", "kay", "pahije", "bhadya", 
+      "dakhva", "shodhat", "karayche", "karaycha", "aamhi", "tumche", "ghara", 
+      "vikaycha", "vikaychi", "bhada", "navin", "namaskar", "gav", "gaonat"
+    ];
+    const englishKeywords = [
+      "looking for", "price of", "interested in", "commercial space", "what is",
+      "please provide", "can you share", "appointment", "cost of", "details for",
+      "flat rates", "budget for", "brochure", "catalog", "properties", "available"
+    ];
+
+    let marathiMatches = 0;
+    for (const kw of marathiKeywords) {
+      if (raw.includes(kw)) marathiMatches++;
+    }
+
+    let englishMatches = 0;
+    for (const kw of englishKeywords) {
+      if (raw.includes(kw)) englishMatches++;
+    }
+
+    if (marathiMatches > 0 && marathiMatches >= englishMatches) return "marathi";
+    if (englishMatches > 1) return "english";
+    return "hinglish";
+  },
+
+  /**
    * Autonomous WhatsApp Client Auto-Responder Engine
    * Matches customer intents (Office Location, Timings, 1/2 BHK flats, shops, prices, review follow-up)
    * Minds the ongoing conversation: NEVER repeats 'Namaste' after first contact; keeps client warmly engaged.
+   * Multi-Language: Seamlessly switches between Hinglish, Marathi, and English!
    */
   generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
     const text = (incomingText || "").toLowerCase().trim();
     const name = clientName && clientName !== "Ji" && clientName !== "Client" ? clientName : "";
     const isOngoing = Boolean(context.isOngoing || context.messageCount > 1);
+    const lang = context.language || this.detectLanguage(text);
     
     // Polite greeting on first message or explicit hello
-    const greetingWord = text.startsWith("hi") || text.startsWith("hello") || text.startsWith("namaste") || text.startsWith("hey") ? "Namaste" : "";
-    const greetingPrefix = !isOngoing ? (name ? `Namaste ${name} ji! ` : "Namaste! ") : (greetingWord ? `${greetingWord}! ` : "");
+    let greetingPrefix = "";
+    if (!isOngoing) {
+      if (lang === "marathi") {
+        greetingPrefix = name ? `Namaskar ${name} ji! ` : "Namaskar! ";
+      } else if (lang === "english") {
+        greetingPrefix = name ? `Hello ${name}! ` : "Hello! ";
+      } else {
+        greetingPrefix = name ? `Namaste ${name} ji! ` : "Namaste! ";
+      }
+    } else {
+      const greetingWord = text.startsWith("hi") || text.startsWith("hello") || text.startsWith("namaste") || text.startsWith("hey") ? (lang === "marathi" ? "Namaskar" : "Namaste") : "";
+      if (greetingWord) greetingPrefix = `${greetingWord}! `;
+    }
 
     const reviewUrl = context.reviewUrl || "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
     const officeAddr = context.officeAddress || "New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501";
     const officeLandmark = context.officeLandmark || "Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station";
     const officeTimings = context.officeTimings || "Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)";
     const officeMap = context.officeMap || "https://maps.google.com/?q=19.1908,73.1785";
+    const publicUrl = context.publicUrl || "https://plod-extrude-lumpish.ngrok-free.dev";
+    const rateCardUrl = `${publicUrl}/rate-card`;
 
     // 1. REVIEW / RATING CONFIRMATION ("done", "review ho gaya")
     if (
@@ -121,6 +167,7 @@ const AIEngine = {
     ) {
       return {
         intent: "REVIEW_COMPLETION",
+        language: lang,
         reply: `Thank you so much${name ? ' ' + name : ''}! ⭐
 Aapka feedback Dashmesh Properties ki local credibility ko boost karne mein bohot value rakhta hai.
 
@@ -128,7 +175,7 @@ Aapka feedback Dashmesh Properties ki local credibility ko boost karne mein boho
 ${reviewUrl}
 
 Review complete hone ke baad hum aapko Ambernath ke newly launched verified projects ki priority alert list mein add kar denge! 🙏`,
-        suggestedActions: ["Open Google Review", "Call Office"]
+        suggestedActions: ["⭐ Google Review", "📞 Call Office", "📍 Office Map"]
       };
     }
 
@@ -144,6 +191,7 @@ Review complete hone ke baad hum aapko Ambernath ke newly launched verified proj
     ) {
       return {
         intent: "SELLER_INQUIRY",
+        language: lang,
         reply: `${greetingPrefix}🤝 *Property Bechna ya Kiraye Par Dena Chahte Hain?*
 
 Dashmesh Properties ke paas Ambernath East aur Pale Gaon mein verified active buyers aur quality tenants ki daily requirements rehti hain:
@@ -153,7 +201,7 @@ Dashmesh Properties ke paas Ambernath East aur Pale Gaon mein verified active bu
 ✅ Quick Closure at Best Prevailing Market Price
 
 Aapki property ka type (1 BHK / 2 BHK / Shop), society ka naam aur exact floor details bhej dijiye — Sukhjyot Singh ji (+91 84219 40013) turant review karke best deal arrange karenge!`,
-        suggestedActions: ["Share Property Details", "Call Sukhjyot Singh (+91 84219 40013)"]
+        suggestedActions: ["Share Details", "📞 Call Sukhjyot"]
       };
     }
 
@@ -171,6 +219,7 @@ Aapki property ka type (1 BHK / 2 BHK / Shop), society ka naam aur exact floor d
     ) {
       return {
         intent: "SITE_VISIT_BOOKING",
+        language: lang,
         reply: `${greetingPrefix}Ji bilkul! Dashmesh Properties par aapka welcome hai. 🤝
 
 Roz subah 10:00 AM se shaam 7:30 PM ke beech guided site visits rehti hain:
@@ -178,7 +227,7 @@ Roz subah 10:00 AM se shaam 7:30 PM ke beech guided site visits rehti hain:
 • Direct builder/owner transparency (No hidden brokerage traps).
 
 Aap apna convenient day aur time bata dijiye (jaise Kal 11:30 AM ya Sunday 4:00 PM), hum property keys aur executive pehle se ready rakhenge!`,
-        suggestedActions: ["Morning (11:00 AM)", "Evening (4:30 PM)", "Send Office Location"]
+        suggestedActions: ["Morning 11 AM", "Evening 4:30 PM", "📍 Office Map"]
       };
     }
 
@@ -194,6 +243,7 @@ Aap apna convenient day aur time bata dijiye (jaise Kal 11:30 AM ya Sunday 4:00 
     ) {
       return {
         intent: "LOAN_INQUIRY",
+        language: lang,
         reply: `${greetingPrefix}🏦 *Dashmesh Properties Home Loan Assistance Desk:*
 
 Hamare paas sabhi leading nationalized & private banks (SBI, HDFC, ICICI, Bank of Baroda, Axis) se direct tie-ups hain:
@@ -208,7 +258,7 @@ Hamare paas sabhi leading nationalized & private banks (SBI, HDFC, ICICI, Bank o
 • ₹35 Lakh Loan @ 8.5% = ~₹30,370/month
 
 Kya aapko loan eligibility check karani hai ya document checklist chahiye?`,
-        suggestedActions: ["Send Document Checklist", "Check Loan Eligibility", "Talk to Loan Advisor"]
+        suggestedActions: ["Check Eligibility", "Send Checklist", "Talk to Advisor"]
       };
     }
 
@@ -225,6 +275,7 @@ Kya aapko loan eligibility check karani hai ya document checklist chahiye?`,
     ) {
       return {
         intent: "COMMERCIAL_INQUIRY",
+        language: lang,
         reply: `${greetingPrefix}🏪 *Dashmesh Properties Commercial Desk (Ambernath East):*
 *(High-footfall retail shops & business spaces for Rent & Sale)*
 
@@ -237,11 +288,38 @@ Kya aapko loan eligibility check karani hai ya document checklist chahiye?`,
 
 ✅ Clear commercial title, electric meter & water connection ready
 Aapko kis business ke liye space chahiye aur required carpet area kitna hai?`,
-        suggestedActions: ["Shop for Rent", "Shop for Sale", "Schedule Shop Visit"]
+        suggestedActions: ["Shop for Rent", "Shop for Sale", "📅 Book Visit"]
       };
     }
 
-    // 6. RENTAL / LEASE INQUIRY: Flat or Shop on Rent
+    // 6. DIGITAL BROCHURE & PROPERTY PHOTOS DISPATCH
+    if (
+      text.includes("photo") ||
+      text.includes("brochure") ||
+      text.includes("catalog") ||
+      text.includes("pdf") ||
+      text.includes("pamphlet") ||
+      text.includes("image") ||
+      text.includes("pics")
+    ) {
+      return {
+        intent: "BROCHURE_AND_PHOTOS",
+        language: lang,
+        reply: `${greetingPrefix}📑 *Dashmesh Properties — Official Digital Catalog & Rate Card:*
+
+Aap neeche diye verified link par tap karke sabhi property rates, floor plans aur locality comparison matrix dekh sakte hain:
+🔗 ${rateCardUrl}
+
+• *Pale Gaon & Station Road:* Actual ready-possession flat options
+• *90% Bank Loan Desk:* SBI / HDFC document checklist
+• *High-Footfall Commercial Shops:* Direct owner inventory
+
+Aapko 1 BHK ya 2 BHK kiske sample photos dekhne hain?`,
+        suggestedActions: ["📊 View Rate Card", "📅 Book Visit", "📍 Office Map"]
+      };
+    }
+
+    // 7. RENTAL / LEASE INQUIRY: Flat or Shop on Rent
     if (
       text.includes("rent") ||
       text.includes("kiraya") ||
@@ -251,8 +329,26 @@ Aapko kis business ke liye space chahiye aur required carpet area kitna hai?`,
       text.includes("lease") ||
       text.includes("bhadya")
     ) {
+      if (lang === "marathi") {
+        return {
+          intent: "RENTAL_INQUIRY",
+          language: "marathi",
+          reply: `${greetingPrefix}🔑 *Dashmesh Properties - Bhadya che Flats (Ambernath East):*
+
+• *1 RK Flat:* ₹3,500 - ₹4,500/mahina (Deposit: ₹20,000 - ₹35,000)
+• *1 BHK Flat:* ₹5,000 - ₹8,500/mahina (Deposit: ₹30,000 - ₹50,000)
+• *2 BHK Flat:* ₹9,000 - ₹15,000/mahina (Deposit: ₹50,000 - ₹80,000)
+• *Commercial Dukaan:* ₹6,000 - ₹30,000/mahina
+
+✅ 100% Legal Police Verification & Registered Rent Agreement Support
+Aaplyala Pale Gaon madhe pahije ki Station Road javal?`,
+          suggestedActions: ["1 BHK Rent", "2 BHK Rent", "Shop on Rent"]
+        };
+      }
+
       return {
         intent: "RENTAL_INQUIRY",
+        language: lang,
         reply: `${greetingPrefix}🔑 *Dashmesh Properties - Verified Rental Rates (Ambernath East):*
 
 • *1 RK Flat Rent:* ₹3,500 - ₹4,500/month (Deposit: ₹20,000 - ₹35,000)
@@ -264,11 +360,11 @@ Aapko kis business ke liye space chahiye aur required carpet area kitna hai?`,
 ✅ Bachelor & Family friendly verified flats available
 
 Aapko residential flat rent par chahiye ya commercial shop? Preferred location bata dijiye!`,
-        suggestedActions: ["1 BHK Rent (Pale Gaon)", "2 BHK Rent", "Commercial Shop Rent"]
+        suggestedActions: ["1 BHK Rent", "2 BHK Rent", "Commercial Shop Rent"]
       };
     }
 
-    // 7. OFFICE LOCATION, ADDRESS & TIMINGS
+    // 8. OFFICE LOCATION, ADDRESS & TIMINGS
     if (
       text.includes("kahan") ||
       text.includes("kidhar") ||
@@ -287,6 +383,7 @@ Aapko residential flat rent par chahiye ya commercial shop? Preferred location b
     ) {
       return {
         intent: "LOCATION_AND_TIMINGS",
+        language: lang,
         reply: `${greetingPrefix}📍 *Dashmesh Properties ka Official Registered Office:*
 
 🏢 *Office Address:*
@@ -302,14 +399,53 @@ ${officeAddr}
 ✉️ Email: info@dashmeshproperties.com
 
 Aap kis din ya kis samay visit karna chahenge? Hum desk par pehle se properties shortlist karke ready rakhenge!`,
-        suggestedActions: ["Open Google Maps Pin", "Confirm Visit Time", "Call Office (+91 84120 70183)"]
+        suggestedActions: ["📍 Google Map Pin", "📅 Confirm Time", "📞 Call Office"]
       };
     }
 
-    // 8. SPECIFIC LOCALITY: Pale Gaon Inquiry (Dashmesh Properties Core Base)
+    // 9. SPECIFIC LOCALITY: Pale Gaon Inquiry (Dashmesh Properties Core Base)
     if (text.includes("pale gaon") || text.includes("palegaon") || text.includes("pale")) {
+      if (lang === "marathi") {
+        return {
+          intent: "LOCALITY_PALE_GAON",
+          language: "marathi",
+          reply: `${greetingPrefix}🏡 *Pale Gaon (Ambernath East) Verified Property Rates:*
+*(Ambernath Railway Station pasun fakt 7 mins dur, Bus Stop javal)*
+
+• *1 RK Studio:* ₹12 Lakh - ₹16 Lakh (Budget friendly)
+• *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (Ready & New, SBI/HDFC 90% Loan Manjur)
+• *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Lift, power backup, parking)
+• *Bhadya sathi (Rent):* 1 BHK: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
+• *Commercial Dukaan:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
+
+📍 Aamche office New Floora, Shop No. 24, Pale Gaon madhech aahe.
+Aaplyala Flat Kharedi, Vikri ki Bhadya sathi hawa aahe?`,
+          suggestedActions: ["1 BHK Pale Gaon", "2 BHK Pale Gaon", "Rent in Pale Gaon"]
+        };
+      }
+
+      if (lang === "english") {
+        return {
+          intent: "LOCALITY_PALE_GAON",
+          language: "english",
+          reply: `${greetingPrefix}🏡 *Pale Gaon (Ambernath East) Verified Property Rates:*
+*(7 mins from Ambernath Railway Station, peaceful residential pocket)*
+
+• *1 RK Studio:* ₹12 Lakh - ₹16 Lakh
+• *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (90% Bank Loan Approved)
+• *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Gated with lift & parking)
+• *Rental Flats:* 1 BHK: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
+• *Commercial Shops:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
+
+📍 Office: New Floora, Shop No. 24, Pale Gaon.
+Are you looking to Buy, Rent, or Sell?`,
+          suggestedActions: ["1 BHK in Pale Gaon", "2 BHK in Pale Gaon", "Rent in Pale Gaon"]
+        };
+      }
+
       return {
         intent: "LOCALITY_PALE_GAON",
+        language: "hinglish",
         reply: `${greetingPrefix}🏡 *Pale Gaon (Ambernath East) Verified Property Rates:*
 *(Ambernath Railway Station se sirf 7 mins dur, Pale Gaon Bus Stop connectivity)*
 
@@ -325,10 +461,11 @@ Aapka requirement Buy, Sale ya Rent mein se kismein hai?`,
       };
     }
 
-    // 9. SPECIFIC LOCALITY: Station Road & Kansai (Prime Walkable Area)
+    // 10. SPECIFIC LOCALITY: Station Road & Kansai (Prime Walkable Area)
     if (text.includes("station") || text.includes("kansai") || text.includes("shiv mandir")) {
       return {
         intent: "LOCALITY_STATION_KANSAI",
+        language: lang,
         reply: `${greetingPrefix}🚉 *Ambernath East (Station Road & Kansai) Verified Property Rates:*
 *(Station se walking distance & prime commercial corridor)*
 
@@ -339,14 +476,15 @@ Aapka requirement Buy, Sale ya Rent mein se kismein hai?`,
 • *Rental 1 BHK:* ₹8,000 - ₹12,000/mo | 2 BHK: ₹14,000 - ₹20,000/mo
 
 Aapko station se kitne distance ke andar flat ya shop chahiye?`,
-        suggestedActions: ["Station 5 mins Walking", "Kansai Townships", "Station Road Shops"]
+        suggestedActions: ["Station 5min Walk", "Kansai Townships", "Station Shops"]
       };
     }
 
-    // 10. SPECIFIC LOCALITY: Morivali, Anand Nagar & MIDC
+    // 11. SPECIFIC LOCALITY: Morivali, Anand Nagar & MIDC
     if (text.includes("morivali") || text.includes("midc") || text.includes("anand nagar")) {
       return {
         intent: "LOCALITY_MORIVALI_MIDC",
+        language: lang,
         reply: `${greetingPrefix}🏭 *Morivali & MIDC / Anand Nagar (Ambernath East) Rates:*
 *(Affordable budget corridor with continuous rental tenant demand)*
 
@@ -357,14 +495,15 @@ Aapko station se kitne distance ke andar flat ya shop chahiye?`,
 • *Commercial / Industrial Gala / Shop:* ₹8,000 - ₹25,000/mo
 
 Kya aap investment/rental income ke liye dekh rahe hain ya khud rehne ke liye?`,
-        suggestedActions: ["1 BHK Budget", "High Rental Options", "Commercial Galas"]
+        suggestedActions: ["1 BHK Budget", "High Rental Yield", "Industrial Galas"]
       };
     }
 
-    // 11. SPECIFIC LOCALITY: Ambernath West
+    // 12. SPECIFIC LOCALITY: Ambernath West
     if (text.includes("west") || text.includes("paschim") || text.includes("navare")) {
       return {
         intent: "LOCALITY_WEST",
+        language: lang,
         reply: `${greetingPrefix}🏙️ *Ambernath West Verified Property Rates:*
 *(Navare Nagar, Sai Baba Temple & Station West corridor)*
 
@@ -377,10 +516,11 @@ Ambernath West mein aapka preferred location kaunsa hai?`,
       };
     }
 
-    // 12. 1 BHK FLAT SPECIFIC INQUIRY
+    // 13. 1 BHK FLAT SPECIFIC INQUIRY
     if (text.includes("1 bhk") || text.includes("1bhk") || text.includes("one bhk")) {
       return {
         intent: "RESIDENTIAL_1BHK",
+        language: lang,
         reply: `${greetingPrefix}🏡 *Ambernath East 1 BHK Flats Rate Card:*
 
 • *Pale Gaon (Near Office):* ₹21 Lakh - ₹28 Lakh (Quiet, family environment, 7 mins to station)
@@ -391,14 +531,15 @@ Ambernath West mein aapka preferred location kaunsa hai?`,
 ✅ Ready possession (Immediate shifting) aur Under-construction dono available
 
 Aapka comfortable budget kitna hai? Hum turant photos aur floor plans WhatsApp karenge!`,
-        suggestedActions: ["Budget Under ₹25L", "Budget ₹25L - ₹35L", "Book Site Visit"]
+        suggestedActions: ["Under ₹25L", "₹25L - ₹35L", "📅 Book Visit"]
       };
     }
 
-    // 13. 2 BHK / 3 BHK FLAT SPECIFIC INQUIRY
+    // 14. 2 BHK / 3 BHK FLAT SPECIFIC INQUIRY
     if (text.includes("2 bhk") || text.includes("2bhk") || text.includes("two bhk") || text.includes("3 bhk") || text.includes("3bhk")) {
       return {
         intent: "RESIDENTIAL_2BHK_3BHK",
+        language: lang,
         reply: `${greetingPrefix}🏰 *Ambernath East 2 BHK & 3 BHK Luxury/Spacious Homes:*
 
 • *2 BHK (Pale Gaon):* ₹34 Lakh - ₹48 Lakh (Spacious 650-750 sq.ft carpet, master bedroom, balcony)
@@ -409,11 +550,11 @@ Aapka comfortable budget kitna hai? Hum turant photos aur floor plans WhatsApp k
 ✅ Clear title, OC received & zero hidden legal costs
 
 Aap kis weekend par family ke saath sample flat dekhne aana chahenge?`,
-        suggestedActions: ["2 BHK in Pale Gaon", "2 BHK near Station", "Schedule Family Visit"]
+        suggestedActions: ["2 BHK Pale Gaon", "2 BHK Station", "📅 Book Visit"]
       };
     }
 
-    // 14. GENERAL PROPERTY / MASTER RATE INQUIRY ("rate kya hai", "price", "budget")
+    // 15. GENERAL PROPERTY / MASTER RATE INQUIRY ("rate kya hai", "price", "budget")
     if (
       text.includes("rate") ||
       text.includes("price") ||
@@ -427,6 +568,7 @@ Aap kis weekend par family ke saath sample flat dekhne aana chahenge?`,
     ) {
       return {
         intent: "MASTER_RATE_CARD",
+        language: lang,
         reply: `${greetingPrefix}📊 *Dashmesh Properties - Master Property Rate Card (Ambernath East):*
 
 🏠 *Residential Flats:*
@@ -442,15 +584,60 @@ Aap kis weekend par family ke saath sample flat dekhne aana chahenge?`,
 🏪 *Commercial Retail Shops:*
 • Rent: ₹6,000 - ₹35,000/month | Buy: ₹18 Lakh - ₹85 Lakh
 
-Aapko specific kis area ya budget mein property chahiye? Hum customized list share kar denge!`,
-        suggestedActions: ["Budget Under ₹25L", "₹25L - ₹45L", "Commercial Shops"]
+🌐 *Digital Catalog:* ${rateCardUrl}
+
+Aapko specific kis area ya budget mein property chahiye?`,
+        suggestedActions: ["📊 Digital Catalog", "Under ₹25L", "₹25L - ₹45L"]
       };
     }
 
-    // 15. DEFAULT INITIAL GREETING / FIRST CONTACT
+    // 16. DEFAULT INITIAL GREETING / FIRST CONTACT
     if (!isOngoing) {
+      if (lang === "marathi") {
+        return {
+          intent: "GREETING",
+          language: "marathi",
+          reply: `Namaskar ${name ? name + ' ji' : ''}! Dashmesh Properties madhe aple swagat aahe. 🙏
+*"Aapla Vishwas, Aamchi Baddhata — Finding Spaces, Building Relationships"*
+
+🏢 Karyalay: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
+
+Aamhi Ambernath East & Pale Gaon che verified real estate consultants aahot:
+1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)
+2️⃣ *Bhadya che Flats:* 1 BHK Rent (₹5,000 - ₹8,500/mahina)
+3️⃣ *Commercial Dukaan:* Rent & Buy (Prime Footfall)
+4️⃣ *Bank Loan Desk:* 90% SBI / HDFC Loan Approval
+
+🌐 Digital Rate Card: ${rateCardUrl}
+Aaplyala kashachi mahiti hawi aahe? Aamhi lagech verified options share karto!`,
+          suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
+        };
+      }
+
+      if (lang === "english") {
+        return {
+          intent: "GREETING",
+          language: "english",
+          reply: `Hello ${name ? name : ''}! Welcome to Dashmesh Properties. 🙏
+*"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
+
+🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
+
+We specialize in verified residential & commercial properties in Ambernath:
+1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)
+2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/month)
+3️⃣ *Commercial Retail Shops:* Prime locations for Rent & Sale
+4️⃣ *Home Loan Assistance:* Up to 90% SBI / HDFC loan sanction
+
+🌐 Digital Catalog: ${rateCardUrl}
+What type of property are you looking for today?`,
+          suggestedActions: ["1 BHK / 2 BHK", "Rental Homes", "Commercial", "Office Location"]
+        };
+      }
+
       return {
         intent: "GREETING",
+        language: "hinglish",
         reply: `Namaste ${name ? name + ' ji' : ''}! Dashmesh Properties mein aapka swagat hai. 🙏
 *"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
 
@@ -462,18 +649,20 @@ Hum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Re
 3️⃣ *Commercial Retail Shops:* Rent & Buy (High footfall)
 4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval
 
+🌐 Digital Rate Card: ${rateCardUrl}
 Aapko kis type ki property ki requirement hai? Hum turant verified options share karenge!`,
-        suggestedActions: ["1 BHK / 2 BHK Flats", "Rental Flats", "Commercial Shops", "Office Location"]
+        suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
       };
     }
 
-    // 16. ONGOING CHAT FALLBACK (Respectful, helpful, no repetitive greeting)
+    // 17. ONGOING CHAT FALLBACK (Respectful, helpful, no repetitive greeting)
     return {
       intent: "CONVERSATIONAL_FOLLOWUP",
+      language: lang,
       reply: `Ji, main samajh gaya. Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.
 
 Aap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, hum turant verified options bhejte hain!`,
-      suggestedActions: ["Office Location", "1 BHK / 2 BHK Rates", "Call Office"]
+      suggestedActions: ["📍 Office Map", "📊 Rate Card", "📞 Call Office"]
     };
   },
 

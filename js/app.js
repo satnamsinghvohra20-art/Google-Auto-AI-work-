@@ -101,6 +101,11 @@ function switchAppTab(tabId) {
       initOrUpdateLeafletMap();
     }, 100);
   }
+
+  // If opening CRM tab, fetch fresh leads
+  if (tabId === "tab-crm") {
+    fetchCRMLeads();
+  }
 }
 
 /**
@@ -1054,4 +1059,169 @@ async function testMetaTokenLive() {
     statusDiv.innerHTML = `❌ Connection Error: ${err.message}`;
   }
 }
+
+// =========================================================================
+// 7. SMART LEAD CRM & PIPELINE CONTROLLER
+// =========================================================================
+let cachedCRMLeads = [];
+let currentCRMFilter = 'all';
+
+async function fetchCRMLeads() {
+  try {
+    const res = await fetch("/api/leads");
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.success && data.leads) {
+      cachedCRMLeads = data.leads;
+
+      // Update counters
+      const totalEl = document.getElementById("crm-total-leads");
+      const newEl = document.getElementById("crm-new-leads");
+      const visitsEl = document.getElementById("crm-visits-leads");
+      const closedEl = document.getElementById("crm-closed-leads");
+
+      if (totalEl) totalEl.textContent = data.stats.total || 0;
+      if (newEl) newEl.textContent = data.stats.newInquiries || 0;
+      if (visitsEl) visitsEl.textContent = data.stats.siteVisits || 0;
+      if (closedEl) closedEl.textContent = data.stats.closed || 0;
+
+      renderCRMLeads();
+    }
+  } catch (err) {
+    console.warn("Could not fetch CRM leads:", err.message);
+  }
+}
+
+function setCRMFilter(filter, btn) {
+  currentCRMFilter = filter;
+  const buttons = document.querySelectorAll(".crm-filter-btn");
+  buttons.forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderCRMLeads();
+}
+
+function filterCRMLeads() {
+  renderCRMLeads();
+}
+
+function renderCRMLeads() {
+  const tbody = document.getElementById("crm-leads-tbody");
+  if (!tbody) return;
+
+  const searchInput = document.getElementById("crm-search-input");
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+  let filtered = cachedCRMLeads;
+  if (currentCRMFilter !== 'all') {
+    filtered = filtered.filter(l => l.status === currentCRMFilter);
+  }
+
+  if (query) {
+    filtered = filtered.filter(l => 
+      (l.name && l.name.toLowerCase().includes(query)) ||
+      (l.phone && l.phone.includes(query)) ||
+      (l.intent && l.intent.toLowerCase().includes(query)) ||
+      (l.lastMessage && l.lastMessage.toLowerCase().includes(query))
+    );
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 24px; color: var(--color-text-muted);">
+          No leads found matching current filter or search criteria.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  const statusColors = {
+    'New Inquiry': 'background: #fef3c7; color: #b45309;',
+    'Contacted': 'background: #e0f2fe; color: #0284c7;',
+    'Site Visit Scheduled': 'background: #e0e7ff; color: #4338ca;',
+    'Negotiation': 'background: #f3e8ff; color: #7e22ce;',
+    'Closed Deal': 'background: #d1fae5; color: #047857;',
+    'Not Interested': 'background: #f1f5f9; color: #64748b;'
+  };
+
+  tbody.innerHTML = filtered.map(lead => {
+    const cleanPhone = lead.phone.replace(/[^0-9]/g, '');
+    const dateFormatted = lead.lastUpdated ? new Date(lead.lastUpdated).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Recent';
+    const statusStyle = statusColors[lead.status] || 'background: #f1f5f9; color: #475569;';
+
+    return `
+      <tr style="border-bottom: 1px solid var(--color-border);">
+        <td style="padding: 12px 14px; font-weight: 700; color: var(--color-text-main);">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px;">
+              ${(lead.name || 'C').charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div>${lead.name || 'Client'}</div>
+              <span style="font-size: 10px; color: var(--color-text-muted);">${dateFormatted}</span>
+            </div>
+          </div>
+        </td>
+        <td style="padding: 12px 14px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-family: monospace; font-size: 11px; font-weight: 600;">${lead.phone}</span>
+            <a href="https://wa.me/${cleanPhone}" target="_blank" title="Open WhatsApp Chat" style="text-decoration: none; font-size: 13px;">💬</a>
+            <a href="tel:+${cleanPhone}" title="Call Client" style="text-decoration: none; font-size: 13px;">📞</a>
+          </div>
+        </td>
+        <td style="padding: 12px 14px;">
+          <span style="display: inline-block; font-size: 10px; font-weight: 700; background: rgba(2,132,199,0.1); color: #0284c7; padding: 2px 8px; border-radius: 4px;">
+            ${(lead.intent || 'INQUIRY').replace(/_/g, ' ')}
+          </span>
+        </td>
+        <td style="padding: 12px 14px;">
+          <select class="input-styled" style="padding: 4px 8px; font-size: 11px; font-weight: 600; border-radius: 6px; ${statusStyle}" onchange="updateLeadStatus('${lead.phone}', this.value)">
+            <option value="New Inquiry" ${lead.status === 'New Inquiry' ? 'selected' : ''}>🟡 New Inquiry</option>
+            <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>🔵 Contacted</option>
+            <option value="Site Visit Scheduled" ${lead.status === 'Site Visit Scheduled' ? 'selected' : ''}>🟣 Site Visit Scheduled</option>
+            <option value="Negotiation" ${lead.status === 'Negotiation' ? 'selected' : ''}>🟠 Negotiation</option>
+            <option value="Closed Deal" ${lead.status === 'Closed Deal' ? 'selected' : ''}>🟢 Closed Deal</option>
+            <option value="Not Interested" ${lead.status === 'Not Interested' ? 'selected' : ''}>⚪ Not Interested</option>
+          </select>
+        </td>
+        <td style="padding: 12px 14px;">
+          <span style="font-size: 11px; text-transform: capitalize; color: var(--color-text-muted);">
+            ${lead.language || 'Hinglish'}
+          </span>
+        </td>
+        <td style="padding: 12px 14px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-text-main);">
+          "${(lead.lastMessage || '').replace(/\r?\n/g, ' ')}"
+        </td>
+        <td style="padding: 12px 14px;">
+          <a href="https://wa.me/${cleanPhone}?text=Namaste%20${encodeURIComponent(lead.name || '')}%20ji%2C%20Dashmesh%20Properties%20se%20Sukhjyot%20Singh%20baat%20kar%20raha%20hoon." target="_blank" class="btn-copy-small" style="font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <span>💬</span> Follow Up
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function updateLeadStatus(phone, newStatus) {
+  try {
+    const res = await fetch("/api/leads/update-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, status: newStatus })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`✓ Lead status updated to: ${newStatus}`);
+      fetchCRMLeads();
+    }
+  } catch (err) {
+    showToast(`❌ Could not update status: ${err.message}`);
+  }
+}
+
+// Auto-fetch leads on boot
+document.addEventListener("DOMContentLoaded", () => {
+  fetchCRMLeads();
+});
 
