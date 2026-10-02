@@ -1,9 +1,32 @@
 [
   {
+    "phone": "+918421940013",
+    "name": "Sukhjyot Singh Vohra",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-02T16:03:15.070Z",
+    "messages": [
+      {
+        "id": "msg_in_1790956995070",
+        "sender": "client",
+        "text": "Rental Flats",
+        "timestamp": "2026-10-02T16:03:15.070Z"
+      },
+      {
+        "id": "msg_out_1790956995070",
+        "sender": "bot",
+        "text": "Hello Sukhjyot Singh Vohra ji! Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat hai! 🌸 🔑 *Dashmesh Properties - Verified Rental Rates (Ambernath East):*\n\n• *1 RK Flat Rent:* ₹3,500 - ₹4,500/month (Deposit: ₹20,000 - ₹35,000)\n• *1 BHK Flat Rent:* ₹5,000 - ₹8,500/month (Deposit: ₹30,000 - ₹50,000)\n• *2 BHK Flat Rent:* ₹9,000 - ₹15,000/month (Deposit: ₹50,000 - ₹80,000)\n• *Commercial Shop Rent:* ₹6,000 - ₹30,000/month (Location & carpet dependent)\n\n✅ 100% Legal Police Verification & Registered Rent Agreement Support\n✅ Bachelor & Family friendly verified flats available\n\nAapko residential flat rent par chahiye ya commercial shop? Preferred location bata dijiye!",
+        "intent": "RENTAL_INQUIRY",
+        "timestamp": "2026-10-02T16:03:15.070Z"
+      }
+    ],
+    "lastIntent": "RENTAL_INQUIRY",
+    "language": "hinglish"
+  },
+  {
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-02T15:48:42.895Z",
+    "lastUpdated": "2026-10-02T16:04:36.894Z",
     "messages": [
       {
         "id": "msg_in_1790955961608",
@@ -105,9 +128,22 @@
         "text": "Shubh Prabhat Satnam Sir! Sia online hai. Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"no contact to only kuldeep kaur and sukhjyot singh only\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
         "intent": "OWNER_GENERAL_QUERY",
         "timestamp": "2026-10-02T15:48:42.895Z"
+      },
+      {
+        "id": "msg_in_1790957076894",
+        "sender": "owner",
+        "text": "kya status hai iss client ka..??",
+        "timestamp": "2026-10-02T16:04:36.894Z"
+      },
+      {
+        "id": "msg_out_1790957076894",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia yahan hai. 🤖 *Dashmesh Properties AI (Sia) Status:*\n\n✅ Sia WhatsApp Assistant: *ONLINE (Active 24/7)*\n✅ 24h Client Follow-up Drip: *RUNNING*\n✅ Google Review Auto-Responder: *ACTIVE*\n✅ Meta Cloud API: *CONNECTED*\n✅ Tunnel URL: https://plod-extrude-lumpish.ngrok-free.dev\n\nAap mujhe koi bhi command de sakte hain jaise 'leads report', 'publish post', 'review status', ya property rates!",
+        "intent": "OWNER_SYSTEM_STATUS",
+        "timestamp": "2026-10-02T16:04:36.894Z"
       }
     ],
-    "lastIntent": "OWNER_GENERAL_QUERY",
+    "lastIntent": "OWNER_SYSTEM_STATUS",
     "language": "hinglish"
   }
 ]
