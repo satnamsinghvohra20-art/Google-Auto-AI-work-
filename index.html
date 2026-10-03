@@ -1659,6 +1659,105 @@ a:hover {
 
 
   </style>
+<style id="hub-accelerator-css">
+
+  /* High-Performance 3-Hub Navigation Acceleration */
+  .nav-hub-bar {
+    position: sticky;
+    top: 64px;
+    z-index: 100;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+    margin-bottom: 24px;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+  }
+  .nav-hub-clusters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    padding: 12px;
+  }
+  .nav-hub-cluster {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .nav-hub-cluster:hover {
+    box-shadow: 0 6px 16px -4px rgba(79, 70, 229, 0.12);
+  }
+  .nav-hub-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .nav-hub-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tab-btn {
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+  .tab-btn:hover {
+    background: #eef2ff;
+    color: #4f46e5;
+    border-color: #c7d2fe;
+    transform: translateY(-1px);
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+    color: #ffffff !important;
+    border-color: #4338ca !important;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35) !important;
+    transform: translateY(-1px);
+  }
+  .tab-btn.active .tab-badge {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+  }
+  .tab-pane {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  .tab-pane.active {
+    display: block !important;
+    opacity: 1 !important;
+    animation: hubFadeIn 0.22s ease-out forwards;
+  }
+  @keyframes hubFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+</style>
 </head>
 <body>
 
@@ -1799,6 +1898,84 @@ a:hover {
         </button>
       </div>
     </div>
+
+    
+  <!-- Ultra-Fast Zero-Latency 3-Hub Navigation Engine -->
+  <script>
+    window.switchAppTab = function(tabId) {
+      if (!tabId) return;
+      if (window.appState) {
+        window.appState.activeTab = tabId;
+      }
+
+      // 1. Update all tab buttons across all 3 Hubs
+      var allButtons = document.querySelectorAll(".tab-btn");
+      allButtons.forEach(function(btn) {
+        var onclickVal = btn.getAttribute("onclick") || "";
+        if (onclickVal.indexOf(tabId) !== -1) {
+          btn.classList.add("active");
+          btn.setAttribute("aria-selected", "true");
+          btn.style.transform = "translateY(-1px)";
+          btn.style.boxShadow = "0 4px 12px rgba(79, 70, 229, 0.2)";
+        } else {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-selected", "false");
+          btn.style.transform = "";
+          btn.style.boxShadow = "";
+        }
+      });
+
+      // 2. Switch Tab Panes instantly
+      var allPanes = document.querySelectorAll(".tab-pane");
+      allPanes.forEach(function(pane) {
+        if (pane.id === tabId) {
+          pane.classList.add("active");
+          pane.style.display = "block";
+          pane.style.opacity = "1";
+        } else {
+          pane.classList.remove("active");
+          pane.style.display = "none";
+          pane.style.opacity = "0";
+        }
+      });
+
+      // 3. Smooth scroll to content top if clicked from nav
+      var targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        var navBar = document.querySelector(".nav-hub-bar");
+        if (navBar && window.scrollY > navBar.offsetTop + 100) {
+          navBar.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      // 4. Subsystem triggers with fast fallbacks
+      try {
+        if (tabId === "tab-map") {
+          setTimeout(function() {
+            if (typeof initOrUpdateLeafletMap === "function") initOrUpdateLeafletMap();
+            if (window.appState && window.appState.leafletMap) window.appState.leafletMap.invalidateSize();
+          }, 80);
+        } else if (tabId === "tab-crm") {
+          if (typeof fetchCRMLeads === "function") fetchCRMLeads();
+        } else if (tabId === "tab-projects") {
+          if (typeof fetchMMRProjects === "function") fetchMMRProjects();
+        } else if (tabId === "tab-whatsapp") {
+          if (typeof loadWhatsAppConversations === "function") loadWhatsAppConversations();
+        }
+      } catch (err) {
+        console.warn("[Hub Switcher] Subsystem hook notice:", err);
+      }
+    };
+
+    // Ensure default active tab is visible immediately on DOM ready
+    document.addEventListener("DOMContentLoaded", function() {
+      var activePane = document.querySelector(".tab-pane.active") || document.getElementById("tab-profile");
+      if (activePane) {
+        activePane.style.display = "block";
+        activePane.style.opacity = "1";
+      }
+    });
+  </script>
 
     <!-- Systematic 3-Hub Navigation Command Center -->
     <nav class="nav-hub-bar" aria-label="Main Tool Navigation">
@@ -3108,8 +3285,10 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
   <script src="js/data.js"></script>
   <script src="js/ai-engine.js"></script>
 
-  <!-- Clean Functional Controller -->
+  <!-- Clean Functional Controllers (Dual Redundancy for Zero-Error Execution) -->
   <script src="js/app.js"></script>
+  <script src="js/suite.js"></script>
+
 
 </body>
 </html>
