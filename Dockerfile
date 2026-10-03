@@ -13,7 +13,7 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Install curl for healthchecks
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl python3 py3-pip
 
 # Copy package files (if any) and install dependencies
 COPY package*.json ./
