@@ -2,7 +2,6 @@ const https = require('https');
 const path = require('path');
 const fs = require('fs');
 
-// Built-in credentials with process.env overrides
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "DashmeshProperties2026";
 const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN || "EAATN5vYyZCbMBSv3ejduJWjjJKOIensLV7ZCOFJUqg4gHZCnj1Jb1mVpmRwRH3Sd7RqTRfCKmx7xi7fhKLcPo0YG4evgZCGSrFkrzOqqrtu3uFNcYWnkzqlLJ0YqVK9tB6PNQ67Ueu5ZCFJu7GC8nGJXyQ8m4AyXeXoZBOh6NzOEqeE7huxgAUjQInT4QCuAZDZD";
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "1239464059243498";
@@ -66,14 +65,27 @@ function sendMetaWhatsAppMessage(to, text) {
   });
 }
 
-module.exports = async (req, res) => {
-  // Enable CORS
+function sendResponse(res, statusCode, body, isJson = false) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  if (res.status && typeof res.status === 'function') {
+    if (isJson) {
+      return res.status(statusCode).json(body);
+    }
+    return res.status(statusCode).send(body);
+  } else {
+    res.writeHead(statusCode, {
+      'Content-Type': isJson ? 'application/json' : 'text/plain; charset=utf-8'
+    });
+    return res.end(isJson ? JSON.stringify(body) : String(body));
+  }
+}
+
+async function handleWhatsAppWebhook(req, res) {
   if (req.method === 'OPTIONS') {
-    return res.status(204).end();
+    return sendResponse(res, 204, '');
   }
 
   const url = new URL(req.url, `https://${req.headers.host || 'google-auto-ai-work.vercel.app'}`);
@@ -84,23 +96,33 @@ module.exports = async (req, res) => {
     const token = url.searchParams.get('hub.verify_token');
     const challenge = url.searchParams.get('hub.challenge');
 
-    console.log(`[Webhook Verification] mode=${mode}, token=${token}, challenge=${challenge}`);
+    console.log(`[Webhook Verification Attempt] mode=${mode}, token=${token}, challenge=${challenge}`);
 
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      console.log('[Webhook] Verified successfully by Meta Cloud API!');
-      res.setHeader('Content-Type', 'text/plain');
-      return res.status(200).send(challenge);
+      console.log('[Webhook] Verification PASSED!');
+      return sendResponse(res, 200, challenge, false);
     } else {
-      console.warn(`[Webhook Verification Failed] Expected token: ${VERIFY_TOKEN}, got: ${token}`);
-      return res.status(403).json({ error: 'Verification token mismatch' });
+      console.warn(`[Webhook] Verification mismatch. Expected: ${VERIFY_TOKEN}, Received: ${token}`);
+      return sendResponse(res, 403, { error: 'Verification token mismatch' }, true);
     }
   }
 
   // 2. Incoming WhatsApp Message Handler (POST)
   if (req.method === 'POST') {
     let body = req.body;
-    if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch (e) {}
+    if (!body || typeof body === 'string') {
+      if (typeof body === 'string') {
+        try { body = JSON.parse(body); } catch (e) { body = {}; }
+      } else {
+        // Buffer read if needed
+        body = await new Promise((resolve) => {
+          let raw = '';
+          req.on('data', chunk => raw += chunk);
+          req.on('end', () => {
+            try { resolve(JSON.parse(raw || '{}')); } catch (e) { resolve({}); }
+          });
+        });
+      }
     }
 
     try {
@@ -166,12 +188,14 @@ module.exports = async (req, res) => {
         console.log(`[WhatsApp Outgoing] Dispatched successfully to ${from}`);
       }
 
-      return res.status(200).json({ status: 'EVENT_RECEIVED' });
+      return sendResponse(res, 200, { status: 'EVENT_RECEIVED' }, true);
     } catch (err) {
       console.error('[Webhook Processing Error]:', err);
-      return res.status(200).json({ status: 'PROCESSED_WITH_NOTICE', error: err.message });
+      return sendResponse(res, 200, { status: 'PROCESSED_WITH_NOTICE', error: err.message }, true);
     }
   }
 
-  return res.status(405).json({ error: 'Method Not Allowed' });
-};
+  return sendResponse(res, 405, { error: 'Method Not Allowed' }, true);
+}
+
+module.exports = handleWhatsAppWebhook;
