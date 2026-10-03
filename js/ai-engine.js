@@ -583,10 +583,16 @@ Sir, Tab 8 Directory aur /api/projects par sabhi 168+ projects with real-time fi
 • तुम्हाला किंवा भाडेकरूला निबंधक कार्यालयात (Sub-Registrar Office) जाण्याची अजिबात गरज नाही.
 • आमचा प्रतिनिधी बायोमेट्रिक फिंगरप्रिंट स्कॅनर आणि वेबकॅम घेऊन तुमच्या घरी किंवा ऑफिसमध्ये येतो.
 
-💰 *शासकीय शुल्क व खर्च:*
-• मुद्रांक शुल्क (Stamp Duty): एकूण भाडे + अनामत रक्कमेच्या 0.25%
-• शासकीय नोंदणी शुल्क (Govt Registration Fee): ₹1,000 (शहरी क्षेत्र - अंबरनाथ/कल्याण/ठाणे) / ₹500 (ग्रामीण)
-• पारदर्शक ड्राफ्टिंग व जलद 24 ते 48 तासांत अधिकृत QR कोड असलेला सरकारी करारनामा PDF स्वरूपात उपलब्ध.
+💰 *अधिकृत दर व संपूर्ण खर्च (100% पारदर्शक):*
+• एका बाजूने खर्च (घरमालक किंवा भाडेकरू): *फक्त ₹1,750*
+• एकूण संपूर्ण पॅकेज (Total All-Inclusive): *फक्त ₹3,500*
+• *या ₹3,500 मध्ये सर्व काही समाविष्ट:*
+  ✓ शासकीय कायदेशीर मसुदा (Drafting under Sec 55, Maharashtra Rent Control Act)
+  ✓ घरपोच बायोमेट्रिक फिंगरप्रिंट व वेबकॅम स्कॅनिंग (घरमालक + भाडेकरू + 2 साक्षीदार)
+  ✓ 0.25% मुद्रांक शुल्क (Stamp Duty) व ₹1,000 सरकारी नोंदणी शुल्क (Govt Registration Fee)
+  ✓ पोलीस व्हेरिफिकेशन (Police NOC) संपूर्ण सहाय्य
+  ✓ 24 ते 48 तासांत अधिकृत QR कोड असलेला सरकारी नोंदणीकृत करारनामा थेट PDF स्वरूपात!
+  ✓ कोणताही छुपा खर्च नाही!
 
 📑 *आवश्यक कागदपत्रे:*
 1. घरमालक (Owner) - आधार कार्ड व पॅन कार्ड
@@ -612,10 +618,16 @@ Maharashtra Govt rules ke anusaar (Section 55, Maharashtra Rent Control Act) hum
 • Sub-Registrar Office ki lambi lines mein jaane ki bilkul zaroorat nahi.
 • Hamara executive biometric fingerprint scanner & webcam lekar seedhe aapke ghar/office aayega (Owner + Tenant + 2 Witnesses ke liye).
 
-💰 *Transparent Govt Fees & Calculation:*
-• Stamp Duty: 0.25% of whole tenancy tenure value (Monthly Rent * Months + Refundable Deposit)
-• Govt Registration Fee: ₹1,000 (Municipal Corporation / Urban area Ambernath/Kalyan/Thane) ya ₹500 (Rural)
-• Nominal drafting & doorstep service charge. 24-48 hours mein official QR-code registered govt agreement ready!
+💰 *Official Rate Card & Pricing Breakdown:*
+• Cost From One Side (Owner side ya Tenant side): *Sirf ₹1,750*
+• Total All-Inclusive Package: *Sirf ₹3,500* (Dono side milakar ya single point billing)
+• *Is ₹3,500 Package Mein Sab Kuch Included Hai:*
+  ✓ Complete Legal Drafting (Leave & License under Section 55 Maharashtra Rent Control Act)
+  ✓ Doorstep Biometric Fingerprint & Webcam Scanning (Executive visits home/office for Owner, Tenant & 2 Witnesses)
+  ✓ Maharashtra Govt Stamp Duty (0.25%) + Govt Registration Fee (₹1,000) included
+  ✓ Police Verification / NOC documentation support
+  ✓ 24-48 Hours mein Government Registered PDF with Official QR Code delivered on WhatsApp & Email
+  ✓ 100% Transparent — Zero Hidden Charges!
 
 📑 *Required Documents Checklist:*
 1. Owner: Aadhaar Card & PAN Card

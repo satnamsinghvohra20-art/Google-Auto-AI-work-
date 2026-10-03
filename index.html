@@ -2547,6 +2547,7 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
             <!-- Quick Test Prompt Bar (One-click client message triggers) -->
             <div class="quick-prompt-bar">
               <span style="font-size: 11px; font-weight: 700; color: var(--color-text-muted); align-self: center;">Test Prompt:</span>
+              <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('Rent agreement biometric karwana hai, charges kya hain?')">📜 Rent Agreement (₹1750/side)</button>
               <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('1 BHK flat rate in Pale Gaon?')">🏡 1 BHK Rate?</button>
               <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('Commercial shop chahiye Station Road ke paas')">🏪 Shop Inquiry</button>
               <button type="button" class="btn-quick-prompt" onclick="sendQuickPrompt('Office kahan hai aapka aur timing kya hai?')">📍 Office Location</button>
@@ -2827,8 +2828,14 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
             <button type="button" class="btn-solid-primary" style="padding: 8px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;" onclick="openAddLeadModal()">
               <span>➕</span> Add Walk-in / Caller Lead
             </button>
-            <a href="/api/leads/export-csv" target="_blank" class="btn-solid-emerald" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-              <span>📥</span> Export to Excel (CSV)
+            <a href="/api/export/excel" target="_blank" class="btn-solid-emerald" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #059669; color: white;">
+              <span>📊</span> Download Master Excel (.xlsx)
+            </a>
+            <a href="/api/export/sql" target="_blank" class="btn-outline" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: rgba(14, 165, 233, 0.1); border-color: rgba(14, 165, 233, 0.4); color: #0284c7;">
+              <span>🗄️</span> Export SQL Database
+            </a>
+            <a href="/api/leads/export-csv" target="_blank" class="btn-outline" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: #94a3b8;">
+              <span>📥</span> Leads CSV
             </a>
             <a href="/rate-card" target="_blank" class="btn-outline" style="padding: 8px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: rgba(2,132,199,0.08); border-color: rgba(2,132,199,0.3); color: #0284c7;">
               <span>🌐</span> Digital Rate Card

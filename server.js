@@ -107,10 +107,45 @@ function loadJSONFile(filename, defaultValue = []) {
   return defaultValue;
 }
 
+let masterSyncDebounceTimer = null;
+function triggerMasterSync(immediate = false) {
+  if (masterSyncDebounceTimer) clearTimeout(masterSyncDebounceTimer);
+  const doSync = () => {
+    try {
+      const scriptPath = path.join(__dirname, 'scripts', 'sync_database.py');
+      if (fs.existsSync(scriptPath)) {
+        const { spawn } = require('child_process');
+        const pyCmd = process.platform === 'win32' ? 'python' : 'python3';
+        const proc = spawn(pyCmd, [scriptPath], {
+          cwd: __dirname,
+          stdio: 'ignore',
+          detached: true
+        });
+        proc.unref();
+        console.log('[Storage] Master SQL & Excel database sync triggered.');
+      }
+    } catch (err) {
+      console.warn('[Storage] Master sync trigger notice:', err.message);
+    }
+  };
+
+  if (immediate) {
+    doSync();
+  } else {
+    masterSyncDebounceTimer = setTimeout(doSync, 1200);
+  }
+}
+
+// Periodic background auto-sync every 15 minutes to keep SQL & Excel 100% updated
+setInterval(() => {
+  triggerMasterSync(true);
+}, 15 * 60 * 1000);
+
 function saveJSONFile(filename, data) {
   const filePath = path.join(DATA_DIR, filename);
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    triggerMasterSync();
   } catch (err) {
     console.error(`[Storage] Error writing ${filename}:`, err.message);
   }
@@ -1063,7 +1098,7 @@ Partners: Kuldeep Singh Vohra (+91 84120 70183 / WhatsApp: +91 87937 71911), Suk
 Helpline WhatsApp: +91 92702 77281.
 
 Key Services:
-1. Registered Rent Agreement & Doorstep Biometric: Section 55 Maharashtra Rent Control Act. Biometric fingerprint & webcam device brought directly to client's home/office. Stamp duty 0.25%, registration fee ₹1,000 urban / ₹500 rural. Govt agreement PDF with QR code delivered in 24-48 hours. Required: Aadhaar & PAN for Owner, Tenant, 2 Witnesses + Electricity bill/Index II.
+1. Registered Rent Agreement & Doorstep Biometric: Section 55 Maharashtra Rent Control Act. PRICING: ₹1,750 from one side (Owner side ₹1,750 / Tenant side ₹1,750). Total all-inclusive package is ₹3,500 only! Covers complete legal drafting, doorstep biometric scanning for owner, tenant + 2 witnesses, stamp duty 0.25%, ₹1,000 govt registration fee, police verification assistance, and official QR-code registered PDF delivered in 24-48 hours. No hidden charges.
 2. Residential Flats: 1 RK (Rent ₹4k-6k / Buy ₹12L-18L), 1 BHK (Rent ₹7k-11k / Buy ₹20L-35L), 2 BHK (Rent ₹12k-18k / Buy ₹38L-65L) in Pale Gaon, Shiv Mandir Road, B-Cabin, Kansai, Morivali, Navare Nagar, Ambernath, Badlapur, Ulhasnagar, Kalyan. 90% loan approval with SBI/HDFC.
 3. Commercial: Roadside shops & MIDC units in Ambernath East.
 
@@ -1953,6 +1988,108 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
   }
 
   // 20. Smart Lead CRM: Export Leads to Excel (CSV)
+  // 13.1 Download Master Excel Workbook (.xlsx)
+  if (pathname === '/api/export/excel' && req.method === 'GET') {
+    const excelPath = path.join(DATA_DIR, 'Dashmesh_Master_Database.xlsx');
+    if (fs.existsSync(excelPath)) {
+      const stat = fs.statSync(excelPath);
+      res.writeHead(200, {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition': 'attachment; filename="Dashmesh_Master_Database.xlsx"',
+        'Content-Length': stat.size,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return fs.createReadStream(excelPath).pipe(res);
+    } else {
+      triggerMasterSync(true);
+      return sendJSON(res, 404, { error: 'Master Excel is regenerating. Please retry in 5 seconds.' });
+    }
+  }
+
+  // 13.2 Download Master SQL Dump
+  if (pathname === '/api/export/sql' && req.method === 'GET') {
+    const sqlPath = path.join(DATA_DIR, 'dashmesh_database.sql');
+    if (fs.existsSync(sqlPath)) {
+      const stat = fs.statSync(sqlPath);
+      res.writeHead(200, {
+        'Content-Type': 'application/sql',
+        'Content-Disposition': 'attachment; filename="dashmesh_database.sql"',
+        'Content-Length': stat.size,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return fs.createReadStream(sqlPath).pipe(res);
+    } else {
+      triggerMasterSync(true);
+      return sendJSON(res, 404, { error: 'SQL dump regenerating.' });
+    }
+  }
+
+  // 13.3 Download Master SQLite Database
+  if (pathname === '/api/export/sqlite' && req.method === 'GET') {
+    const sqlitePath = path.join(DATA_DIR, 'dashmesh_database.sqlite');
+    if (fs.existsSync(sqlitePath)) {
+      const stat = fs.statSync(sqlitePath);
+      res.writeHead(200, {
+        'Content-Type': 'application/x-sqlite3',
+        'Content-Disposition': 'attachment; filename="dashmesh_database.sqlite"',
+        'Content-Length': stat.size,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return fs.createReadStream(sqlitePath).pipe(res);
+    } else {
+      triggerMasterSync(true);
+      return sendJSON(res, 404, { error: 'SQLite database regenerating.' });
+    }
+  }
+
+  // 13.4 Rent Agreements Data API (GET list / POST booking)
+  if (pathname === '/api/agreements' && req.method === 'GET') {
+    const agList = loadJSONFile('rent_agreements.json', []);
+    return sendJSON(res, 200, { success: true, count: agList.length, agreements: agList });
+  }
+
+  if (pathname === '/api/agreements' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const agList = loadJSONFile('rent_agreements.json', []);
+        const newAg = {
+          agreement_id: payload.agreement_id || `AGR-${Date.now().toString().slice(-6)}`,
+          client_name: payload.client_name || payload.name || 'New Client',
+          phone: payload.phone || '',
+          role: payload.role || 'Owner / Tenant',
+          property_address: payload.property_address || payload.address || 'Ambernath East',
+          monthly_rent: payload.monthly_rent || '₹8,000 / month',
+          deposit_amount: payload.deposit_amount || '₹30,000',
+          agreement_period: payload.agreement_period || '11 Months',
+          cost_per_side: 1750.0,
+          total_cost: 3500.0,
+          biometric_status: payload.biometric_status || 'Doorstep Scheduled',
+          biometric_slot: payload.biometric_slot || 'Pending Appointment',
+          official_qr_pdf: 'Pending Govt Delivery (24-48h)',
+          status: payload.status || 'Drafting / In Progress',
+          notes: payload.notes || 'Section 55 Maharashtra Rent Control Act Registered',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        agList.unshift(newAg);
+        saveJSONFile('rent_agreements.json', agList);
+        return sendJSON(res, 201, { success: true, agreement: newAg });
+      } catch (err) {
+        return sendJSON(res, 400, { error: 'Invalid JSON', details: err.message });
+      }
+    });
+    return;
+  }
+
+  // 13.5 Manual Trigger for Master SQL & Excel Sync
+  if (pathname === '/api/sync' && req.method === 'POST') {
+    triggerMasterSync(true);
+    return sendJSON(res, 200, { success: true, message: 'Master SQL and Excel synchronization triggered successfully.', timestamp: new Date().toISOString() });
+  }
+
   if (pathname === '/api/leads/export-csv' && req.method === 'GET') {
     const csvRows = [
       ['Phone', 'Name', 'Status', 'Inquiry Intent', 'Language', 'Client Inquiries', 'Last Message', 'Last Updated', 'Notes']
