@@ -2012,7 +2012,12 @@ async function submitNewProjectFromModal() {
 // 💾 DASHMESH DATA VAULT: DUAL-LAYER AUTO-PERSISTENCE & BACKUP SYSTEM
 // =========================================================================
 const DataVault = {
-  storageKey: "dashmesh_data_vault_v2",
+  storageKey: "dashmesh_data_vault_v3_clean",
+  purgeLegacyCache: function() {
+    try {
+      ['dashmesh_data_vault_v2', 'dashmesh_data_vault_v1', 'dashmesh_vault_storage'].forEach(k => localStorage.removeItem(k));
+    } catch(e) {}
+  },
 
   saveAll: function() {
     try {
@@ -2057,7 +2062,11 @@ const DataVault = {
       }
 
       if (Array.isArray(data.leads) && data.leads.length > 0) {
-        appState.whatsappConversations = data.leads;
+        const FAKE_LIST = ['rohan', 'ramesh pawar', 'deepak jain', 'sunil patil', 'vikram mehta', 'amit verma', 'rajesh sharma', 'dummy', 'sample client', 'test lead'];
+        appState.whatsappConversations = data.leads.filter(c => {
+          const n = (c.name || '').toLowerCase();
+          return !FAKE_LIST.some(bad => n.includes(bad));
+        });
       }
       if (Array.isArray(data.reviews) && data.reviews.length > 0) {
         appState.googleReviews = data.reviews;

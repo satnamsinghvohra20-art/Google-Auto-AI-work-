@@ -236,6 +236,16 @@ const whatsappConfig = {
 
 let whatsappConversations = loadJSONFile('leads.json', []);
 
+// ZERO FAKE DATA POLICY: Strictly sanitize and purge any simulated test leads
+const FAKE_NAME_BLACKLIST = ['rohan', 'ramesh pawar', 'deepak jain', 'sunil patil', 'vikram mehta', 'amit verma', 'rajesh sharma', 'dummy', 'sample client', 'test lead'];
+whatsappConversations = whatsappConversations.filter(c => {
+  const n = (c.name || '').toLowerCase();
+  const isFake = FAKE_NAME_BLACKLIST.some(bad => n.includes(bad));
+  return !isFake;
+});
+saveJSONFile('leads.json', whatsappConversations);
+
+
 function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
   if (!config.accessToken || !config.phoneNumberId) {
     console.warn('[Meta WhatsApp] Missing accessToken or phoneNumberId, skipping dispatch.');

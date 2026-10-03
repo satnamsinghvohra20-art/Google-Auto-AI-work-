@@ -1,5 +1,5 @@
 -- Dashmesh Properties & Rent Agreement Services - Full Master SQL Dump
--- Generated on: 2026-10-03 20:34:01
+-- Generated on: 2026-10-03 21:53:30
 -- Official Charges: Rent Agreement Rs. 1,750 per side | Rs. 3,500 Total All-Inclusive
 
 BEGIN TRANSACTION;
@@ -12,8 +12,8 @@ CREATE TABLE google_posts (
         status TEXT DEFAULT 'Published',
         created_at TEXT
     );
-INSERT INTO "google_posts" VALUES('post_log_1790965116456','🏪 Prime Roadside Commercial Shops Available for Rent & Sale','Elevate your business footprint in Ambernath East! High-visibility commercial retail shops and office spaces available near Pale Gaon & Station Road corridor. Ideal for clinics, grocery supermarkets, salons, diagnostics, and retail franchises. Attractive rental yield and verified commercial titles. Call Dashmesh Properties at +91 84210 77613 to inspect prime spaces today.','Call +91 84210 77613','2026-10-03 15:04','Published Live on Google Maps','2026-10-03T12:53:51.352949Z');
-INSERT INTO "google_posts" VALUES('post_log_1790956065911','🏡 Verified 1 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)','Looking for an affordable, clear-title home near Ambernath Station? Dashmesh Properties presents ready-to-move 1 BHK apartments in Pale Gaon starting at ₹18 Lakhs. Features include lift, 24x7 water supply, power backup, and up to 90% SBI/HDFC bank loan approval. RERA verified with zero hidden charges! 📍 Visit us at Shop No. 24, New Floora, Pale Gaon, Ambernath (E) or call +91 84210 77613 for free site visits.','Call +91 84210 77613','2026-10-03 15:04','Published Live on Google Maps','2026-10-03T12:53:51.355075Z');
+INSERT INTO "google_posts" VALUES('post_log_1790965116456','🏪 Prime Roadside Commercial Shops Available for Rent & Sale','Elevate your business footprint in Ambernath East! High-visibility commercial retail shops and office spaces available near Pale Gaon & Station Road corridor. Ideal for clinics, grocery supermarkets, salons, diagnostics, and retail franchises. Attractive rental yield and verified commercial titles. Call Dashmesh Properties at +91 84210 77613 to inspect prime spaces today.','Call +91 84210 77613','2026-10-03 16:23','Published Live on Google Maps','2026-10-03T12:53:51.352949Z');
+INSERT INTO "google_posts" VALUES('post_log_1790956065911','🏡 Verified 1 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)','Looking for an affordable, clear-title home near Ambernath Station? Dashmesh Properties presents ready-to-move 1 BHK apartments in Pale Gaon starting at ₹18 Lakhs. Features include lift, 24x7 water supply, power backup, and up to 90% SBI/HDFC bank loan approval. RERA verified with zero hidden charges! 📍 Visit us at Shop No. 24, New Floora, Pale Gaon, Ambernath (E) or call +91 84210 77613 for free site visits.','Call +91 84210 77613','2026-10-03 16:23','Published Live on Google Maps','2026-10-03T12:53:51.355075Z');
 CREATE TABLE google_reviews (
         review_id TEXT PRIMARY KEY,
         author_name TEXT NOT NULL,
