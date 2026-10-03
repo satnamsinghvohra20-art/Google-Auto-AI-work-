@@ -236,7 +236,7 @@
     "phone": "+918421940013",
     "name": "Sukhjyot Singh Vohra",
     "status": "New Inquiry",
-    "lastUpdated": "2026-10-02T16:03:15.070Z",
+    "lastUpdated": "2026-10-03T10:18:13.457Z",
     "messages": [
       {
         "id": "msg_in_1790956995070",
@@ -250,16 +250,24 @@
         "text": "Hello Sukhjyot Singh Vohra ji! Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat hai! 🌸 🔑 *Dashmesh Properties - Verified Rental Rates (Ambernath East):*\n\n• *1 RK Flat Rent:* ₹3,500 - ₹4,500/month (Deposit: ₹20,000 - ₹35,000)\n• *1 BHK Flat Rent:* ₹5,000 - ₹8,500/month (Deposit: ₹30,000 - ₹50,000)\n• *2 BHK Flat Rent:* ₹9,000 - ₹15,000/month (Deposit: ₹50,000 - ₹80,000)\n• *Commercial Shop Rent:* ₹6,000 - ₹30,000/month (Location & carpet dependent)\n\n✅ 100% Legal Police Verification & Registered Rent Agreement Support\n✅ Bachelor & Family friendly verified flats available\n\nAapko residential flat rent par chahiye ya commercial shop? Preferred location bata dijiye!",
         "intent": "RENTAL_INQUIRY",
         "timestamp": "2026-10-02T16:03:15.070Z"
+      },
+      {
+        "id": "msg_followup_1791022693457",
+        "sender": "bot",
+        "text": "Namaste Sukhjyot Singh Vohra ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-03T10:18:13.457Z"
       }
     ],
     "lastIntent": "RENTAL_INQUIRY",
-    "language": "hinglish"
+    "language": "hinglish",
+    "followUpSent": true
   },
   {
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-02T19:30:54.229Z",
+    "lastUpdated": "2026-10-03T09:11:03.426Z",
     "messages": [
       {
         "id": "msg_in_1790955961608",
@@ -519,6 +527,19 @@
           "⭐ Reviews"
         ],
         "timestamp": "2026-10-02T19:30:54.229Z"
+      },
+      {
+        "id": "msg_in_1791018663426",
+        "sender": "owner",
+        "text": "Hii",
+        "timestamp": "2026-10-03T09:11:03.426Z"
+      },
+      {
+        "id": "msg_out_1791018663426",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-03T09:11:03.426Z"
       }
     ],
     "lastIntent": "OWNER_GENERAL_QUERY",

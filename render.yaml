@@ -1,22 +1,26 @@
 services:
   - type: web
-    name: dashmesh-property-ai
-    runtime: node
+    name: dashmesh-auto-ai
+    env: node
     plan: free
-    buildCommand: ""
+    region: singapore
+    buildCommand: npm install
     startCommand: node server.js
+    autoDeploy: true
     envVars:
       - key: PORT
         value: 10000
-      - key: WHATSAPP_PHONE_NUMBER_ID
-        sync: false
-      - key: WHATSAPP_BUSINESS_ACCOUNT_ID
-        sync: false
-      - key: META_ACCESS_TOKEN
-        sync: false
       - key: VERIFY_TOKEN
-        sync: false
+        value: DashmeshProperties2026
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        value: "1239464059243498"
+      - key: WHATSAPP_BUSINESS_ACCOUNT_ID
+        value: "2124558472274062"
       - key: WHATSAPP_NUMBER
+        value: "919270277281"
+      - key: OWNER_ALERT_PHONE
+        value: "+918421077613"
+      - key: META_ACCESS_TOKEN
         sync: false
       - key: GEMINI_API_KEY
         sync: false
