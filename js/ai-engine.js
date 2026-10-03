@@ -643,6 +643,23 @@ Doorstep biometric slot book karne ke liye apna time aur address share karein, y
       };
     }
 
+        // 0. REVIEW REQUEST ("review dena hai", "feedback dena hai", "google review link")
+    if (
+      text.includes("review dena") ||
+      text.includes("rating dena") ||
+      text.includes("feedback dena") ||
+      text.includes("google review") ||
+      text.includes("review link") ||
+      (text.includes("review") && !text.includes("kar diya") && !text.includes("ho gaya") && !text.includes("done"))
+    ) {
+      return {
+        intent: "REVIEW_REQUEST",
+        language: lang,
+        reply: `Aapka bahut-bahut shukriya${name ? ' ' + name : ''}! ⭐\n\nAap Dashmesh Properties ko direct Google Maps par yahan tap karke 5-star review de sakte hain:\n🔗 ${reviewUrl}\n\nAapka review hamare parivar ke vyavsay aur genuine customer service ko aage badhane mein bahut madad karta hai! 🙏`,
+        suggestedActions: ["⭐ Write Google Review", "📍 Office Location", "📞 Contact Office"]
+      };
+    }
+
     // 1. REVIEW / RATING CONFIRMATION ("done", "review ho gaya")
     if (
       text.includes("review ho gaya") ||

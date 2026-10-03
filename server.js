@@ -751,7 +751,7 @@ const server = http.createServer((req, res) => {
       localIp,
       port: PORT,
       localUrl: `http://localhost:${PORT}`,
-      mobileShieldUrl: `http://${localIp}:${PORT}/shield.html`,
+      mobileShieldUrl: 'https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8',
       isLive: true
     }));
     return;
@@ -761,12 +761,20 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/projects' && req.method === 'GET') {
     const regionFilter = parsedUrl.searchParams.get('region');
     const bhkFilter = parsedUrl.searchParams.get('bhk');
+    const areaFilter = (parsedUrl.searchParams.get('area') || '').toLowerCase().trim();
     const searchFilter = (parsedUrl.searchParams.get('search') || '').toLowerCase().trim();
 
     let filtered = [...realEstateProjects];
 
     if (regionFilter && regionFilter !== 'All') {
       filtered = filtered.filter(p => p.region.toLowerCase() === regionFilter.toLowerCase());
+    }
+
+    if (areaFilter && areaFilter !== 'all') {
+      filtered = filtered.filter(p => 
+        (p.subArea || '').toLowerCase().trim() === areaFilter ||
+        (p.locality || '').toLowerCase().includes(areaFilter)
+      );
     }
 
     if (bhkFilter && bhkFilter !== 'All') {
@@ -777,6 +785,7 @@ const server = http.createServer((req, res) => {
       filtered = filtered.filter(p => 
         (p.name || '').toLowerCase().includes(searchFilter) ||
         (p.developer || '').toLowerCase().includes(searchFilter) ||
+        (p.subArea || '').toLowerCase().includes(searchFilter) ||
         (p.locality || '').toLowerCase().includes(searchFilter) ||
         (p.region || '').toLowerCase().includes(searchFilter) ||
         (p.highlights || '').toLowerCase().includes(searchFilter) ||
@@ -2272,7 +2281,8 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
   if (pathname === '/' || pathname === '/index.html') {
     filePath = path.join(BASE_DIR, 'index.html');
   } else if (pathname === '/shield' || pathname === '/shield.html') {
-    filePath = path.join(BASE_DIR, 'shield.html');
+    res.writeHead(302, { 'Location': 'https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8' });
+    return res.end();
   } else if (pathname === '/rate-card' || pathname === '/rate-card.html' || pathname === '/brochure') {
     filePath = path.join(BASE_DIR, 'rate-card.html');
   } else {

@@ -549,8 +549,8 @@ function printStandee() {
 }
 
 function copyReviewShieldDirectLink() {
-  const url = appState.mobileShieldUrl || `${window.location.origin}/shield.html`;
-  copyTextToClipboard(url, "✓ Customer Mobile Shield Link Copied!");
+  const url = "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
+  copyTextToClipboard(url, "✓ Official Google Maps Review Link Copied!");
 }
 
 /**
@@ -1679,6 +1679,7 @@ async function fetchMMRProjects() {
       appState.mmrProjects = data.projects;
       const countEl = document.getElementById("mmr-total-count");
       if (countEl) countEl.innerText = `${data.count || data.projects.length}+`;
+      populateMMRAreaDropdown("All");
       filterAndRenderProjects();
     }
   } catch (err) {
@@ -1698,6 +1699,35 @@ async function fetchMMRProjects() {
 /**
  * Filter projects by selected Region pill
  */
+
+/**
+ * Populate Micro-Area / Locality Dropdown dynamically based on selected region
+ */
+function populateMMRAreaDropdown(selectedRegion) {
+  const areaSelect = document.getElementById("mmr-area-select");
+  if (!areaSelect || !appState.mmrProjects) return;
+
+  const currentVal = areaSelect.value;
+  const region = selectedRegion || appState.selectedRegion || "All";
+
+  const subAreas = new Set();
+  appState.mmrProjects.forEach(p => {
+    if (region === "All" || (p.region && p.region.toLowerCase() === region.toLowerCase())) {
+      if (p.subArea && p.subArea.trim() && p.subArea.toLowerCase() !== "unknown") {
+        subAreas.add(p.subArea.trim());
+      }
+    }
+  });
+
+  const sortedAreas = Array.from(subAreas).sort();
+  let html = `<option value="All">All Localities & Areas (${region === 'All' ? 'Whole MMR' : region})</option>`;
+  sortedAreas.forEach(area => {
+    const isSelected = (area === currentVal) ? "selected" : "";
+    html += `<option value="${area}" ${isSelected}>📍 ${area}</option>`;
+  });
+  areaSelect.innerHTML = html;
+}
+
 function filterProjectsByRegion(region, btnElement) {
   appState.selectedRegion = region;
   
@@ -1707,7 +1737,7 @@ function filterProjectsByRegion(region, btnElement) {
   if (btnElement) {
     btnElement.classList.add("active");
   }
-
+  populateMMRAreaDropdown(region);
   filterAndRenderProjects();
 }
 
@@ -1727,12 +1757,23 @@ function filterAndRenderProjects() {
   const searchQuery = (document.getElementById("mmr-project-search")?.value || "").toLowerCase().trim();
   const bhkFilter = document.getElementById("mmr-bhk-select")?.value || "All";
   const budgetFilter = document.getElementById("mmr-budget-select")?.value || "All";
+  const areaFilter = document.getElementById("mmr-area-select")?.value || "All";
   const selectedRegion = appState.selectedRegion || "All";
 
   const filtered = appState.mmrProjects.filter(p => {
     // 1. Region match
     if (selectedRegion !== "All" && p.region.toLowerCase() !== selectedRegion.toLowerCase()) {
       return false;
+    }
+
+    // 1b. Micro-Area match
+    if (areaFilter !== "All") {
+      const pSub = (p.subArea || "").toLowerCase().trim();
+      const pLoc = (p.locality || "").toLowerCase().trim();
+      const targetArea = areaFilter.toLowerCase().trim();
+      if (pSub !== targetArea && !pLoc.includes(targetArea)) {
+        return false;
+      }
     }
 
     // 2. Search query match (name, developer, locality, highlights, rera, region)
@@ -1818,8 +1859,9 @@ function renderMMRProjectsGrid(projects) {
     return `
       <div class="mmr-project-card">
         <div class="mmr-card-header">
-          <div class="mmr-badge-row">
+          <div class="mmr-badge-row" style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
             <span class="mmr-region-tag">📍 ${p.region}</span>
+            ${p.subArea ? `<span class="mmr-subarea-tag" style="background: rgba(2,132,199,0.12); color: #0284c7; padding: 2px 7px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid rgba(2,132,199,0.25);">🏘️ ${p.subArea}</span>` : ''}
             <span class="${statusClass}">● ${p.status || 'Verified'}</span>
           </div>
           <h3 class="mmr-proj-title">${p.name}</h3>
@@ -1899,6 +1941,9 @@ function resetProjectFilters() {
   if (searchInput) searchInput.value = "";
   if (bhkSelect) bhkSelect.value = "All";
   if (budgetSelect) budgetSelect.value = "All";
+  const areaSelect = document.getElementById("mmr-area-select");
+  if (areaSelect) areaSelect.value = "All";
+  populateMMRAreaDropdown("All");
   
   const allPill = document.querySelector("#mmr-region-pills .mmr-region-btn");
   filterProjectsByRegion('All', allPill);
@@ -2300,4 +2345,11 @@ function openCalculatorModal() {
 function closeCalculatorModal() {
   const modal = document.getElementById("modal-rent-calc");
   if (modal) modal.classList.remove("active");
+}
+
+
+// Direct Google Review Link Copy Helper
+function copyDirectGoogleReviewLink() {
+  const url = "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
+  copyTextToClipboard(url, "✓ Official Google Maps Review Link Copied!");
 }

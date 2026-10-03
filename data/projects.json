@@ -4757,5 +4757,1990 @@
       "24hr Water"
     ],
     "highlights": "Direct exit to Mumbai-Pune expressway; quick transit to Navi Mumbai."
+  },
+  {
+    "id": "amb-13",
+    "name": "Pale Heights Residency",
+    "developer": "Shree Heights Developers",
+    "region": "Ambernath",
+    "subArea": "Pale Gaon",
+    "locality": "Near Pale Bus Stop & Datta Mandir, Pale Gaon, Ambernath East - 421501",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹19.5 Lakhs",
+    "priceRange": "₹19.5L - ₹38L",
+    "rateSqFt": "₹3,950/sq.ft",
+    "ratePerSqFt": "₹3,950/sq.ft",
+    "carpetArea": "360 - 640 sq.ft",
+    "reraNumber": "P51700028472",
+    "status": "Ready to Move",
+    "possession": "Immediate / Ready",
+    "amenities": [
+      "24/7 Water Supply",
+      "Kids Play Zone",
+      "CCTV Surveillance",
+      "High Speed Lift",
+      "Power Backup for Common Areas"
+    ],
+    "highlights": "Located in peaceful Pale Gaon, 8 minutes to East station, clear CIDCO/KDMC sanction, 90% loan approved by SBI & HDFC."
+  },
+  {
+    "id": "amb-14",
+    "name": "Shreeji Pride Pale Naka",
+    "developer": "Shreeji Infra Projects",
+    "region": "Ambernath",
+    "subArea": "Pale Gaon",
+    "locality": "Main Pale Naka Junction, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "Commercial Shops"
+    ],
+    "startingPrice": "₹24 Lakhs",
+    "priceRange": "₹24L - ₹46L",
+    "rateSqFt": "₹4,100/sq.ft",
+    "ratePerSqFt": "₹4,100/sq.ft",
+    "carpetArea": "410 - 690 sq.ft",
+    "reraNumber": "P51700031849",
+    "status": "Under Construction",
+    "possession": "Dec 2026",
+    "amenities": [
+      "Rooftop Garden",
+      "Modern Fitness Center",
+      "Automated Elevators",
+      "Commercial Retail arcade on Ground Floor",
+      "Intercom System"
+    ],
+    "highlights": "Direct road facing project at Pale Naka, high appreciation corridor, walkable to local vegetable market and English medium schools."
+  },
+  {
+    "id": "amb-15",
+    "name": "Royal Palms Pale Gaon",
+    "developer": "Royal Lifespaces",
+    "region": "Ambernath",
+    "subArea": "Pale Gaon",
+    "locality": "Behind New Floora, Pale Gaon, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹22.5 Lakhs",
+    "priceRange": "₹22.5L - ₹41L",
+    "rateSqFt": "₹4,000/sq.ft",
+    "ratePerSqFt": "₹4,000/sq.ft",
+    "carpetArea": "395 - 660 sq.ft",
+    "reraNumber": "P51700034102",
+    "status": "Ready to Move",
+    "possession": "Ready Possession",
+    "amenities": [
+      "Covered Stilt Parking",
+      "Landscape Garden",
+      "Fire Fighting System",
+      "Rainwater Harvesting",
+      "Designer Entrance Lobby"
+    ],
+    "highlights": "Zero brokerage via Dashmesh desk, OC received, immediate registration & key handover within 7 days."
+  },
+  {
+    "id": "amb-16",
+    "name": "Heritage Pride Shiv Mandir",
+    "developer": "Heritage Lifespaces",
+    "region": "Ambernath",
+    "subArea": "Shiv Mandir Road",
+    "locality": "Shiv Mandir Main Road, Near Old Ambernath Temple, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹29 Lakhs",
+    "priceRange": "₹29L - ₹62L",
+    "rateSqFt": "₹4,450/sq.ft",
+    "ratePerSqFt": "₹4,450/sq.ft",
+    "carpetArea": "440 - 850 sq.ft",
+    "reraNumber": "P51700024911",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Air Conditioned Gym",
+      "Multipurpose Hall",
+      "Temple Court",
+      "Children Play Park",
+      "Senior Citizen Sitout"
+    ],
+    "highlights": "Prestigious address along the historic Shiv Mandir arterial road, serene surroundings with lush greenery, 5 mins from railway station."
+  },
+  {
+    "id": "amb-17",
+    "name": "Shiv Darshan Enclave",
+    "developer": "Darshan Builders",
+    "region": "Ambernath",
+    "subArea": "Shiv Mandir Road",
+    "locality": "Opposite Ancient Shiv Mandir Garden, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹26 Lakhs",
+    "priceRange": "₹26L - ₹52L",
+    "rateSqFt": "₹4,300/sq.ft",
+    "ratePerSqFt": "₹4,300/sq.ft",
+    "carpetArea": "420 - 710 sq.ft",
+    "reraNumber": "P51700029314",
+    "status": "Under Construction",
+    "possession": "March 2027",
+    "amenities": [
+      "Solar Lighting",
+      "Jogging Track",
+      "Clubhouse",
+      "24/7 Security & CCTV",
+      "Decorative Compound Wall"
+    ],
+    "highlights": "Spiritual landmark location, unblocked mountain views, seamless auto connectivity to East railway station and bus depot."
+  },
+  {
+    "id": "amb-18",
+    "name": "Mohan Suburbia Kings",
+    "developer": "Mohan Group",
+    "region": "Ambernath",
+    "subArea": "Kansai",
+    "locality": "Near Kansai Section, Ambernath West/East Link, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹35 Lakhs",
+    "priceRange": "₹35L - ₹78L",
+    "rateSqFt": "₹4,800/sq.ft",
+    "ratePerSqFt": "₹4,800/sq.ft",
+    "carpetArea": "460 - 920 sq.ft",
+    "reraNumber": "P51700003408",
+    "status": "Ready to Move",
+    "possession": "Ready Possession",
+    "amenities": [
+      "Grand 50,000 sq.ft Clubhouse",
+      "Olympic Size Swimming Pool",
+      "Indoor Badminton & Squash",
+      "Pharmacy & Supermarket Inside",
+      "Banquet Hall"
+    ],
+    "highlights": "Ambernath's premier landmark township, full OC received, CBSE school inside campus, premium lifestyle destination."
+  },
+  {
+    "id": "amb-19",
+    "name": "Regency Meadows Kansai",
+    "developer": "Regency Group",
+    "region": "Ambernath",
+    "subArea": "Kansai",
+    "locality": "Kansai Section Road, Near Station Flyover, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹33 Lakhs",
+    "priceRange": "₹33L - ₹64L",
+    "rateSqFt": "₹4,650/sq.ft",
+    "ratePerSqFt": "₹4,650/sq.ft",
+    "carpetArea": "435 - 750 sq.ft",
+    "reraNumber": "P51700019280",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Gated Security",
+      "Modern Gymnasium",
+      "Reflexology Path",
+      "Children Sandbox",
+      "Covered Car Parking"
+    ],
+    "highlights": "3 minutes drive to Ambernath East station, excellent social infrastructure with hospitals, banks and DMart nearby."
+  },
+  {
+    "id": "amb-20",
+    "name": "B-Cabin Royal Enclave",
+    "developer": "Royal Star Infrastructure",
+    "region": "Ambernath",
+    "subArea": "B-Cabin Road",
+    "locality": "B-Cabin Road, 4 Mins Walk to Ambernath East Railway Station - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹31 Lakhs",
+    "priceRange": "₹31L - ₹58L",
+    "rateSqFt": "₹4,600/sq.ft",
+    "ratePerSqFt": "₹4,600/sq.ft",
+    "carpetArea": "425 - 720 sq.ft",
+    "reraNumber": "P51700027150",
+    "status": "Ready to Move",
+    "possession": "Immediate / Ready",
+    "amenities": [
+      "High Speed Otis Elevators",
+      "Video Door Phone",
+      "Intercom",
+      "24hr KDMC Water Connection",
+      "Solar Water Heating"
+    ],
+    "highlights": "Ultra-prime station touch location on B-Cabin Road. Ideal for daily Mumbai rail commuters looking for zero travel hassle."
+  },
+  {
+    "id": "amb-21",
+    "name": "Matoshree Pride",
+    "developer": "Matoshree Infra",
+    "region": "Ambernath",
+    "subArea": "B-Cabin Road",
+    "locality": "Near B-Cabin Railway Gate, Ambernath East - 421501",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "Commercial Shops"
+    ],
+    "startingPrice": "₹17 Lakhs",
+    "priceRange": "₹17L - ₹32L",
+    "rateSqFt": "₹4,200/sq.ft",
+    "ratePerSqFt": "₹4,200/sq.ft",
+    "carpetArea": "310 - 490 sq.ft",
+    "reraNumber": "P51700030561",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Ground Commercial Retail",
+      "Branded Elevators",
+      "CCTV at Entry/Exit",
+      "Fire Fighting System"
+    ],
+    "highlights": "High rental yield investment, affordable entry ticket, walking distance to Ambernath railway platform."
+  },
+  {
+    "id": "amb-22",
+    "name": "Morivali Pearl Towers",
+    "developer": "Pearl Infra Developers",
+    "region": "Ambernath",
+    "subArea": "Morivali",
+    "locality": "Morivali Road, Near MIDC Residential Zone, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹23 Lakhs",
+    "priceRange": "₹23L - ₹44L",
+    "rateSqFt": "₹3,900/sq.ft",
+    "ratePerSqFt": "₹3,900/sq.ft",
+    "carpetArea": "400 - 680 sq.ft",
+    "reraNumber": "P51700033109",
+    "status": "Under Construction",
+    "possession": "Oct 2026",
+    "amenities": [
+      "Landscaped Podiums",
+      "Indoor Games Room",
+      "Yoga Zone",
+      "Multipurpose Turf",
+      "EV Charging Point"
+    ],
+    "highlights": "Rapidly appreciating belt near MIDC executive hubs, smart floor layouts, zero space wastage."
+  },
+  {
+    "id": "amb-23",
+    "name": "Navare Heights",
+    "developer": "Navare Group",
+    "region": "Ambernath",
+    "subArea": "Navare Nagar",
+    "locality": "Navare Nagar, Near Municipal Garden, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹27 Lakhs",
+    "priceRange": "₹27L - ₹51L",
+    "rateSqFt": "₹4,250/sq.ft",
+    "ratePerSqFt": "₹4,250/sq.ft",
+    "carpetArea": "415 - 710 sq.ft",
+    "reraNumber": "P51700021670",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Garden Sitout",
+      "CCTV Security",
+      "Modern Entrance Lobby",
+      "Ample Stilt Parking",
+      "Power Backup"
+    ],
+    "highlights": "Quiet residential locality, well developed market, near Father Agnel School and Fatima High School."
+  },
+  {
+    "id": "amb-25",
+    "name": "Khojgaon Green Valley",
+    "developer": "Valley Infra",
+    "region": "Ambernath",
+    "subArea": "Khojgaon",
+    "locality": "Khojgaon Main Road, Ambernath West - 421505",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹21 Lakhs",
+    "priceRange": "₹21L - ₹40L",
+    "rateSqFt": "₹3,850/sq.ft",
+    "ratePerSqFt": "₹3,850/sq.ft",
+    "carpetArea": "380 - 650 sq.ft",
+    "reraNumber": "P51700035022",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Green Open Spaces",
+      "Senior Citizen Pavilion",
+      "Children Play Swings",
+      "24/7 Water Reservoir"
+    ],
+    "highlights": "Pocket friendly budget homes, high mountain breeze, excellent connectivity to Badlapur-Ambernath Highway."
+  },
+  {
+    "id": "bad-10",
+    "name": "Tharwani Rosewood Heights",
+    "developer": "Tharwani Realty",
+    "region": "Badlapur",
+    "subArea": "Katrap",
+    "locality": "Katrap, Near Podar International School, Badlapur East - 421503",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹25 Lakhs",
+    "priceRange": "₹25L - ₹48L",
+    "rateSqFt": "₹4,100/sq.ft",
+    "ratePerSqFt": "₹4,100/sq.ft",
+    "carpetArea": "410 - 700 sq.ft",
+    "reraNumber": "P51700026781",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Designer Swimming Pool",
+      "Modern AC Gym",
+      "Kids Play Castle",
+      "High Speed Elevators",
+      "Grand Marble Lobby"
+    ],
+    "highlights": "Premium architectural design by Tharwani Realty, adjoining prestigious CBSE school, wide 18-meter DP road."
+  },
+  {
+    "id": "bad-11",
+    "name": "Olympic Sports City",
+    "developer": "Olympic Developers",
+    "region": "Badlapur",
+    "subArea": "Katrap",
+    "locality": "Katrap Extension, Badlapur East - 421503",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹22 Lakhs",
+    "priceRange": "₹22L - ₹42L",
+    "rateSqFt": "₹3,850/sq.ft",
+    "ratePerSqFt": "₹3,850/sq.ft",
+    "carpetArea": "390 - 670 sq.ft",
+    "reraNumber": "P51700028910",
+    "status": "Under Construction",
+    "possession": "August 2026",
+    "amenities": [
+      "Olympic Themed Sports Complex",
+      "Tennis Court",
+      "Box Cricket Turf",
+      "Skating Rink",
+      "Open Air Gymnasium"
+    ],
+    "highlights": "First sports-themed residential enclave in Badlapur East with world class athletic facilities."
+  },
+  {
+    "id": "bad-12",
+    "name": "Tulsi Estate Phase 2",
+    "developer": "Tulsi Group",
+    "region": "Badlapur",
+    "subArea": "Shirgaon",
+    "locality": "Shirgaon, 7 Mins from Badlapur East Railway Station - 421503",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹15 Lakhs",
+    "priceRange": "₹15L - ₹34L",
+    "rateSqFt": "₹3,550/sq.ft",
+    "ratePerSqFt": "₹3,550/sq.ft",
+    "carpetArea": "315 - 610 sq.ft",
+    "reraNumber": "P51700017459",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Clubhouse",
+      "Children Play Park",
+      "Senior Citizen Kiosk",
+      "24/7 Security",
+      "Fire Alarm System"
+    ],
+    "highlights": "Exceptional affordability, highly preferred by first time home buyers, immediate OC possession available."
+  },
+  {
+    "id": "bad-13",
+    "name": "Belavali Greens Enclave",
+    "developer": "Shree Tirupati Group",
+    "region": "Badlapur",
+    "subArea": "Belavali",
+    "locality": "Belavali, Near Badlapur West Railway Flyover, Badlapur West - 421503",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹20 Lakhs",
+    "priceRange": "₹20L - ₹39L",
+    "rateSqFt": "₹3,750/sq.ft",
+    "ratePerSqFt": "₹3,750/sq.ft",
+    "carpetArea": "375 - 640 sq.ft",
+    "reraNumber": "P51700030114",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Landscaped Garden",
+      "Kids Play Area",
+      "Gated Security",
+      "Intercom",
+      "Elevators with Backup"
+    ],
+    "highlights": "West station connectivity within 5 minutes, clean green surroundings, 24/7 municipal water supply."
+  },
+  {
+    "id": "bad-14",
+    "name": "Barvi Valley Nature Nest",
+    "developer": "Valley Real Estate",
+    "region": "Badlapur",
+    "subArea": "Barvi Dam Road",
+    "locality": "Barvi Dam Scenic Corridor, Badlapur East - 421503",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "Studio Villas"
+    ],
+    "startingPrice": "₹18.5 Lakhs",
+    "priceRange": "₹18.5L - ₹45L",
+    "rateSqFt": "₹3,400/sq.ft",
+    "ratePerSqFt": "₹3,400/sq.ft",
+    "carpetArea": "350 - 750 sq.ft",
+    "reraNumber": "P51700032905",
+    "status": "Under Construction",
+    "possession": "Dec 2026",
+    "amenities": [
+      "Hillview Gazebos",
+      "Organic Farming Garden",
+      "Meditation Deck",
+      "Clubhouse with Cafe",
+      "Cycling Trail"
+    ],
+    "highlights": "Weekend living or permanent peaceful home nestled along the picturesque Barvi dam foothills."
+  },
+  {
+    "id": "bad-15",
+    "name": "Panvelkar Park Hendre Pada",
+    "developer": "Panvelkar Group",
+    "region": "Badlapur",
+    "subArea": "Hendre Pada",
+    "locality": "Hendre Pada, Badlapur West - 421503",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹17 Lakhs",
+    "priceRange": "₹17L - ₹35L",
+    "rateSqFt": "₹3,650/sq.ft",
+    "ratePerSqFt": "₹3,650/sq.ft",
+    "carpetArea": "330 - 630 sq.ft",
+    "reraNumber": "P51700018630",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Community Hall",
+      "Kids Play Ground",
+      "Tree-lined Avenues",
+      "CCTV Surveillance",
+      "24hr Water Reservoir"
+    ],
+    "highlights": "Reputed Panvelkar Group construction, close to D-Mart Badlapur West and local banks."
+  },
+  {
+    "id": "unr-11",
+    "name": "Gol Maidan Prestige",
+    "developer": "Prestige Infra Ulhasnagar",
+    "region": "Ulhasnagar",
+    "subArea": "Gol Maidan",
+    "locality": "Gol Maidan Main Circle, Ulhasnagar 1 - 421001",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "Commercial Showrooms"
+    ],
+    "startingPrice": "₹32 Lakhs",
+    "priceRange": "₹32L - ₹70L",
+    "rateSqFt": "₹5,200/sq.ft",
+    "ratePerSqFt": "₹5,200/sq.ft",
+    "carpetArea": "420 - 780 sq.ft",
+    "reraNumber": "P51700025114",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "High Street Retail on Ground Floor",
+      "Covered Car Parking",
+      "High Speed Passenger Lift",
+      "24/7 Security",
+      "Designer Entrance"
+    ],
+    "highlights": "The heart of Ulhasnagar! Premium central location at Gol Maidan with highest commercial and residential demand."
+  },
+  {
+    "id": "unr-12",
+    "name": "Venus Elegance Towers",
+    "developer": "Venus Developers",
+    "region": "Ulhasnagar",
+    "subArea": "Venus Chowk",
+    "locality": "Venus Chowk Arterial Road, Ulhasnagar 4 - 421004",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹36 Lakhs",
+    "priceRange": "₹36L - ₹82L",
+    "rateSqFt": "₹5,400/sq.ft",
+    "ratePerSqFt": "₹5,400/sq.ft",
+    "carpetArea": "450 - 920 sq.ft",
+    "reraNumber": "P51700028904",
+    "status": "Under Construction",
+    "possession": "Nov 2026",
+    "amenities": [
+      "Rooftop Sky Lounge",
+      "AC Gymnasium",
+      "Kids Indoor Play Area",
+      "Automated Stack Parking",
+      "Solar Powered Common Areas"
+    ],
+    "highlights": "High-end luxury project in Ulhasnagar 4, walkable to Vithalwadi and Ulhasnagar railway stations."
+  },
+  {
+    "id": "unr-13",
+    "name": "Press Bazar Trade & Residences",
+    "developer": "Sindh Builders",
+    "region": "Ulhasnagar",
+    "subArea": "Press Bazar",
+    "locality": "Press Bazar, Ulhasnagar 1 - 421001",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "Retail Shops"
+    ],
+    "startingPrice": "₹28 Lakhs",
+    "priceRange": "₹28L - ₹65L",
+    "rateSqFt": "₹5,100/sq.ft",
+    "ratePerSqFt": "₹5,100/sq.ft",
+    "carpetArea": "390 - 720 sq.ft",
+    "reraNumber": "P51700031092",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Commercial Hub Connectivity",
+      "24hr Water Storage",
+      "CCTV at Corridors",
+      "Modern Elevators",
+      "Fire Compliance"
+    ],
+    "highlights": "Unbeatable commercial wholesale hub, fantastic rental yield for shop owners and modern residential comfort above."
+  },
+  {
+    "id": "unr-14",
+    "name": "Sukhmani Regency Section 17",
+    "developer": "Sukhmani Lifespaces",
+    "region": "Ulhasnagar",
+    "subArea": "Section 17",
+    "locality": "Section 17, Near CHM College Road, Ulhasnagar 3 - 421003",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹30 Lakhs",
+    "priceRange": "₹30L - ₹58L",
+    "rateSqFt": "₹4,900/sq.ft",
+    "ratePerSqFt": "₹4,900/sq.ft",
+    "carpetArea": "410 - 710 sq.ft",
+    "reraNumber": "P51700022987",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Gated Complex",
+      "Fitness Center",
+      "Children Play Space",
+      "Intercom System",
+      "Dedicated Transformer"
+    ],
+    "highlights": "Premier educational hub near CHM College and Smt. CHM campus, 5 minutes to Ulhasnagar railway station."
+  },
+  {
+    "id": "unr-15",
+    "name": "Prem Sagar Residency",
+    "developer": "Prem Group",
+    "region": "Ulhasnagar",
+    "subArea": "Section 29",
+    "locality": "Section 29, Near Kurla Camp Road, Ulhasnagar 4 - 421004",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹18 Lakhs",
+    "priceRange": "₹18L - ₹38L",
+    "rateSqFt": "₹4,300/sq.ft",
+    "ratePerSqFt": "₹4,300/sq.ft",
+    "carpetArea": "325 - 630 sq.ft",
+    "reraNumber": "P51700033481",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Security Cabins",
+      "Elevators",
+      "Covered Bike/Car Parking",
+      "Rainwater Harvesting"
+    ],
+    "highlights": "Cost effective budget homes with clear sanad/regularized property titles and direct loan assistance."
+  },
+  {
+    "id": "kal-18",
+    "name": "Raunak City Sector 4",
+    "developer": "Raunak Group",
+    "region": "Kalyan",
+    "subArea": "Khadakpada",
+    "locality": "Behind Don Bosco School, Khadakpada, Kalyan West - 421301",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹38 Lakhs",
+    "priceRange": "₹38L - ₹68L",
+    "rateSqFt": "₹5,600/sq.ft",
+    "ratePerSqFt": "₹5,600/sq.ft",
+    "carpetArea": "430 - 740 sq.ft",
+    "reraNumber": "P51700003921",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Multiple Swimming Pools",
+      "Grand Community Hall",
+      "Multi-tier Security",
+      "Children Play Zones",
+      "Shopping Arcades"
+    ],
+    "highlights": "35-acre mega township with 3,000+ residents, adjacent to top schools, cafes, and healthcare hubs."
+  },
+  {
+    "id": "kal-19",
+    "name": "Ajmera Yogeshwar Heights",
+    "developer": "Ajmera Group",
+    "region": "Kalyan",
+    "subArea": "Wayle Nagar",
+    "locality": "Wayle Nagar, Near KDMC Commissioner Office, Kalyan West - 421301",
+    "configurations": [
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹65 Lakhs",
+    "priceRange": "₹65L - ₹1.10 Cr",
+    "rateSqFt": "₹6,400/sq.ft",
+    "ratePerSqFt": "₹6,400/sq.ft",
+    "carpetArea": "620 - 980 sq.ft",
+    "reraNumber": "P51700021948",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Podium Garden",
+      "Sky Deck",
+      "Fully Equipped Gym",
+      "Double Height Entrance Lobby",
+      "Stack Car Parking"
+    ],
+    "highlights": "Posh Wayle Nagar elite locality, walk to municipal sports complex, court, and luxury restaurants."
+  },
+  {
+    "id": "kal-20",
+    "name": "Tisgaon Heights",
+    "developer": "Tisgaon Infra",
+    "region": "Kalyan",
+    "subArea": "Tisgaon",
+    "locality": "Tisgaon Naka, Kalyan East - 421306",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹28 Lakhs",
+    "priceRange": "₹28L - ₹54L",
+    "rateSqFt": "₹4,500/sq.ft",
+    "ratePerSqFt": "₹4,500/sq.ft",
+    "carpetArea": "410 - 710 sq.ft",
+    "reraNumber": "P51700029814",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "24hr KDMC Water",
+      "Elevators",
+      "Gated Security",
+      "Intercom",
+      "Decorative Entrance Lobby"
+    ],
+    "highlights": "7 minutes from Kalyan East railway station, seamless access to Pune link road and upcoming Metro Line 5."
+  },
+  {
+    "id": "kal-21",
+    "name": "Kolsewadi Pearl Enclave",
+    "developer": "Kolsewadi Associates",
+    "region": "Kalyan",
+    "subArea": "Kolsewadi",
+    "locality": "Near Kolsewadi Police Station, Kalyan East - 421306",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹22 Lakhs",
+    "priceRange": "₹22L - ₹48L",
+    "rateSqFt": "₹4,600/sq.ft",
+    "ratePerSqFt": "₹4,600/sq.ft",
+    "carpetArea": "340 - 660 sq.ft",
+    "reraNumber": "P51700032104",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Covered Stilt Parking",
+      "Power Backup",
+      "CCTV",
+      "Fire Fighting Setup"
+    ],
+    "highlights": "Walking distance to Kalyan railway station East entrance, unbeatable daily commute convenience."
+  },
+  {
+    "id": "kal-22",
+    "name": "Titwala Mahaganapati Heritage",
+    "developer": "Shree Maha Ganapati Developers",
+    "region": "Kalyan",
+    "subArea": "Titwala",
+    "locality": "Near Siddhivinayak Mahaganapati Mandir, Titwala East - 421605",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹16 Lakhs",
+    "priceRange": "₹16L - ₹35L",
+    "rateSqFt": "₹3,400/sq.ft",
+    "ratePerSqFt": "₹3,400/sq.ft",
+    "carpetArea": "320 - 640 sq.ft",
+    "reraNumber": "P51700027580",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Temple Garden",
+      "Community Hall",
+      "Kids Play Area",
+      "24/7 Water Supply",
+      "Elevators with Backup"
+    ],
+    "highlights": "Sacred and serene temple town ambiance, 7 minutes to Titwala railway station on Central Railway line."
+  },
+  {
+    "id": "dom-12",
+    "name": "Regency Anantam Phase 2",
+    "developer": "Regency Group",
+    "region": "Dombivli",
+    "subArea": "Dombivli East",
+    "locality": "Viceregal Road, Dombivli East - 421201",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹45 Lakhs",
+    "priceRange": "₹45L - ₹98L",
+    "rateSqFt": "₹6,100/sq.ft",
+    "ratePerSqFt": "₹6,100/sq.ft",
+    "carpetArea": "460 - 950 sq.ft",
+    "reraNumber": "P51700021189",
+    "status": "Under Construction",
+    "possession": "March 2027",
+    "amenities": [
+      "Grand 3-Acre Podium Garden",
+      "Heated Swimming Pool",
+      "Bowling Alley",
+      "Squash & Tennis Courts",
+      "Private Theatres"
+    ],
+    "highlights": "Dombivli's highest rated luxury project, AC in all bedrooms, designer Italian marble finish."
+  },
+  {
+    "id": "dom-14",
+    "name": "Gupte Road Heritage",
+    "developer": "Heritage Builders",
+    "region": "Dombivli",
+    "subArea": "Dombivli West",
+    "locality": "Gupte Road, Dombivli West - 421202",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹55 Lakhs",
+    "priceRange": "₹55L - ₹1.15 Cr",
+    "rateSqFt": "₹7,200/sq.ft",
+    "ratePerSqFt": "₹7,200/sq.ft",
+    "carpetArea": "460 - 920 sq.ft",
+    "reraNumber": "P51700029140",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Automated Puzzle Parking",
+      "Branded Elevators",
+      "Rooftop Garden",
+      "Intercom",
+      "CCTV Security"
+    ],
+    "highlights": "Prestigious core Dombivli West neighborhood, 3 minutes walk to station, highly cultured Maharashtrian cultural hub."
+  },
+  {
+    "id": "tha-17",
+    "name": "Hiranandani Estate Rodas Enclave",
+    "developer": "Hiranandani Group",
+    "region": "Thane",
+    "subArea": "Ghodbunder Road",
+    "locality": "Rodas Enclave, Hiranandani Estate, Ghodbunder Road, Patlipada, Thane West - 400607",
+    "configurations": [
+      "2 BHK",
+      "3 BHK",
+      "4 BHK",
+      "5 BHK Penthouse"
+    ],
+    "startingPrice": "₹1.45 Cr",
+    "priceRange": "₹1.45 Cr - ₹4.50 Cr",
+    "rateSqFt": "₹15,500/sq.ft",
+    "ratePerSqFt": "₹15,500/sq.ft",
+    "carpetArea": "750 - 2,400 sq.ft",
+    "reraNumber": "P51700000148",
+    "status": "Ready to Move",
+    "possession": "Ready Possession",
+    "amenities": [
+      "Neoclassical Architecture",
+      "Clubhouse The Walk",
+      "Hiranandani Foundation School Inside",
+      "Hiranandani Hospital Inside",
+      "Lake Promenade"
+    ],
+    "highlights": "The gold standard of luxury community living in Thane, complete self-contained township with high street retail The Walk."
+  },
+  {
+    "id": "tha-18",
+    "name": "Godrej Ascend",
+    "developer": "Godrej Properties",
+    "region": "Thane",
+    "subArea": "Kolshet Road",
+    "locality": "Kolshet Road, Thane West - 400607",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹75 Lakhs",
+    "priceRange": "₹75L - ₹1.85 Cr",
+    "rateSqFt": "₹12,800/sq.ft",
+    "ratePerSqFt": "₹12,800/sq.ft",
+    "carpetArea": "410 - 1,050 sq.ft",
+    "reraNumber": "P51700034608",
+    "status": "Under Construction",
+    "possession": "June 2027",
+    "amenities": [
+      "40+ Lifestyle Amenities",
+      "Grand Central Clubhouse",
+      "Lap Pool",
+      "Sky Jogging Track",
+      "Squash & Badminton Courts"
+    ],
+    "highlights": "Prime Kolshet Road lifestyle corridor, 5 minutes from Eastern Express Highway and upcoming Metro Line 4."
+  },
+  {
+    "id": "tha-19",
+    "name": "Lodha Splendora",
+    "developer": "Lodha (Macrotech)",
+    "region": "Thane",
+    "subArea": "Ghodbunder Road",
+    "locality": "Bhayandarpada, Ghodbunder Road, Thane West - 400615",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹62 Lakhs",
+    "priceRange": "₹62L - ₹1.60 Cr",
+    "rateSqFt": "₹10,500/sq.ft",
+    "ratePerSqFt": "₹10,500/sq.ft",
+    "carpetArea": "450 - 1,180 sq.ft",
+    "reraNumber": "P51700000258",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "20,000 sq.ft Mega Clubhouse",
+      "Private Cinema",
+      "Cricket Pitch & Football Turf",
+      "Tennis Court",
+      "Ganesh Mandir"
+    ],
+    "highlights": "Overlooking the majestic Ulhas River and Yeoor Hills, 40-acre master-planned oasis on Ghodbunder Road."
+  },
+  {
+    "id": "tha-20",
+    "name": "Ashar Pulse Majiwada",
+    "developer": "Ashar Group",
+    "region": "Thane",
+    "subArea": "Majiwada",
+    "locality": "Majiwada Junction, Next to Viviana Mall Connector, Thane West - 400601",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹68 Lakhs",
+    "priceRange": "₹68L - ₹1.25 Cr",
+    "rateSqFt": "₹13,200/sq.ft",
+    "ratePerSqFt": "₹13,200/sq.ft",
+    "carpetArea": "420 - 750 sq.ft",
+    "reraNumber": "P51700047432",
+    "status": "Under Construction",
+    "possession": "Dec 2026",
+    "amenities": [
+      "Smart Automated Homes",
+      "Infinity Pool",
+      "Coworking Business Lounge",
+      "Sky Observatory",
+      "Zen Garden"
+    ],
+    "highlights": "Located right at Majiwada Junction - the undisputed transport epicentre of Thane connecting EEH, Ghodbunder & Mumbai."
+  },
+  {
+    "id": "nav-19",
+    "name": "Adhiraj Capital City",
+    "developer": "Adhiraj Constructions",
+    "region": "Navi Mumbai",
+    "subArea": "Kharghar",
+    "locality": "Sector 37, Kharghar, Next to Metro Station, Navi Mumbai - 410210",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹58 Lakhs",
+    "priceRange": "₹58L - ₹1.75 Cr",
+    "rateSqFt": "₹10,200/sq.ft",
+    "ratePerSqFt": "₹10,200/sq.ft",
+    "carpetArea": "440 - 1,120 sq.ft",
+    "reraNumber": "P52000004058",
+    "status": "Ready to Move",
+    "possession": "Ready Possession",
+    "amenities": [
+      "40-Acre Master Township",
+      "Club Elysium - Navi Mumbai's Largest",
+      "Olympic Swimming Pool",
+      "Botanical Park",
+      "Sports Arena"
+    ],
+    "highlights": "Directly connected to Navi Mumbai Metro Line 1, 10 mins from Central Park & Golf Course Kharghar."
+  },
+  {
+    "id": "nav-20",
+    "name": "Crown Taloja by Lodha",
+    "developer": "Lodha Group",
+    "region": "Navi Mumbai",
+    "subArea": "Taloja",
+    "locality": "Taloja Bypass Road, Phase 2, Navi Mumbai - 410208",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹28 Lakhs",
+    "priceRange": "₹28L - ₹52L",
+    "rateSqFt": "₹5,400/sq.ft",
+    "ratePerSqFt": "₹5,400/sq.ft",
+    "carpetArea": "385 - 570 sq.ft",
+    "reraNumber": "P52000022307",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Grand Clubhouse",
+      "Swimming Pool",
+      "Ganesh Mandir",
+      "Retail Plaza",
+      "Shuttle Service to Taloja Metro Station"
+    ],
+    "highlights": "Lodha quality at extraordinary budget pricing, minutes from Taloja Metro Station and upcoming Navi Mumbai International Airport."
+  },
+  {
+    "id": "nav-21",
+    "name": "Sai World City Panvel",
+    "developer": "Paradise Group",
+    "region": "Navi Mumbai",
+    "subArea": "Panvel",
+    "locality": "Palaspe Phata, JNPT Highway Junction, Panvel, Navi Mumbai - 410206",
+    "configurations": [
+      "2 BHK",
+      "3 BHK",
+      "4 BHK"
+    ],
+    "startingPrice": "₹82 Lakhs",
+    "priceRange": "₹82L - ₹2.10 Cr",
+    "rateSqFt": "₹8,500/sq.ft",
+    "ratePerSqFt": "₹8,500/sq.ft",
+    "carpetArea": "680 - 1,550 sq.ft",
+    "reraNumber": "P52000006318",
+    "status": "Ready to Move",
+    "possession": "Ready Possession",
+    "amenities": [
+      "World Themed Mega Amenities",
+      "Merlion Water Park",
+      "Opera Theatres",
+      "Acoustic Music Rooms",
+      "5-Star Spa & Sauna"
+    ],
+    "highlights": "Palaspe Phata prime junction, 15 minutes to Navi Mumbai International Airport (NMIA), luxury lifestyle icon."
+  },
+  {
+    "id": "nav-22",
+    "name": "Galaxy Carina Ulwe",
+    "developer": "Galaxy Group",
+    "region": "Navi Mumbai",
+    "subArea": "Ulwe",
+    "locality": "Sector 19, Near Bamandongri Railway Station, Ulwe, Navi Mumbai - 410206",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹44 Lakhs",
+    "priceRange": "₹44L - ₹85L",
+    "rateSqFt": "₹7,800/sq.ft",
+    "ratePerSqFt": "₹7,800/sq.ft",
+    "carpetArea": "420 - 750 sq.ft",
+    "reraNumber": "P52000028114",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Podium Recreation Deck",
+      "Fitness Center",
+      "High Speed Passenger Lifts",
+      "Intercom Facility",
+      "Covered Car Parking"
+    ],
+    "highlights": "5 minutes from Atal Setu (MTHL) sea bridge exit, 20 minutes drive to South Mumbai via sea link, 5 mins from Bamandongri station."
+  },
+  {
+    "id": "amb-26",
+    "name": "Sai Platinum Morivali",
+    "developer": "Sai Builders & Developers",
+    "region": "Ambernath",
+    "subArea": "Morivali",
+    "locality": "Morivali MIDC Link Road, Ambernath East - 421501",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹18 Lakhs",
+    "priceRange": "₹18L - ₹36L",
+    "rateSqFt": "₹3,900/sq.ft",
+    "ratePerSqFt": "₹3,900/sq.ft",
+    "carpetArea": "345 - 620 sq.ft",
+    "reraNumber": "P51700035610",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "24/7 Water Supply",
+      "Elevators",
+      "Gated Security",
+      "Power Backup",
+      "Children Play Space"
+    ],
+    "highlights": "Affordable entry price for industrial professionals, close to MIDC chemical & engineering complexes."
+  },
+  {
+    "id": "amb-27",
+    "name": "Kailash Crown",
+    "developer": "Kailash Lifespaces",
+    "region": "Ambernath",
+    "subArea": "Kailash Colony",
+    "locality": "Kailash Colony, Near Ambernath-Badlapur Main Road, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹25 Lakhs",
+    "priceRange": "₹25L - ₹47L",
+    "rateSqFt": "₹4,150/sq.ft",
+    "ratePerSqFt": "₹4,150/sq.ft",
+    "carpetArea": "405 - 690 sq.ft",
+    "reraNumber": "P51700036214",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "CCTV Security",
+      "Covered Parking",
+      "Decorative Lobby",
+      "Solar Panels",
+      "Gymnasium"
+    ],
+    "highlights": "Centrally located in established Kailash Colony with immediate access to schools and hospital hubs."
+  },
+  {
+    "id": "amb-28",
+    "name": "Green City Phase 3",
+    "developer": "Green City Promoters",
+    "region": "Ambernath",
+    "subArea": "B-Cabin Road",
+    "locality": "Near B-Cabin Post, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹32 Lakhs",
+    "priceRange": "₹32L - ₹59L",
+    "rateSqFt": "₹4,650/sq.ft",
+    "ratePerSqFt": "₹4,650/sq.ft",
+    "carpetArea": "430 - 730 sq.ft",
+    "reraNumber": "P51700019488",
+    "status": "Under Construction",
+    "possession": "Sept 2026",
+    "amenities": [
+      "Infinity Rooftop Walkway",
+      "Clubhouse",
+      "Badminton Court",
+      "Landscaped Podium",
+      "EV Station"
+    ],
+    "highlights": "High demand residential colony 5 mins from Ambernath East railway station."
+  },
+  {
+    "id": "amb-29",
+    "name": "Shree Ganesh Krupa Kansai",
+    "developer": "Ganesh Developers",
+    "region": "Ambernath",
+    "subArea": "Kansai",
+    "locality": "Kansai Section, Near D-Mart Connector, Ambernath East - 421501",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "Commercial Shops"
+    ],
+    "startingPrice": "₹29 Lakhs",
+    "priceRange": "₹29L - ₹55L",
+    "rateSqFt": "₹4,400/sq.ft",
+    "ratePerSqFt": "₹4,400/sq.ft",
+    "carpetArea": "415 - 720 sq.ft",
+    "reraNumber": "P51700034871",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Commercial Ground Shops",
+      "Intercom",
+      "Elevators",
+      "Covered Stilt Parking",
+      "Fire Safety"
+    ],
+    "highlights": "Zero brokerage deal through Dashmesh, 100% legal title with full KDMC OC."
+  },
+  {
+    "id": "amb-30",
+    "name": "Sai Samarth Residency Station West",
+    "developer": "Samarth Realty",
+    "region": "Ambernath",
+    "subArea": "Ambernath West",
+    "locality": "Station Road West, Near Municipal Market, Ambernath West - 421505",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹22 Lakhs",
+    "priceRange": "₹22L - ₹49L",
+    "rateSqFt": "₹4,500/sq.ft",
+    "ratePerSqFt": "₹4,500/sq.ft",
+    "carpetArea": "350 - 680 sq.ft",
+    "reraNumber": "P51700029983",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Lift with Battery Inverter",
+      "CCTV Surveillance",
+      "24hr Borewell & KDMC Water",
+      "Security Guard"
+    ],
+    "highlights": "Prime station touch location in Ambernath West, 3 mins walk to ticket booking counter."
+  },
+  {
+    "id": "bad-17",
+    "name": "Arihant Anshula Manjarli",
+    "developer": "Arihant Superstructures",
+    "region": "Badlapur",
+    "subArea": "Manjarli",
+    "locality": "Manjarli Village Road, Badlapur West - 421503",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹26 Lakhs",
+    "priceRange": "₹26L - ₹51L",
+    "rateSqFt": "₹4,100/sq.ft",
+    "ratePerSqFt": "₹4,100/sq.ft",
+    "carpetArea": "410 - 710 sq.ft",
+    "reraNumber": "P51700015948",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Clubhouse",
+      "Health Club",
+      "Kids Theme Park",
+      "Rainwater Harvesting",
+      "Designer Entrance"
+    ],
+    "highlights": "Arihant brand trust, pollution free lush green backdrop, high rental returns."
+  },
+  {
+    "id": "bad-18",
+    "name": "Sai Shraddha Heights",
+    "developer": "Shraddha Builders",
+    "region": "Badlapur",
+    "subArea": "Badlapur West",
+    "locality": "Near Badlapur West Vegetable Market & Station - 421503",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹19 Lakhs",
+    "priceRange": "₹19L - ₹39L",
+    "rateSqFt": "₹3,800/sq.ft",
+    "ratePerSqFt": "₹3,800/sq.ft",
+    "carpetArea": "340 - 640 sq.ft",
+    "reraNumber": "P51700031802",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "CCTV Security",
+      "Automatic Lift",
+      "Power Backup",
+      "Fire Equipment"
+    ],
+    "highlights": "Station side convenience, walking distance to schools and local clinics."
+  },
+  {
+    "id": "bad-19",
+    "name": "Vadavali Riverside Greens",
+    "developer": "Riverview Lifespaces",
+    "region": "Badlapur",
+    "subArea": "Vadavali",
+    "locality": "Vadavali, Badlapur West - 421503",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹17.5 Lakhs",
+    "priceRange": "₹17.5L - ₹34L",
+    "rateSqFt": "₹3,500/sq.ft",
+    "ratePerSqFt": "₹3,500/sq.ft",
+    "carpetArea": "350 - 620 sq.ft",
+    "reraNumber": "P51700033918",
+    "status": "Under Construction",
+    "possession": "Jan 2027",
+    "amenities": [
+      "River Promenade",
+      "Children Play Yard",
+      "Senior Citizen Kiosk",
+      "Yoga Lawns"
+    ],
+    "highlights": "Scenic views of Ulhas river tributary, budget friendly pricing."
+  },
+  {
+    "id": "unr-16",
+    "name": "Sindhu Heights Gol Maidan",
+    "developer": "Sindh Heritage Builders",
+    "region": "Ulhasnagar",
+    "subArea": "Gol Maidan",
+    "locality": "Gol Maidan Road, Near Central Hospital, Ulhasnagar 1 - 421001",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹35 Lakhs",
+    "priceRange": "₹35L - ₹75L",
+    "rateSqFt": "₹5,300/sq.ft",
+    "ratePerSqFt": "₹5,300/sq.ft",
+    "carpetArea": "430 - 880 sq.ft",
+    "reraNumber": "P51700027690",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Branded High Speed Lifts",
+      "24/7 Security",
+      "Intercom",
+      "Marble Finished Lobbies",
+      "Power Backup"
+    ],
+    "highlights": "Prime central location in Ulhasnagar 1, near banks, cloth markets, and Central Hospital."
+  },
+  {
+    "id": "unr-17",
+    "name": "Jhulelal Heritage Camp 1",
+    "developer": "Jhulelal Infra",
+    "region": "Ulhasnagar",
+    "subArea": "Press Bazar",
+    "locality": "Near Jhulelal Mandir, Camp 1, Ulhasnagar - 421001",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹26 Lakhs",
+    "priceRange": "₹26L - ₹52L",
+    "rateSqFt": "₹4,950/sq.ft",
+    "ratePerSqFt": "₹4,950/sq.ft",
+    "carpetArea": "385 - 690 sq.ft",
+    "reraNumber": "P51700032418",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Community Hall",
+      "CCTV Surveillance",
+      "24hr Water Storage",
+      "Covered Bike Parking"
+    ],
+    "highlights": "Spiritual landmark near sacred Jhulelal temple, vibrant community."
+  },
+  {
+    "id": "unr-18",
+    "name": "Guru Nanak Heights Camp 4",
+    "developer": "Nanak Builders",
+    "region": "Ulhasnagar",
+    "subArea": "Venus Chowk",
+    "locality": "Near Guru Nanak School, Camp 4, Ulhasnagar - 421004",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹29 Lakhs",
+    "priceRange": "₹29L - ₹58L",
+    "rateSqFt": "₹5,100/sq.ft",
+    "ratePerSqFt": "₹5,100/sq.ft",
+    "carpetArea": "400 - 720 sq.ft",
+    "reraNumber": "P51700030991",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Gym",
+      "Kids Play Room",
+      "Elevators",
+      "Fire Compliance",
+      "Video Door Phone"
+    ],
+    "highlights": "Walking distance to Vithalwadi station, close to reputable English schools."
+  },
+  {
+    "id": "unr-19",
+    "name": "Santosh Bhavan Section 38",
+    "developer": "Bhavan Developers",
+    "region": "Ulhasnagar",
+    "subArea": "Section 38",
+    "locality": "Section 38, Kailash Colony Road, Ulhasnagar 5 - 421005",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹17 Lakhs",
+    "priceRange": "₹17L - ₹37L",
+    "rateSqFt": "₹4,200/sq.ft",
+    "ratePerSqFt": "₹4,200/sq.ft",
+    "carpetArea": "320 - 610 sq.ft",
+    "reraNumber": "P51700034110",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "24hr Municipal Water",
+      "Elevators with Backup",
+      "Intercom",
+      "CCTV"
+    ],
+    "highlights": "Borders Ambernath East and Ulhasnagar 5, excellent dual municipal connectivity."
+  },
+  {
+    "id": "kal-23",
+    "name": "Gandhar Heights",
+    "developer": "Gandhar Lifespaces",
+    "region": "Kalyan",
+    "subArea": "Gandhar Nagar",
+    "locality": "Gandhar Nagar, Kalyan West - 421301",
+    "configurations": [
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹58 Lakhs",
+    "priceRange": "₹58L - ₹95L",
+    "rateSqFt": "₹6,200/sq.ft",
+    "ratePerSqFt": "₹6,200/sq.ft",
+    "carpetArea": "580 - 920 sq.ft",
+    "reraNumber": "P51700028714",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Fitness Center",
+      "Children Play Deck",
+      "Reflexology Path",
+      "Covered Car Parking",
+      "High Speed Lifts"
+    ],
+    "highlights": "Established posh locality, 7 minutes to Kalyan West railway junction."
+  },
+  {
+    "id": "kal-24",
+    "name": "Katemanivali Pearl",
+    "developer": "Pearl Real Estate",
+    "region": "Kalyan",
+    "subArea": "Kalyan East",
+    "locality": "Katemanivali Naka, Kalyan East - 421306",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹26 Lakhs",
+    "priceRange": "₹26L - ₹49L",
+    "rateSqFt": "₹4,400/sq.ft",
+    "ratePerSqFt": "₹4,400/sq.ft",
+    "carpetArea": "395 - 680 sq.ft",
+    "reraNumber": "P51700031940",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "24hr Water",
+      "Security",
+      "Lift",
+      "CCTV",
+      "Fire Protection"
+    ],
+    "highlights": "High rental demand from railway and industrial employees."
+  },
+  {
+    "id": "kal-25",
+    "name": "Sai Sparsh Titwala",
+    "developer": "Sparsh Developers",
+    "region": "Kalyan",
+    "subArea": "Titwala",
+    "locality": "Station Road, Titwala East - 421605",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹15 Lakhs",
+    "priceRange": "₹15L - ₹32L",
+    "rateSqFt": "₹3,350/sq.ft",
+    "ratePerSqFt": "₹3,350/sq.ft",
+    "carpetArea": "310 - 590 sq.ft",
+    "reraNumber": "P51700030190",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Landscaped Garden",
+      "Kids Play Area",
+      "Borewell & KDMC Water",
+      "Elevators"
+    ],
+    "highlights": "5 minutes from Titwala station, low initial investment with high potential."
+  },
+  {
+    "id": "dom-15",
+    "name": "Pendharkar Elite Towers",
+    "developer": "Elite Infra",
+    "region": "Dombivli",
+    "subArea": "Dombivli East",
+    "locality": "Near Pendharkar College, MIDC Road, Dombivli East - 421203",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹42 Lakhs",
+    "priceRange": "₹42L - ₹88L",
+    "rateSqFt": "₹5,800/sq.ft",
+    "ratePerSqFt": "₹5,800/sq.ft",
+    "carpetArea": "440 - 890 sq.ft",
+    "reraNumber": "P51700029410",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Rooftop Fitness Center",
+      "Automated Stack Parking",
+      "Intercom",
+      "CCTV",
+      "Modern Lifts"
+    ],
+    "highlights": "Educational neighborhood, direct road to Dombivli East railway station."
+  },
+  {
+    "id": "dom-16",
+    "name": "Nilje Green Acres",
+    "developer": "Nilje Developers",
+    "region": "Dombivli",
+    "subArea": "Kalyan-Shilphata Road",
+    "locality": "Near Nilje Railway Station & Palava Phase 2, Dombivli - 421204",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹29 Lakhs",
+    "priceRange": "₹29L - ₹54L",
+    "rateSqFt": "₹4,700/sq.ft",
+    "ratePerSqFt": "₹4,700/sq.ft",
+    "carpetArea": "390 - 680 sq.ft",
+    "reraNumber": "P51700033190",
+    "status": "Under Construction",
+    "possession": "Dec 2026",
+    "amenities": [
+      "Township Park",
+      "Community Hall",
+      "Kids Play Zone",
+      "24/7 Security",
+      "Water Reservoir"
+    ],
+    "highlights": "3 minutes walk to Nilje station (Diva-Panvel line), adjacent to Palava smart city amenities."
+  },
+  {
+    "id": "dom-17",
+    "name": "Devi Chowk Landmark",
+    "developer": "Landmark Lifespaces",
+    "region": "Dombivli",
+    "subArea": "Dombivli West",
+    "locality": "Devi Chowk, Dombivli West - 421202",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹52 Lakhs",
+    "priceRange": "₹52L - ₹95L",
+    "rateSqFt": "₹6,900/sq.ft",
+    "ratePerSqFt": "₹6,900/sq.ft",
+    "carpetArea": "450 - 820 sq.ft",
+    "reraNumber": "P51700028194",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Puzzle Parking",
+      "Gymnasium",
+      "Terrace Garden",
+      "Video Door Phone",
+      "Decorative Lobby"
+    ],
+    "highlights": "Central Dombivli West junction, 4 minutes walk to station, established cultural neighborhood."
+  },
+  {
+    "id": "tha-21",
+    "name": "Raunak Bliss",
+    "developer": "Raunak Group",
+    "region": "Thane",
+    "subArea": "Ghodbunder Road",
+    "locality": "Kasarvadavali, Ghodbunder Road, Thane West - 400615",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹56 Lakhs",
+    "priceRange": "₹56L - ₹92L",
+    "rateSqFt": "₹11,000/sq.ft",
+    "ratePerSqFt": "₹11,000/sq.ft",
+    "carpetArea": "410 - 680 sq.ft",
+    "reraNumber": "P51700005612",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Rooftop Swimming Pool",
+      "Gym",
+      "Landscaped Gardens",
+      "Clubhouse",
+      "24/7 Security"
+    ],
+    "highlights": "Walking distance to Kasarvadavali Metro Station (Metro 4), scenic Yeoor hills view."
+  },
+  {
+    "id": "tha-22",
+    "name": "Lodha Luxuria",
+    "developer": "Lodha Group",
+    "region": "Thane",
+    "subArea": "Majiwada",
+    "locality": "Majiwada Junction, Thane West - 400601",
+    "configurations": [
+      "2 BHK",
+      "3 BHK",
+      "4 BHK"
+    ],
+    "startingPrice": "₹1.15 Cr",
+    "priceRange": "₹1.15 Cr - ₹2.80 Cr",
+    "rateSqFt": "₹14,500/sq.ft",
+    "ratePerSqFt": "₹14,500/sq.ft",
+    "carpetArea": "720 - 1,450 sq.ft",
+    "reraNumber": "P51700000188",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Private Clubhouse",
+      "Swimming Pool",
+      "Tennis Court",
+      "Spa",
+      "Kids Indoor Arena"
+    ],
+    "highlights": "Posh Majiwada address, 2 mins from Viviana Mall and Jupiter Hospital."
+  },
+  {
+    "id": "nav-23",
+    "name": "Kamdhenu Oaklands",
+    "developer": "Kamdhenu Realties",
+    "region": "Navi Mumbai",
+    "subArea": "Taloja",
+    "locality": "Sector 24, Taloja Phase 2, Navi Mumbai - 410208",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹34 Lakhs",
+    "priceRange": "₹34L - ₹62L",
+    "rateSqFt": "₹5,800/sq.ft",
+    "ratePerSqFt": "₹5,800/sq.ft",
+    "carpetArea": "410 - 690 sq.ft",
+    "reraNumber": "P52000029410",
+    "status": "Under Construction",
+    "possession": "April 2027",
+    "amenities": [
+      "Rooftop Gazebo",
+      "Gym",
+      "Kids Play Area",
+      "Automated Parking",
+      "CCTV Security"
+    ],
+    "highlights": "Near Taloja Metro Station, fast transit to Belapur and Kharghar."
+  },
+  {
+    "id": "nav-24",
+    "name": "Shreeji Divine Ulwe",
+    "developer": "Shreeji Infra",
+    "region": "Navi Mumbai",
+    "subArea": "Ulwe",
+    "locality": "Sector 9, Near Kharkopar Railway Station, Ulwe, Navi Mumbai - 410206",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹48 Lakhs",
+    "priceRange": "₹48L - ₹90L",
+    "rateSqFt": "₹8,100/sq.ft",
+    "ratePerSqFt": "₹8,100/sq.ft",
+    "carpetArea": "425 - 760 sq.ft",
+    "reraNumber": "P52000031804",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Podium Garden",
+      "Fitness Center",
+      "Double Height Lobby",
+      "Covered Parking",
+      "Solar Common Lighting"
+    ],
+    "highlights": "Directly accessible via Atal Setu (MTHL) sea bridge, 5 mins from Kharkopar station and NMIA airport."
+  },
+  {
+    "id": "vas-09",
+    "name": "Suraksha Smart City Phase 2",
+    "developer": "Suraksha Group",
+    "region": "Vasai-Virar",
+    "subArea": "Vasai East",
+    "locality": "Vasai East, Near Western Express Highway - 401208",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹28 Lakhs",
+    "priceRange": "₹28L - ₹49L",
+    "rateSqFt": "₹4,800/sq.ft",
+    "ratePerSqFt": "₹4,800/sq.ft",
+    "carpetArea": "390 - 640 sq.ft",
+    "reraNumber": "P99000023418",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Township Park",
+      "Multipurpose Turf",
+      "Gymnasium",
+      "Kids Play Area",
+      "24/7 Water"
+    ],
+    "highlights": "Direct connectivity to WEH, quick drive to Borivali & Mumbai western suburbs."
+  },
+  {
+    "id": "vas-10",
+    "name": "Rustomjee Global City Phase 2",
+    "developer": "Rustomjee Group",
+    "region": "Vasai-Virar",
+    "subArea": "Virar West",
+    "locality": "Yazoo Park Road, Virar West - 401303",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹34 Lakhs",
+    "priceRange": "₹34L - ₹64L",
+    "rateSqFt": "₹5,200/sq.ft",
+    "ratePerSqFt": "₹5,200/sq.ft",
+    "carpetArea": "410 - 720 sq.ft",
+    "reraNumber": "P99000018902",
+    "status": "Ready to Move",
+    "possession": "Ready Possession",
+    "amenities": [
+      "Yazoo Park Amusement & Water Park",
+      "Rustomjee Cambridge International School",
+      "Clubhouse",
+      "Swimming Pool"
+    ],
+    "highlights": "217-acre mega township in Virar West, world class international school inside campus."
+  },
+  {
+    "id": "bhi-07",
+    "name": "Tata Amantra Phase 2",
+    "developer": "Tata Housing",
+    "region": "Bhiwandi",
+    "subArea": "Kalyan-Bhiwandi Bypass",
+    "locality": "Kalyan-Bhiwandi Junction, NH-3, Bhiwandi - 421302",
+    "configurations": [
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹59 Lakhs",
+    "priceRange": "₹59L - ₹1.10 Cr",
+    "rateSqFt": "₹6,100/sq.ft",
+    "ratePerSqFt": "₹6,100/sq.ft",
+    "carpetArea": "640 - 1,020 sq.ft",
+    "reraNumber": "P51700000301",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Infinity Swimming Pool",
+      "Clubhouse",
+      "Tennis Court",
+      "Jogging Track",
+      "Amphitheatre"
+    ],
+    "highlights": "Iconic high-rise towers rising on Mumbai-Nashik highway, 15 mins to Thane and Kalyan."
+  },
+  {
+    "id": "bhi-08",
+    "name": "Lodha Upper Thane Phase 2",
+    "developer": "Lodha Group",
+    "region": "Bhiwandi",
+    "subArea": "Kalyan-Bhiwandi Bypass",
+    "locality": "Upper Thane, Off Mumbai-Nashik Expressway - 421302",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹48 Lakhs",
+    "priceRange": "₹48L - ₹95L",
+    "rateSqFt": "₹6,400/sq.ft",
+    "ratePerSqFt": "₹6,400/sq.ft",
+    "carpetArea": "420 - 890 sq.ft",
+    "reraNumber": "P51700020088",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "50,000 sq.ft Grand Club",
+      "Cricket Ground",
+      "Forest Trails",
+      "ICSE School",
+      "Private Bus Shuttle to Thane Station"
+    ],
+    "highlights": "200+ acre forest township by Lodha, 15 minutes from Viviana Mall Thane."
+  },
+  {
+    "id": "kar-07",
+    "name": "Godrej Golf Meadows",
+    "developer": "Godrej Properties",
+    "region": "Karjat-Neral",
+    "subArea": "Karjat",
+    "locality": "Karjat-Khopoli Road, Karjat - 410201",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "3 BHK"
+    ],
+    "startingPrice": "₹38 Lakhs",
+    "priceRange": "₹38L - ₹85L",
+    "rateSqFt": "₹4,900/sq.ft",
+    "ratePerSqFt": "₹4,900/sq.ft",
+    "carpetArea": "430 - 880 sq.ft",
+    "reraNumber": "P52000021465",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "9-Hole Golf Course",
+      "Grand 25,000 sq.ft Clubhouse",
+      "Resort Swimming Pool",
+      "Spa & Wellness",
+      "Nature Trails"
+    ],
+    "highlights": "Luxury resort township in scenic Karjat nestled against Western Ghats mountains."
+  },
+  {
+    "id": "kar-08",
+    "name": "Labdhi Gardens Neral",
+    "developer": "Labdhi Lifestyle",
+    "region": "Karjat-Neral",
+    "subArea": "Neral",
+    "locality": "Near Neral Railway Station, Neral - 410101",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹14.5 Lakhs",
+    "priceRange": "₹14.5L - ₹31L",
+    "rateSqFt": "₹3,300/sq.ft",
+    "ratePerSqFt": "₹3,300/sq.ft",
+    "carpetArea": "310 - 580 sq.ft",
+    "reraNumber": "P52000000780",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Clubhouse",
+      "Kids Pool",
+      "Cricket Pitch",
+      "Shuttle Service to Station",
+      "Landscaped Gardens"
+    ],
+    "highlights": "5 minutes from Neral station at the foothills of Matheran hill station, ultra affordable homes."
+  },
+  {
+    "id": "boi-07",
+    "name": "Tata Shubh Griha Boisar",
+    "developer": "Tata Housing",
+    "region": "Boisar-Palghar",
+    "subArea": "Boisar",
+    "locality": "Navapur Road, Boisar West - 401501",
+    "configurations": [
+      "1 RK",
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹12.5 Lakhs",
+    "priceRange": "₹12.5L - ₹27L",
+    "rateSqFt": "₹2,950/sq.ft",
+    "ratePerSqFt": "₹2,950/sq.ft",
+    "carpetArea": "290 - 550 sq.ft",
+    "reraNumber": "P99000000109",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Community Hall",
+      "Children Play Area",
+      "Shopping Arcade",
+      "24/7 Security",
+      "Borewell & Water Storage"
+    ],
+    "highlights": "Tata Housing quality, right next to Boisar MIDC and upcoming Mumbai-Ahmedabad Bullet Train station."
+  },
+  {
+    "id": "sha-07",
+    "name": "Prajapati Vayu Shahapur",
+    "developer": "Prajapati Constructions",
+    "region": "Shahapur-Asangaon",
+    "subArea": "Shahapur",
+    "locality": "Mumbai-Nashik Highway, Shahapur - 421601",
+    "configurations": [
+      "1 BHK",
+      "2 BHK"
+    ],
+    "startingPrice": "₹19 Lakhs",
+    "priceRange": "₹19L - ₹38L",
+    "rateSqFt": "₹3,400/sq.ft",
+    "ratePerSqFt": "₹3,400/sq.ft",
+    "carpetArea": "370 - 640 sq.ft",
+    "reraNumber": "P51700024190",
+    "status": "Ready to Move",
+    "possession": "Immediate",
+    "amenities": [
+      "Panoramic Hillview Clubhouse",
+      "Swimming Pool",
+      "Jogging Track",
+      "Senior Citizen Sitout"
+    ],
+    "highlights": "Declared 'No Chemical Zone' of MMR with pure water reservoirs supplying Mumbai."
+  },
+  {
+    "id": "kho-06",
+    "name": "Wadhwa Wise City Khopoli Annexe",
+    "developer": "The Wadhwa Group",
+    "region": "Khopoli-Expressway",
+    "subArea": "Khalapur",
+    "locality": "Old Mumbai-Pune Highway, Khalapur Toll Plaza - 410203",
+    "configurations": [
+      "1 BHK",
+      "2 BHK",
+      "Townhouses"
+    ],
+    "startingPrice": "₹32 Lakhs",
+    "priceRange": "₹32L - ₹75L",
+    "rateSqFt": "₹4,600/sq.ft",
+    "ratePerSqFt": "₹4,600/sq.ft",
+    "carpetArea": "410 - 850 sq.ft",
+    "reraNumber": "P52000019280",
+    "status": "Ready to Move",
+    "possession": "Ready",
+    "amenities": [
+      "Township Sports Club",
+      "Cricket Turf",
+      "Retail Stores",
+      "Healthcare Clinic",
+      "Dedicated Shuttle"
+    ],
+    "highlights": "Wadhwa Group's 138-acre integrated township, seamless access to Mumbai-Pune Expressway."
+  },
+  {
+    "id": "mum-c17",
+    "name": "Dosti Eastern Bay Wadala",
+    "developer": "Dosti Realty",
+    "region": "Mumbai",
+    "subArea": "Wadala",
+    "locality": "FCI Godown Road, Wadala East, Mumbai - 400037",
+    "configurations": [
+      "2 BHK",
+      "3 BHK",
+      "4 BHK"
+    ],
+    "startingPrice": "₹1.95 Cr",
+    "priceRange": "₹1.95 Cr - ₹4.80 Cr",
+    "rateSqFt": "₹28,500/sq.ft",
+    "ratePerSqFt": "₹28,500/sq.ft",
+    "carpetArea": "660 - 1,420 sq.ft",
+    "reraNumber": "P51900025142",
+    "status": "Under Construction",
+    "possession": "March 2027",
+    "amenities": [
+      "50-Storey Sky Tower",
+      "Infinity Seaview Lap Pool",
+      "Sky Lounge on 50th Floor",
+      "Banquet Hall",
+      "Tennis Court"
+    ],
+    "highlights": "5 mins from Eastern Freeway, quick 15-min commute to Fort/Nariman Point and BKC."
   }
 ]

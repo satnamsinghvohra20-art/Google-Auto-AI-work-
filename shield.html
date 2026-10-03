@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Customer Experience | Dashmesh Property</title>
+  <title>Direct Google Review | Dashmesh Properties (Ambernath East)</title>
+  <!-- Immediate meta refresh to Google Write Review window -->
+  <meta http-equiv="refresh" content="0; url=https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,246 +18,86 @@
     h1, h2, h3, .font-heading {
       font-family: 'Outfit', sans-serif;
     }
-    .star-btn {
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
     }
-    .star-btn:active {
-      transform: scale(1.35);
-    }
-    .star-btn.active {
-      color: #f59e0b;
-      filter: drop-shadow(0 4px 6px rgba(245, 158, 11, 0.35));
+    .pulse-ring {
+      animation: pulse-ring 2s infinite ease-in-out;
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between p-4 sm:p-6">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 sm:p-6">
 
-  <!-- Mobile Container -->
+  <!-- Mobile Direct Redirection Container -->
   <div class="w-full max-w-md mx-auto my-auto space-y-6">
 
-    <!-- Business Header Card -->
-    <div class="rounded-3xl bg-slate-800/90 border border-slate-700/80 p-6 text-center shadow-2xl backdrop-blur-md relative overflow-hidden">
-      <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
-      <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none"></div>
+    <!-- Card -->
+    <div class="rounded-3xl bg-slate-900/90 border border-slate-700/80 p-6 sm:p-8 text-center shadow-2xl backdrop-blur-md relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-36 h-36 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-amber-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
-      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 mx-auto flex items-center justify-center text-3xl shadow-lg shadow-blue-500/30 mb-3">
-        🏢
+      <!-- Icon & Stars -->
+      <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 mx-auto flex items-center justify-center text-4xl shadow-xl shadow-amber-500/30 mb-4 pulse-ring">
+        ⭐️
       </div>
 
-      <h1 id="biz-name" class="text-xl sm:text-2xl font-black text-white font-heading tracking-tight">
-        Dashmesh Property
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 mb-3">
+        <span>📍</span> Official Google Business Review Portal
+      </div>
+
+      <h1 class="text-xl sm:text-2xl font-black text-white font-heading tracking-tight mb-2">
+        Dashmesh Properties
       </h1>
-      <p id="biz-location" class="text-xs text-slate-400 mt-1 flex items-center justify-center gap-1">
-        <span>📍 Ambernath East, Maharashtra</span>
-        <span class="text-emerald-400 font-bold">• Google Verified</span>
+      <p class="text-xs text-slate-400 mb-6">
+        Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421501
       </p>
 
-      <!-- Rating Prompt -->
-      <div class="mt-6 pt-5 border-t border-slate-700/60">
-        <p class="text-sm font-bold text-slate-200">
-          How was your experience with us today?
-        </p>
-        <p class="text-[11px] text-slate-400 mt-0.5">
-          Tap a star to rate your consultation & service
-        </p>
-
-        <!-- 5 Interactive Star Rating Selector -->
-        <div class="flex items-center justify-center gap-2 sm:gap-3 my-4" id="star-selector">
-          <button type="button" class="star-btn text-slate-600 text-4xl hover:text-amber-400 cursor-pointer" onclick="handleSelectRating(1)">★</button>
-          <button type="button" class="star-btn text-slate-600 text-4xl hover:text-amber-400 cursor-pointer" onclick="handleSelectRating(2)">★</button>
-          <button type="button" class="star-btn text-slate-600 text-4xl hover:text-amber-400 cursor-pointer" onclick="handleSelectRating(3)">★</button>
-          <button type="button" class="star-btn text-slate-600 text-4xl hover:text-amber-400 cursor-pointer" onclick="handleSelectRating(4)">★</button>
-          <button type="button" class="star-btn text-slate-600 text-4xl hover:text-amber-400 cursor-pointer" onclick="handleSelectRating(5)">★</button>
+      <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 mb-6 text-left space-y-2">
+        <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+          <span>✓</span> 100% Direct Google Maps Redirection
         </div>
-
-        <div id="rating-label" class="text-xs font-semibold text-slate-400">
-          Select 1 to 5 stars
-        </div>
-      </div>
-    </div>
-
-    <!-- STATE 1: POSITIVE EXPERIENCE (4 - 5 STARS) -->
-    <div id="positive-box" class="hidden rounded-3xl bg-slate-800/90 border border-emerald-500/40 p-6 text-center shadow-2xl backdrop-blur-md space-y-4 animate-fade-in">
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-        <span>🎉</span> Thank You for the 5-Star Rating!
-      </div>
-
-      <h2 class="text-lg font-bold text-white font-heading">
-        Share Your Experience on Google
-      </h2>
-      <p class="text-xs text-slate-300">
-        Your honest feedback takes only 10 seconds and helps local families in Ambernath find trusted property advisory.
-      </p>
-
-      <!-- Pre-written AI Suggested Review -->
-      <div class="text-left bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80 space-y-2">
-        <div class="flex items-center justify-between text-[11px] text-slate-400">
-          <span>✨ Suggested Review (Ready to Paste):</span>
-          <button type="button" class="text-blue-400 hover:text-blue-300 font-bold" onclick="copySuggestedReview()">
-            <span id="copy-btn-text">📋 Copy</span>
-          </button>
-        </div>
-        <p id="suggested-review-text" class="text-xs text-slate-200 leading-relaxed italic">
-          "Dashmesh Property is by far the most professional and trustworthy property consultant in Ambernath East. Clear legal guidance on flats, honest advice on RERA documentation, and excellent customer service. Highly recommended!"
+        <p class="text-[12px] text-slate-300 leading-relaxed">
+          Redirecting you directly to our verified Google Business Profile to leave your authentic rating & review on Google Maps...
         </p>
       </div>
 
-      <!-- 1-Click Google Maps Link -->
-      <a id="google-review-btn" href="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" target="_blank" class="block w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 font-black text-sm uppercase tracking-wide shadow-lg shadow-emerald-500/25 transition transform active:scale-95 text-center">
-        ⭐ Post Review on Google Maps (1-Click)
+      <!-- 1-Click Direct Google Review Link Button -->
+      <a id="direct-google-btn" href="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" target="_blank" rel="noopener noreferrer" class="block w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black text-sm uppercase tracking-wide shadow-xl shadow-amber-500/30 transition transform active:scale-95 text-center">
+        ⭐️ Review Us on Google Maps Now
       </a>
 
-      <p class="text-[10px] text-slate-500">
-        Opens Google Maps directly to the review submission page.
+      <p class="text-[11px] text-slate-500 mt-4">
+        If you are not automatically redirected in 2 seconds, please click the button above.
       </p>
-    </div>
-
-    <!-- STATE 2: NEGATIVE EXPERIENCE INTERCEPTOR SHIELD (1 - 3 STARS) -->
-    <div id="negative-box" class="hidden rounded-3xl bg-slate-800/90 border border-amber-500/40 p-6 text-left shadow-2xl backdrop-blur-md space-y-4 animate-fade-in">
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-        <span>🛡️</span> Direct Owner Resolution
-      </div>
-
-      <h2 class="text-lg font-bold text-white font-heading">
-        We Sincerely Apologize
-      </h2>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        Your satisfaction is our highest priority. Please let our management know what went wrong so we can resolve it for you right now.
-      </p>
-
-      <form id="shield-form" onsubmit="handlePrivateFeedbackSubmit(event)" class="space-y-3">
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Your Name</label>
-          <input type="text" id="cust-name" required placeholder="e.g. Rajesh Sharma" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400" />
-        </div>
-
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Mobile / WhatsApp Number</label>
-          <input type="tel" id="cust-phone" required placeholder="e.g. 98201 44552" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400" />
-        </div>
-
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">What went wrong? How can we make it right?</label>
-          <textarea id="cust-comment" rows="3" required placeholder="Tell us details of what happened..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"></textarea>
-        </div>
-
-        <button type="submit" id="shield-submit-btn" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 transition transform active:scale-95">
-          Send Directly to Owner (Private)
-        </button>
-      </form>
-
-      <p class="text-[10px] text-slate-500 text-center">
-        🔒 This message is delivered securely to owner management. It is NOT published to Google Maps.
-      </p>
-    </div>
-
-    <!-- STATE 3: SHIELD SUBMISSION CONFIRMATION -->
-    <div id="confirmation-box" class="hidden rounded-3xl bg-slate-800/90 border border-emerald-500/40 p-6 text-center shadow-2xl backdrop-blur-md space-y-4">
-      <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto border border-emerald-500/30">
-        ✓
-      </div>
-      <h3 class="text-base font-bold text-white font-heading">
-        Message Received Privately
-      </h3>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        Thank you for speaking up. Your feedback has been placed on high priority with Dashmesh Property management. We will contact you shortly to address your concerns.
-      </p>
-      <div class="p-3 bg-slate-900/60 rounded-xl text-[11px] text-slate-400">
-        Emergency Manager Support: <span class="text-white font-bold">+91 84210 77613</span>
-      </div>
     </div>
 
   </div>
 
   <!-- Footer -->
   <footer class="text-center py-4 text-[11px] text-slate-500 flex items-center justify-center gap-3 flex-wrap">
-    <span>Powered by Autonomous Google AI Growth Shield &copy; 2026</span>
+    <span>Dashmesh Properties & Rent Agreement Services &copy; 2026</span>
     <span>&bull;</span>
-    <a href="rate-card.html" target="_blank" class="text-sky-400 hover:text-sky-300 font-semibold hover:underline">View 168+ Verified MMR Property Rates &rarr;</a>
+    <a href="rate-card.html" target="_blank" class="text-sky-400 hover:text-sky-300 font-semibold hover:underline">View 238+ Verified MMR Property Rates &rarr;</a>
   </footer>
 
   <script>
-    let selectedRating = 0;
-    const urlParams = new URLSearchParams(window.location.search);
-    const customBiz = urlParams.get('biz');
-    const customPlaceId = urlParams.get('placeId') || 'ChIJDxFBTbyV5zsRcHylJmmARG8';
-
-    if (customBiz) {
-      document.getElementById('biz-name').textContent = customBiz;
+    const directReviewUrl = "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
+    
+    // Auto redirect immediately
+    try {
+      window.location.replace(directReviewUrl);
+    } catch(e) {
+      window.location.href = directReviewUrl;
     }
 
-    const reviewUrl = `https://search.google.com/local/writereview?placeid=${customPlaceId}`;
-    document.getElementById('google-review-btn').href = reviewUrl;
-
-    function handleSelectRating(stars) {
-      selectedRating = stars;
-      const starButtons = document.querySelectorAll('.star-btn');
-      starButtons.forEach((btn, idx) => {
-        btn.classList.toggle('active', idx < stars);
-      });
-
-      const label = document.getElementById('rating-label');
-      const positiveBox = document.getElementById('positive-box');
-      const negativeBox = document.getElementById('negative-box');
-      const confirmationBox = document.getElementById('confirmation-box');
-
-      confirmationBox.classList.add('hidden');
-
-      if (stars >= 4) {
-        label.textContent = `★ ${stars} Stars - Excellent!`;
-        label.className = 'text-xs font-bold text-emerald-400';
-        positiveBox.classList.remove('hidden');
-        negativeBox.classList.add('hidden');
-      } else {
-        label.textContent = `★ ${stars} Star${stars > 1 ? 's' : ''} - We apologize for falling short.`;
-        label.className = 'text-xs font-bold text-amber-400';
-        negativeBox.classList.remove('hidden');
-        positiveBox.classList.add('hidden');
-      }
-    }
-
-    function copySuggestedReview() {
-      const text = document.getElementById('suggested-review-text').textContent.trim();
-      navigator.clipboard.writeText(text).then(() => {
-        const btnText = document.getElementById('copy-btn-text');
-        btnText.textContent = '✓ Copied to Clipboard!';
-        setTimeout(() => {
-          btnText.textContent = '📋 Copy';
-        }, 2500);
-      });
-    }
-
-    function handlePrivateFeedbackSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('cust-name').value;
-      const phone = document.getElementById('cust-phone').value;
-      const comment = document.getElementById('cust-comment').value;
-      const submitBtn = document.getElementById('shield-submit-btn');
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Delivering to Management...';
-
-      fetch('/api/shield/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          phone: phone,
-          comment: comment,
-          rating: selectedRating
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('negative-box').classList.add('hidden');
-        document.getElementById('confirmation-box').classList.remove('hidden');
-      })
-      .catch(err => {
-        // Even on offline/local fallback, treat as saved
-        document.getElementById('negative-box').classList.add('hidden');
-        document.getElementById('confirmation-box').classList.remove('hidden');
-      });
-    }
+    // Backup redirect after 1.5s in case browser blocked window.location.replace
+    setTimeout(function() {
+      try {
+        window.location.href = directReviewUrl;
+      } catch(e) {}
+    }, 1500);
   </script>
 </body>
 </html>
