@@ -268,129 +268,128 @@ const AGENCY_CONFIG = {
 
 const SAMPLE_PRESETS = {
   dashmesh: DEFAULT_REPORT,
-  apollo_dental: {
-    _id: "report_apollo_dental_781",
-    googlePlaceId: "ChIJ_apollo_mumbai_091",
-    name: "Apollo Dental Clinic",
-    ownerName: "Dr. Ananya Roy",
-    phone: "+91 98201 11223",
-    email: "clinic@apollodental.in",
+  dashmesh_badlapur: {
+    _id: "report_dashmesh_badlapur",
+    googlePlaceId: "ChIJ_badlapur_dashmesh_02",
+    name: "Dashmesh Property (Badlapur West Branch)",
+    ownerName: "Sukhjyot Singh Vohra (Branch Head & Partner)",
+    phone: "+91 84219 40013",
+    email: "badlapur@dashmeshproperties.com",
     status: "generated",
     report: {
-      name: "Apollo Dental Clinic",
-      category: "Dentist",
-      address: "Plot 42, Linking Road, Bandra West, Mumbai 400050",
-      city: "Mumbai",
+      name: "Dashmesh Property (Badlapur West Branch)",
+      category: "Real Estate Agency",
+      address: "Shop 12, Station Road, Near Gandhi Chowk, Badlapur West 421503",
+      city: "Badlapur",
       state: "Maharashtra",
       country: "India",
-      rating: 3.8,
-      totalReviewCount: 14,
-      overallAvgRank: 16.4,
-      profileStrength: 46,
-      contentSeoScore: 38,
-      profileCompletionScore: 72,
-      engagementScore: 24,
-      ratingScore: 50,
-      primaryKeyword: "Dentist in Bandra West",
+      rating: 4.9,
+      totalReviewCount: 18,
+      overallAvgRank: 3.2,
+      profileStrength: 85,
+      contentSeoScore: 82,
+      profileCompletionScore: 94,
+      engagementScore: 78,
+      ratingScore: 92,
+      primaryKeyword: "Property Consultant in Badlapur",
       primaryKeywordRanking: {
-        keyword: "Dentist in Bandra West",
+        keyword: "Property Consultant in Badlapur",
         gridWidth: 3,
-        avgPosition: 16.4,
+        avgPosition: 3.2,
         gridImage: "public/grid-ranking-dashmesh.jpeg",
         pointPositions: [
-          { id: 1, position: 14, lat: 19.0600, lng: 72.8350, label: "Bandra Station" },
-          { id: 2, position: 16, lat: 19.0600, lng: 72.8400, label: "Linking Rd" },
-          { id: 3, position: 18, lat: 19.0600, lng: 72.8450, label: "Pali Hill" },
-          { id: 4, position: 15, lat: 19.0550, lng: 72.8350, label: "Turner Rd" },
-          { id: 5, position: 16, lat: 19.0550, lng: 72.8400, label: "Hill Road" },
-          { id: 6, position: 17, lat: 19.0550, lng: 72.8450, label: "Carter Rd" },
-          { id: 7, position: 18, lat: 19.0500, lng: 72.8350, label: "Mount Mary" },
-          { id: 8, position: 17, lat: 19.0500, lng: 72.8400, label: "Bandstand" },
-          { id: 9, position: 16, lat: 19.0500, lng: 72.8450, label: "Khar West" }
+          { id: 1, position: 2, lat: 19.1550, lng: 73.2350, label: "Badlapur Station W" },
+          { id: 2, position: 3, lat: 19.1600, lng: 73.2400, label: "Katrap" },
+          { id: 3, position: 3, lat: 19.1500, lng: 73.2300, label: "Shirgaon" },
+          { id: 4, position: 4, lat: 19.1580, lng: 73.2450, label: "Belavali" },
+          { id: 5, position: 3, lat: 19.1520, lng: 73.2380, label: "Gandhi Chowk" },
+          { id: 6, position: 4, lat: 19.1620, lng: 73.2500, label: "Barvi Dam Rd" },
+          { id: 7, position: 3, lat: 19.1480, lng: 73.2280, label: "Manjarli" },
+          { id: 8, position: 3, lat: 19.1560, lng: 73.2320, label: "Badlapur East" },
+          { id: 9, position: 4, lat: 19.1650, lng: 73.2420, label: "MIDC Badlapur" }
         ]
       },
       competitors: [
-        { name: "Smile Studio Bandra", avgRank: 2.1, reviewCount: 284, rating: 4.9, distance: "0.4 km" },
-        { name: "Dentzz Dental Hospital", avgRank: 3.4, reviewCount: 412, rating: 4.8, distance: "0.9 km" },
-        { name: "The Dental Roots", avgRank: 5.2, reviewCount: 156, rating: 4.7, distance: "1.1 km" }
+        { name: "Thanekar City Associates", avgRank: 3.8, reviewCount: 45, rating: 4.5, distance: "0.6 km" },
+        { name: "Panvelkar Realty Badlapur", avgRank: 4.2, reviewCount: 62, rating: 4.4, distance: "1.1 km" }
       ],
       otherKeywords: [
-        { keyword: "Root Canal Treatment Bandra", avgRank: 14, searchVolume: "2,400/mo", difficulty: "Medium" },
-        { keyword: "Teeth Whitening Near Me", avgRank: 18, searchVolume: "3,100/mo", difficulty: "High" },
-        { keyword: "Invisalign Specialist Mumbai", avgRank: 19, searchVolume: "1,800/mo", difficulty: "Medium" }
+        { keyword: "1 BHK in Badlapur Katrap", avgRank: 2, searchVolume: "2,200/mo", difficulty: "Medium" },
+        { keyword: "Rent Agreement Badlapur", avgRank: 1, searchVolume: "1,400/mo", difficulty: "Easy" },
+        { keyword: "Flats Near Badlapur Station", avgRank: 3, searchVolume: "1,900/mo", difficulty: "Medium" }
       ],
-      keywordMissedIn: ["Additional Category", "Business Services"],
+      keywordMissedIn: [],
       profileCompletion: [
-        { name: "Business Title", completed: true, note: "Apollo Dental Clinic" },
-        { name: "Primary Category", completed: true, note: "Dentist" },
-        { name: "Additional Categories", completed: false, note: "Missing 'Cosmetic Dentist'" },
-        { name: "Photos & Interior", completed: true, note: "12 photos" },
-        { name: "Appointment Links", completed: true, note: "Website connected" }
+        { name: "Business Title", completed: true, note: "Dashmesh Property (Badlapur West Branch)" },
+        { name: "Primary Category", completed: true, note: "Real Estate Agency" },
+        { name: "Additional Categories", completed: true, note: "Property Consultant, Rent Agreement Services" },
+        { name: "Doorstep Biometric Agreement", completed: true, note: "Doorstep service active" }
       ],
       comments: [
-        "Unanswered reviews detected. 4 negative reviews left without explanation.",
-        "Missing 'Emergency Dental Service' attribute.",
-        "No weekly medical health tips published to Google Updates."
+        "High local demand in Katrap and Shirgaon corridors.",
+        "Weekly verified 1 & 2 BHK listings published on Google Maps."
       ]
     }
   },
-  urban_salon: {
-    _id: "report_urban_salon_321",
-    googlePlaceId: "ChIJ_urban_delhi_882",
-    name: "Urban Chic Luxury Salon",
-    ownerName: "Pooja Malhotra",
-    phone: "+91 99102 33445",
-    email: "pooja@urbanchic.co.in",
+  dashmesh_kalyan: {
+    _id: "report_dashmesh_kalyan",
+    googlePlaceId: "ChIJ_kalyan_dashmesh_03",
+    name: "Dashmesh Property (Kalyan West Branch)",
+    ownerName: "Kuldeep Singh Vohra (Branch Head & Partner)",
+    phone: "+91 84120 70183",
+    email: "kalyan@dashmeshproperties.com",
     status: "generated",
     report: {
-      name: "Urban Chic Luxury Salon",
-      category: "Beauty Salon",
-      address: "Block M, Connaught Place, New Delhi 110001",
-      city: "New Delhi",
-      state: "Delhi",
+      name: "Dashmesh Property (Kalyan West Branch)",
+      category: "Real Estate Agency",
+      address: "G-4, Silver Arcade, Shivaji Chowk, Kalyan West 421301",
+      city: "Kalyan",
+      state: "Maharashtra",
       country: "India",
-      rating: 4.1,
-      totalReviewCount: 42,
-      overallAvgRank: 12.8,
-      profileStrength: 54,
-      contentSeoScore: 45,
-      profileCompletionScore: 80,
-      engagementScore: 35,
-      ratingScore: 60,
-      primaryKeyword: "Salon in Connaught Place",
+      rating: 4.9,
+      totalReviewCount: 34,
+      overallAvgRank: 2.8,
+      profileStrength: 91,
+      contentSeoScore: 88,
+      profileCompletionScore: 96,
+      engagementScore: 84,
+      ratingScore: 95,
+      primaryKeyword: "Real Estate Consultant in Kalyan",
       primaryKeywordRanking: {
-        keyword: "Salon in Connaught Place",
+        keyword: "Real Estate Consultant in Kalyan",
         gridWidth: 3,
-        avgPosition: 12.8,
+        avgPosition: 2.8,
         gridImage: "public/grid-ranking-dashmesh.jpeg",
         pointPositions: [
-          { id: 1, position: 11, lat: 28.6328, lng: 77.2197, label: "Inner Circle" },
-          { id: 2, position: 12, lat: 28.6328, lng: 77.2250, label: "Barakhamba" },
-          { id: 3, position: 14, lat: 28.6328, lng: 77.2300, label: "Janpath" },
-          { id: 4, position: 13, lat: 28.6280, lng: 77.2197, label: "Rajiv Chowk" },
-          { id: 5, position: 12, lat: 28.6280, lng: 77.2250, label: "Middle Circle" },
-          { id: 6, position: 13, lat: 28.6280, lng: 77.2300, label: "Outer Circle" },
-          { id: 7, position: 14, lat: 28.6230, lng: 77.2197, label: "Sansad Marg" },
-          { id: 8, position: 13, lat: 28.6230, lng: 77.2250, label: "Tolstoy Rd" },
-          { id: 9, position: 13, lat: 28.6230, lng: 77.2300, label: "Kasturba Gandhi" }
+          { id: 1, position: 2, lat: 19.2437, lng: 73.1355, label: "Shivaji Chowk" },
+          { id: 2, position: 2, lat: 19.2500, lng: 73.1400, label: "Khadakpada" },
+          { id: 3, position: 3, lat: 19.2400, lng: 73.1300, label: "Kalyan Station W" },
+          { id: 4, position: 3, lat: 19.2550, lng: 73.1450, label: "Gandhar Nagar" },
+          { id: 5, position: 2, lat: 19.2480, lng: 73.1380, label: "Syndicate" },
+          { id: 6, position: 4, lat: 19.2600, lng: 73.1500, label: "Godrej Riviera / Wayle" },
+          { id: 7, position: 3, lat: 19.2380, lng: 73.1250, label: "Chikanghar" },
+          { id: 8, position: 3, lat: 19.2450, lng: 73.1320, label: "Adharwadi" },
+          { id: 9, position: 3, lat: 19.2520, lng: 73.1420, label: "Birla College Rd" }
         ]
       },
       competitors: [
-        { name: "Geetanjali Salon CP", avgRank: 1.8, reviewCount: 680, rating: 4.8, distance: "0.2 km" },
-        { name: "Looks Salon Central", avgRank: 3.1, reviewCount: 520, rating: 4.7, distance: "0.5 km" }
+        { name: "Regency Kalyan Advisory", avgRank: 3.5, reviewCount: 110, rating: 4.7, distance: "1.2 km" },
+        { name: "Tycoons Khadakpada Group", avgRank: 4.1, reviewCount: 85, rating: 4.6, distance: "1.5 km" }
       ],
       otherKeywords: [
-        { keyword: "Bridal Makeup Delhi CP", avgRank: 11, searchVolume: "4,200/mo", difficulty: "High" },
-        { keyword: "Hair Spa Near Me", avgRank: 14, searchVolume: "5,600/mo", difficulty: "Medium" }
+        { keyword: "Flats in Khadakpada Kalyan", avgRank: 2, searchVolume: "3,800/mo", difficulty: "High" },
+        { keyword: "Leave and License Agreement Kalyan", avgRank: 1, searchVolume: "2,100/mo", difficulty: "Low" },
+        { keyword: "Commercial Office Kalyan West", avgRank: 2, searchVolume: "1,600/mo", difficulty: "Medium" }
       ],
-      keywordMissedIn: ["Profile Description", "Services"],
+      keywordMissedIn: [],
       profileCompletion: [
-        { name: "Business Title", completed: true, note: "Urban Chic Luxury Salon" },
-        { name: "Primary Category", completed: true, note: "Beauty Salon" }
+        { name: "Business Title", completed: true, note: "Dashmesh Property (Kalyan West Branch)" },
+        { name: "Primary Category", completed: true, note: "Real Estate Agency" },
+        { name: "Rent Agreement Desk", completed: true, note: "Doorstep Biometric active across Kalyan & Dombivli" }
       ],
       comments: [
-        "Need high-res portfolio images of bridal & hair styling.",
-        "Competitors post daily offers with 20% discount coupons."
+        "Strong market dominance in Khadakpada and Shivaji Chowk.",
+        "Doorstep biometric service highly rated by clients in Kalyan & Dombivli."
       ]
     }
   }
