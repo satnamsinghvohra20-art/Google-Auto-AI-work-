@@ -187,6 +187,16 @@ setInterval(() => {
   triggerMasterSync(true);
 }, 15 * 60 * 1000);
 
+function sendJSON(res, status, data) {
+  res.writeHead(status, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+  });
+  res.end(JSON.stringify(data));
+}
+
 function saveJSONFile(filename, data) {
   const filePath = path.join(DATA_DIR, filename);
   try {
