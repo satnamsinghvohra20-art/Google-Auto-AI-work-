@@ -531,6 +531,88 @@ const server = http.createServer((req, res) => {
 
   // --- API Endpoints ---
 
+  
+  // --- Data Vault: Full Backup Export & Import APIs ---
+  if (pathname === '/api/data/export' && req.method === 'GET') {
+    const fullBackup = {
+      version: '2.0.0',
+      timestamp: new Date().toISOString(),
+      source: 'Dashmesh Properties Auto AI Data Vault',
+      officeConfig: {
+        address: gbpConfig.address || 'New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501',
+        landmark: gbpConfig.landmark || 'Near Pale Gaon Entry Gate',
+        timings: gbpConfig.timings || '10:00 AM - 09:30 PM (Open All 7 Days)',
+        phone: '+918421077613',
+        placeId: gbpConfig.placeId
+      },
+      leads: whatsappConversations,
+      reviews: googleReviews,
+      posts: publishedPostLogs,
+      projects: realEstateProjects,
+      feedback: privateFeedbacks
+    };
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Content-Disposition': 'attachment; filename="dashmesh_data_backup.json"'
+    });
+    res.end(JSON.stringify(fullBackup, null, 2));
+    return;
+  }
+
+  if (pathname === '/api/data/import' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const imported = JSON.parse(body || '{}');
+        let restoredCount = 0;
+
+        if (Array.isArray(imported.leads)) {
+          whatsappConversations = imported.leads;
+          saveJSONFile('leads.json', whatsappConversations);
+          restoredCount += imported.leads.length;
+        }
+        if (Array.isArray(imported.reviews)) {
+          googleReviews = imported.reviews;
+          saveJSONFile('reviews.json', googleReviews);
+          restoredCount += imported.reviews.length;
+        }
+        if (Array.isArray(imported.posts)) {
+          publishedPostLogs = imported.posts;
+          saveJSONFile('posts.json', publishedPostLogs);
+          restoredCount += imported.posts.length;
+        }
+        if (Array.isArray(imported.projects)) {
+          realEstateProjects = imported.projects;
+          saveJSONFile('projects.json', realEstateProjects);
+          restoredCount += imported.projects.length;
+        }
+        if (Array.isArray(imported.feedback)) {
+          privateFeedbacks = imported.feedback;
+          saveJSONFile('feedback.json', privateFeedbacks);
+          restoredCount += imported.feedback.length;
+        }
+        if (imported.officeConfig) {
+          if (imported.officeConfig.address) gbpConfig.address = imported.officeConfig.address;
+          if (imported.officeConfig.placeId) gbpConfig.placeId = imported.officeConfig.placeId;
+        }
+
+        console.log(`[Data Vault] Successfully imported backup with ${restoredCount} items!`);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          message: `Data Vault restored successfully (${restoredCount} records loaded)!`,
+          timestamp: new Date().toISOString()
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Invalid backup JSON file: ' + err.message }));
+      }
+    });
+    return;
+  }
+
   // 0a. Production & Docker Healthcheck API
   if (pathname === '/api/health' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });

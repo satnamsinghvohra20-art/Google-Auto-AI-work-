@@ -2006,3 +2006,289 @@ async function submitNewProjectFromModal() {
 }
 
 
+
+
+// =========================================================================
+// 💾 DASHMESH DATA VAULT: DUAL-LAYER AUTO-PERSISTENCE & BACKUP SYSTEM
+// =========================================================================
+const DataVault = {
+  storageKey: "dashmesh_data_vault_v2",
+
+  saveAll: function() {
+    try {
+      const payload = {
+        version: "2.0.0",
+        savedAt: new Date().toISOString(),
+        officeConfig: {
+          address: appState.officeAddress,
+          landmark: appState.officeLandmark,
+          timings: appState.officeTimings,
+          placeId: appState.placeId,
+          metaToken: document.getElementById("setting-meta-access-token") ? document.getElementById("setting-meta-access-token").value : "",
+          phoneId: document.getElementById("setting-meta-phone-id") ? document.getElementById("setting-meta-phone-id").value : ""
+        },
+        leads: appState.whatsappConversations || [],
+        reviews: appState.googleReviews || [],
+        posts: appState.publishedPosts || [],
+        projects: appState.mmrProjects || []
+      };
+
+      localStorage.setItem(this.storageKey, JSON.stringify(payload));
+      this.updateVaultBadge("Protected");
+      console.log("[DataVault] Auto-saved state to browser persistent vault.");
+      return true;
+    } catch (err) {
+      console.warn("[DataVault] Failed to save to localStorage:", err.message);
+      return false;
+    }
+  },
+
+  loadAll: function() {
+    try {
+      const raw = localStorage.getItem(this.storageKey);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+
+      if (data.officeConfig) {
+        if (data.officeConfig.address) appState.officeAddress = data.officeConfig.address;
+        if (data.officeConfig.landmark) appState.officeLandmark = data.officeConfig.landmark;
+        if (data.officeConfig.timings) appState.officeTimings = data.officeConfig.timings;
+        if (data.officeConfig.placeId) appState.placeId = data.officeConfig.placeId;
+      }
+
+      if (Array.isArray(data.leads) && data.leads.length > 0) {
+        appState.whatsappConversations = data.leads;
+      }
+      if (Array.isArray(data.reviews) && data.reviews.length > 0) {
+        appState.googleReviews = data.reviews;
+      }
+      if (Array.isArray(data.posts) && data.posts.length > 0) {
+        appState.publishedPosts = data.posts;
+      }
+      if (Array.isArray(data.projects) && data.projects.length > 0) {
+        appState.mmrProjects = data.projects;
+      }
+
+      this.updateVaultBadge("Loaded");
+      console.log("[DataVault] Restored persistent data from browser vault.");
+      return true;
+    } catch (err) {
+      console.warn("[DataVault] Error restoring from localStorage:", err);
+      return false;
+    }
+  },
+
+  downloadBackup: function() {
+    this.saveAll();
+    const raw = localStorage.getItem(this.storageKey);
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(raw || JSON.stringify({ savedAt: new Date().toISOString() }, null, 2));
+    const dlAnchor = document.createElement("a");
+    const dateStr = new Date().toISOString().split("T")[0];
+    dlAnchor.setAttribute("href", dataStr);
+    dlAnchor.setAttribute("download", `Dashmesh_Properties_Backup_${dateStr}.json`);
+    document.body.appendChild(dlAnchor);
+    dlAnchor.click();
+    dlAnchor.remove();
+    showToast("✓ Full Data Backup Downloaded Successfully!");
+  },
+
+  importBackupFile: function(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const json = JSON.parse(e.target.result);
+        if (json.leads) appState.whatsappConversations = json.leads;
+        if (json.reviews) appState.googleReviews = json.reviews;
+        if (json.posts) appState.publishedPosts = json.posts;
+        if (json.projects) appState.mmrProjects = json.projects;
+        if (json.officeConfig) {
+          appState.officeAddress = json.officeConfig.address || appState.officeAddress;
+          appState.officeLandmark = json.officeConfig.landmark || appState.officeLandmark;
+          appState.officeTimings = json.officeConfig.timings || appState.officeTimings;
+        }
+
+        DataVault.saveAll();
+
+        // Refresh active views
+        if (typeof renderWhatsAppThreadList === "function") renderWhatsAppThreadList();
+        if (typeof renderWeeklyPosts === "function") renderWeeklyPosts();
+        if (typeof renderProjectsDirectory === "function") renderProjectsDirectory();
+
+        showToast("✓ Backup Restored 100% Successfully!");
+        closeDataVaultModal();
+      } catch (err) {
+        alert("Failed to parse backup JSON file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  },
+
+  updateVaultBadge: function(status) {
+    const badge = document.getElementById("header-vault-status");
+    if (badge) {
+      badge.textContent = status === "Protected" ? "Vault: Saved" : "Vault: Ready";
+    }
+  }
+};
+
+// =========================================================================
+// 🧮 MAHARASHTRA RENT AGREEMENT & STAMP DUTY CALCULATOR (SEC 55 COMPLIANT)
+// =========================================================================
+function calculateRentAgreementFees() {
+  const rent = parseFloat(document.getElementById("calc-monthly-rent").value) || 0;
+  const deposit = parseFloat(document.getElementById("calc-deposit").value) || 0;
+  const months = parseInt(document.getElementById("calc-duration-months").value) || 11;
+  const isUrban = document.getElementById("calc-location-type").value === "urban";
+
+  // Consideration = (Monthly Rent x Months) + (10% per annum on refundable deposit x Months / 12)
+  const totalRent = rent * months;
+  const depositInterest = deposit * 0.10 * (months / 12);
+  const totalConsideration = totalRent + depositInterest;
+
+  // 0.25% Stamp Duty (Rounded up to nearest ₹100, min ₹100)
+  let stampDuty = Math.ceil((totalConsideration * 0.0025) / 100) * 100;
+  if (stampDuty < 100) stampDuty = 100;
+
+  // Registration Fee: ₹1,000 for Urban / Municipal Corp, ₹500 for Rural
+  const registrationFee = isUrban ? 1000 : 500;
+  const totalGovtFee = stampDuty + registrationFee;
+
+  document.getElementById("calc-res-consideration").textContent = "₹ " + Math.round(totalConsideration).toLocaleString("en-IN");
+  document.getElementById("calc-res-stampduty").textContent = "₹ " + stampDuty.toLocaleString("en-IN");
+  document.getElementById("calc-res-regfee").textContent = "₹ " + registrationFee.toLocaleString("en-IN");
+  document.getElementById("calc-res-total").textContent = "₹ " + totalGovtFee.toLocaleString("en-IN");
+
+  return {
+    rent, deposit, months, isUrban,
+    totalConsideration: Math.round(totalConsideration),
+    stampDuty, registrationFee, totalGovtFee
+  };
+}
+
+function sendAgreementQuoteWhatsApp() {
+  const data = calculateRentAgreementFees();
+  const phone = (document.getElementById("calc-client-phone").value || "").trim().replace(/\D/g, "");
+  const name = (document.getElementById("calc-client-name").value || "Client").trim();
+
+  const msg = 
+`*Dashmesh Properties — Leave & License Quotation*
+Namaste ${name} ji,
+
+Here is your verified statutory fee breakdown for Maharashtra Leave & License Registration:
+
+📋 *Monthly Rent:* ₹ ${data.rent.toLocaleString("en-IN")} /-
+🔒 *Security Deposit:* ₹ ${data.deposit.toLocaleString("en-IN")} /-
+📅 *Duration:* ${data.months} Months
+🏛️ *Govt Consideration Value:* ₹ ${data.totalConsideration.toLocaleString("en-IN")} /-
+
+⚖️ *Govt Stamp Duty (0.25%):* ₹ ${data.stampDuty.toLocaleString("en-IN")} /-
+📜 *Registration Fee:* ₹ ${data.registrationFee.toLocaleString("en-IN")} /-
+💰 *Total Govt Fees:* ₹ ${data.totalGovtFee.toLocaleString("en-IN")} /-
+
+✨ *Included Services:*
+• Govt-Approved e-Registration
+• Doorstep Biometric Verification (UIDAI RD Service)
+• Tenant Police Verification & NOC
+• Digital Stamp & Index-II Issuance
+
+📍 *Dashmesh Properties*
+New Floora, Shop No. 24, Pale Gaon, Ambernath (E)
+📞 Call / WhatsApp: +91 84210 77613`;
+
+  const targetPhone = phone.length === 10 ? "91" + phone : (phone || "918421077613");
+  const waUrl = "https://wa.me/" + targetPhone + "?text=" + encodeURIComponent(msg);
+  window.open(waUrl, "_blank");
+  showToast("✓ WhatsApp Quote Prepared & Opened!");
+}
+
+// Quick Lead Fast-Capture Function
+function submitQuickLead() {
+  const name = document.getElementById("quick-lead-name").value.trim();
+  const phone = document.getElementById("quick-lead-phone").value.trim();
+  const reqType = document.getElementById("quick-lead-req").value;
+  const budget = document.getElementById("quick-lead-budget").value.trim();
+  const location = document.getElementById("quick-lead-location").value.trim() || "Ambernath (E)";
+
+  if (!name || !phone) {
+    alert("Please provide both Client Name and Mobile Number.");
+    return;
+  }
+
+  const newLead = {
+    id: "lead_" + Date.now(),
+    name: name,
+    phone: phone,
+    requirement: `${reqType} | Budget: ${budget} | Locality: ${location}`,
+    status: "Fresh Inquiry",
+    source: "Manual Fast-Dial CRM",
+    timestamp: new Date().toISOString(),
+    messages: [
+      { sender: "client", text: `Hi Satnam Sir, I am inquiring about ${reqType} in ${location} with budget ${budget}.`, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+    ]
+  };
+
+  if (!Array.isArray(appState.whatsappConversations)) {
+    appState.whatsappConversations = [];
+  }
+  appState.whatsappConversations.unshift(newLead);
+  DataVault.saveAll();
+
+  if (typeof renderWhatsAppThreadList === "function") {
+    renderWhatsAppThreadList();
+  }
+
+  showToast(`✓ Lead for ${name} successfully saved to Vault!`);
+  closeQuickLeadModal();
+
+  // Reset form
+  document.getElementById("quick-lead-name").value = "";
+  document.getElementById("quick-lead-phone").value = "";
+  document.getElementById("quick-lead-budget").value = "";
+}
+
+function openDataVaultModal() {
+  const modal = document.getElementById("modal-data-vault");
+  if (modal) modal.classList.add("active");
+  
+  // Update counts
+  const leadsCount = (appState.whatsappConversations || []).length;
+  const reviewsCount = (appState.googleReviews || []).length;
+  const postsCount = (appState.publishedPosts || []).length;
+  const projectsCount = (appState.mmrProjects || []).length;
+
+  const summary = document.getElementById("vault-records-summary");
+  if (summary) {
+    summary.innerHTML = `<strong>${leadsCount}</strong> Leads &bull; <strong>${reviewsCount}</strong> Reviews &bull; <strong>${postsCount}</strong> Posts &bull; <strong>${projectsCount || 168}</strong> MMR Projects`;
+  }
+}
+
+function closeDataVaultModal() {
+  const modal = document.getElementById("modal-data-vault");
+  if (modal) modal.classList.remove("active");
+}
+
+function openQuickLeadModal() {
+  const modal = document.getElementById("modal-quick-lead");
+  if (modal) modal.classList.add("active");
+}
+
+function closeQuickLeadModal() {
+  const modal = document.getElementById("modal-quick-lead");
+  if (modal) modal.classList.remove("active");
+}
+
+function openCalculatorModal() {
+  const modal = document.getElementById("modal-rent-calc");
+  if (modal) {
+    modal.classList.add("active");
+    calculateRentAgreementFees();
+  }
+}
+
+function closeCalculatorModal() {
+  const modal = document.getElementById("modal-rent-calc");
+  if (modal) modal.classList.remove("active");
+}

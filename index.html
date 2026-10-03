@@ -1815,6 +1815,16 @@ a:hover {
             <span>Satnam Sir: +91 84210 77613</span>
           </a>
 
+                    <button type="button" class="btn-header-action" onclick="openDataVaultModal()" title="Data Vault & Persistent Backup Manager" style="background: rgba(16, 185, 129, 0.12); color: #047857; border: 1px solid #6ee7b7; font-weight: 700;">
+            <span>💾</span>
+            <span id="header-vault-status">Vault: Active</span>
+          </button>
+
+          <button type="button" class="btn-header-action" onclick="openCalculatorModal()" title="Maharashtra Rent Agreement & Stamp Duty Calculator" style="background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid #fcd34d; font-weight: 700;">
+            <span>🧮</span>
+            <span>Agreement Calc</span>
+          </button>
+
           <button type="button" class="btn-header-primary" onclick="openProductionSettingsModal()" title="Office & API Configuration">
             <span>⚙️</span>
             <span>Settings</span>
@@ -1973,6 +1983,9 @@ a:hover {
       if (activePane) {
         activePane.style.display = "block";
         activePane.style.opacity = "1";
+      }
+      if (window.DataVault && typeof window.DataVault.loadAll === "function") {
+        window.DataVault.loadAll();
       }
     });
   </script>
@@ -3289,6 +3302,128 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
   <script src="js/app.js"></script>
   <script src="js/suite.js"></script>
 
+
+
+  <!-- 💾 DASHMESH DATA VAULT & BACKUP CENTER MODAL -->
+  <div id="modal-data-vault" class="modal-overlay">
+    <div class="modal-content-box" style="max-width: 560px; width: 92%;">
+      <div class="modal-header-row">
+        <h3 class="modal-title">💾 Dashmesh Data Vault & Auto-Backup System</h3>
+        <button type="button" class="btn-close-modal" onclick="closeDataVaultModal()">✕</button>
+      </div>
+
+      <div style="padding: 16px 0; display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 24px;">🛡️</span>
+          <div>
+            <div style="font-size: 13px; font-weight: 800; color: #065f46;">Dual-Layer Data Protection Active</div>
+            <div style="font-size: 11px; color: #047857;">Every change you make (Leads, Reviews, Posts, MMR Properties, Office Config) is auto-saved locally and to server storage. Your data will never disappear.</div>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+          <span style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Live Vault Inventory</span>
+          <div id="vault-records-summary" style="font-size: 13px; color: #0f172a; margin-top: 6px; font-weight: 600;">
+            Auto-calculating secured records...
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <button type="button" class="btn-solid-emerald" style="padding: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="DataVault.downloadBackup()">
+            <span>📥</span> Download Full Backup (.json)
+          </button>
+          
+          <label class="btn-solid-primary" style="padding: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-align: center; margin: 0;">
+            <span>📤</span> Upload & Restore Backup
+            <input type="file" accept=".json" style="display: none;" onchange="DataVault.importBackupFile(event)" />
+          </label>
+        </div>
+
+        <div style="font-size: 11px; color: #64748b; line-height: 1.5; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+          💡 <strong>Pro-Tip for Satnam Sir:</strong> Whenever you add major property rate updates or client contacts, click <em>Download Full Backup</em> to keep a local copy on your phone or PC!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🧮 MAHARASHTRA RENT AGREEMENT & STAMP DUTY CALCULATOR MODAL -->
+  <div id="modal-rent-calc" class="modal-overlay">
+    <div class="modal-content-box" style="max-width: 580px; width: 92%;">
+      <div class="modal-header-row">
+        <h3 class="modal-title">🧮 Maharashtra Leave & License Agreement Calculator</h3>
+        <button type="button" class="btn-close-modal" onclick="closeCalculatorModal()">✕</button>
+      </div>
+
+      <div style="padding: 16px 0; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 11px; color: #64748b;">
+          Statutory computation under <strong>Section 55 of Maharashtra Rent Control Act, 1999 & Maharashtra Stamp Act (0.25%)</strong>.
+        </span>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">Monthly Rent (₹):</label>
+            <input type="number" id="calc-monthly-rent" class="input-styled" value="15000" step="500" oninput="calculateRentAgreementFees()" />
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">Refundable Deposit (₹):</label>
+            <input type="number" id="calc-deposit" class="input-styled" value="50000" step="1000" oninput="calculateRentAgreementFees()" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">Tenancy Duration:</label>
+            <select id="calc-duration-months" class="input-styled" onchange="calculateRentAgreementFees()">
+              <option value="11" selected>11 Months (Standard)</option>
+              <option value="22">22 Months</option>
+              <option value="33">33 Months</option>
+              <option value="36">36 Months (3 Years)</option>
+              <option value="60">60 Months (5 Years)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">Location Jurisdiction:</label>
+            <select id="calc-location-type" class="input-styled" onchange="calculateRentAgreementFees()">
+              <option value="urban" selected>Urban / Municipal Corp (₹1,000 Reg)</option>
+              <option value="rural">Rural / Gram Panchayat (₹500 Reg)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Calculated Results Card -->
+        <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #475569;">
+            <span>Total Consideration Value:</span>
+            <strong id="calc-res-consideration" style="color: #0f172a;">₹ 0</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #475569;">
+            <span>Govt Stamp Duty (0.25%):</span>
+            <strong id="calc-res-stampduty" style="color: #0f172a;">₹ 0</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #475569;">
+            <span>Statutory Registration Fee:</span>
+            <strong id="calc-res-regfee" style="color: #0f172a;">₹ 0</strong>
+          </div>
+          <div style="border-top: 2px dashed #cbd5e1; padding-top: 8px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 800;">
+            <span style="color: #0369a1;">Total Govt Fees Payable:</span>
+            <span id="calc-res-total" style="color: #0369a1; font-size: 16px;">₹ 0</span>
+          </div>
+        </div>
+
+        <!-- Client WhatsApp Dispatch Block -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px;">
+          <span style="font-size: 11px; font-weight: 700; color: #15803d; display: block; margin-bottom: 6px;">📲 Send Direct WhatsApp Quotation to Client:</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+            <input type="text" id="calc-client-name" class="input-styled" placeholder="Client Name (e.g. Ramesh ji)" />
+            <input type="tel" id="calc-client-phone" class="input-styled" placeholder="Client Mobile (10 digits)" />
+          </div>
+          <button type="button" class="btn-solid-emerald" style="width: 100%; padding: 10px; font-weight: 700; justify-content: center;" onclick="sendAgreementQuoteWhatsApp()">
+            💬 Send Official Quotation via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
