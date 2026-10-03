@@ -117,10 +117,10 @@ function saveJSONFile(filename, data) {
 }
 
 // Real Ground-Truth Data Stores
-const privateFeedbacks = loadJSONFile('feedback.json', []);
+let privateFeedbacks = loadJSONFile('feedback.json', []);
 const publishedPostLogs = loadJSONFile('posts.json', []);
 const googleReviews = loadJSONFile('reviews.json', []);
-const realEstateProjects = loadJSONFile('projects.json', []);
+let realEstateProjects = loadJSONFile('projects.json', []);
 
 // WhatsApp Auto-Pilot Configuration & Live Conversations Store
 const whatsappConfig = {
@@ -143,7 +143,7 @@ const whatsappConfig = {
   autoFollowUpEnabled: true
 };
 
-const whatsappConversations = loadJSONFile('leads.json', []);
+let whatsappConversations = loadJSONFile('leads.json', []);
 
 function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
   if (!config.accessToken || !config.phoneNumberId) {

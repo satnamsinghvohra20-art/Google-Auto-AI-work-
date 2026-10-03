@@ -1,10 +1,5 @@
 {
-  "version": 2,
   "rewrites": [
-    {
-      "source": "/public/:match*",
-      "destination": "/public/:match*"
-    },
     {
       "source": "/shield",
       "destination": "/shield.html"
@@ -12,6 +7,14 @@
     {
       "source": "/rate-card",
       "destination": "/rate-card.html"
+    },
+    {
+      "source": "/api/whatsapp/webhook",
+      "destination": "/api/whatsapp/webhook.js"
+    },
+    {
+      "source": "/api/:match*",
+      "destination": "/api/index.js"
     }
   ]
 }
