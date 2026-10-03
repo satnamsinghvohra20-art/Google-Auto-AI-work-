@@ -1,5 +1,5 @@
 /**
- * Grexa AI Growth Suite - Autonomous Optimization & Generator Engine
+ * Sia AI Growth Suite - Autonomous Optimization & Generator Engine
  * Includes Photo GPS Stamping, WhatsApp Formatter, Live SERP Radar, and Agency Report Compiler
  */
 
@@ -103,7 +103,7 @@ const AIEngine = {
         text: "Looking for an affordable, clear-title home near Ambernath Station? Dashmesh Properties presents ready-to-move 1 BHK apartments in Pale Gaon starting at ₹18 Lakhs. Features include lift, 24x7 water supply, power backup, and up to 90% SBI/HDFC bank loan approval. RERA verified with zero hidden charges! 📍 Visit us at Shop No. 24, New Floora, Pale Gaon, Ambernath (E) or call +91 84210 77613 for free site visits.",
         category: "Residential Real Estate",
         cta: "Call +91 84210 77613",
-        link: "https://plod-extrude-lumpish.ngrok-free.dev/rate-card"
+        link: "https://google-auto-ai-work.onrender.com/rate-card"
       },
       {
         day: "Wednesday Commercial Opportunity",
@@ -111,7 +111,7 @@ const AIEngine = {
         text: "Elevate your business footprint in Ambernath East! High-visibility commercial retail shops and office spaces available near Pale Gaon & Station Road corridor. Ideal for clinics, grocery supermarkets, salons, diagnostics, and retail franchises. Attractive rental yield and verified commercial titles. Call Dashmesh Properties at +91 84210 77613 to inspect prime spaces today.",
         category: "Commercial Real Estate",
         cta: "Call +91 84210 77613",
-        link: "https://plod-extrude-lumpish.ngrok-free.dev/rate-card"
+        link: "https://google-auto-ai-work.onrender.com/rate-card"
       },
       {
         day: "Friday Investment Advisory",
@@ -119,7 +119,7 @@ const AIEngine = {
         text: "Why Ambernath East is the fastest-growing residential hub of 2026: Upcoming smart infrastructure, 7-minute train connectivity to Kalyan/Thane, and high rental demand. Get professional property valuation, resale advisory, and verified clear-title investments from 12+ years trusted consultants at Dashmesh Properties. Book your free advisory session this weekend! Contact: +91 84210 77613.",
         category: "Market Advisory",
         cta: "Book Free Consultation",
-        link: "https://plod-extrude-lumpish.ngrok-free.dev/rate-card"
+        link: "https://google-auto-ai-work.onrender.com/rate-card"
       },
       {
         day: "Weekend Family Special",
@@ -127,7 +127,7 @@ const AIEngine = {
         text: "Upgrade your family lifestyle with premium 2 BHK homes in prime Pale Gaon, Ambernath East. Master bedrooms with attached balconies, modular kitchens, children's play areas, and peaceful green surroundings starting from ₹32 Lakhs. Complete legal title verification and fast home loan sanction. Visit Dashmesh Properties or WhatsApp us at +91 84210 77613 for floor plans and video walkthroughs!",
         category: "Residential Deals",
         cta: "WhatsApp +91 84210 77613",
-        link: "https://plod-extrude-lumpish.ngrok-free.dev/rate-card"
+        link: "https://google-auto-ai-work.onrender.com/rate-card"
       }
     ];
 
@@ -165,7 +165,7 @@ const AIEngine = {
         "B-Cabin Road",
         "MIDC Ambernath (421501)"
       ],
-      websiteUrl: "https://plod-extrude-lumpish.ngrok-free.dev/rate-card",
+      websiteUrl: "https://google-auto-ai-work.onrender.com/rate-card",
       phone: "+91 84210 77613",
       address: "Shop No. 24, New Floora, Pale Gaon, Ambernath (E) - 421 501",
       catalogProductsCount: 4,
@@ -207,7 +207,7 @@ const AIEngine = {
   /**
    * Autonomous WhatsApp Client Auto-Responder Engine
    * Matches customer intents (1/2 BHK flats, shops, prices, office location, review follow-up)
-   * Formats responses in clean, polite, local Hinglish/English like the Grexa WhatsApp bot!
+   * Formats responses in clean, polite, local Hinglish/English like the Sia AI WhatsApp bot!
    */
   /**
    * Smart Multi-Language Detector (Marathi, English, Hinglish/Hindi)
@@ -217,7 +217,10 @@ const AIEngine = {
     const marathiKeywords = [
       "madhe", "aahe", "ahe", "kiti", "kuthe", "kay", "pahije", "bhadya", 
       "dakhva", "shodhat", "karayche", "karaycha", "aamhi", "tumche", "ghara", 
-      "vikaycha", "vikaychi", "bhada", "navin", "namaskar", "gav", "gaonat"
+      "vikaycha", "vikaychi", "bhada", "navin", "namaskar", "gav", "gaonat",
+      // Devanagari Marathi terms
+      "आहे", "भाडेकरार", "करार", "पाहिजे", "कधी", "करा", "मला", "तुमचे", "होईल", 
+      "आम्हाला", "नमस्कार", "बायोमेट्रिक", "फ्लॅट", "घर", "दुकान", "भाड्याने"
     ];
     const englishKeywords = [
       "looking for", "price of", "interested in", "commercial space", "what is",
@@ -357,7 +360,7 @@ const AIEngine = {
    */
   generateOwnerExecutiveResponse(incomingText, ownerName = "Satnam Sir", context = {}) {
     const text = (incomingText || "").toLowerCase().trim();
-    const publicUrl = context.publicUrl || "https://plod-extrude-lumpish.ngrok-free.dev";
+    const publicUrl = context.publicUrl || "https://google-auto-ai-work.onrender.com";
     const totalLeads = context.totalLeads || 0;
     const leadsList = context.leads || [];
     const reviewsCount = context.reviewsCount || 0;
@@ -541,8 +544,92 @@ Sir, Tab 8 Directory aur /api/projects par sabhi 168+ projects with real-time fi
     const officeLandmark = context.officeLandmark || "Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station";
     const officeTimings = context.officeTimings || "Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)";
     const officeMap = context.officeMap || "https://maps.google.com/?q=19.1908,73.1785";
-    const publicUrl = context.publicUrl || "https://plod-extrude-lumpish.ngrok-free.dev";
+    const publicUrl = context.publicUrl || "https://google-auto-ai-work.onrender.com";
     const rateCardUrl = `${publicUrl}/rate-card`;
+
+    
+    // =========================================================================
+    // 0. SPECIALTY: MAHARASHTRA REGISTERED RENT AGREEMENT & BIOMETRIC DOORSTEP DESK
+    // Matches: rent agreement, agreement, leave and license, biometric, stamp duty, police verification
+    // =========================================================================
+    if (
+      text.includes("agreement") ||
+      text.includes("rent agreement") ||
+      text.includes("leave and license") ||
+      text.includes("biometric") ||
+      text.includes("stamp duty") ||
+      text.includes("registration fee") ||
+      text.includes("police verification") ||
+      text.includes("doorstep") ||
+      text.includes("11 month") ||
+      text.includes("11 mahine") ||
+      text.includes("bhadya patra") ||
+      text.includes("bhadya kararnama") ||
+      text.includes("kararnama") ||
+      text.includes("भाडेकरार") ||
+      text.includes("करार") ||
+      text.includes("बायोमेट्रिक") ||
+      text.includes("नोंदणी")
+    ) {
+      if (lang === "marathi") {
+        return {
+          intent: "RENT_AGREEMENT_BIOMETRIC",
+          language: "marathi",
+          reply: `${greetingPrefix}📄 *दशमेश प्रॉपर्टीज - अधिकृत भाडेकरार व बायोमेट्रिक डोअरस्टेप सेवा:*
+
+महाराष्ट्र शासन नियमानुसार (Section 55, Maharashtra Rent Control Act) आम्ही अधिकृत व कायदेशीर भाडेकरार (Leave & License Agreement) करून देतो:
+
+✅ *घरी बसून बायोमेट्रिक नोंदणी (Doorstep Biometric Service):*
+• तुम्हाला किंवा भाडेकरूला निबंधक कार्यालयात (Sub-Registrar Office) जाण्याची अजिबात गरज नाही.
+• आमचा प्रतिनिधी बायोमेट्रिक फिंगरप्रिंट स्कॅनर आणि वेबकॅम घेऊन तुमच्या घरी किंवा ऑफिसमध्ये येतो.
+
+💰 *शासकीय शुल्क व खर्च:*
+• मुद्रांक शुल्क (Stamp Duty): एकूण भाडे + अनामत रक्कमेच्या 0.25%
+• शासकीय नोंदणी शुल्क (Govt Registration Fee): ₹1,000 (शहरी क्षेत्र - अंबरनाथ/कल्याण/ठाणे) / ₹500 (ग्रामीण)
+• पारदर्शक ड्राफ्टिंग व जलद 24 ते 48 तासांत अधिकृत QR कोड असलेला सरकारी करारनामा PDF स्वरूपात उपलब्ध.
+
+📑 *आवश्यक कागदपत्रे:*
+1. घरमालक (Owner) - आधार कार्ड व पॅन कार्ड
+2. भाडेकरू (Tenant) - आधार कार्ड व पॅन कार्ड
+3. दोन साक्षीदार (2 Witnesses) - आधार कार्ड
+4. जागेचे वीज बिल किंवा इंडेक्स II (Index II)
+
+बायोमेट्रिक अपॉइंटमेंट बुक करण्यासाठी किंवा ड्राफ्ट सुरू करण्यासाठी संपर्क करा:
+📞 *सतनाम सिंग व्होरा:* +91 84210 77613 / *सुखज्योत सिंग:* +91 84219 40013
+📍 *कार्यालय:* शॉप नं. 24, न्यू फ्लोरा, पाले गाव, अंबरनाथ (पूर्व)`,
+          suggestedActions: ["बायोमेट्रिक बुक करा", "कागदपत्रे यादी", "📞 कॉल करा"]
+        };
+      }
+
+      return {
+        intent: "RENT_AGREEMENT_BIOMETRIC",
+        language: lang,
+        reply: `${greetingPrefix}📄 *Dashmesh Properties — Registered Rent Agreement & Doorstep Biometric Service:*
+
+Maharashtra Govt rules ke anusaar (Section 55, Maharashtra Rent Control Act) hum 100% legal, registered Leave & License Agreements provide karte hain:
+
+✅ *Ghar Baithe Doorstep Biometric Service:*
+• Sub-Registrar Office ki lambi lines mein jaane ki bilkul zaroorat nahi.
+• Hamara executive biometric fingerprint scanner & webcam lekar seedhe aapke ghar/office aayega (Owner + Tenant + 2 Witnesses ke liye).
+
+💰 *Transparent Govt Fees & Calculation:*
+• Stamp Duty: 0.25% of whole tenancy tenure value (Monthly Rent * Months + Refundable Deposit)
+• Govt Registration Fee: ₹1,000 (Municipal Corporation / Urban area Ambernath/Kalyan/Thane) ya ₹500 (Rural)
+• Nominal drafting & doorstep service charge. 24-48 hours mein official QR-code registered govt agreement ready!
+
+📑 *Required Documents Checklist:*
+1. Owner: Aadhaar Card & PAN Card
+2. Tenant: Aadhaar Card & PAN Card
+3. Two Witnesses: Aadhaar Cards
+4. Property Electricity Bill or Index II copy
+
+Doorstep biometric slot book karne ke liye apna time aur address share karein, ya direct call karein:
+📞 *Satnam Singh Vohra:* +91 84210 77613
+📞 *Kuldeep Singh:* +91 84120 70183 | *Sukhjyot Singh:* +91 84219 40013
+📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)`,
+        suggestedActions: ["Book Biometric Slot", "Send Document List", "📞 Call Satnam Sir"]
+      };
+    }
 
     // 1. REVIEW / RATING CONFIRMATION ("done", "review ho gaya")
     if (
@@ -1681,7 +1768,7 @@ Target Directories:
       const zeroth = {};
       zeroth[piexif.ImageIFD.Make] = "Google Auto AI Geotagger Pro";
       zeroth[piexif.ImageIFD.Model] = "GPS EXIF High-Precision Engine";
-      zeroth[piexif.ImageIFD.Software] = "Grexa AI Growth Engine 2026";
+      zeroth[piexif.ImageIFD.Software] = "Sia AI Growth Engine 2026";
       zeroth[piexif.ImageIFD.ImageDescription] = desc;
       zeroth[piexif.ImageIFD.DateTime] = dateStr;
 

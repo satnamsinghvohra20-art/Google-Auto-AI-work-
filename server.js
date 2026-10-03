@@ -1,6 +1,6 @@
 /**
  * Lightweight Zero-Dependency Node.js Server & 24/7 Autonomous AI Daemon
- * Supports Grexa Booster, Autonomous Action Center, and Advanced AI Suite
+ * Supports Sia AI Booster, Autonomous Action Center, and Advanced AI Suite
  */
 
 const http = require('http');
@@ -443,7 +443,7 @@ function run24HourFollowUpCheck() {
 
   const now = Date.now();
   const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
-  const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
+  const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
   let sentTo = null;
   for (const conv of whatsappConversations) {
@@ -1041,11 +1041,113 @@ const server = http.createServer((req, res) => {
     }
   }
 
+  
+// =========================================================================
+// SIA AI INTELLIGENCE CORE: DUAL-LAYER REASONING (GEMINI 1.5 FLASH + LOCAL ENGINE)
+// =========================================================================
+async function callGeminiAI(userPrompt, clientName, context = {}) {
+  const apiKey = (process.env.GEMINI_API_KEY || whatsappConfig.geminiApiKey || '').trim();
+  if (!apiKey || apiKey.startsWith('AQ.')) {
+    return null; // Skip invalid or suspended keys to guarantee instant local response
+  }
+
+  return new Promise((resolve) => {
+    try {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const systemInstruction = `You are "Sia", the elite AI Property Consultant & Legal Agreement Specialist at "Dashmesh Property & Rent Agreement Services", Ambernath (East), Maharashtra.
+Office Address: Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501.
+Landmark: Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station.
+Timings: 10:00 AM to 8:30 PM (All 7 Days Open).
+Founder & Owner: Satnam Singh Vohra (+91 84210 77613).
+Partners: Kuldeep Singh Vohra (+91 84120 70183 / WhatsApp: +91 87937 71911), Sukhjyot Singh Vohra (+91 84219 40013).
+Helpline WhatsApp: +91 92702 77281.
+
+Key Services:
+1. Registered Rent Agreement & Doorstep Biometric: Section 55 Maharashtra Rent Control Act. Biometric fingerprint & webcam device brought directly to client's home/office. Stamp duty 0.25%, registration fee ₹1,000 urban / ₹500 rural. Govt agreement PDF with QR code delivered in 24-48 hours. Required: Aadhaar & PAN for Owner, Tenant, 2 Witnesses + Electricity bill/Index II.
+2. Residential Flats: 1 RK (Rent ₹4k-6k / Buy ₹12L-18L), 1 BHK (Rent ₹7k-11k / Buy ₹20L-35L), 2 BHK (Rent ₹12k-18k / Buy ₹38L-65L) in Pale Gaon, Shiv Mandir Road, B-Cabin, Kansai, Morivali, Navare Nagar, Ambernath, Badlapur, Ulhasnagar, Kalyan. 90% loan approval with SBI/HDFC.
+3. Commercial: Roadside shops & MIDC units in Ambernath East.
+
+Rules:
+- Address client politely as "${clientName ? clientName + ' ji' : 'ji'}".
+- Reply in the same language as client (Hinglish, Hindi, Marathi, or English).
+- Be polite, concise for WhatsApp, with emojis and bullet points. Zero fake promises. Offer site visits and direct connect with Satnam Sir (+91 84210 77613).`;
+
+      const payload = JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: { temperature: 0.4, maxOutputTokens: 500 }
+      });
+
+      const parsedUrl = new URL(endpoint);
+      const req = https.request({
+        hostname: parsedUrl.hostname,
+        path: parsedUrl.pathname + parsedUrl.search,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload)
+        },
+        timeout: 6000
+      }, (res) => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            if (res.statusCode >= 200 && res.statusCode < 300) {
+              const jsonRes = JSON.parse(data);
+              const text = jsonRes?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (text && text.trim()) return resolve(text.trim());
+            }
+            resolve(null);
+          } catch (e) {
+            resolve(null);
+          }
+        });
+      });
+
+      req.on('error', () => resolve(null));
+      req.on('timeout', () => {
+        req.destroy();
+        resolve(null);
+      });
+
+      req.write(payload);
+      req.end();
+    } catch (e) {
+      resolve(null);
+    }
+  });
+}
+
+async function getSiaIntelligentResponse(text, name, context, isOwner) {
+  if (isOwner) {
+    return AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", context);
+  }
+
+  // 1. Try Google Gemini 1.5 Flash (if active key available)
+  try {
+    const geminiReply = await callGeminiAI(text, name, context);
+    if (geminiReply) {
+      return {
+        intent: "GEMINI_AI_REPLY",
+        language: AIEngine.detectLanguage(text),
+        reply: geminiReply,
+        suggestedActions: ["Site Visit Book Karein", "Rent Agreement Checklist", "📞 Satnam Sir Call"]
+      };
+    }
+  } catch (err) {
+    console.warn('[Sia AI] Gemini call bypassed:', err.message);
+  }
+
+  // 2. Autonomous Local Engine Fallback (Full Domain Knowledge & Rent Agreement)
+  return AIEngine.generateWhatsAppAutoResponse(text, name, context);
+}
+
   // 13. WhatsApp Cloud API Incoming Message Handler (POST)
   if (pathname === '/api/whatsapp/webhook' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const payload = JSON.parse(body || '{}');
         const entry = payload.entry && payload.entry[0];
@@ -1078,18 +1180,17 @@ const server = http.createServer((req, res) => {
           let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanFrom);
           const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
           const messageCount = conv ? conv.messages.length : 0;
-          const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
+          const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
           let autoRes;
           if (isOwner) {
-            // Owner Executive Mode: Obey owner's commands, report live business data, execute actions
-            autoRes = AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", {
+            autoRes = await getSiaIntelligentResponse(text, name, {
               publicUrl,
               totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
               leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
               reviewsCount: googleReviews.length,
               publishedPostsCount: publishedPostLogs.length
-            });
+            }, true);
 
             if (autoRes.triggerAction === 'PUBLISH_POST') {
               const postData = AIEngine.generateDynamicGooglePost();
@@ -1108,8 +1209,7 @@ const server = http.createServer((req, res) => {
               saveJSONFile('posts.json', publishedPostLogs);
             }
           } else {
-            // Client Inquiry Mode
-            autoRes = AIEngine.generateWhatsAppAutoResponse(text, name, {
+            autoRes = await getSiaIntelligentResponse(text, name, {
               isOngoing,
               messageCount,
               publicUrl,
@@ -1118,7 +1218,7 @@ const server = http.createServer((req, res) => {
               officeTimings: whatsappConfig.officeTimings,
               officeMap: whatsappConfig.officeMap,
               contactPhone: whatsappConfig.phone
-            });
+            }, false);
           }
 
           if (!conv) {
@@ -1201,7 +1301,7 @@ const server = http.createServer((req, res) => {
         officeLandmark: whatsappConfig.officeLandmark,
         officeTimings: whatsappConfig.officeTimings,
         officeMap: whatsappConfig.officeMap,
-        webhookUrl: (process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev') + '/api/whatsapp/webhook'
+        webhookUrl: (process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com') + '/api/whatsapp/webhook'
       },
       conversations: whatsappConversations,
       totalMessages: whatsappConversations.reduce((acc, c) => acc + c.messages.length, 0)
@@ -1213,7 +1313,7 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/whatsapp/simulate-incoming' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const data = JSON.parse(body || '{}');
         const phone = data.phone || data.from || '+91 98200 12345';
@@ -1227,17 +1327,17 @@ const server = http.createServer((req, res) => {
         let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanPhone);
         const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
         const messageCount = conv ? conv.messages.length : 0;
-        const publicUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.ngrok-free.dev';
+        const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
         let autoRes;
         if (isOwner) {
-          autoRes = AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", {
+          autoRes = await getSiaIntelligentResponse(text, "Satnam Sir", {
             publicUrl,
             totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
             leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
             reviewsCount: googleReviews.length,
             publishedPostsCount: publishedPostLogs.length
-          });
+          }, true);
 
           if (autoRes.triggerAction === 'PUBLISH_POST') {
             const postData = AIEngine.generateDynamicGooglePost();
@@ -1256,7 +1356,7 @@ const server = http.createServer((req, res) => {
             saveJSONFile('posts.json', publishedPostLogs);
           }
         } else {
-          autoRes = AIEngine.generateWhatsAppAutoResponse(text, finalName, {
+          autoRes = await getSiaIntelligentResponse(text, finalName, {
             isOngoing,
             messageCount,
             publicUrl,
@@ -1265,7 +1365,7 @@ const server = http.createServer((req, res) => {
             officeTimings: whatsappConfig.officeTimings,
             officeMap: whatsappConfig.officeMap,
             contactPhone: whatsappConfig.phone
-          });
+          }, false);
         }
 
         if (!conv) {
@@ -2008,7 +2108,7 @@ if (require.main === module) {
   server.listen(PORT, '0.0.0.0', () => {
     const localIp = getLocalIpAddress();
     console.log(`=======================================================`);
-    console.log(`🚀 Grexa AI Booster & 24/7 Autonomous Suite Running!`);
+    console.log(`🚀 Sia AI Booster & 24/7 Autonomous Suite Running!`);
     console.log(`👉 Local Dashboard: http://localhost:${PORT}`);
     console.log(`📱 Mobile Shield on LAN: http://${localIp}:${PORT}/shield.html`);
     console.log(`🤖 Auto-Pilot Daemon: ACTIVE (Ticking Every 6s)`);

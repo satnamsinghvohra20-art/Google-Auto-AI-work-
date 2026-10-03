@@ -1,5 +1,5 @@
 /**
- * Grexa AI Growth Suite - Unlocked & Fully Operational Data Models
+ * Sia AI Growth Suite - Unlocked & Fully Operational Data Models
  * Includes Multi-Branch Franchises, Keywords Radar, Standee Templates, and WhatsApp CRM
  */
 
@@ -7,7 +7,7 @@ const DEFAULT_REPORT = {
   _id: "6aba452ec5cdfac7806c5bda",
   googlePlaceId: "ChIJDxFBTbyV5zsRcHylJmmARG8",
   name: "Dashmesh Properties",
-  ownerName: "Kuldeep Kaur & Sukhjyot Singh",
+  ownerName: "Satnam Singh Vohra (Owner & Founder), Kuldeep Singh Vohra & Sukhjyot Singh Vohra",
   phone: "+91 84120 70183",
   altPhone: "+91 84219 40013",
   whatsappPhone: "+91 87937 71911",
