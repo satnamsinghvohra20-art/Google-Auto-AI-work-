@@ -1,13 +1,16 @@
 {
-  "version": 2,
   "rewrites": [
     {
       "source": "/shield",
       "destination": "/shield.html"
     },
     {
+      "source": "/rate-card",
+      "destination": "/rate-card.html"
+    },
+    {
       "source": "/api/:match*",
-      "destination": "/server.js"
+      "destination": "/api/index.js"
     }
   ]
 }

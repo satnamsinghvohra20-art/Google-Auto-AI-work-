@@ -1,0 +1,14 @@
+# Scratch and analysis scripts
+scratch/
+scripts/
+*.py
+*.log
+fetch_chunks.js
+inspect_grexa.js
+dump_node18_text.js
+find_nodes.js
+find_sections.js
+analyze_node18.js
+app.js
+.env.local
+.git/

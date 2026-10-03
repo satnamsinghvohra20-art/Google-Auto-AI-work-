@@ -1922,12 +1922,16 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  const localIp = getLocalIpAddress();
-  console.log(`=======================================================`);
-  console.log(`🚀 Grexa AI Booster & 24/7 Autonomous Suite Running!`);
-  console.log(`👉 Local Dashboard: http://localhost:${PORT}`);
-  console.log(`📱 Mobile Shield on LAN: http://${localIp}:${PORT}/shield.html`);
-  console.log(`🤖 Auto-Pilot Daemon: ACTIVE (Ticking Every 6s)`);
-  console.log(`=======================================================`);
-});
+if (require.main === module) {
+  server.listen(PORT, '0.0.0.0', () => {
+    const localIp = getLocalIpAddress();
+    console.log(`=======================================================`);
+    console.log(`🚀 Grexa AI Booster & 24/7 Autonomous Suite Running!`);
+    console.log(`👉 Local Dashboard: http://localhost:${PORT}`);
+    console.log(`📱 Mobile Shield on LAN: http://${localIp}:${PORT}/shield.html`);
+    console.log(`🤖 Auto-Pilot Daemon: ACTIVE (Ticking Every 6s)`);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = server;
