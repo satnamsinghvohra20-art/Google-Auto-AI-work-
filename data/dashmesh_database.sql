@@ -1,5 +1,5 @@
 -- Dashmesh Properties & Rent Agreement Services - Full Master SQL Dump
--- Generated on: 2026-10-04 17:12:26
+-- Generated on: 2026-10-04 21:28:33
 -- Official Charges: Rent Agreement Rs. 1,750 per side | Rs. 3,500 Total All-Inclusive
 -- MMR Real Estate Directory: 238+ Verified Authentic Projects across 16 Strategic Regional Hubs
 
@@ -42,9 +42,9 @@ CREATE TABLE leads_crm (
         last_updated TEXT,
         created_at TEXT
     );
-INSERT INTO "leads_crm" VALUES('918421077613','Satnam Singh (Owner / Boss)','Owner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-04T17:12:26.504472','2026-10-03T12:00:00.000Z');
-INSERT INTO "leads_crm" VALUES('+918421940013','Sukhjyot Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-04T17:12:26.505543','2026-10-03T10:18:13.457Z');
-INSERT INTO "leads_crm" VALUES('+918412070183','Kuldeep Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-04T17:12:26.505567','2026-10-03T09:30:00.000Z');
+INSERT INTO "leads_crm" VALUES('918421077613','Satnam Singh (Owner / Boss)','Owner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-04T21:28:33.140662','2026-10-03T12:00:00.000Z');
+INSERT INTO "leads_crm" VALUES('+918421940013','Sukhjyot Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-04T21:28:33.141546','2026-10-03T10:18:13.457Z');
+INSERT INTO "leads_crm" VALUES('+918412070183','Kuldeep Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-04T21:28:33.141566','2026-10-03T09:30:00.000Z');
 CREATE TABLE mmr_projects (
             project_id TEXT PRIMARY KEY,
             name TEXT NOT NULL,

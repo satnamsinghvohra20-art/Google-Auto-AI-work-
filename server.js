@@ -1,4 +1,5 @@
 const seoPages = require('./seo_landing_pages');
+const security = require('./security_engine');
 // Process-level resilience guards to prevent any unexpected unhandled crash
 process.on('uncaughtException', (err) => {
   console.error('[Process Resiliency] Uncaught Exception caught safely:', err.message);
@@ -32,7 +33,7 @@ if (fs.existsSync(envPath)) {
         if (eqIdx !== -1) {
           const key = line.slice(0, eqIdx).trim();
           const val = line.slice(eqIdx + 1).trim();
-          process.env[key] = val;
+          if (process.env[key] === undefined) process.env[key] = val;
         }
       }
     });
@@ -922,15 +923,72 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // 1. Military-Grade OWASP Security Headers & Hardened CORS
+  security.applySecurityHeaders(req, res);
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
     return;
+  }
+
+  // 2. Multi-Tier In-Memory Rate Limiting (Anti-DoS & Anti-Brute-Force)
+  if (!security.checkRateLimit(req, res, 'global')) return;
+
+  if (
+    pathname.startsWith('/api/ai/') || 
+    pathname === '/api/auto/cycle' || 
+    pathname === '/api/google/daily-boost' || 
+    pathname === '/api/gbp/posts/generate'
+  ) {
+    if (!security.checkRateLimit(req, res, 'ai')) return;
+  }
+
+  // 3. DoS & OOM Guard: Byte length limiter for incoming request streams
+  const maxAllowedBytes = (pathname === '/api/data/import') ? 15 * 1024 * 1024 : 5 * 1024 * 1024;
+  let receivedBytes = 0;
+  let payloadExceeded = false;
+  req.on('data', (chunk) => {
+    if (payloadExceeded) return;
+    receivedBytes += chunk.length;
+    if (receivedBytes > maxAllowedBytes) {
+      payloadExceeded = true;
+      res.writeHead(413, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({
+        success: false,
+        error: 'Payload Too Large',
+        message: `Request body exceeded safety limit of ${Math.round(maxAllowedBytes / (1024 * 1024))} MB.`
+      }));
+      req.destroy();
+    }
+  });
+
+  // 4. Admin API Authorization Guard for Sensitive Operations
+  const adminEndpoints = [
+    '/api/data/export',
+    '/api/data/import',
+    '/api/export/excel',
+    '/api/export/sql',
+    '/api/export/sqlite',
+    '/api/leads/delete',
+    '/api/reviews/delete',
+    '/api/shield/delete',
+    '/api/google/upload-service-account',
+    '/api/google/save-credentials',
+    '/api/whatsapp/conversations'
+  ];
+
+  if (adminEndpoints.includes(pathname)) {
+    const auth = security.verifyAdminAuth(req, parsedUrl);
+    if (!auth.authorized) {
+      res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({
+        success: false,
+        error: 'Unauthorized',
+        message: 'Admin authorization key required for this operation.'
+      }));
+      return;
+    }
   }
 
   // --- API Endpoints ---
@@ -2958,30 +3016,39 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
     return;
   }
 
-  // --- Static Files Serving ---
-  let filePath;
-  if (pathname === '/' || pathname === '/index.html') {
-    filePath = path.join(BASE_DIR, 'index.html');
-  } else if (pathname === '/shield' || pathname === '/shield.html') {
+  // Direct 100% Google Maps Review Redirect
+  if (pathname === '/shield' || pathname === '/shield.html') {
     res.writeHead(302, { 'Location': 'https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8' });
     return res.end();
-  } else if (pathname === '/rate-card' || pathname === '/rate-card.html' || pathname === '/brochure') {
-    filePath = path.join(BASE_DIR, 'rate-card.html');
-  } else {
-    filePath = path.join(BASE_DIR, pathname);
   }
 
-  // Security check: keep inside BASE_DIR
-  if (!filePath.startsWith(BASE_DIR)) {
-    res.writeHead(403);
-    res.end('Access Denied');
+  // --- Static Files Serving with Strict Airgap & Traversal Defense ---
+  const staticCheck = security.validateStaticPath(pathname, BASE_DIR);
+  if (!staticCheck.allowed) {
+    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({
+      success: false,
+      error: 'Forbidden',
+      message: 'Access to system, backend, or sensitive files is strictly restricted by Dashmesh Security Policy.'
+    }));
     return;
   }
 
+  const filePath = staticCheck.safePath;
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html for SPA routes
-      filePath = path.join(BASE_DIR, 'index.html');
+      // Safe SPA fallback to index.html
+      const fallbackPath = path.join(BASE_DIR, 'index.html');
+      fs.readFile(fallbackPath, (readErr, content) => {
+        if (readErr) {
+          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.end('Internal Server Error');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+          res.end(content);
+        }
+      });
+      return;
     }
 
     const ext = path.extname(filePath).toLowerCase();
@@ -2989,7 +3056,7 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
 
     fs.readFile(filePath, (readErr, content) => {
       if (readErr) {
-        res.writeHead(500);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal Server Error');
       } else {
         res.writeHead(200, { 'Content-Type': contentType });

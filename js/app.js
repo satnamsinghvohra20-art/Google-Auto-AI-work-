@@ -3,6 +3,26 @@
  * Clean, Commercial-Grade Controller (100% Unlocked, Zero Paywalls)
  */
 
+// Security Fetch Interceptor: Attach Admin Security Key to authorized internal calls
+(function setupSecurityInterceptors() {
+  if (window._securityInterceptorActive) return;
+  window._securityInterceptorActive = true;
+  const originalFetch = window.fetch;
+  window.fetch = function(url, options = {}) {
+    options = options || {};
+    options.headers = options.headers || {};
+    const adminKey = localStorage.getItem('dashmesh_admin_key') || 'satnam_dashmesh_secure_2026';
+    if (typeof options.headers.set === 'function') {
+      options.headers.set('X-Admin-Key', adminKey);
+    } else if (Array.isArray(options.headers)) {
+      options.headers.push(['X-Admin-Key', adminKey]);
+    } else {
+      options.headers['X-Admin-Key'] = adminKey;
+    }
+    return originalFetch.call(this, url, options);
+  };
+})();
+
 const appState = {
   activeTab: "tab-profile",
   placeId: "ChIJDxFBTbyV5zsRcHylJmmARG8",
