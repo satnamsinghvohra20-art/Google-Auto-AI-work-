@@ -2549,3 +2549,39 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 400);
   }
 });
+
+
+
+async function triggerAISelfChangeNow() {
+  if (typeof showToastNotification === 'function') {
+    showToastNotification("🤖 Sia AI is autonomously generating fresh SEO updates, signals & pinging Google...");
+  }
+  try {
+    const res = await fetch("/api/ai/force-self-change", { method: "POST" });
+    const data = await res.json();
+    if (data.success) {
+      if (typeof showToastNotification === 'function') {
+        showToastNotification("✅ AI Self-Change executed autonomously!");
+      }
+      const ticker = document.getElementById("ai-today-pulse-ticker");
+      if (ticker && data.post) {
+        ticker.innerHTML = `Latest AI Self-Change: <em>"${data.post.title}"</em> &bull; Auto-Published & Pinged to Googlebot`;
+      }
+      const cnt = document.getElementById("ai-self-changes-count");
+      if (cnt && data.state && data.state.totalAISelfChanges) {
+        cnt.textContent = data.state.totalAISelfChanges;
+      }
+      alert(`🤖 AI AUTONOMOUS SELF-CHANGE EXECUTED SUCCESSFULLY!\n\n` +
+            `✅ Generated Title: "${data.post.title}"\n` +
+            `✅ AI Content: "${data.post.summary.slice(0, 110)}..."\n` +
+            `✅ Googlebot & Bingbot Sitemap: Automatically Pinged\n` +
+            `✅ Local 3-Pack Schema dateModified: Refreshed to Today\n` +
+            `✅ Master Database: Synced to SQLite & Excel!\n\n` +
+            `Zero human effort needed — the AI does this automatically on its own!`);
+    } else {
+      alert("AI Notice: " + (data.message || data.error));
+    }
+  } catch (err) {
+    alert("Connection error: " + err.message);
+  }
+}
