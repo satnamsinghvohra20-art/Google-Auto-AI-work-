@@ -360,6 +360,48 @@ function getCommonHead(title, description, canonicalPath, extraSchema = "") {
   `;
 }
 
+function getFloatingWhatsAppWidget() {
+  return `
+  <!-- Floating 1-Click WhatsApp Quick Action Button for Direct Satnam Sir Lead Connection -->
+  <a href="https://wa.me/918421077613?text=Namaste%20Satnam%20Sir%2C%20I%20visited%20Dashmesh%20Properties%20website%20and%20need%20assistance%20with%20Registered%20Rent%20Agreement%20%2F%20Property%20in%20Ambernath."
+     target="_blank"
+     rel="noopener noreferrer"
+     class="floating-wa-btn"
+     aria-label="Direct WhatsApp Chat with Satnam Sir">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.121-.527-1.745-.72-2.855-2.493-2.943-2.61-.088-.117-.714-.949-.714-1.808 0-.859.45-1.282.61-1.457.16-.176.35-.22.467-.22.117 0 .235 0 .337.006.108.006.251-.041.393.3.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.088.19-.176.293-.088.102-.186.228-.266.307-.088.087-.18.182-.077.359.103.177.458.756.984 1.224.677.603 1.248.79 1.425.878.177.088.279.074.382-.044.103-.117.44-.513.558-.689.117-.176.235-.147.395-.088.16.059 1.016.48 1.192.568.176.088.293.132.337.205.044.073.044.425-.1 1.002z"/>
+    </svg>
+    <div class="floating-wa-text">
+      <strong>WhatsApp Satnam Sir</strong>
+      <span>+91 84210 77613 • Instant Reply</span>
+    </div>
+  </a>
+  <script>
+    function switchLanguage(lang) {
+      try {
+        var buttons = document.querySelectorAll('.lang-btn');
+        for (var i = 0; i < buttons.length; i++) {
+          if (buttons[i].getAttribute('data-lang') === lang) {
+            buttons[i].classList.add('active');
+          } else {
+            buttons[i].classList.remove('active');
+          }
+        }
+        var contents = document.querySelectorAll('.lang-content');
+        for (var j = 0; j < contents.length; j++) {
+          if (contents[j].id === 'lang-' + lang) {
+            contents[j].classList.add('active');
+          } else {
+            contents[j].classList.remove('active');
+          }
+        }
+      } catch (e) {
+        console.error('Error switching language:', e);
+      }
+    }
+  </script>`;
+}
+
 // 1. RENT AGREEMENT AMBERNATH LANDING PAGE
 function renderRentAgreementPage() {
   const extraFaqSchema = `

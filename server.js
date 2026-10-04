@@ -2643,20 +2643,38 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
   // DEDICATED HYPER-LOCAL GOOGLE TOP RANK LANDING PAGES
   // =========================================================================
   if (pathname === '/rent-agreement-ambernath' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(seoPages.renderRentAgreementPage());
+    try {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(seoPages.renderRentAgreementPage());
+    } catch (seoErr) {
+      console.error('[SEO Render Error] rent-agreement-ambernath:', seoErr);
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Failed to render rent agreement page');
+    }
     return;
   }
 
   if (pathname === '/property-consultant-ambernath' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(seoPages.renderPropertyConsultantPage());
+    try {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(seoPages.renderPropertyConsultantPage());
+    } catch (seoErr) {
+      console.error('[SEO Render Error] property-consultant-ambernath:', seoErr);
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Failed to render property consultant page');
+    }
     return;
   }
 
   if (pathname === '/flats-in-ambernath' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(seoPages.renderFlatsInAmbernathPage());
+    try {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(seoPages.renderFlatsInAmbernathPage());
+    } catch (seoErr) {
+      console.error('[SEO Render Error] flats-in-ambernath:', seoErr);
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Failed to render flats page');
+    }
     return;
   }
 
