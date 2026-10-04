@@ -30,6 +30,13 @@ function getCommonHead(title, description, canonicalPath, extraSchema = "") {
   <title>${title}</title>
   <meta name="description" content="${description}">
   <link rel="canonical" href="${fullUrl}">
+  <!-- Progressive Web App (PWA) Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#047857">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/public/favicon.png">
+
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   
   <!-- Geo-Targeting for Google Maps & Local Pack -->
@@ -215,6 +222,98 @@ function getCommonHead(title, description, canonicalPath, extraSchema = "") {
       .hero-box { padding: 32px 18px; }
       .price-val { font-size: 36px; }
     }
+
+    /* Floating 1-Click WhatsApp Button */
+    .floating-wa-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: #ffffff !important;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+      z-index: 9999;
+      font-weight: 700;
+      transition: all 0.25s ease;
+      animation: pulseWa 2.5s infinite;
+    }
+    .floating-wa-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(37, 211, 102, 0.6);
+    }
+    @keyframes pulseWa {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+      70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+    .floating-wa-btn svg {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .floating-wa-text {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      line-height: 1.2;
+    }
+    .floating-wa-text strong {
+      font-size: 14px;
+      letter-spacing: 0.2px;
+    }
+    .floating-wa-text span {
+      font-size: 11px;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+    @media (max-width: 600px) {
+      .floating-wa-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 10px 16px;
+      }
+      .floating-wa-text span {
+        display: none;
+      }
+    }
+
+    /* Regional Language Bar */
+    .lang-bar-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 10px 0;
+      margin-bottom: 15px;
+    }
+    .lang-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lang-btn.active {
+      background: #0f766e;
+      color: #ffffff;
+      border-color: #0f766e;
+      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.3);
+    }
+    .lang-btn:hover:not(.active) {
+      background: #e2e8f0;
+    }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
   </style>
 
   <!-- Canonical Schema Markup -->
@@ -358,6 +457,65 @@ function renderRentAgreementPage() {
       </p>
     </div>
 
+    
+    <!-- Regional Language Content Selector (Marathi, Hindi, English) for Local Maharashtra Dominance -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 20px 24px; margin: 24px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">🌐</span>
+          <strong style="font-size: 15px; color: #1e293b;">स्थानिक भाषा निवडा / भाषा चुनें / Choose Language:</strong>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">English</button>
+          <button type="button" class="lang-btn" data-lang="mr" onclick="switchLanguage('mr')">मराठी (Marathi)</button>
+          <button type="button" class="lang-btn" data-lang="hi" onclick="switchLanguage('hi')">हिंदी (Hindi)</button>
+        </div>
+      </div>
+
+      <!-- English Summary -->
+      <div class="lang-content active" data-lang="en">
+        <p style="font-size: 14px; color: #475569; line-height: 1.6;">
+          <strong>Dashmesh Properties</strong> provides 100% government-compliant registered rent agreements in Ambernath East and West with doorstep biometric fingerprint scanning. Transparent rate of <strong>₹1,750 per side</strong> (total ₹3,500 all-inclusive). Office at Shop No. 24, New Floora, Pale Gaon. Direct Desk: <a href="tel:+918421077613" style="color: #0f766e; font-weight: 700;">+91 84210 77613</a>.
+        </p>
+      </div>
+
+      <!-- Marathi Summary -->
+      <div class="lang-content" data-lang="mr">
+        <div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 14px 18px; border-radius: 8px;">
+          <h4 style="font-size: 16px; font-weight: 800; color: #166534; margin-bottom: 6px;">
+            🚩 अंबरनाथ मध्ये शासकीय नोंदणीकृत भाडे करार सेवा (Registered Rent Agreement)
+          </h4>
+          <p style="font-size: 14px; color: #14532d; line-height: 1.7; margin-bottom: 8px;">
+            दशमेश प्रॉपर्टीज तर्फे अंबरनाथ (पूर्व व पश्चिम), पाले गाव, आणि बदलापूर परिसरामध्ये अधिकृत शासकीय नोंदणीकृत भाडे करार (Registered Rent Agreement) सेवा उपलब्ध आहे. 
+            <strong>दर: एका बाजूने फक्त ₹१,७५० (दोन्ही बाजूंचे मिळून एकूण ₹३,५०० सर्वसमावेशक)</strong>. 
+            यामध्ये शासकीय मुद्रांक शुल्क (Stamp Duty), नोंदणी फी (Registration Fee), घरोघरी बायोमेट्रिक पडताळणी (Doorstep Biometric), आणि अधिकृत क्यूआर कोडसह शासकीय डिजिटल प्रत समाविष्ट आहे.
+          </p>
+          <div style="font-size: 13px; color: #1e293b; display: flex; flex-wrap: wrap; gap: 16px; margin-top: 10px;">
+            <span>🏢 <strong>नोंदणीकृत कार्यालय:</strong> शॉप नं. २४, न्यू फ्लोरा, पाले गाव, अंबरनाथ (पूर्व) - ४२१ ५०१</span>
+            <span>📞 <strong>थेट संपर्क (सतनाम सर):</strong> <a href="tel:+918421077613" style="color: #166534; font-weight: 700;">+91 84210 77613</a></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hindi Summary -->
+      <div class="lang-content" data-lang="hi">
+        <div style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 14px 18px; border-radius: 8px;">
+          <h4 style="font-size: 16px; font-weight: 800; color: #0369a1; margin-bottom: 6px;">
+            🇮🇳 अंबरनाथ में सरकारी रजिस्टर्ड रेंट एग्रीमेंट और बायोमेट्रिक सर्विस
+          </h4>
+          <p style="font-size: 14px; color: #0c4a6e; line-height: 1.7; margin-bottom: 8px;">
+            दशमेश प्रॉपर्टीज अंबरनाथ (पूर्व/पश्चिम), पाले गांव और आसपास के क्षेत्रों में 100% लीगल गवर्नमेंट रजिस्टर्ड रेंट एग्रीमेंट सेवा प्रदान करती है।
+            <strong>रेट: एक तरफ से मात्र ₹१,७५० (दोनों तरफ मिलाकर कुल ₹३,५०० सब कुछ शामिल)</strong>। 
+            इसमें गवर्नमेंट स्टैम्प ड्यूटी, सरकारी रजिस्ट्रेशन फीस, घर बैठे बायोमेट्रिक वेरिफिकेशन और डिजिटल कॉपी की डिलीवरी शामिल है।
+          </p>
+          <div style="font-size: 13px; color: #1e293b; display: flex; flex-wrap: wrap; gap: 16px; margin-top: 10px;">
+            <span>🏢 <strong>ऑफिस का पता:</strong> शॉप नं. 24, न्यू फ्लोरा, पाले गांव, अंबरनाथ ईस्ट - 421 501</span>
+            <span>📞 <strong>सतनाम सर (डायरेक्ट):</strong> <a href="tel:+918421077613" style="color: #0369a1; font-weight: 700;">+91 84210 77613</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Features Grid -->
     <div class="grid-cards">
       <div class="card">
@@ -410,6 +568,7 @@ function renderRentAgreementPage() {
 
   </div>
 
+${getFloatingWhatsAppWidget()}
   <footer class="footer">
     <p><strong>Dashmesh Property & Rent Agreement Services</strong> &bull; Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501</p>
     <p style="margin-top: 8px;">Direct Owner Contact: <a href="tel:${OFFICE_INFO.phone}">${OFFICE_INFO.phone}</a> | <a href="${OFFICE_INFO.publicUrl}/">Return to Main Suite</a> | <a href="${OFFICE_INFO.publicUrl}/rate-card">238+ MMR Projects Directory</a></p>
@@ -517,6 +676,7 @@ function renderPropertyConsultantPage() {
     </div>
   </div>
 
+${getFloatingWhatsAppWidget()}
   <footer class="footer">
     <p><strong>Dashmesh Property & Rent Agreement Services</strong> &bull; Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501</p>
     <p style="margin-top: 8px;">Direct Owner: <a href="tel:${OFFICE_INFO.phone}">${OFFICE_INFO.phone}</a> | <a href="${OFFICE_INFO.publicUrl}/">Home</a> | <a href="${OFFICE_INFO.publicUrl}/rent-agreement-ambernath">Rent Agreement ₹1,750</a></p>
@@ -610,6 +770,7 @@ function renderFlatsInAmbernathPage() {
     </div>
   </div>
 
+${getFloatingWhatsAppWidget()}
   <footer class="footer">
     <p><strong>Dashmesh Property & Rent Agreement Services</strong> &bull; Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501</p>
     <p style="margin-top: 8px;">Direct Owner: <a href="tel:${OFFICE_INFO.phone}">${OFFICE_INFO.phone}</a> | <a href="${OFFICE_INFO.publicUrl}/">Main Suite</a></p>

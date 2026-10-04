@@ -32,6 +32,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="public/favicon.png" />
+  <!-- Progressive Web App (PWA) Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#047857" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/public/favicon.png" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function() {});
+      });
+    }
+  </script>
   <title>Dashmesh Property - Google Business Profile Growth Suite (100% Unlocked)</title>
   <meta name="description" content="Autonomous Google Business Profile Growth Suite & WhatsApp Client Auto-Bot for Dashmesh Property in Ambernath East. GPS Photo Geotagging, Customer Review Shield, and 24/7 Auto-Pilot." />
   
@@ -1912,6 +1925,15 @@ a:hover {
             <span>🌐</span>
             <span>Digital Rate Card</span>
           </a>
+          <a href="rate-card.html" target="_blank" class="btn-header-action" title="Download Official Client PDF Quotation" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border: 1px solid #7dd3fc; font-weight: 700;">
+            <span>📄</span>
+            <span>Client PDF Quotation</span>
+          </a>
+
+          <button type="button" class="btn-header-action" onclick="openWebmasterModal()" title="Google Search Console & Bing Verification" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border: 1px solid #a5b4fc; font-weight: 700;">
+            <span>🔍</span>
+            <span>Search Console</span>
+          </button>
 
           <button type="button" class="btn-header-action" onclick="triggerDailyGoogleBoost()" title="Execute Daily Google #1 Ranking Routine" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: #ffffff; border: none; font-weight: 800; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
             <span>🚀</span>
@@ -3754,6 +3776,110 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
     </div>
   </div>
 
+
+
+  <!-- Modal: Google Search Console & Bing Webmaster Verification -->
+  <div class="modal" id="modal-webmaster" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #ffffff; width: 100%; max-width: 580px; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden;">
+      <div style="background: #0f172a; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; color: #ffffff;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">🔍</span>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #ffffff;">Google Search Console & Bing Verification</h3>
+            <p style="margin: 0; font-size: 11px; color: #94a3b8;">Instantly verify site ownership & monitor Google keywords</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeWebmasterModal()" style="background: #334155; color: #ffffff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700;">✕</button>
+      </div>
+      <div style="padding: 24px;">
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 700; color: #1e293b; display: block; margin-bottom: 6px;">
+            Google Site Verification Meta Tag / Code:
+          </label>
+          <input type="text" id="input-google-verification" placeholder="e.g. abcdef123456... or google-site-verification=..." style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-size: 13px; box-sizing: border-box;" />
+          <span style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">From Google Search Console &gt; Settings &gt; Ownership Verification &gt; HTML tag</span>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="font-size: 13px; font-weight: 700; color: #1e293b; display: block; margin-bottom: 6px;">
+            Bing Webmaster Verification Code (msvalidate.01):
+          </label>
+          <input type="text" id="input-bing-verification" placeholder="e.g. 1234567890ABCDEF..." style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-size: 13px; box-sizing: border-box;" />
+          <span style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">From Bing Webmaster Tools &gt; HTML tag method</span>
+        </div>
+
+        <div id="webmaster-status-msg" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;"></div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" onclick="closeWebmasterModal()" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;">Cancel</button>
+          <button type="button" onclick="saveWebmasterTags()" style="background: #4f46e5; color: #ffffff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);">
+            Save & Activate Verification
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function openWebmasterModal() {
+      const modal = document.getElementById('modal-webmaster');
+      if (modal) modal.style.display = 'flex';
+      try {
+        const res = await fetch('/api/settings/webmaster-tags');
+        const data = await res.json();
+        if (data && data.tags) {
+          document.getElementById('input-google-verification').value = data.tags.google || '';
+          document.getElementById('input-bing-verification').value = data.tags.bing || '';
+        }
+      } catch (err) {
+        console.warn('Could not load webmaster tags:', err);
+      }
+    }
+    function closeWebmasterModal() {
+      const modal = document.getElementById('modal-webmaster');
+      if (modal) modal.style.display = 'none';
+      const msgEl = document.getElementById('webmaster-status-msg');
+      if (msgEl) msgEl.style.display = 'none';
+    }
+    async function saveWebmasterTags() {
+      let google = document.getElementById('input-google-verification').value.trim();
+      let bing = document.getElementById('input-bing-verification').value.trim();
+      // Clean google code if user pasted whole meta tag
+      if (google.includes('content="')) {
+        const m = google.match(/content=["']([^"']+)["']/);
+        if (m) google = m[1];
+      }
+      if (bing.includes('content="')) {
+        const m = bing.match(/content=["']([^"']+)["']/);
+        if (m) bing = m[1];
+      }
+      const msgEl = document.getElementById('webmaster-status-msg');
+      try {
+        const res = await fetch('/api/settings/webmaster-tags', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ google, bing })
+        });
+        const data = await res.json();
+        if (data.success) {
+          msgEl.style.display = 'block';
+          msgEl.style.background = '#f0fdf4';
+          msgEl.style.color = '#15803d';
+          msgEl.style.border = '1px solid #bbf7d0';
+          msgEl.textContent = '✅ Verification meta tags saved and active across all pages!';
+          setTimeout(closeWebmasterModal, 1800);
+        } else {
+          throw new Error(data.error || 'Failed to save');
+        }
+      } catch (err) {
+        msgEl.style.display = 'block';
+        msgEl.style.background = '#fef2f2';
+        msgEl.style.color = '#b91c1c';
+        msgEl.style.border = '1px solid #fecaca';
+        msgEl.textContent = '❌ Error: ' + err.message;
+      }
+    }
+  </script>
 
 </body>
 </html>

@@ -448,6 +448,14 @@
   }
   </script>
 
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#047857">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/public/favicon.png">
+
 </head>
 <body>
 
@@ -985,5 +993,147 @@
       </a>
     </div>
   </div>
+
+  <!-- Floating 1-Click WhatsApp Quick Action -->
+  <a href="https://wa.me/918421077613?text=Hello%20Satnam%20Sir%2C%20maine%20aapka%20Rate%20Card%20aur%20238%2B%20Projects%20Directory%20dekha.%20Mujhe%20inquiry%20karni%20hai." target="_blank" rel="noopener noreferrer" style="position: fixed; bottom: 24px; right: 24px; display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #ffffff !important; text-decoration: none; padding: 12px 20px; border-radius: 50px; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45); z-index: 9999; font-weight: 700; transition: all 0.25s ease;" title="Direct WhatsApp Satnam Sir">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="#ffffff"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.772.82 2.791.82 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.706 0-3.32-.429-4.743-1.187l-5.257 1.376 1.401-5.117c-.86-1.488-1.401-3.235-1.401-5.072 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
+    <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
+      <span style="font-size: 13px; font-weight: 800;">WhatsApp Satnam Sir</span>
+      <span style="font-size: 10px; opacity: 0.9;">Direct Desk &bull; Instant Reply</span>
+    </div>
+  </a>
+
+  <!-- Official Client Quotation Modal / Print View -->
+  <div id="modal-quotation" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(6px); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #ffffff; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); position: relative;">
+      
+      <!-- Modal Header with Close and Print Actions -->
+      <div style="background: #0f172a; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+        <div style="color: #ffffff; font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+          <span>📄 Official Client Rate Card Quotation</span>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" onclick="window.print()" style="background: #10b981; color: #ffffff; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <span>🖨️</span>
+            <span>Print / Save PDF</span>
+          </button>
+          <button type="button" onclick="closeQuotationModal()" style="background: #334155; color: #ffffff; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Letterhead Content -->
+      <div id="quotation-print-area" style="padding: 32px 36px; font-family: 'Plus Jakarta Sans', sans-serif;">
+        <!-- Letterhead Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f766e; padding-bottom: 18px; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 24px; font-weight: 900; color: #0f766e; margin-bottom: 4px;">DASHMESH PROPERTIES</h2>
+            <p style="font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 4px;">& RENT AGREEMENT SERVICES</p>
+            <p style="font-size: 12px; color: #475569;">Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501, Maharashtra</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase;">Direct Desk Contact</div>
+            <div style="font-size: 16px; font-weight: 900; color: #0f172a;">Satnam Singh Vohra</div>
+            <div style="font-size: 14px; font-weight: 800; color: #0f766e;">+91 84210 77613</div>
+            <div style="font-size: 11px; color: #64748b;">Office: 10:00 AM - 8:30 PM (7 Days Open)</div>
+          </div>
+        </div>
+
+        <!-- Quotation Meta -->
+        <div style="display: flex; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px;">
+          <div><strong>Quotation Reference:</strong> DP/QUOT/${new Date().getFullYear()}/${Math.floor(1000 + Math.random() * 9000)}</div>
+          <div><strong>Date:</strong> ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+        </div>
+
+        <!-- Itemized Pricing Table -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+          <thead>
+            <tr style="background: #0f172a; color: #ffffff;">
+              <th style="padding: 10px 14px; text-align: left; border-radius: 6px 0 0 6px;">Service Description</th>
+              <th style="padding: 10px 14px; text-align: center;">Govt Inclusions</th>
+              <th style="padding: 10px 14px; text-align: right; border-radius: 0 6px 6px 0;">Official Fee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 14px;">
+                <strong>Registered Rent Agreement (Tenant Share)</strong>
+                <div style="font-size: 12px; color: #64748b;">Aadhaar Biometric e-Registration, IGR Maharashtra Verified</div>
+              </td>
+              <td style="padding: 14px; text-align: center; color: #166534; font-weight: 700;">Included</td>
+              <td style="padding: 14px; text-align: right; font-weight: 800; font-size: 15px; color: #0f172a;">₹1,750</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 14px;">
+                <strong>Registered Rent Agreement (Owner Share)</strong>
+                <div style="font-size: 12px; color: #64748b;">Legal Draft Preparation, Stamp Duty & Registration Submission</div>
+              </td>
+              <td style="padding: 14px; text-align: center; color: #166534; font-weight: 700;">Included</td>
+              <td style="padding: 14px; text-align: right; font-weight: 800; font-size: 15px; color: #0f172a;">₹1,750</td>
+            </tr>
+            <tr style="border-bottom: 2px solid #0f766e; background: #f0fdf4;">
+              <td style="padding: 14px; font-weight: 800; color: #166534;">
+                TOTAL ALL-INCLUSIVE COST
+                <div style="font-size: 11px; font-weight: 500; color: #15803d;">Doorstep Biometric + Govt Stamp Duty + Police Intimation</div>
+              </td>
+              <td style="padding: 14px; text-align: center; font-weight: 800; color: #166534;">100% Comprehensive</td>
+              <td style="padding: 14px; text-align: right; font-weight: 900; font-size: 18px; color: #166534;">₹3,500</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Key Assurances -->
+        <div style="background: #f8fafc; border-left: 4px solid #0f766e; padding: 14px 18px; border-radius: 6px; margin-bottom: 24px;">
+          <h4 style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Key Service Assurances:</h4>
+          <ul style="font-size: 12px; color: #475569; padding-left: 18px; line-height: 1.6;">
+            <li>Certified representative visits your doorstep anywhere in Ambernath, Badlapur, Ulhasnagar, or Kalyan.</li>
+            <li>Zero need to visit the Government Sub-Registrar office.</li>
+            <li>Govt signed digital PDF with QR code delivered within 24 to 48 hours.</li>
+            <li>Full MMR real estate consultancy: 238+ verified MahaRERA projects directory available on desk.</li>
+          </ul>
+        </div>
+
+        <!-- Authorized Signature & Seal -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e2e8f0;">
+          <div style="font-size: 11px; color: #64748b;">
+            <div>Google Verified Place ID: ChIJDxFBTbyV5zsRcHylJmmARG8</div>
+            <div>Google Maps Rating: 5.0 ⭐ (48+ Verified Client Reviews)</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 13px; font-weight: 800; color: #0f172a;">For DASHMESH PROPERTIES</div>
+            <div style="height: 36px; display: flex; align-items: center; justify-content: center; color: #0f766e; font-style: italic; font-weight: 700;">Satnam Singh Vohra</div>
+            <div style="font-size: 11px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 4px;">Authorized Signatory</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function generateOfficialQuotationPDF() {
+      const modal = document.getElementById('modal-quotation');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+    function closeQuotationModal() {
+      const modal = document.getElementById('modal-quotation');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeQuotationModal();
+    });
+    // Register PWA service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function() {});
+      });
+    }
+  </script>
+
 </body>
 </html>

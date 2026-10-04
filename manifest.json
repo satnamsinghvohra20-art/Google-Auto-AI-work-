@@ -1,0 +1,18 @@
+{
+  "name": "Dashmesh Property & Rent Agreement Services",
+  "short_name": "Dashmesh AI",
+  "description": "Autonomous Google Business Profile Growth Suite & Registered Rent Agreement Services in Ambernath East",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0f1d",
+  "theme_color": "#047857",
+  "icons": [
+    {
+      "src": "/public/favicon.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

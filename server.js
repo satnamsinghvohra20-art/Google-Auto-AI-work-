@@ -2907,6 +2907,47 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
   }
 
   // 3. Save Google API Credentials
+  
+  // --- Webmaster Verification Tags API (Google Search Console & Bing) ---
+  const WEBMASTER_FILE = path.join(DATA_DIR, 'webmaster_tags.json');
+  function getWebmasterTags() {
+    try {
+      if (fs.existsSync(WEBMASTER_FILE)) {
+        return JSON.parse(fs.readFileSync(WEBMASTER_FILE, 'utf8'));
+      }
+    } catch (e) {}
+    return {
+      google: process.env.GOOGLE_SITE_VERIFICATION || '',
+      bing: process.env.BING_SITE_VERIFICATION || ''
+    };
+  }
+
+  if (pathname === '/api/settings/webmaster-tags' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ success: true, tags: getWebmasterTags() }));
+    return;
+  }
+
+  if (pathname === '/api/settings/webmaster-tags' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const current = getWebmasterTags();
+        if (data.google !== undefined) current.google = String(data.google).trim();
+        if (data.bing !== undefined) current.bing = String(data.bing).trim();
+        fs.writeFileSync(WEBMASTER_FILE, JSON.stringify(current, null, 2), 'utf8');
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: true, message: 'Webmaster verification tags saved successfully!', tags: current }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
   if (pathname === '/api/google/save-credentials' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
@@ -3059,8 +3100,18 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal Server Error');
       } else {
+        let finalContent = content;
+        if (ext === '.html') {
+          const tags = getWebmasterTags();
+          let tagsHtml = '';
+          if (tags.google) tagsHtml += `\n  <meta name="google-site-verification" content="${tags.google}" />`;
+          if (tags.bing) tagsHtml += `\n  <meta name="msvalidate.01" content="${tags.bing}" />`;
+          if (tagsHtml) {
+            finalContent = Buffer.from(content.toString('utf8').replace('</head>', `${tagsHtml}\n</head>`));
+          }
+        }
         res.writeHead(200, { 'Content-Type': contentType });
-        res.end(content);
+        res.end(finalContent);
       }
     });
   });

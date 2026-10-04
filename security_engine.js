@@ -214,7 +214,7 @@ function validateStaticPath(pathname, baseDir) {
   }
 
   // 2. ROOT JS RESTRICTION: Do not serve root-level .js files (only allow /js/*.js)
-  if (lowerPath.endsWith('.js') && !lowerPath.startsWith('js/') && !lowerPath.startsWith('public/')) {
+  if (lowerPath.endsWith('.js') && lowerPath !== 'sw.js' && !lowerPath.startsWith('js/') && !lowerPath.startsWith('public/')) {
     return { allowed: false, safePath: null, reason: 'Root scripts are non-public' };
   }
 
@@ -229,7 +229,9 @@ function validateStaticPath(pathname, baseDir) {
     '/shield',
     '/robots.txt',
     '/sitemap.xml',
-    '/favicon.ico'
+    '/favicon.ico',
+    '/manifest.json',
+    '/sw.js'
   ];
 
   const allowedPrefixes = [
