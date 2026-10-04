@@ -7,7 +7,7 @@ const I18N_TRANSLATIONS = {
     langName: "English",
     scanningTitle1: "Scanning Your",
     scanningTitle2: "Google Business Profile",
-    trustBadge: "3,60,000+ businesses trust Grexa AI",
+    trustBadge: "3,60,000+ businesses trust Dashmesh Properties AI",
     step1: "Getting profile details",
     step2: "Checking profile for SEO content",
     step3: "Analysing your top competitors",
@@ -27,7 +27,7 @@ const I18N_TRANSLATIONS = {
     profileComp: "Profile Completion",
     engagement: "Engagement Rate",
     ratingScore: "Review & Rating Health",
-    solutionsTitle: "How Grexa AI Takes You to #1 on Google",
+    solutionsTitle: "How Dashmesh Properties AI Takes You to #1 on Google",
     pricingTitle: "Unlock Google Rank #1 Dominance",
     pricingSubtitle: "Automate your local marketing, dominate search results, and get 3x more phone calls & walk-ins.",
     launchOffer: "🔥 EXCLUSIVE LAUNCH OFFER UNLOCKED",
@@ -69,7 +69,7 @@ const I18N_TRANSLATIONS = {
     profileComp: "प्रोफ़ाइल पूर्णता",
     engagement: "ग्राहक जुड़ाव दर",
     ratingScore: "रिव्यू और रेटिंग स्कोर",
-    solutionsTitle: "Grexa AI आपको कैसे बनाएगा Google पर #1",
+    solutionsTitle: "Dashmesh Properties AI आपको कैसे बनाएगा Google पर #1",
     pricingTitle: "Google पर #1 रैंक प्राप्त करें",
     pricingSubtitle: "अपनी मार्केटिंग ऑटोमेट करें, प्रतिस्पर्धियों को पछाड़ें और 3 गुना अधिक ग्राहक पाएं।",
     launchOffer: "🔥 एक्सक्लूसिव लॉन्च डिस्काउंट अनलॉक हुआ",
@@ -91,7 +91,7 @@ const I18N_TRANSLATIONS = {
     langName: "Hinglish",
     scanningTitle1: "Scan ho raha hai aapka",
     scanningTitle2: "Google Business Profile",
-    trustBadge: "3,60,000+ businesses Grexa AI par bharosa karte hain",
+    trustBadge: "3,60,000+ businesses Dashmesh Properties AI par bharosa karte hain",
     step1: "Profile details fetch ho rahi hain",
     step2: "SEO content check ho raha hai",
     step3: "Top competitors analyze ho rahe hain",
@@ -111,7 +111,7 @@ const I18N_TRANSLATIONS = {
     profileComp: "Profile Completion",
     engagement: "Engagement Rate",
     ratingScore: "Rating Score",
-    solutionsTitle: "Grexa AI aapo Google par #1 kaise banata hai",
+    solutionsTitle: "Dashmesh Properties AI aapo Google par #1 kaise banata hai",
     pricingTitle: "Google Rank #1 Dominance Unlock Karein",
     pricingSubtitle: "Apna marketing automate karein, top rank payein aur 3x zyada customer calls generate karein.",
     launchOffer: "🔥 SPECIAL LAUNCH OFFER UNLOCKED",
@@ -153,7 +153,7 @@ const I18N_TRANSLATIONS = {
     profileComp: "प्रोफाईल पूर्णता",
     engagement: "संवाद दर",
     ratingScore: "रिव्ह्यू आरोग्य",
-    solutionsTitle: "Grexa AI तुम्हाला Google वर #1 कसे बनवते",
+    solutionsTitle: "Dashmesh Properties AI तुम्हाला Google वर #1 कसे बनवते",
     pricingTitle: "Google वर #1 रँक मिळवा",
     pricingSubtitle: "मार्केटिंग ऑटोमेट करा आणि तिप्पट ग्राहक कॉल्स मिळवा.",
     launchOffer: "🔥 खास लॉन्च ऑफर अनलॉक झाली",
@@ -184,7 +184,7 @@ function setLanguage(lang) {
   if (I18N_TRANSLATIONS[lang]) {
     currentLang = lang;
     document.documentElement.lang = lang;
-    window.dispatchEvent(new CustomEvent("grexa:langChange", { detail: { lang } }));
+    window.dispatchEvent(new CustomEvent("dashmesh:langChange", { detail: { lang } }));
   }
 }
 

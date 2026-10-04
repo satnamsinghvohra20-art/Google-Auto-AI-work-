@@ -1,6 +1,6 @@
-# Grexa AI - Autonomous Google Business Profile Growth Suite (100% Free & Unlocked)
+# Dashmesh Properties AI - Autonomous Google Business Profile Growth Suite (100% Free & Unlocked)
 
-This application is a **fully functional, commercial-grade, paywall-free AI Local Growth Platform** inspired by the Grexa Booster funnel ([booster.grexa.ai/grexa-shop/531473](https://booster.grexa.ai/grexa-shop/531473)).
+This application is a **fully functional, commercial-grade, paywall-free AI Local Growth Platform** inspired by the Dashmesh Properties Booster funnel ([booster.google-auto-ai-work.onrender.com/dashmesh-shop/531473](https://booster.google-auto-ai-work.onrender.com/dashmesh-shop/531473)).
 
 All money-taking paywalls, subscription pricing cards (₹6,999, ₹9,999, ₹4,999), and checkout payment gateways have been **completely eliminated**. In their place, the app is equipped with an **Autonomous AI Action Center** and **Advanced AI Suite** that actually executes all tasks for your business in real time!
 
