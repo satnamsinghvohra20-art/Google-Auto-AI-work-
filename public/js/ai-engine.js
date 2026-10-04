@@ -920,7 +920,8 @@ Aap kis din ya kis samay visit karna chahenge? Hum desk par pehle se properties 
 • *Bhadya sathi (Rent):* 1 BHK: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
 • *Commercial Dukaan:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
 
-📍 Aamche office New Floora, Shop No. 24, Pale Gaon madhech aahe.
+📍 *Dashmesh Properties Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath East.
+📞 *Direct Desk:* Satnam Sir (+91 84210 77613) | Kuldeep Kaur (+91 84120 70183)
 Aaplyala Flat Kharedi, Vikri ki Bhadya sathi hawa aahe?`,
           suggestedActions: ["1 BHK Pale Gaon", "2 BHK Pale Gaon", "Rent in Pale Gaon"]
         };
@@ -939,7 +940,8 @@ Aaplyala Flat Kharedi, Vikri ki Bhadya sathi hawa aahe?`,
 • *Rental Flats:* 1 BHK: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
 • *Commercial Shops:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
 
-📍 Office: New Floora, Shop No. 24, Pale Gaon.
+📍 *Dashmesh Properties Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath East.
+📞 *Direct Desk:* Satnam Sir (+91 84210 77613) | Kuldeep Kaur (+91 84120 70183)
 Are you looking to Buy, Rent, or Sell?`,
           suggestedActions: ["1 BHK in Pale Gaon", "2 BHK in Pale Gaon", "Rent in Pale Gaon"]
         };
@@ -957,7 +959,8 @@ Are you looking to Buy, Rent, or Sell?`,
 • *Rental Flats:* 1 BHK Rent: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
 • *Commercial Shops:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
 
-📍 Hamara office New Floora, Shop No. 24, Pale Gaon mein hi sthit hai.
+📍 *Dashmesh Properties Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath East.
+📞 *Direct Desk:* Satnam Sir (+91 84210 77613) | Kuldeep Kaur (+91 84120 70183)
 Aapka requirement Buy, Sale ya Rent mein se kismein hai?`,
         suggestedActions: ["1 BHK in Pale Gaon", "2 BHK in Pale Gaon", "Rent in Pale Gaon"]
       };
