@@ -26,7 +26,7 @@
     "phone": "+918421940013",
     "name": "Sukhjyot Singh Vohra (Partner / Consultant)",
     "status": "Partner / Executive",
-    "lastUpdated": "2026-10-03T10:18:13.457Z",
+    "lastUpdated": "2026-10-04T18:24:03.984Z",
     "lastIntent": "PARTNER_CONNECT",
     "language": "hinglish",
     "messages": [
@@ -42,14 +42,22 @@
         "text": "Namaste Sukhjyot Singh ji! 🙏 Dashmesh Properties AI active hai. Sabhi verified inquiries directly phone aur site visits ke liye ready hain.",
         "intent": "PARTNER_CONNECT",
         "timestamp": "2026-10-03T10:18:13.457Z"
+      },
+      {
+        "id": "msg_followup_1791138243984",
+        "sender": "bot",
+        "text": "Namaste Sukhjyot Singh Vohra (Partner / Consultant) ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-04T18:24:03.984Z"
       }
-    ]
+    ],
+    "followUpSent": true
   },
   {
     "phone": "+918412070183",
     "name": "Kuldeep Singh Vohra (Partner / Consultant)",
     "status": "Partner / Executive",
-    "lastUpdated": "2026-10-03T09:30:00.000Z",
+    "lastUpdated": "2026-10-04T18:24:39.988Z",
     "lastIntent": "PARTNER_CONNECT",
     "language": "hinglish",
     "messages": [
@@ -65,7 +73,15 @@
         "text": "Sat Sri Akal Kuldeep Singh ji! 🙏 Rent Agreement & Doorstep Biometric Desk 100% active hai. Government stamp duty 0.25% + registration fee guidelines ke saath verified drafts ready hain.",
         "intent": "PARTNER_CONNECT",
         "timestamp": "2026-10-03T09:30:00.000Z"
+      },
+      {
+        "id": "msg_followup_1791138279988",
+        "sender": "bot",
+        "text": "Namaste Kuldeep Singh Vohra (Partner / Consultant) ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-04T18:24:39.988Z"
       }
-    ]
+    ],
+    "followUpSent": true
   }
 ]

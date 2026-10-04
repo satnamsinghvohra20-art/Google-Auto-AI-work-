@@ -2837,7 +2837,8 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
         const placeId = process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8';
         const directReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
         
-        const cleanPhone = clientPhone.replace(/[^0-9]/g, '');
+        let cleanPhone = String(clientPhone || '').replace(/[^0-9]/g, '');
+        if (cleanPhone.startsWith('0')) cleanPhone = cleanPhone.substring(1);
         const targetPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
 
         const messageText = `Namaste ${clientName} ji! 🙏\n\nDashmesh Properties (Pale Gaon, Ambernath East) se judne ke liye bahut-bahut shukriya! ✨\n\nAapka registered rent agreement / property consultation ka experience kaisa raha? Kripya apna keemti 5-Star review direct Google par share karke hamara aashirwad banein:\n\n⭐ Click here to give 5-Star Review:\n${directReviewUrl}\n\nAapka 1 review hamare liye bahut anmol hai!\n- Satnam Singh Vohra (+91 84210 77613)`;

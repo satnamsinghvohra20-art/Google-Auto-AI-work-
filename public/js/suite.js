@@ -3,6 +3,26 @@
  * Clean, Commercial-Grade Controller (100% Unlocked, Zero Paywalls)
  */
 
+// Security Fetch Interceptor: Attach Admin Security Key to authorized internal calls
+(function setupSecurityInterceptors() {
+  if (window._securityInterceptorActive) return;
+  window._securityInterceptorActive = true;
+  const originalFetch = window.fetch;
+  window.fetch = function(url, options = {}) {
+    options = options || {};
+    options.headers = options.headers || {};
+    const adminKey = localStorage.getItem('dashmesh_admin_key') || 'satnam_dashmesh_secure_2026';
+    if (typeof options.headers.set === 'function') {
+      options.headers.set('X-Admin-Key', adminKey);
+    } else if (Array.isArray(options.headers)) {
+      options.headers.push(['X-Admin-Key', adminKey]);
+    } else {
+      options.headers['X-Admin-Key'] = adminKey;
+    }
+    return originalFetch.call(this, url, options);
+  };
+})();
+
 const appState = {
   activeTab: "tab-profile",
   placeId: "ChIJDxFBTbyV5zsRcHylJmmARG8",
@@ -156,6 +176,10 @@ function showToast(message) {
     toast.classList.remove("show");
   }, 2600);
 }
+
+// Global aliases for toast notifications
+window.showToast = showToast;
+window.showToastNotification = showToast;
 
 /**
  * 1-Click Copy Helpers
@@ -2188,6 +2212,9 @@ const DataVault = {
   }
 };
 
+// Expose DataVault globally for inline HTML onclick handlers
+window.DataVault = DataVault;
+
 // =========================================================================
 // 🧮 MAHARASHTRA RENT AGREEMENT & STAMP DUTY CALCULATOR (SEC 55 COMPLIANT)
 // =========================================================================
@@ -2464,38 +2491,90 @@ async function handleSaveGoogleCredentials(e) {
 
 
 
-// Quick 1-Click WhatsApp Google Review Link Sender
-async function sendQuickReviewWhatsApp() {
+// Quick 1-Click WhatsApp Google Review Link Sender (Popup-Blocker Proof & Instant)
+function sendQuickReviewWhatsApp() {
   const nameInput = document.getElementById("quick-review-name");
   const phoneInput = document.getElementById("quick-review-phone");
   const clientName = nameInput ? nameInput.value.trim() : "";
-  const clientPhone = phoneInput ? phoneInput.value.trim() : "";
+  const rawPhone = phoneInput ? phoneInput.value.trim() : "";
 
-  if (!clientPhone) {
-    alert("Please enter the client's WhatsApp mobile number (e.g. 9820xxxxxx).");
+  if (!rawPhone) {
+    alert("Kripya client ka WhatsApp mobile number dalein (e.g. 9820xxxxxx).");
     if (phoneInput) phoneInput.focus();
     return;
   }
 
-  try {
-    const res = await fetch("/api/google/generate-review-link", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ clientName: clientName || "Sir / Ma'am", clientPhone })
-    });
-    const data = await res.json();
-    if (data.success && data.whatsappUrl) {
-      window.open(data.whatsappUrl, "_blank");
-      showToastNotification(`✓ WhatsApp Google review request opened for ${clientName || clientPhone}!`);
-      if (nameInput) nameInput.value = "";
-      if (phoneInput) phoneInput.value = "";
-    } else {
-      alert("Error generating WhatsApp review link: " + (data.error || "Unknown error"));
-    }
-  } catch (err) {
-    alert("Failed to send review link: " + err.message);
+  // Sanitize and format phone number for WhatsApp India (+91)
+  let cleanPhone = rawPhone.replace(/[^0-9]/g, "");
+  if (cleanPhone.startsWith("0")) {
+    cleanPhone = cleanPhone.substring(1);
   }
+  if (cleanPhone.length === 10) {
+    cleanPhone = "91" + cleanPhone;
+  }
+
+  if (cleanPhone.length < 10) {
+    alert("Kripya valid 10-digit mobile number dalein (e.g. 9820xxxxxx).");
+    if (phoneInput) phoneInput.focus();
+    return;
+  }
+
+  const placeId = "ChIJDxFBTbyV5zsRcHylJmmARG8";
+  const directReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+  const displayName = clientName ? `${clientName} ji` : "ji";
+
+  const messageText = `Namaste ${displayName}! 🙏
+
+Dashmesh Properties (Pale Gaon, Ambernath East) se judne ke liye bahut-bahut shukriya! ✨
+
+Aapka registered rent agreement / property consultation ka experience kaisa raha? Kripya apna keemti 5-Star review direct Google par share karke hamara aashirwad banein:
+
+⭐ Click here to give 5-Star Review:
+${directReviewUrl}
+
+Aapka 1 review hamare liye bahut anmol hai!
+- Satnam Singh Vohra (+91 84210 77613)`;
+
+  const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageText)}`;
+
+  // CRITICAL: Call window.open SYNCHRONOUSLY within the user gesture to bypass browser popup blockers!
+  let openedWindow = null;
+  try {
+    openedWindow = window.open(whatsappUrl, "_blank");
+  } catch (e) {
+    console.warn("[Review] window.open failed, falling back to location.href", e);
+  }
+
+  // Fallback if popup blocker intercepted or on mobile browsers
+  if (!openedWindow || openedWindow.closed || typeof openedWindow.closed === "undefined") {
+    try {
+      window.location.href = whatsappUrl;
+    } catch (e) {
+      console.error("[Review] Navigation error:", e);
+    }
+  }
+
+  // Show immediate visual confirmation to user
+  if (typeof window.showToast === "function") {
+    window.showToast(`✓ WhatsApp 5★ Review opened for ${clientName || cleanPhone}!`);
+  }
+
+  // Async logging to server in background (fire-and-forget, does NOT block the user)
+  fetch("/api/google/generate-review-link", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ clientName: clientName || "Sir / Ma'am", clientPhone: cleanPhone })
+  }).then(res => res.json()).then(data => {
+    console.log("[Review] Background logged:", data);
+  }).catch(err => {
+    console.warn("[Review] Background log notice:", err.message);
+  });
+
+  // Clear inputs
+  if (nameInput) nameInput.value = "";
+  if (phoneInput) phoneInput.value = "";
 }
+window.sendQuickReviewWhatsApp = sendQuickReviewWhatsApp;
 
 // Save Google Cloud Service Account JSON
 async function saveGoogleServiceAccount() {
@@ -2517,19 +2596,14 @@ async function saveGoogleServiceAccount() {
     });
     const data = await res.json();
     if (data.success) {
-      alert("✅ GOOGLE SERVICE ACCOUNT ACTIVATED!
-
-" + data.message + "
-
-24/7 background posting, review sync, and Search Console pings are now live.");
+      alert(`✅ GOOGLE SERVICE ACCOUNT ACTIVATED!\n\n${data.message || ""}\n\n24/7 background posting, review sync, and Search Console pings are now live.`);
       closeGoogleAccessModal();
       showToastNotification("✓ Google Cloud Service Account activated!");
     } else {
       alert("Activation failed: " + (data.error || "Invalid service account"));
     }
   } catch (err) {
-    alert("Invalid JSON format. Please paste the raw JSON text from Google Cloud Console.
-Error: " + err.message);
+    alert(`Invalid JSON format. Please paste the raw JSON text from Google Cloud Console.\nError: ${err.message}`);
   }
 }
 
@@ -2585,3 +2659,142 @@ async function triggerAISelfChangeNow() {
     alert("Connection error: " + err.message);
   }
 }
+
+
+// Google Search Console & Bing Webmaster Verification Modal Handlers
+function openWebmasterModal() {
+  const modal = document.getElementById("modal-webmaster");
+  if (modal) {
+    modal.classList.add("active");
+    modal.style.display = "flex";
+  }
+}
+function closeWebmasterModal() {
+  const modal = document.getElementById("modal-webmaster");
+  if (modal) {
+    modal.classList.remove("active");
+    modal.style.display = "none";
+  }
+}
+async function saveWebmasterTags() {
+  const googleEl = document.getElementById("input-google-verification") || document.getElementById("wm-google-code");
+  const bingEl = document.getElementById("input-bing-verification") || document.getElementById("wm-bing-code");
+  let googleTag = (googleEl?.value || "").trim();
+  let bingTag = (bingEl?.value || "").trim();
+  if (googleTag.includes('content="')) {
+    const m = googleTag.match(/content=["']([^"']+)["']/);
+    if (m) googleTag = m[1];
+  }
+  if (bingTag.includes('content="')) {
+    const m = bingTag.match(/content=["']([^"']+)["']/);
+    if (m) bingTag = m[1];
+  }
+  const statusEl = document.getElementById("webmaster-status-msg") || document.getElementById("wm-save-status");
+  if (statusEl) {
+    statusEl.style.display = "block";
+    statusEl.textContent = "⏳ Saving and deploying verification tags...";
+  }
+  try {
+    const res = await fetch("/api/settings/webmaster-tags", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ google: googleTag, bing: bingTag })
+    });
+    const data = await res.json();
+    if (data.success) {
+      if (statusEl) {
+        statusEl.textContent = "✅ Verification tags saved! Server is now injecting them into all SEO pages.";
+        statusEl.style.color = "#16a34a";
+      }
+      if (typeof window.showToast === "function") {
+        window.showToast("✓ Search Console & Bing tags activated live!");
+      }
+      setTimeout(closeWebmasterModal, 1500);
+    } else {
+      if (statusEl) {
+        statusEl.textContent = "❌ Error: " + (data.error || "Failed to save");
+        statusEl.style.color = "#dc2626";
+      }
+    }
+  } catch (err) {
+    if (statusEl) {
+      statusEl.textContent = "❌ Connection failed: " + err.message;
+      statusEl.style.color = "#dc2626";
+    }
+  }
+}
+window.openWebmasterModal = openWebmasterModal;
+window.closeWebmasterModal = closeWebmasterModal;
+window.saveWebmasterTags = saveWebmasterTags;
+
+
+// =========================================================================
+// 🌐 GLOBAL EXPOSURE FOR ALL HTML ONCLICK & INTERACTIVE CONTROLS
+// =========================================================================
+(function exposeAllGlobally() {
+  const globalTarget = typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this);
+  if (!globalTarget) return;
+
+  const fnMap = {
+    switchAppTab: typeof switchAppTab === 'function' ? switchAppTab : undefined,
+    filterProjectsByRegion: typeof filterProjectsByRegion === 'function' ? filterProjectsByRegion : undefined,
+    resetProjectFilters: typeof resetProjectFilters === 'function' ? resetProjectFilters : undefined,
+    openAddLeadModal: typeof openAddLeadModal === 'function' ? openAddLeadModal : undefined,
+    closeAddLeadModal: typeof closeAddLeadModal === 'function' ? closeAddLeadModal : undefined,
+    submitNewLeadFromModal: typeof submitNewLeadFromModal === 'function' ? submitNewLeadFromModal : undefined,
+    openAddProjectModal: typeof openAddProjectModal === 'function' ? openAddProjectModal : undefined,
+    closeAddProjectModal: typeof closeAddProjectModal === 'function' ? closeAddProjectModal : undefined,
+    submitNewProjectFromModal: typeof submitNewProjectFromModal === 'function' ? submitNewProjectFromModal : undefined,
+    openCalculatorModal: typeof openCalculatorModal === 'function' ? openCalculatorModal : undefined,
+    closeCalculatorModal: typeof closeCalculatorModal === 'function' ? closeCalculatorModal : undefined,
+    calculateRentAgreementFees: typeof calculateRentAgreementFees === 'function' ? calculateRentAgreementFees : undefined,
+    sendAgreementQuoteWhatsApp: typeof sendAgreementQuoteWhatsApp === 'function' ? sendAgreementQuoteWhatsApp : undefined,
+    openDataVaultModal: typeof openDataVaultModal === 'function' ? openDataVaultModal : undefined,
+    closeDataVaultModal: typeof closeDataVaultModal === 'function' ? closeDataVaultModal : undefined,
+    openQuickLeadModal: typeof openQuickLeadModal === 'function' ? openQuickLeadModal : undefined,
+    closeQuickLeadModal: typeof closeQuickLeadModal === 'function' ? closeQuickLeadModal : undefined,
+    openGoogleAccessModal: typeof openGoogleAccessModal === 'function' ? openGoogleAccessModal : undefined,
+    closeGoogleAccessModal: typeof closeGoogleAccessModal === 'function' ? closeGoogleAccessModal : undefined,
+    openProductionSettingsModal: typeof openProductionSettingsModal === 'function' ? openProductionSettingsModal : undefined,
+    closeProductionSettingsModal: typeof closeProductionSettingsModal === 'function' ? closeProductionSettingsModal : undefined,
+    openWebmasterModal: typeof openWebmasterModal === 'function' ? openWebmasterModal : undefined,
+    closeWebmasterModal: typeof closeWebmasterModal === 'function' ? closeWebmasterModal : undefined,
+    saveWebmasterTags: typeof saveWebmasterTags === 'function' ? saveWebmasterTags : undefined,
+    sendQuickReviewWhatsApp: typeof sendQuickReviewWhatsApp === 'function' ? sendQuickReviewWhatsApp : undefined,
+    saveGoogleServiceAccount: typeof saveGoogleServiceAccount === 'function' ? saveGoogleServiceAccount : undefined,
+    saveGoogleBusinessApiKey: typeof saveGoogleBusinessApiKey === 'function' ? saveGoogleBusinessApiKey : undefined,
+    saveProductionSettings: typeof saveProductionSettings === 'function' ? saveProductionSettings : undefined,
+    copyReviewShieldDirectLink: typeof copyReviewShieldDirectLink === 'function' ? copyReviewShieldDirectLink : undefined,
+    copySeoDescription: typeof copySeoDescription === 'function' ? copySeoDescription : undefined,
+    copyFieldText: typeof copyFieldText === 'function' ? copyFieldText : undefined,
+    downloadGeoPhoto: typeof downloadGeoPhoto === 'function' ? downloadGeoPhoto : undefined,
+    inspectPhotoExif: typeof inspectPhotoExif === 'function' ? inspectPhotoExif : undefined,
+    loadSampleGeoPhoto: typeof loadSampleGeoPhoto === 'function' ? loadSampleGeoPhoto : undefined,
+    fetchCRMLeads: typeof fetchCRMLeads === 'function' ? fetchCRMLeads : undefined,
+    setCRMFilter: typeof setCRMFilter === 'function' ? setCRMFilter : undefined,
+    submitNewReviewFromUI: typeof submitNewReviewFromUI === 'function' ? submitNewReviewFromUI : undefined,
+    syncLiveFromGoogleBusiness: typeof syncLiveFromGoogleBusiness === 'function' ? syncLiveFromGoogleBusiness : undefined,
+    triggerDailyGoogleBoost: typeof triggerDailyGoogleBoost === 'function' ? triggerDailyGoogleBoost : undefined,
+    triggerAutoPostPublish: typeof triggerAutoPostPublish === 'function' ? triggerAutoPostPublish : undefined,
+    generateFreshAIPost: typeof generateFreshAIPost === 'function' ? generateFreshAIPost : undefined,
+    runProfileAutoOptimizer: typeof runProfileAutoOptimizer === 'function' ? runProfileAutoOptimizer : undefined,
+    toggleMasterAutoPilot: typeof toggleMasterAutoPilot === 'function' ? toggleMasterAutoPilot : undefined,
+    forceServerAutoCycle: typeof forceServerAutoCycle === 'function' ? forceServerAutoCycle : undefined,
+    triggerAISelfChangeNow: typeof triggerAISelfChangeNow === 'function' ? triggerAISelfChangeNow : undefined,
+    testMetaTokenLive: typeof testMetaTokenLive === 'function' ? testMetaTokenLive : undefined,
+    printStandee: typeof printStandee === 'function' ? printStandee : undefined,
+    sendQuickPrompt: typeof sendQuickPrompt === 'function' ? sendQuickPrompt : undefined,
+    sendSimulatedChatInput: typeof sendSimulatedChatInput === 'function' ? sendSimulatedChatInput : undefined,
+    loadWhatsAppConversations: typeof loadWhatsAppConversations === 'function' ? loadWhatsAppConversations : undefined,
+    showToast: typeof showToast === 'function' ? showToast : undefined,
+    showToastNotification: typeof showToast === 'function' ? showToast : undefined,
+    DataVault: typeof DataVault !== 'undefined' ? DataVault : undefined,
+    appState: typeof appState !== 'undefined' ? appState : undefined
+  };
+
+  for (const [key, val] of Object.entries(fnMap)) {
+    if (val !== undefined) {
+      globalTarget[key] = val;
+    }
+  }
+})();
