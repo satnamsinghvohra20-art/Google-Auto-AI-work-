@@ -1,5 +1,348 @@
 [
   {
+    "phone": "+919820555666",
+    "name": "Suresh ji",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-07T05:46:44.981Z",
+    "messages": [
+      {
+        "id": "msg_in_1791223303763",
+        "sender": "client",
+        "text": "",
+        "timestamp": "2026-10-05T18:01:43.763Z"
+      },
+      {
+        "id": "msg_out_1791223303763",
+        "sender": "bot",
+        "text": "Sat Sri Akal Suresh ji! Welcome to Dashmesh Properties! Main *Sia* aapki property guide hoon. 🌸 \n*\"Aapka Vishwas, Hamari Pratibaddhta — Finding Spaces, Building Relationships\"*\n\n🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501\n\nHum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Rent, Buy & Sale:\n1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)\n2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/mo)\n3️⃣ *Commercial Retail Shops:* Rent & Buy (High footfall)\n4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval\n\n🌐 Digital Rate Card: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\nAapko kis type ki property ki requirement hai? Sia aapke saath verified options turant share karegi!",
+        "intent": "GREETING",
+        "timestamp": "2026-10-05T18:01:43.763Z"
+      },
+      {
+        "id": "msg_in_1791223305781",
+        "sender": "client",
+        "text": "",
+        "timestamp": "2026-10-05T18:01:45.781Z"
+      },
+      {
+        "id": "msg_out_1791223305781",
+        "sender": "bot",
+        "text": "Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.\n\nAap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!",
+        "intent": "CONVERSATIONAL_FOLLOWUP",
+        "timestamp": "2026-10-05T18:01:45.781Z"
+      },
+      {
+        "id": "msg_in_1791269662453",
+        "sender": "client",
+        "text": "",
+        "timestamp": "2026-10-06T06:54:22.453Z"
+      },
+      {
+        "id": "msg_out_1791269662453",
+        "sender": "bot",
+        "text": "Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.\n\nAap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!",
+        "intent": "CONVERSATIONAL_FOLLOWUP",
+        "timestamp": "2026-10-06T06:54:22.453Z"
+      },
+      {
+        "id": "msg_in_1791269664498",
+        "sender": "client",
+        "text": "",
+        "timestamp": "2026-10-06T06:54:24.498Z"
+      },
+      {
+        "id": "msg_out_1791269664499",
+        "sender": "bot",
+        "text": "Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.\n\nAap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!",
+        "intent": "CONVERSATIONAL_FOLLOWUP",
+        "timestamp": "2026-10-06T06:54:24.499Z"
+      },
+      {
+        "id": "msg_followup_1791352004977",
+        "sender": "bot",
+        "text": "Namaste Suresh ji ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-07T05:46:44.981Z"
+      }
+    ],
+    "lastIntent": "CONVERSATIONAL_FOLLOWUP",
+    "language": "hinglish",
+    "followUpSent": true
+  },
+  {
+    "phone": "+919820111222",
+    "name": "Test Client",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-06T17:36:44.245Z",
+    "messages": [
+      {
+        "id": "msg_in_1791221918669",
+        "sender": "client",
+        "text": "",
+        "timestamp": "2026-10-05T17:38:38.669Z"
+      },
+      {
+        "id": "msg_out_1791221918671",
+        "sender": "bot",
+        "text": "Namaskar Test Client ji! Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search main bohot aasan bana deti hoon! 🤝 \n*\"Aapka Vishwas, Hamari Pratibaddhta — Finding Spaces, Building Relationships\"*\n\n🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501\n\nHum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Rent, Buy & Sale:\n1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)\n2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/mo)\n3️⃣ *Commercial Retail Shops:* Rent & Buy (High footfall)\n4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval\n\n🌐 Digital Rate Card: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\nAapko kis type ki property ki requirement hai? Sia aapke saath verified options turant share karegi!",
+        "intent": "GREETING",
+        "timestamp": "2026-10-05T17:38:38.671Z"
+      },
+      {
+        "id": "msg_followup_1791308204245",
+        "sender": "bot",
+        "text": "Namaste Test Client ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-06T17:36:44.245Z"
+      }
+    ],
+    "lastIntent": "GREETING",
+    "language": "hinglish",
+    "followUpSent": true
+  },
+  {
+    "phone": "9820000001",
+    "name": "Ramesh ji",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-07T05:47:22.246Z",
+    "messages": [
+      {
+        "id": "msg_in_1791221910545",
+        "sender": "client",
+        "text": "Namaste, 1 BHK flat available hai?",
+        "timestamp": "2026-10-05T17:38:30.545Z"
+      },
+      {
+        "id": "msg_out_1791221910546",
+        "sender": "bot",
+        "text": "Welcome Ramesh ji ji! Main *Sia* hoon — Dashmesh Properties ki property advisor. Bahut khushi hui aapse connect karke! ✨ 🏡 *Ambernath East 1 BHK Flats Rate Card:*\n\n• *Pale Gaon (Near Office):* ₹21 Lakh - ₹28 Lakh (Quiet, family environment, 7 mins to station)\n• *Station Road / Kansai:* ₹28 Lakh - ₹38 Lakh (Station walking distance, lift & power backup)\n• *Morivali / Anand Nagar:* ₹19 Lakh - ₹25 Lakh (Low investment & high rental demand)\n\n✅ SBI, HDFC, ICICI se 90% tak Home Loan approved (Monthly EMI: ₹16,000 - ₹22,000)\n✅ Ready possession (Immediate shifting) aur Under-construction dono available\n\nAapka comfortable budget kitna hai? Hum turant photos aur floor plans WhatsApp karenge!",
+        "intent": "RESIDENTIAL_1BHK",
+        "suggestedActions": [
+          "Under ₹25L",
+          "₹25L - ₹35L",
+          "📅 Book Visit"
+        ],
+        "timestamp": "2026-10-05T17:38:31.345Z"
+      },
+      {
+        "id": "msg_in_1791221912560",
+        "sender": "client",
+        "text": "Namaste, 1 BHK flat available hai?",
+        "timestamp": "2026-10-05T17:38:32.560Z"
+      },
+      {
+        "id": "msg_out_1791221912561",
+        "sender": "bot",
+        "text": "Sahi decision hai! Ambernath East mein ye best choice hai: 🏡 *Ambernath East 1 BHK Flats Rate Card:*\n\n• *Pale Gaon (Near Office):* ₹21 Lakh - ₹28 Lakh (Quiet, family environment, 7 mins to station)\n• *Station Road / Kansai:* ₹28 Lakh - ₹38 Lakh (Station walking distance, lift & power backup)\n• *Morivali / Anand Nagar:* ₹19 Lakh - ₹25 Lakh (Low investment & high rental demand)\n\n✅ SBI, HDFC, ICICI se 90% tak Home Loan approved (Monthly EMI: ₹16,000 - ₹22,000)\n✅ Ready possession (Immediate shifting) aur Under-construction dono available\n\nAapka comfortable budget kitna hai? Hum turant photos aur floor plans WhatsApp karenge!",
+        "intent": "RESIDENTIAL_1BHK",
+        "suggestedActions": [
+          "Under ₹25L",
+          "₹25L - ₹35L",
+          "📅 Book Visit"
+        ],
+        "timestamp": "2026-10-05T17:38:33.360Z"
+      },
+      {
+        "id": "msg_in_1791223307806",
+        "sender": "client",
+        "text": "Maharashtra registered rent agreement ka kya process hai?",
+        "timestamp": "2026-10-05T18:01:47.806Z"
+      },
+      {
+        "id": "msg_out_1791223307807",
+        "sender": "bot",
+        "text": "Arey bilkul! 📄 *Dashmesh Properties — Registered Rent Agreement & Doorstep Biometric Service:*\n\nMaharashtra Govt rules ke anusaar (Section 55, Maharashtra Rent Control Act) hum 100% legal, registered Leave & License Agreements provide karte hain:\n\n✅ *Ghar Baithe Doorstep Biometric Service:*\n• Sub-Registrar Office ki lambi lines mein jaane ki bilkul zaroorat nahi.\n• Hamara executive biometric fingerprint scanner & webcam lekar seedhe aapke ghar/office aayega (Owner + Tenant + 2 Witnesses ke liye).\n\n💰 *Official Rate Card & Pricing Breakdown:*\n• Cost From One Side (Owner side ya Tenant side): *Sirf ₹1,750*\n• Total All-Inclusive Package: *Sirf ₹3,500* (Dono side milakar ya single point billing)\n• *Is ₹3,500 Package Mein Sab Kuch Included Hai:*\n  ✓ Complete Legal Drafting (Leave & License under Section 55 Maharashtra Rent Control Act)\n  ✓ Doorstep Biometric Fingerprint & Webcam Scanning (Executive visits home/office for Owner, Tenant & 2 Witnesses)\n  ✓ Maharashtra Govt Stamp Duty (0.25%) + Govt Registration Fee (₹1,000) included\n  ✓ Police Verification / NOC documentation support\n  ✓ 24-48 Hours mein Government Registered PDF with Official QR Code delivered on WhatsApp & Email\n  ✓ 100% Transparent — Zero Hidden Charges!\n\n📑 *Required Documents Checklist:*\n1. Owner: Aadhaar Card & PAN Card\n2. Tenant: Aadhaar Card & PAN Card\n3. Two Witnesses: Aadhaar Cards\n4. Property Electricity Bill or Index II copy\n\nDoorstep biometric slot book karne ke liye apna time aur address share karein, ya direct call karein:\n📞 *Satnam Singh Vohra:* +91 84210 77613\n📞 *Kuldeep Singh:* +91 84120 70183 | *Sukhjyot Singh:* +91 84219 40013\n📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)",
+        "intent": "RENT_AGREEMENT_BIOMETRIC",
+        "suggestedActions": [
+          "Book Biometric Slot",
+          "Send Document List",
+          "📞 Call Satnam Sir"
+        ],
+        "timestamp": "2026-10-05T18:01:48.606Z"
+      },
+      {
+        "id": "msg_in_1791223309826",
+        "sender": "client",
+        "text": "1 BHK flat rent aur deposit kitna hai Pale Gaon mein?",
+        "timestamp": "2026-10-05T18:01:49.826Z"
+      },
+      {
+        "id": "msg_out_1791223309827",
+        "sender": "bot",
+        "text": "Main abhi aapko verified details batati hoon: 🔑 *Dashmesh Properties - Verified Rental Rates (Ambernath East):*\n\n• *1 RK Flat Rent:* ₹3,500 - ₹4,500/month (Deposit: ₹20,000 - ₹35,000)\n• *1 BHK Flat Rent:* ₹5,000 - ₹8,500/month (Deposit: ₹30,000 - ₹50,000)\n• *2 BHK Flat Rent:* ₹9,000 - ₹15,000/month (Deposit: ₹50,000 - ₹80,000)\n• *Commercial Shop Rent:* ₹6,000 - ₹30,000/month (Location & carpet dependent)\n\n✅ 100% Legal Police Verification & Registered Rent Agreement Support\n✅ Bachelor & Family friendly verified flats available\n\nAapko residential flat rent par chahiye ya commercial shop? Preferred location bata dijiye!",
+        "intent": "RENTAL_INQUIRY",
+        "suggestedActions": [
+          "1 BHK Rent",
+          "2 BHK Rent",
+          "Commercial Shop Rent"
+        ],
+        "timestamp": "2026-10-05T18:01:50.626Z"
+      },
+      {
+        "id": "msg_in_1791223311844",
+        "sender": "client",
+        "text": "Office kahan hai aapka aur timing kya hai?",
+        "timestamp": "2026-10-05T18:01:51.844Z"
+      },
+      {
+        "id": "msg_out_1791223311845",
+        "sender": "bot",
+        "text": "Ji bilkul! 📍 *Dashmesh Properties ka Official Registered Office:*\n\n🏢 *Office Address:*\nNew Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501\n(Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station)\n\n⏰ *Office Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n📍 *Google Maps Pin:* https://maps.google.com/?q=19.1908,73.1785\n\n📞 *Direct Team Contacts:*\n• Kuldeep Kaur: +91 84120 70183 (WhatsApp: +91 87937 71911)\n• Sukhjyot Singh: +91 84219 40013\n✉️ Email: info@dashmeshproperties.com\n\nAap kis din ya kis samay visit karna chahenge? Hum desk par pehle se properties shortlist karke ready rakhenge!",
+        "intent": "LOCATION_AND_TIMINGS",
+        "suggestedActions": [
+          "📍 Google Map Pin",
+          "📅 Confirm Time",
+          "📞 Call Office"
+        ],
+        "timestamp": "2026-10-05T18:01:52.644Z"
+      },
+      {
+        "id": "msg_in_1791223313935",
+        "sender": "client",
+        "text": "Done",
+        "timestamp": "2026-10-05T18:01:53.935Z"
+      },
+      {
+        "id": "msg_out_1791223313936",
+        "sender": "bot",
+        "text": "Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.\n\nAap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!",
+        "intent": "CONVERSATIONAL_FOLLOWUP",
+        "suggestedActions": [
+          "📍 Office Map",
+          "📊 Rate Card",
+          "📞 Call Office"
+        ],
+        "timestamp": "2026-10-05T18:01:54.735Z"
+      },
+      {
+        "id": "msg_out_1791223315976",
+        "sender": "agent",
+        "text": "Kal subah 11 baje biometric scanning scheduled hai.",
+        "timestamp": "2026-10-05T18:01:55.976Z"
+      },
+      {
+        "id": "msg_in_1791269666532",
+        "sender": "client",
+        "text": "Maharashtra registered rent agreement ka kya process hai?",
+        "timestamp": "2026-10-06T06:54:26.532Z"
+      },
+      {
+        "id": "msg_out_1791269666533",
+        "sender": "bot",
+        "text": "Aap bilkul chinta mat kijiye, main poori help karti hoon: 📄 *Dashmesh Properties — Registered Rent Agreement & Doorstep Biometric Service:*\n\nMaharashtra Govt rules ke anusaar (Section 55, Maharashtra Rent Control Act) hum 100% legal, registered Leave & License Agreements provide karte hain:\n\n✅ *Ghar Baithe Doorstep Biometric Service:*\n• Sub-Registrar Office ki lambi lines mein jaane ki bilkul zaroorat nahi.\n• Hamara executive biometric fingerprint scanner & webcam lekar seedhe aapke ghar/office aayega (Owner + Tenant + 2 Witnesses ke liye).\n\n💰 *Official Rate Card & Pricing Breakdown:*\n• Cost From One Side (Owner side ya Tenant side): *Sirf ₹1,750*\n• Total All-Inclusive Package: *Sirf ₹3,500* (Dono side milakar ya single point billing)\n• *Is ₹3,500 Package Mein Sab Kuch Included Hai:*\n  ✓ Complete Legal Drafting (Leave & License under Section 55 Maharashtra Rent Control Act)\n  ✓ Doorstep Biometric Fingerprint & Webcam Scanning (Executive visits home/office for Owner, Tenant & 2 Witnesses)\n  ✓ Maharashtra Govt Stamp Duty (0.25%) + Govt Registration Fee (₹1,000) included\n  ✓ Police Verification / NOC documentation support\n  ✓ 24-48 Hours mein Government Registered PDF with Official QR Code delivered on WhatsApp & Email\n  ✓ 100% Transparent — Zero Hidden Charges!\n\n📑 *Required Documents Checklist:*\n1. Owner: Aadhaar Card & PAN Card\n2. Tenant: Aadhaar Card & PAN Card\n3. Two Witnesses: Aadhaar Cards\n4. Property Electricity Bill or Index II copy\n\nDoorstep biometric slot book karne ke liye apna time aur address share karein, ya direct call karein:\n📞 *Satnam Singh Vohra:* +91 84210 77613\n📞 *Kuldeep Singh:* +91 84120 70183 | *Sukhjyot Singh:* +91 84219 40013\n📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)",
+        "intent": "RENT_AGREEMENT_BIOMETRIC",
+        "suggestedActions": [
+          "Book Biometric Slot",
+          "Send Document List",
+          "📞 Call Satnam Sir"
+        ],
+        "timestamp": "2026-10-06T06:54:27.332Z"
+      },
+      {
+        "id": "msg_in_1791269668543",
+        "sender": "client",
+        "text": "1 BHK flat rent aur deposit kitna hai Pale Gaon mein?",
+        "timestamp": "2026-10-06T06:54:28.543Z"
+      },
+      {
+        "id": "msg_out_1791269668544",
+        "sender": "bot",
+        "text": "Arey bilkul! 🔑 *Dashmesh Properties - Verified Rental Rates (Ambernath East):*\n\n• *1 RK Flat Rent:* ₹3,500 - ₹4,500/month (Deposit: ₹20,000 - ₹35,000)\n• *1 BHK Flat Rent:* ₹5,000 - ₹8,500/month (Deposit: ₹30,000 - ₹50,000)\n• *2 BHK Flat Rent:* ₹9,000 - ₹15,000/month (Deposit: ₹50,000 - ₹80,000)\n• *Commercial Shop Rent:* ₹6,000 - ₹30,000/month (Location & carpet dependent)\n\n✅ 100% Legal Police Verification & Registered Rent Agreement Support\n✅ Bachelor & Family friendly verified flats available\n\nAapko residential flat rent par chahiye ya commercial shop? Preferred location bata dijiye!",
+        "intent": "RENTAL_INQUIRY",
+        "suggestedActions": [
+          "1 BHK Rent",
+          "2 BHK Rent",
+          "Commercial Shop Rent"
+        ],
+        "timestamp": "2026-10-06T06:54:29.343Z"
+      },
+      {
+        "id": "msg_in_1791269670565",
+        "sender": "client",
+        "text": "Office kahan hai aapka aur timing kya hai?",
+        "timestamp": "2026-10-06T06:54:30.565Z"
+      },
+      {
+        "id": "msg_out_1791269670566",
+        "sender": "bot",
+        "text": "Main abhi aapko verified details batati hoon: 📍 *Dashmesh Properties ka Official Registered Office:*\n\n🏢 *Office Address:*\nNew Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501\n(Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station)\n\n⏰ *Office Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n📍 *Google Maps Pin:* https://maps.google.com/?q=19.1908,73.1785\n\n📞 *Direct Team Contacts:*\n• Kuldeep Kaur: +91 84120 70183 (WhatsApp: +91 87937 71911)\n• Sukhjyot Singh: +91 84219 40013\n✉️ Email: info@dashmeshproperties.com\n\nAap kis din ya kis samay visit karna chahenge? Hum desk par pehle se properties shortlist karke ready rakhenge!",
+        "intent": "LOCATION_AND_TIMINGS",
+        "suggestedActions": [
+          "📍 Google Map Pin",
+          "📅 Confirm Time",
+          "📞 Call Office"
+        ],
+        "timestamp": "2026-10-06T06:54:31.365Z"
+      },
+      {
+        "id": "msg_in_1791269672578",
+        "sender": "client",
+        "text": "Done",
+        "timestamp": "2026-10-06T06:54:32.578Z"
+      },
+      {
+        "id": "msg_out_1791269672579",
+        "sender": "bot",
+        "text": "Thank you so much Ramesh ji! ⭐\nAapka feedback Dashmesh Properties ki local credibility ko boost karne mein bohot value rakhta hai.\n\n• Agar abhi tak Google Review submit nahi kiya hai toh bas 10 seconds mein yahan tap karein:\nhttps://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nReview complete hone ke baad hum aapko Ambernath ke newly launched verified projects ki priority alert list mein add kar denge! 🙏",
+        "intent": "REVIEW_COMPLETION",
+        "suggestedActions": [
+          "⭐ Google Review",
+          "📞 Call Office",
+          "📍 Office Map"
+        ],
+        "timestamp": "2026-10-06T06:54:33.378Z"
+      },
+      {
+        "id": "msg_out_1791269674595",
+        "sender": "agent",
+        "text": "Kal subah 11 baje biometric scanning scheduled hai.",
+        "timestamp": "2026-10-06T06:54:34.595Z"
+      },
+      {
+        "id": "msg_followup_1791352042246",
+        "sender": "bot",
+        "text": "Namaste Ramesh ji ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-07T05:47:22.246Z"
+      }
+    ],
+    "followUpSent": true
+  },
+  {
+    "phone": "+91 98200 12345",
+    "name": "Ramesh ji",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-06T17:37:31.135Z",
+    "messages": [
+      {
+        "id": "msg_in_1791221205781",
+        "sender": "client",
+        "text": "Rent agreement charges kya hain?",
+        "timestamp": "2026-10-05T17:26:45.781Z"
+      },
+      {
+        "id": "msg_out_1791221205782",
+        "sender": "bot",
+        "text": "Namaste Ramesh ji ji! Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 📄 *Dashmesh Properties — Registered Rent Agreement & Doorstep Biometric Service:*\n\nMaharashtra Govt rules ke anusaar (Section 55, Maharashtra Rent Control Act) hum 100% legal, registered Leave & License Agreements provide karte hain:\n\n✅ *Ghar Baithe Doorstep Biometric Service:*\n• Sub-Registrar Office ki lambi lines mein jaane ki bilkul zaroorat nahi.\n• Hamara executive biometric fingerprint scanner & webcam lekar seedhe aapke ghar/office aayega (Owner + Tenant + 2 Witnesses ke liye).\n\n💰 *Official Rate Card & Pricing Breakdown:*\n• Cost From One Side (Owner side ya Tenant side): *Sirf ₹1,750*\n• Total All-Inclusive Package: *Sirf ₹3,500* (Dono side milakar ya single point billing)\n• *Is ₹3,500 Package Mein Sab Kuch Included Hai:*\n  ✓ Complete Legal Drafting (Leave & License under Section 55 Maharashtra Rent Control Act)\n  ✓ Doorstep Biometric Fingerprint & Webcam Scanning (Executive visits home/office for Owner, Tenant & 2 Witnesses)\n  ✓ Maharashtra Govt Stamp Duty (0.25%) + Govt Registration Fee (₹1,000) included\n  ✓ Police Verification / NOC documentation support\n  ✓ 24-48 Hours mein Government Registered PDF with Official QR Code delivered on WhatsApp & Email\n  ✓ 100% Transparent — Zero Hidden Charges!\n\n📑 *Required Documents Checklist:*\n1. Owner: Aadhaar Card & PAN Card\n2. Tenant: Aadhaar Card & PAN Card\n3. Two Witnesses: Aadhaar Cards\n4. Property Electricity Bill or Index II copy\n\nDoorstep biometric slot book karne ke liye apna time aur address share karein, ya direct call karein:\n📞 *Satnam Singh Vohra:* +91 84210 77613\n📞 *Kuldeep Singh:* +91 84120 70183 | *Sukhjyot Singh:* +91 84219 40013\n📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)",
+        "intent": "RENT_AGREEMENT_BIOMETRIC",
+        "suggestedActions": [
+          "Book Biometric Slot",
+          "Send Document List",
+          "📞 Call Satnam Sir"
+        ],
+        "timestamp": "2026-10-05T17:26:46.581Z"
+      },
+      {
+        "id": "msg_followup_1791308251135",
+        "sender": "bot",
+        "text": "Namaste Ramesh ji ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-06T17:37:31.135Z"
+      }
+    ],
+    "followUpSent": true
+  },
+  {
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",

@@ -284,33 +284,36 @@ const AIEngine = {
       timeHinglish = "Shubh Sandhya";
     }
 
+    const cleanName = (name || '').replace(/\s+ji$/i, '').trim();
+    const nameGreeting = cleanName ? `${cleanName} ji! ` : '! ';
+
     if (!isOngoing) {
       // First contact / Initial message: Warm, personalized introduction as Sia (Female AI)
       if (lang === "marathi") {
         const marathiGreetings = [
-          `Namaskar ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties madhun aple manasparvak swagat karte. 🌸 `,
-          `Aple swagat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties chi senior property advisor. ✨ `,
-          `Suprabhat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties desk varun aple swagat karte. 🏡 `
+          `Namaskar ${nameGreeting}Mi *Sia*, Dashmesh Properties madhun aple manasparvak swagat karte. 🌸 `,
+          `Aple swagat ${nameGreeting}Mi *Sia*, Dashmesh Properties chi senior property advisor. ✨ `,
+          `Suprabhat ${nameGreeting}Mi *Sia*, Dashmesh Properties desk varun aple swagat karte. 🏡 `
         ];
         return marathiGreetings[Math.floor(Math.random() * marathiGreetings.length)];
       }
 
       if (lang === "english") {
         const englishGreetings = [
-          `Hello ${name ? name : 'there'}! I am *Sia* from Dashmesh Properties. Great to connect with you! 🌸 `,
-          `${timeGreetingFull} ${name ? name : ''}! Welcome to Dashmesh Properties, I'm *Sia*, your dedicated property advisor. ✨ `,
-          `Warm welcome ${name ? name : ''}! I'm *Sia* from Dashmesh Properties — delighted to help you find your dream space. 🏡 `
+          `Hello ${cleanName ? cleanName : 'there'}! I am *Sia* from Dashmesh Properties. Great to connect with you! 🌸 `,
+          `${timeGreetingFull} ${cleanName ? cleanName : ''}! Welcome to Dashmesh Properties, I'm *Sia*, your dedicated property advisor. ✨ `,
+          `Warm welcome ${cleanName ? cleanName : ''}! I'm *Sia* from Dashmesh Properties — delighted to help you find your dream space. 🏡 `
         ];
         return englishGreetings[Math.floor(Math.random() * englishGreetings.length)];
       }
 
       // Hinglish / Hindi (Polite female executive grammar)
       const hinglishGreetings = [
-        `Hello ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat karti hoon! 🌸 `,
-        `Welcome ${name ? name + ' ji! ' : '! '}Main *Sia* hoon — Dashmesh Properties ki property advisor. Bahut khushi hui aapse connect karke! ✨ `,
-        `${timeHinglish} ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 `,
-        `Sat Sri Akal ${name ? name + ' ji! ' : '! '}Welcome to Dashmesh Properties! Main *Sia* aapki property guide hoon. 🌸 `,
-        `Namaskar ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search main bohot aasan bana deti hoon! 🤝 `
+        `Hello ${nameGreeting}Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat karti hoon! 🌸 `,
+        `Welcome ${nameGreeting}Main *Sia* hoon — Dashmesh Properties ki property advisor. Bahut khushi hui aapse connect karke! ✨ `,
+        `${timeHinglish} ${nameGreeting}Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 `,
+        `Sat Sri Akal ${nameGreeting}Welcome to Dashmesh Properties! Main *Sia* aapki property guide hoon. 🌸 `,
+        `Namaskar ${nameGreeting}Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search main bohot aasan bana deti hoon! 🤝 `
       ];
       return hinglishGreetings[Math.floor(Math.random() * hinglishGreetings.length)];
     } else {
@@ -662,6 +665,11 @@ Doorstep biometric slot book karne ke liye apna time aur address share karein, y
 
     // 1. REVIEW / RATING CONFIRMATION ("done", "review ho gaya")
     if (
+      text === "done" ||
+      text === "done." ||
+      text === "done!" ||
+      text.startsWith("done ") ||
+      text.endsWith(" done") ||
       text.includes("review ho gaya") ||
       text.includes("review done") ||
       text.includes("rating de di") ||

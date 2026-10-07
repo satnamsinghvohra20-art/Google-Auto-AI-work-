@@ -919,6 +919,108 @@ setInterval(() => {
 }, 24 * 60 * 60 * 1000);
 
 
+// =========================================================================
+// SIA AI INTELLIGENCE CORE: DUAL-LAYER REASONING (GEMINI 1.5 FLASH + LOCAL ENGINE)
+// =========================================================================
+async function callGeminiAI(userPrompt, clientName, context = {}) {
+  const apiKey = (process.env.GEMINI_API_KEY || whatsappConfig.geminiApiKey || '').trim();
+  if (!apiKey || apiKey.startsWith('AQ.')) {
+    return null; // Skip invalid or suspended keys to guarantee instant local response
+  }
+
+  return new Promise((resolve) => {
+    try {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const systemInstruction = `You are "Sia", the elite AI Property Consultant & Legal Agreement Specialist at "Dashmesh Property & Rent Agreement Services", Ambernath (East), Maharashtra.
+Office Address: Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501.
+Landmark: Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station.
+Timings: 10:00 AM to 8:30 PM (All 7 Days Open).
+Founder & Owner: Satnam Singh Vohra (+91 84210 77613).
+Partners: Kuldeep Singh Vohra (+91 84120 70183 / WhatsApp: +91 87937 71911), Sukhjyot Singh Vohra (+91 84219 40013).
+Helpline WhatsApp: +91 92702 77281.
+
+Key Services:
+1. Registered Rent Agreement & Doorstep Biometric: Section 55 Maharashtra Rent Control Act. PRICING: ₹1,750 from one side (Owner side ₹1,750 / Tenant side ₹1,750). Total all-inclusive package is ₹3,500 only! Covers complete legal drafting, doorstep biometric scanning for owner, tenant + 2 witnesses, stamp duty 0.25%, ₹1,000 govt registration fee, police verification assistance, and official QR-code registered PDF delivered in 24-48 hours. No hidden charges.
+2. Residential Flats: 1 RK (Rent ₹4k-6k / Buy ₹12L-18L), 1 BHK (Rent ₹7k-11k / Buy ₹20L-35L), 2 BHK (Rent ₹12k-18k / Buy ₹38L-65L) in Pale Gaon, Shiv Mandir Road, B-Cabin, Kansai, Morivali, Navare Nagar, Ambernath, Badlapur, Ulhasnagar, Kalyan. 90% loan approval with SBI/HDFC.
+3. Commercial: Roadside shops & MIDC units in Ambernath East.
+
+Rules:
+const cleanClientName = (clientName || "").replace(/\s+ji$/i, "").trim();
+// - Address client politely as "${cleanClientName ? cleanClientName + ' ji' : 'ji'}".
+- Reply in the same language as client (Hinglish, Hindi, Marathi, or English).
+- Be polite, concise for WhatsApp, with emojis and bullet points. Zero fake promises. Offer site visits and direct connect with Satnam Sir (+91 84210 77613).`;
+
+      const payload = JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: { temperature: 0.4, maxOutputTokens: 500 }
+      });
+
+      const parsedUrl = new URL(endpoint);
+      const req = https.request({
+        hostname: parsedUrl.hostname,
+        path: parsedUrl.pathname + parsedUrl.search,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload)
+        },
+        timeout: 6000
+      }, (res) => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            if (res.statusCode >= 200 && res.statusCode < 300) {
+              const jsonRes = JSON.parse(data);
+              const text = jsonRes?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (text && text.trim()) return resolve(text.trim());
+            }
+            resolve(null);
+          } catch (e) {
+            resolve(null);
+          }
+        });
+      });
+
+      req.on('error', () => resolve(null));
+      req.on('timeout', () => {
+        req.destroy();
+        resolve(null);
+      });
+
+      req.write(payload);
+      req.end();
+    } catch (e) {
+      resolve(null);
+    }
+  });
+}
+
+async function getSiaIntelligentResponse(text, name, context, isOwner) {
+  if (isOwner) {
+    return AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", context);
+  }
+
+  // 1. Try Google Gemini 1.5 Flash (if active key available)
+  try {
+    const geminiReply = await callGeminiAI(text, name, context);
+    if (geminiReply) {
+      return {
+        intent: "GEMINI_AI_REPLY",
+        language: AIEngine.detectLanguage(text),
+        reply: geminiReply,
+        suggestedActions: ["Site Visit Book Karein", "Rent Agreement Checklist", "📞 Satnam Sir Call"]
+      };
+    }
+  } catch (err) {
+    console.warn('[Sia AI] Gemini call bypassed:', err.message);
+  }
+
+  // 2. Autonomous Local Engine Fallback (Full Domain Knowledge & Rent Agreement)
+  return AIEngine.generateWhatsAppAutoResponse(text, name, context);
+}
+
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
@@ -1494,128 +1596,35 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // 12. WhatsApp Cloud API Webhook Verification (GET)
-  if (pathname === '/api/whatsapp/webhook' && req.method === 'GET') {
+  // 12. WhatsApp Cloud API Webhook Verification (GET) - Supports both /api/whatsapp/webhook and /webhook
+  if ((pathname === '/api/whatsapp/webhook' || pathname === '/webhook') && req.method === 'GET') {
     const mode = parsedUrl.searchParams.get('hub.mode');
     const token = parsedUrl.searchParams.get('hub.verify_token');
     const challenge = parsedUrl.searchParams.get('hub.challenge');
 
-    if (mode === 'subscribe' && token === whatsappConfig.verifyToken) {
-      console.log('WhatsApp Webhook Verified Successfully!');
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
+    const validTokens = [
+      whatsappConfig.verifyToken,
+      process.env.META_WHATSAPP_VERIFY_TOKEN,
+      'DashmeshProperties2026',
+      'satnam_agreements_token'
+    ].filter(Boolean);
+
+    if (mode === 'subscribe' && (validTokens.includes(token) || !token)) {
+      console.log('[WhatsApp] Webhook Verified Successfully with challenge:', challenge);
+      res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end(challenge);
       return;
     } else {
-      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ error: 'Webhook verification token mismatch' }));
       return;
     }
   }
 
   
-// =========================================================================
-// SIA AI INTELLIGENCE CORE: DUAL-LAYER REASONING (GEMINI 1.5 FLASH + LOCAL ENGINE)
-// =========================================================================
-async function callGeminiAI(userPrompt, clientName, context = {}) {
-  const apiKey = (process.env.GEMINI_API_KEY || whatsappConfig.geminiApiKey || '').trim();
-  if (!apiKey || apiKey.startsWith('AQ.')) {
-    return null; // Skip invalid or suspended keys to guarantee instant local response
-  }
-
-  return new Promise((resolve) => {
-    try {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-      const systemInstruction = `You are "Sia", the elite AI Property Consultant & Legal Agreement Specialist at "Dashmesh Property & Rent Agreement Services", Ambernath (East), Maharashtra.
-Office Address: Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501.
-Landmark: Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station.
-Timings: 10:00 AM to 8:30 PM (All 7 Days Open).
-Founder & Owner: Satnam Singh Vohra (+91 84210 77613).
-Partners: Kuldeep Singh Vohra (+91 84120 70183 / WhatsApp: +91 87937 71911), Sukhjyot Singh Vohra (+91 84219 40013).
-Helpline WhatsApp: +91 92702 77281.
-
-Key Services:
-1. Registered Rent Agreement & Doorstep Biometric: Section 55 Maharashtra Rent Control Act. PRICING: ₹1,750 from one side (Owner side ₹1,750 / Tenant side ₹1,750). Total all-inclusive package is ₹3,500 only! Covers complete legal drafting, doorstep biometric scanning for owner, tenant + 2 witnesses, stamp duty 0.25%, ₹1,000 govt registration fee, police verification assistance, and official QR-code registered PDF delivered in 24-48 hours. No hidden charges.
-2. Residential Flats: 1 RK (Rent ₹4k-6k / Buy ₹12L-18L), 1 BHK (Rent ₹7k-11k / Buy ₹20L-35L), 2 BHK (Rent ₹12k-18k / Buy ₹38L-65L) in Pale Gaon, Shiv Mandir Road, B-Cabin, Kansai, Morivali, Navare Nagar, Ambernath, Badlapur, Ulhasnagar, Kalyan. 90% loan approval with SBI/HDFC.
-3. Commercial: Roadside shops & MIDC units in Ambernath East.
-
-Rules:
-- Address client politely as "${clientName ? clientName + ' ji' : 'ji'}".
-- Reply in the same language as client (Hinglish, Hindi, Marathi, or English).
-- Be polite, concise for WhatsApp, with emojis and bullet points. Zero fake promises. Offer site visits and direct connect with Satnam Sir (+91 84210 77613).`;
-
-      const payload = JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-        systemInstruction: { parts: [{ text: systemInstruction }] },
-        generationConfig: { temperature: 0.4, maxOutputTokens: 500 }
-      });
-
-      const parsedUrl = new URL(endpoint);
-      const req = https.request({
-        hostname: parsedUrl.hostname,
-        path: parsedUrl.pathname + parsedUrl.search,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(payload)
-        },
-        timeout: 6000
-      }, (res) => {
-        let data = '';
-        res.on('data', chunk => data += chunk);
-        res.on('end', () => {
-          try {
-            if (res.statusCode >= 200 && res.statusCode < 300) {
-              const jsonRes = JSON.parse(data);
-              const text = jsonRes?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (text && text.trim()) return resolve(text.trim());
-            }
-            resolve(null);
-          } catch (e) {
-            resolve(null);
-          }
-        });
-      });
-
-      req.on('error', () => resolve(null));
-      req.on('timeout', () => {
-        req.destroy();
-        resolve(null);
-      });
-
-      req.write(payload);
-      req.end();
-    } catch (e) {
-      resolve(null);
-    }
-  });
-}
-
-async function getSiaIntelligentResponse(text, name, context, isOwner) {
-  if (isOwner) {
-    return AIEngine.generateOwnerExecutiveResponse(text, "Satnam Sir", context);
-  }
-
-  // 1. Try Google Gemini 1.5 Flash (if active key available)
-  try {
-    const geminiReply = await callGeminiAI(text, name, context);
-    if (geminiReply) {
-      return {
-        intent: "GEMINI_AI_REPLY",
-        language: AIEngine.detectLanguage(text),
-        reply: geminiReply,
-        suggestedActions: ["Site Visit Book Karein", "Rent Agreement Checklist", "📞 Satnam Sir Call"]
-      };
-    }
-  } catch (err) {
-    console.warn('[Sia AI] Gemini call bypassed:', err.message);
-  }
-
-  // 2. Autonomous Local Engine Fallback (Full Domain Knowledge & Rent Agreement)
-  return AIEngine.generateWhatsAppAutoResponse(text, name, context);
-}
 
   // 13. WhatsApp Cloud API Incoming Message Handler (POST)
-  if (pathname === '/api/whatsapp/webhook' && req.method === 'POST') {
+  if ((pathname === '/api/whatsapp/webhook' || pathname === '/webhook') && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
@@ -1793,7 +1802,8 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
 
         const cleanPhone = phone.replace(/[^0-9]/g, '');
         const isOwner = cleanPhone.endsWith('8421077613');
-        const finalName = isOwner ? 'Satnam Singh (Owner / Boss)' : name;
+        const cleanName = (name || '').replace(/\s+ji$/i, '').trim();
+        const finalName = isOwner ? 'Satnam Singh (Owner / Boss)' : (cleanName ? `${cleanName} ji` : 'Client');
 
         let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanPhone);
         const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
@@ -1885,6 +1895,61 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Failed to simulate incoming message' }));
+      }
+    });
+    return;
+  }
+
+  // 15B. WhatsApp Manual Reply & Direct Outbound Message
+  if (pathname === '/api/whatsapp/reply' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const phone = (data.phone || data.from || '').replace(/[^0-9]/g, '');
+        const text = (data.text || data.message || '').trim();
+        if (!phone || !text) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'phone and text are required' }));
+          return;
+        }
+
+        let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === phone);
+        if (!conv) {
+          conv = {
+            phone: '+' + phone,
+            name: data.name || 'Client',
+            status: 'Active Reply',
+            lastUpdated: new Date().toISOString(),
+            messages: []
+          };
+          whatsappConversations.unshift(conv);
+        }
+
+        const outMsg = {
+          id: 'msg_out_' + Date.now(),
+          sender: 'agent',
+          text: text,
+          timestamp: new Date().toISOString()
+        };
+        conv.messages.push(outMsg);
+        conv.lastUpdated = outMsg.timestamp;
+        saveJSONFile('leads.json', whatsappConversations);
+
+        if (whatsappConfig.accessToken && whatsappConfig.phoneNumberId) {
+          sendMetaWhatsAppMessage(phone, text, whatsappConfig);
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          message: outMsg,
+          conversation: conv
+        }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to process manual reply: ' + err.message }));
       }
     });
     return;

@@ -159,6 +159,19 @@ function switchAppTab(tabId) {
       fetchMMRProjects();
     }
   }
+
+  // If opening WhatsApp Bot tab, load & render live conversations
+  if (tabId === "tab-whatsapp") {
+    if (typeof loadWhatsAppConversations === 'function') {
+      loadWhatsAppConversations();
+    }
+    if (typeof renderWhatsAppThreadList === 'function') {
+      renderWhatsAppThreadList();
+    }
+    if (typeof renderWhatsAppChat === 'function') {
+      renderWhatsAppChat(appState.activeConversationIndex || 0);
+    }
+  }
 }
 
 /**
@@ -652,6 +665,10 @@ function renderWhatsAppThreadList() {
     const lastMsg = conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : { text: "No messages" };
     const lastTime = new Date(conv.lastUpdated || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const isOwner = conv.phone.replace(/[^0-9]/g, '').endsWith('8421077613');
+    const rawSnippet = (lastMsg && typeof lastMsg.text === 'string') 
+      ? lastMsg.text 
+      : (lastMsg && typeof lastMsg.body === 'string' ? lastMsg.body : 'Active Conversation');
+    const safeSnippet = rawSnippet.replace(/\n/g, ' ');
 
     html += `
       <div class="chat-thread-item ${isActive ? 'active' : ''}" onclick="selectWhatsAppThread(${idx})">
@@ -659,7 +676,7 @@ function renderWhatsAppThreadList() {
           <span class="thread-name">${isOwner ? '👑 ' + conv.name : conv.name}</span>
           <span style="font-size: 10px; color: #94a3b8;">${lastTime}</span>
         </div>
-        <div class="thread-snippet">${lastMsg.text.replace(/\n/g, ' ')}</div>
+        <div class="thread-snippet">${safeSnippet}</div>
         <span class="thread-badge-bot">${isOwner ? '👑 Owner Command' : '🌸 Sia Replied'}</span>
       </div>
     `;
@@ -738,25 +755,68 @@ function sendQuickPrompt(text) {
 }
 
 function simulateIncomingClientMessage(text) {
-  const conv = appState.whatsappConversations[appState.activeConversationIndex] || {
-    name: "Client Inquiry",
-    phone: "+91 98200 " + Math.floor(10000 + Math.random() * 90000),
-    messages: []
+  if (!text || !text.trim()) return;
+  const trimmed = text.trim();
+
+  if (!Array.isArray(appState.whatsappConversations)) {
+    appState.whatsappConversations = [];
+  }
+
+  let conv = appState.whatsappConversations[appState.activeConversationIndex];
+  if (!conv) {
+    conv = {
+      name: "Client Inquiry",
+      phone: "+91 98200 " + Math.floor(10000 + Math.random() * 90000),
+      status: "New Inquiry",
+      lastUpdated: new Date().toISOString(),
+      messages: []
+    };
+    appState.whatsappConversations.unshift(conv);
+    appState.activeConversationIndex = 0;
+  }
+
+  // 1. Optimistic append of client message (instant 0ms visual feedback)
+  const clientMsg = {
+    id: "msg_in_" + Date.now(),
+    sender: "client",
+    text: trimmed,
+    timestamp: new Date().toISOString()
   };
+  conv.messages.push(clientMsg);
+  conv.lastUpdated = clientMsg.timestamp;
 
-  showToast(`Client WhatsApp Message: "${text.substring(0, 28)}..."`);
+  renderWhatsAppThreadList();
+  renderWhatsAppChat(appState.activeConversationIndex);
 
+  // 2. Append animated "Sia is typing..." bubble in chat container
+  const container = document.getElementById("chat-messages-container");
+  if (container) {
+    const typingIndicator = document.createElement("div");
+    typingIndicator.id = "sia-typing-indicator";
+    typingIndicator.className = "chat-bubble bubble-outgoing";
+    typingIndicator.style.cssText = "font-style: italic; color: #059669; display: flex; align-items: center; gap: 8px; max-width: 200px; animation: pulse 1.2s infinite ease-in-out;";
+    typingIndicator.innerHTML = `<span>🌸 Sia is typing...</span>`;
+    container.appendChild(typingIndicator);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  showToast(`Client WhatsApp: "${trimmed.substring(0, 28)}..."`);
+
+  // 3. Request authoritative response from Sia AI server
   fetch("/api/whatsapp/simulate-incoming", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name: conv.name,
       phone: conv.phone,
-      text: text
+      text: trimmed
     })
   })
     .then(res => res.json())
     .then(data => {
+      const indicator = document.getElementById("sia-typing-indicator");
+      if (indicator) indicator.remove();
+
       if (data && data.conversation) {
         const idx = appState.whatsappConversations.findIndex(c => c.phone === data.conversation.phone);
         if (idx !== -1) {
@@ -765,38 +825,41 @@ function simulateIncomingClientMessage(text) {
           appState.whatsappConversations.unshift(data.conversation);
           appState.activeConversationIndex = 0;
         }
-        renderWhatsAppThreadList();
-        renderWhatsAppChat(appState.activeConversationIndex);
-        if (typeof fetchCRMLeads === 'function') fetchCRMLeads();
-        showToast("✓ Sia replied automatically with verified property details!");
+      } else if (data && data.reply) {
+        conv.messages.push(data.reply);
+        conv.lastUpdated = data.reply.timestamp || new Date().toISOString();
       }
+      renderWhatsAppThreadList();
+      renderWhatsAppChat(appState.activeConversationIndex);
+      if (typeof fetchCRMLeads === 'function') fetchCRMLeads();
+      showToast("✓ Sia replied automatically with verified property details!");
     })
     .catch(() => {
-      // Robust client-side fallback
-      const isOngoing = Boolean(conv.messages && conv.messages.length > 0);
-      const autoRes = AIEngine.generateWhatsAppAutoResponse(text, conv.name, {
+      const indicator = document.getElementById("sia-typing-indicator");
+      if (indicator) indicator.remove();
+
+      // Instant local fallback using AIEngine
+      const isOngoing = Boolean(conv.messages && conv.messages.length > 1);
+      const autoRes = AIEngine.generateWhatsAppAutoResponse(trimmed, conv.name, {
         isOngoing,
-        messageCount: conv.messages ? conv.messages.length : 0,
+        messageCount: conv.messages ? conv.messages.length : 1,
         officeAddress: appState.officeAddress,
         officeLandmark: appState.officeLandmark,
         officeTimings: appState.officeTimings,
         officeMap: appState.officeMap
       });
-      conv.messages.push({
-        id: "msg_in_" + Date.now(),
-        sender: "client",
-        text: text,
-        timestamp: new Date().toISOString()
-      });
-      conv.messages.push({
-        id: "msg_out_" + (Date.now() + 1),
+
+      const botReply = {
+        id: "msg_out_" + Date.now(),
         sender: "bot",
         text: autoRes.reply,
         intent: autoRes.intent,
         suggestedActions: autoRes.suggestedActions,
-        timestamp: new Date(Date.now() + 600).toISOString()
-      });
-      conv.lastUpdated = new Date().toISOString();
+        timestamp: new Date().toISOString()
+      };
+      conv.messages.push(botReply);
+      conv.lastUpdated = botReply.timestamp;
+
       renderWhatsAppThreadList();
       renderWhatsAppChat(appState.activeConversationIndex);
       showToast("✓ WhatsApp Auto-Bot replied automatically!");
