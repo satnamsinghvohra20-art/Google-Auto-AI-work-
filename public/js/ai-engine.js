@@ -270,84 +270,63 @@ const AIEngine = {
    * Never sounds like a boring, repetitive robot! Speaks with polite female executive warmth.
    */
   getSiaGreetingPrefix(name, lang, isOngoing) {
-    const istHour = (new Date().getUTCHours() + 5.5) % 24;
-    let timeGreetingFull = "Good day";
-    let timeHinglish = "Namaste";
-    if (istHour >= 5 && istHour < 12) {
-      timeGreetingFull = "Good morning";
-      timeHinglish = "Shubh Prabhat";
-    } else if (istHour >= 12 && istHour < 17) {
-      timeGreetingFull = "Good afternoon";
-      timeHinglish = "Shubh Dopahar";
-    } else if (istHour >= 17 && istHour < 22) {
-      timeGreetingFull = "Good evening";
-      timeHinglish = "Shubh Sandhya";
-    }
+    const cleanName = (name || '').replace(/\s+ji$/i, '').trim();
 
     if (!isOngoing) {
-      // First contact / Initial message: Warm, personalized introduction as Sia (Female AI)
+      // First contact / Initial message: Sweet, charming, warm female introduction
       if (lang === "marathi") {
         const marathiGreetings = [
-          `Namaskar ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties madhun aple manasparvak swagat karte. 🌸 `,
-          `Aple swagat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties chi senior property advisor. ✨ `,
-          `Suprabhat ${name ? name + ' ji! ' : '! '}Mi *Sia*, Dashmesh Properties desk varun aple swagat karte. 🏡 `
+          `Namaskar ${cleanName ? cleanName + ' ji! ' : ''}Mi *Sia*, Dashmesh Properties madhun. Aple manasparvak swagat karte! 🌸 `,
+          `Hello ${cleanName ? cleanName + ' ji! ' : ''}Mi *Sia* aahe, Dashmesh Properties chi property advisor. Aplya sobat bolun khup chhan vatle! ✨ `
         ];
         return marathiGreetings[Math.floor(Math.random() * marathiGreetings.length)];
       }
 
       if (lang === "english") {
         const englishGreetings = [
-          `Hello ${name ? name : 'there'}! I am *Sia* from Dashmesh Properties. Great to connect with you! 🌸 `,
-          `${timeGreetingFull} ${name ? name : ''}! Welcome to Dashmesh Properties, I'm *Sia*, your dedicated property advisor. ✨ `,
-          `Warm welcome ${name ? name : ''}! I'm *Sia* from Dashmesh Properties — delighted to help you find your dream space. 🏡 `
+          `Hey ${cleanName ? cleanName : 'there'}! I'm *Sia* from Dashmesh Properties. So glad to connect with you! 🌸 `,
+          `Hello ${cleanName ? cleanName : ''}! I'm *Sia* — your dedicated property advisor. Excited to help you find your dream home! ✨ `
         ];
         return englishGreetings[Math.floor(Math.random() * englishGreetings.length)];
       }
 
-      // Hinglish / Hindi (Polite female executive grammar)
+      // Hinglish / Hindi: Sweet, friendly, attractive girl tone (Zero boring robotic Namaste)
       const hinglishGreetings = [
-        `Hello ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aapka dil se swagat karti hoon! 🌸 `,
-        `Welcome ${name ? name + ' ji! ' : '! '}Main *Sia* hoon — Dashmesh Properties ki property advisor. Bahut khushi hui aapse connect karke! ✨ `,
-        `${timeHinglish} ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 `,
-        `Sat Sri Akal ${name ? name + ' ji! ' : '! '}Welcome to Dashmesh Properties! Main *Sia* aapki property guide hoon. 🌸 `,
-        `Namaskar ${name ? name + ' ji! ' : '! '}Main *Sia* hoon, Dashmesh Properties se. Aaiye aapki property search main bohot aasan bana deti hoon! 🤝 `
+        `Hey ${cleanName ? cleanName + ' ji! ' : ''}🌸 Main *Sia* hoon, Dashmesh Properties se. Aapse baat karke sach mein bohot achha laga! `,
+        `Arey hello ${cleanName ? cleanName + ' ji! ' : ''}✨ Main *Sia* hoon... Aaiye aapki property search ekdum aasan aur pyari bana dete hain! `,
+        `Hello ${cleanName ? cleanName + ' ji! ' : ''}🌸 Main *Sia* hoon Dashmesh Properties se. Bataiye aaj main aapki kya help kar sakti hoon? `,
+        `Welcome ${cleanName ? cleanName + ' ji! ' : ''}💖 Main *Sia* hoon — aapki personal property guide. Bohot khushi hui aapse connect karke! `
       ];
       return hinglishGreetings[Math.floor(Math.random() * hinglishGreetings.length)];
     } else {
       // Ongoing conversation: NEVER repeat boring "Namaste"!
-      // Use lively, natural human conversational bridge words:
+      // Sweet, lively, natural girl conversational connectors:
       if (lang === "marathi") {
         const marathiBridges = [
-          "Ho nakki! ",
-          "Agdi barobar! Mi lagech mahiti share karte: ",
-          "Aapan agdi yogya vichar kelat! ",
-          "Kahi kalji nako, mi purna madat karte: ",
-          "Mi Sia, lagech aamche best options sangte: "
+          "Ho nakki! Mi lagech mahiti share karte: 🌸 ",
+          "Agdi barobar! Mi ahe na aamche best options sangayla: ✨ ",
+          "Aapan agdi yogya vichar kelat! Mi madat karte: 💖 "
         ];
         return marathiBridges[Math.floor(Math.random() * marathiBridges.length)];
       }
 
       if (lang === "english") {
         const englishBridges = [
-          "Certainly! Here are the verified details: ",
-          "Glad you asked! Let me share the exact options: ",
-          "Absolutely! Here is what you need to know: ",
-          "Great question! Sia here with verified updates: ",
-          "I will be happy to guide you on this! "
+          "Absolutely! Let me share the exact options with you: 🌸 ",
+          "Glad you asked! Here is what you need to know: ✨ ",
+          "Don't worry at all, I'm here to guide you step-by-step: 💖 "
         ];
         return englishBridges[Math.floor(Math.random() * englishBridges.length)];
       }
 
-      // Hinglish / Hindi ongoing bridges
+      // Hinglish / Hindi: Warm, natural, charming girl tone
       const hinglishBridges = [
-        "Ji bilkul! ",
-        "Haan ji, zaroor! ",
-        "Arey bilkul! ",
-        "Bilkul sahi sawal pucha aapne! ",
-        "Main abhi aapko verified details batati hoon: ",
-        "Khushi hui sunkar! Aaiye main explain karti hoon: ",
-        "Sahi decision hai! Ambernath East mein ye best choice hai: ",
-        "Aap bilkul chinta mat kijiye, main poori help karti hoon: "
+        "Arey waah! Main samajh gayi 😊 ",
+        "Ji bilkul! Main abhi aapko saari details batati hoon 🌸 ",
+        "Aap bilkul chinta mat kijiye na, main hoon na sab sort out karne ke liye! 💖 ",
+        "Haan ji zaroor! Main aapke liye best options dekhti hoon ✨ ",
+        "Sahi baat hai! Main abhi share karti hoon 🏡 ",
+        "Arey bilkul, mujhe bohot khushi hogi aapki help karke! 🌸 "
       ];
       return hinglishBridges[Math.floor(Math.random() * hinglishBridges.length)];
     }
@@ -672,35 +651,15 @@ const AIEngine = {
       return {
         intent: "RENT_AGREEMENT_BIOMETRIC",
         language: lang,
-        reply: `${greetingPrefix}📄 *Dashmesh Properties — Registered Rent Agreement & Doorstep Biometric Service:*
+        reply: `${greetingPrefix}
+Arey rent agreement aur paperwork ka tension toh aap bilkul chhod dijiye, main hoon na! 😊
 
-Maharashtra Govt rules ke anusaar (Section 55, Maharashtra Rent Control Act) hum 100% legal, registered Leave & License Agreements provide karte hain:
+Hamare paas *100% Legal Govt Registered Rent Agreement with Doorstep Biometric* service hai:
+🌸 *No Office Visits:* Hamara executive biometric device lekar direct aapke ghar aayega — sirf 15 minute mein process ho jayega!
+💰 *Sabse Sasta & Clear:* Sirf ₹1,750 per side (Stamp duty, drafting aur Govt fee sab included hai).
+⚡ *Super Fast:* 24 se 48 hours mein verified Govt registered agreement PDF direct aapke WhatsApp par!
 
-✅ *Ghar Baithe Doorstep Biometric Service:*
-• Sub-Registrar Office ki lambi lines mein jaane ki bilkul zaroorat nahi.
-• Hamara executive biometric fingerprint scanner & webcam lekar seedhe aapke ghar/office aayega (Owner + Tenant + 2 Witnesses ke liye).
-
-💰 *Official Rate Card & Pricing Breakdown:*
-• Cost From One Side (Owner side ya Tenant side): *Sirf ₹1,750*
-• Total All-Inclusive Package: *Sirf ₹3,500* (Dono side milakar ya single point billing)
-• *Is ₹3,500 Package Mein Sab Kuch Included Hai:*
-  ✓ Complete Legal Drafting (Leave & License under Section 55 Maharashtra Rent Control Act)
-  ✓ Doorstep Biometric Fingerprint & Webcam Scanning (Executive visits home/office for Owner, Tenant & 2 Witnesses)
-  ✓ Maharashtra Govt Stamp Duty (0.25%) + Govt Registration Fee (₹1,000) included
-  ✓ Police Verification / NOC documentation support
-  ✓ 24-48 Hours mein Government Registered PDF with Official QR Code delivered on WhatsApp & Email
-  ✓ 100% Transparent — Zero Hidden Charges!
-
-📑 *Required Documents Checklist:*
-1. Owner: Aadhaar Card & PAN Card
-2. Tenant: Aadhaar Card & PAN Card
-3. Two Witnesses: Aadhaar Cards
-4. Property Electricity Bill or Index II copy
-
-Doorstep biometric slot book karne ke liye apna time aur address share karein, ya direct call karein:
-📞 *Satnam Singh Vohra:* +91 84210 77613
-📞 *Kuldeep Singh:* +91 84120 70183 | *Sukhjyot Singh:* +91 84219 40013
-📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)`,
+Aap batayein na, biometric ke liye kaunsa din aur time aapko sabse convenient rahega — aaj ya kal? Main aapka preferred slot book karwa doongi! 🏡✨`,
         suggestedActions: ["Book Biometric Slot", "Send Document List", "📞 Call Satnam Sir"]
       };
     }
@@ -1563,16 +1522,15 @@ Aapko kaunse micro-market ya budget bracket mein options dekhne hain? Sia turant
       return {
         intent: "RESIDENTIAL_1BHK",
         language: lang,
-        reply: `${greetingPrefix}🏡 *Ambernath East 1 BHK Flats Rate Card:*
+        reply: `${greetingPrefix}
+Arey waah! Pale Gaon aur Ambernath East mein 1 BHK dekh rahe hain? Bohot hi pyare aur verified options hain mere paas! 🌸
 
-• *Pale Gaon (Near Office):* ₹21 Lakh - ₹28 Lakh (Quiet, family environment, 7 mins to station)
-• *Station Road / Kansai:* ₹28 Lakh - ₹38 Lakh (Station walking distance, lift & power backup)
-• *Morivali / Anand Nagar:* ₹19 Lakh - ₹25 Lakh (Low investment & high rental demand)
+🏡 *Prime Locations:* Pale Gaon, Shiv Mandir Road aur Station se sirf 5-7 minute ki doori par.
+✨ *Ready Possession:* 24x7 KDMC paani, lift, balcony aur 100% clear legal title.
+💰 *Budget:* ₹21 Lakh se ₹28 Lakh (Rent: ₹5,000 - ₹8,500/month).
+🏦 *Easy Loan:* 90% tak SBI aur HDFC loan approval main khud karwa doongi!
 
-✅ SBI, HDFC, ICICI se 90% tak Home Loan approved (Monthly EMI: ₹16,000 - ₹22,000)
-✅ Ready possession (Immediate shifting) aur Under-construction dono available
-
-Aapka comfortable budget kitna hai? Hum turant photos aur floor plans WhatsApp karenge!`,
+Aap family ke saath shift ho rahe hain ya investment ke liye? Mujhe batayein na, taaki main sabse sundar flat ke photos aur details aapko bhej sakoon! 😊💖`,
         suggestedActions: ["Under ₹25L", "₹25L - ₹35L", "📅 Book Visit"]
       };
     }
@@ -1582,16 +1540,16 @@ Aapka comfortable budget kitna hai? Hum turant photos aur floor plans WhatsApp k
       return {
         intent: "RESIDENTIAL_2BHK_3BHK",
         language: lang,
-        reply: `${greetingPrefix}🏰 *Ambernath East 2 BHK & 3 BHK Luxury/Spacious Homes:*
+        reply: `${greetingPrefix}
+2 BHK ya 3 BHK spacious ghar dekh rahe hain? Sach mein family ke saath rehne ke liye bohot hi shandaar aur pyara decision hai! ❤️
 
-• *2 BHK (Pale Gaon):* ₹34 Lakh - ₹48 Lakh (Spacious 650-750 sq.ft carpet, master bedroom, balcony)
-• *2 BHK (Station Road / Kansai):* ₹44 Lakh - ₹62 Lakh (Township with clubhouse, gym, garden, parking)
-• *3 BHK Township Apartments:* ₹65 Lakh - ₹90 Lakh (Premium gated communities)
+🏰 *Verified Options:*
+• *2 BHK (Pale Gaon):* ₹34 Lakh - ₹48 Lakh (Spacious carpet, master bedroom, quiet family environment)
+• *2 BHK (Station Road / Kansai):* ₹44 Lakh - ₹62 Lakh (Modern township, gym, garden, reserved parking)
+• *3 BHK Premium Flats:* ₹65 Lakh - ₹90 Lakh
 
-✅ Bank loan approved with 90% funding & PMAY subsidy assistance
-✅ Clear title, OC received & zero hidden legal costs
-
-Aap kis weekend par family ke saath sample flat dekhne aana chahenge?`,
+✅ 90% tak SBI/HDFC bank loan approval & OC received!
+Aap kis weekend par family ke saath sample flat dekhne aana chahenge? Main khud aapki visit arrange karwa doongi! 😊✨`,
         suggestedActions: ["2 BHK Pale Gaon", "2 BHK Station", "📅 Book Visit"]
       };
     }
@@ -1661,19 +1619,13 @@ Aaplyala kashachi mahiti hawi aahe? Sia lagech verified options share karel!`,
           intent: "GREETING",
           language: "english",
           reply: `${greetingPrefix}
-*"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
+Tell me, how can I help you find your perfect place today? 🌸
 
-🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
+🏡 *Looking to Rent or Buy a Flat?*
+📜 *Or need a Legal Registered Rent Agreement with Doorstep Biometric?*
 
-We specialize in verified residential & commercial properties in Ambernath:
-1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)
-2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/month)
-3️⃣ *Commercial Retail Shops:* Prime locations for Rent & Sale
-4️⃣ *Home Loan Assistance:* Up to 90% SBI / HDFC loan sanction
-
-🌐 Digital Catalog: ${rateCardUrl}
-What type of property are you looking for today? Sia is here to guide you step-by-step!`,
-          suggestedActions: ["1 BHK / 2 BHK", "Rental Homes", "Commercial", "Office Location"]
+Just let me know your preferred area or budget, and I'll find the most beautiful, verified options for you! 😊✨`,
+          suggestedActions: ["1 BHK / 2 BHK", "Rental Homes", "Rent Agreement", "📍 Office Map"]
         };
       }
 
@@ -1681,30 +1633,26 @@ What type of property are you looking for today? Sia is here to guide you step-b
         intent: "GREETING",
         language: "hinglish",
         reply: `${greetingPrefix}
-*"Aapka Vishwas, Hamari Pratibaddhta — Finding Spaces, Building Relationships"*
+Bataiye na, aaj main aapke liye kya help kar sakti hoon? 🌸
 
-🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
+🏡 *Rent par Flat dekh rahe hain ya Buy karna hai?*
+📜 *Ya Legal Registered Rent Agreement banwana hai?*
 
-Hum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Rent, Buy & Sale:
-1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)
-2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/mo)
-3️⃣ *Commercial Retail Shops:* Rent & Buy (High footfall)
-4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval
-
-🌐 Digital Rate Card: ${rateCardUrl}
-Aapko kis type ki property ki requirement hai? Sia aapke saath verified options turant share karegi!`,
-        suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
+Aap mujhe apna budget ya area bata dijiye, main aapke liye sabse pyara aur verified option nikaal kar doongi! 😊✨`,
+        suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Rent Agreement", "📍 Office Map"]
       };
     }
 
-    // 17. ONGOING CHAT FALLBACK (Respectful, helpful, no repetitive greeting)
+    // 17. ONGOING CHAT FALLBACK (Sweet, charming, emotional girl conversation)
     return {
       intent: "CONVERSATIONAL_FOLLOWUP",
       language: lang,
-      reply: `Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.
+      reply: `Haan ji, main yahin hoon aapke saath! 🌸
 
-Aap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!`,
-      suggestedActions: ["📍 Office Map", "📊 Rate Card", "📞 Call Office"]
+Aap bilkul bina kisi jhijhak ke batayein — aapko kis type ka flat ya rent agreement ki zaroorat hai? Main khud verify karke aapke budget mein sabse best deal arrange karwa doongi! 😊
+
+Aap direct call karna chahein toh Satnam Sir (+91 84210 77613) se bhi baat karwa sakti hoon. Bataiye na, kya dekhna pasand karenge? ✨`,
+      suggestedActions: ["🏡 Flat Options", "📜 Rent Agreement", "📞 Satnam Sir Call"]
     };
   },
 

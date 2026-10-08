@@ -1,5 +1,28 @@
 [
   {
+    "phone": "+918983788913",
+    "name": "Ashmeet Rana!",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-08T19:31:15.837Z",
+    "messages": [
+      {
+        "id": "msg_in_1791487875837",
+        "sender": "client",
+        "text": "Helloo",
+        "timestamp": "2026-10-08T19:31:15.837Z"
+      },
+      {
+        "id": "msg_out_1791487875837",
+        "sender": "bot",
+        "text": "Namaste Ashmeet Rana! ji! Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 \n*\"Aapka Vishwas, Hamari Pratibaddhta — Finding Spaces, Building Relationships\"*\n\n🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501\n\nHum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Rent, Buy & Sale:\n1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)\n2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/mo)\n3️⃣ *Commercial Retail Shops:* Rent & Buy (High footfall)\n4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval\n\n🌐 Digital Rate Card: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\nAapko kis type ki property ki requirement hai? Sia aapke saath verified options turant share karegi!",
+        "intent": "GREETING",
+        "timestamp": "2026-10-08T19:31:15.837Z"
+      }
+    ],
+    "lastIntent": "GREETING",
+    "language": "hinglish"
+  },
+  {
     "phone": "+917710916655",
     "name": "AJ",
     "status": "New Inquiry",
@@ -39,8 +62,8 @@
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-08T08:31:32.846Z",
-    "lastIntent": "OWNER_GENERAL_QUERY",
+    "lastUpdated": "2026-10-08T20:33:01.567Z",
+    "lastIntent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
     "language": "hinglish",
     "messages": [
       {
@@ -159,6 +182,58 @@
         "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
         "intent": "OWNER_GENERAL_QUERY",
         "timestamp": "2026-10-08T08:31:32.846Z"
+      },
+      {
+        "id": "msg_in_1791479851991",
+        "sender": "owner",
+        "text": "Check the reviews and reply them",
+        "timestamp": "2026-10-08T17:17:31.991Z"
+      },
+      {
+        "id": "msg_out_1791479851991",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 ⭐ *Google Reviews Status (Real-Time Ground Truth):*\n\n• Total Real Reviews Logged: *1*\n• Direct Google Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n• Smart Review Shield: *Active on Reception Standee*\n\nAap apne genuine clients ko Review Standee QR ya direct link share karke 5★ reviews collect kar sakte hain. Jaise hi real review aayega, Sia turant live SEO auto-reply karegi aur aapko alert bhejegi!",
+        "intent": "OWNER_REVIEWS_REPORT",
+        "timestamp": "2026-10-08T17:17:31.991Z"
+      },
+      {
+        "id": "msg_in_1791487022089",
+        "sender": "owner",
+        "text": "",
+        "timestamp": "2026-10-08T19:17:02.090Z"
+      },
+      {
+        "id": "msg_out_1791487022090",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Ji Satnam Sir! Maine aapka aadesh poori tarah samajh liya hai:\n\n💬 *Aapka Command:* \"\"\n\nMain aapki personal AI Chief-of-Staff hoon — aapki har ek baat aur instruction mere dhyan mein hai. Main is aadesh ke anusaar poori tarah align ho chuki hoon.\n\nAap chahein to main is par turant action execute karoon, kisi specific client ko update bhejoongi, ya dashboard refresh karoon. Bas bataiye Sir, main execute kar dungi! 🌸",
+        "intent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
+        "timestamp": "2026-10-08T19:17:02.090Z"
+      },
+      {
+        "id": "msg_in_1791487863840",
+        "sender": "owner",
+        "text": "Hii",
+        "timestamp": "2026-10-08T19:31:03.840Z"
+      },
+      {
+        "id": "msg_out_1791487863840",
+        "sender": "bot",
+        "text": "Shubh Prabhat Satnam Sir! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 Ji Satnam Sir! Maine aapka aadesh poori tarah samajh liya hai:\n\n💬 *Aapka Command:* \"Hii\"\n\nMain aapki personal AI Chief-of-Staff hoon — aapki har ek baat aur instruction mere dhyan mein hai. Main is aadesh ke anusaar poori tarah align ho chuki hoon.\n\nAap chahein to main is par turant action execute karoon, kisi specific client ko update bhejoongi, ya dashboard refresh karoon. Bas bataiye Sir, main execute kar dungi! 🌸",
+        "intent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
+        "timestamp": "2026-10-08T19:31:03.840Z"
+      },
+      {
+        "id": "msg_in_1791491581567",
+        "sender": "owner",
+        "text": "Hii",
+        "timestamp": "2026-10-08T20:33:01.567Z"
+      },
+      {
+        "id": "msg_out_1791491581567",
+        "sender": "bot",
+        "text": "Shubh Prabhat Satnam Sir! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 Ji Satnam Sir! Maine aapka aadesh poori tarah samajh liya hai:\n\n💬 *Aapka Command:* \"Hii\"\n\nMain aapki personal AI Chief-of-Staff hoon — aapki har ek baat aur instruction mere dhyan mein hai. Main is aadesh ke anusaar poori tarah align ho chuki hoon.\n\nAap chahein to main is par turant action execute karoon, kisi specific client ko update bhejoongi, ya dashboard refresh karoon. Bas bataiye Sir, main execute kar dungi! 🌸",
+        "intent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
+        "timestamp": "2026-10-08T20:33:01.567Z"
       }
     ]
   },
