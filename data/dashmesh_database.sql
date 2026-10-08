@@ -1,5 +1,5 @@
 -- Dashmesh Properties & Rent Agreement Services - Full Master SQL Dump
--- Generated on: 2026-10-08 10:50:20
+-- Generated on: 2026-10-08 22:45:28
 -- Official Charges: Rent Agreement Rs. 1,750 per side | Rs. 3,500 Total All-Inclusive
 -- MMR Real Estate Directory: 238+ Verified Authentic Projects across 16 Strategic Regional Hubs
 
@@ -24,6 +24,7 @@ INSERT INTO "google_posts" VALUES('aipost_1791351907178','1 BHK & 2 BHK Affordab
 INSERT INTO "google_posts" VALUES('aipost_1791138220013','Official Registered Rent Agreement at ₹1,750 (Doorstep Biometric) [AI Verified: 4 Oct]','Need Govt Registered Rent Agreement in Ambernath, Badlapur, Ulhasnagar or Kalyan? Dashmesh Properties provides 100% legal e-registration with doorstep biometric verification for just ₹1,750 per side (₹3,500 all-inclusive with stamp duty & registration). Instant slot booking!','Book Doorstep Biometric (+91 84210 77613)','2026-10-08','Published (AI Autonomous)','2026-10-07T17:30:52.547334');
 INSERT INTO "google_posts" VALUES('gpost_1791060565573','Official Registered Rent Agreement at ₹1,750 (Doorstep Biometric)','Need Govt Registered Rent Agreement in Ambernath, Badlapur, Ulhasnagar or Kalyan? Dashmesh Properties provides 100% legal e-registration with doorstep biometric verification for just ₹1,750 per side (₹3,500 all-inclusive with stamp duty & registration). Instant slot booking!','Book Doorstep Biometric (+91 84210 77613)','2026-10-08','Published','2026-10-07T17:30:52.548472');
 INSERT INTO "google_posts" VALUES('aipost_1791436819460','Official Registered Rent Agreement at ₹1,750 (Doorstep Biometric) [AI Verified: 8 Oct]','Need Govt Registered Rent Agreement in Ambernath, Badlapur, Ulhasnagar or Kalyan? Dashmesh Properties provides 100% legal e-registration with doorstep biometric verification for just ₹1,750 per side (₹3,500 all-inclusive with stamp duty & registration). Instant slot booking!','Book Doorstep Biometric (+91 84210 77613)','2026-10-08','Published (AI Autonomous)','2026-10-08T10:50:20.938694');
+INSERT INTO "google_posts" VALUES('aipost_1791479726973','Official Registered Rent Agreement at ₹1,750 (Doorstep Biometric) [AI Verified: 8 Oct]','Need Govt Registered Rent Agreement in Ambernath, Badlapur, Ulhasnagar or Kalyan? Dashmesh Properties provides 100% legal e-registration with doorstep biometric verification for just ₹1,750 per side (₹3,500 all-inclusive with stamp duty & registration). Instant slot booking!','Book Doorstep Biometric (+91 84210 77613)','2026-10-08','Published (AI Autonomous)','2026-10-08T22:45:28.479837');
 CREATE TABLE google_reviews (
         review_id TEXT PRIMARY KEY,
         author_name TEXT NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE google_reviews (
         reply_text TEXT,
         created_at TEXT
     );
-INSERT INTO "google_reviews" VALUES('rev_1791138036022','Valued Client',5,'','Positive','2026-10-08T10:50:20.925538','Auto-Replied & Live on Google Maps','Thank you so much, Ramesh, for your kind 5-star review! The team at Dashmesh Properties is delighted to hear that your experience regarding rental flat and agreement consultation in Pale Gaon, Ambernath East was seamless and rewarding. Providing hassle-free rental agreements and verified landlord verification is always our top priority. We look forward to assisting you, your family, and friends with all future property consultations in Ambernath!','2026-10-04T23:53:35.623687');
+INSERT INTO "google_reviews" VALUES('rev_1791138036022','Valued Client',5,'','Positive','2026-10-08T22:45:28.446464','Auto-Replied & Live on Google Maps','Thank you so much, Ramesh, for your kind 5-star review! The team at Dashmesh Properties is delighted to hear that your experience regarding rental flat and agreement consultation in Pale Gaon, Ambernath East was seamless and rewarding. Providing hassle-free rental agreements and verified landlord verification is always our top priority. We look forward to assisting you, your family, and friends with all future property consultations in Ambernath!','2026-10-04T23:53:35.623687');
 CREATE TABLE leads_crm (
         phone TEXT PRIMARY KEY,
         name TEXT,
@@ -49,9 +50,10 @@ CREATE TABLE leads_crm (
         last_updated TEXT,
         created_at TEXT
     );
-INSERT INTO "leads_crm" VALUES('918421077613','Satnam Singh (Owner / Boss)','Owner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T10:50:20.911439','2026-10-03T12:00:00.000Z');
-INSERT INTO "leads_crm" VALUES('+918421940013','Sukhjyot Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T10:50:20.915283','2026-10-03T10:18:13.457Z');
-INSERT INTO "leads_crm" VALUES('+918412070183','Kuldeep Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T10:50:20.915350','2026-10-03T09:30:00.000Z');
+INSERT INTO "leads_crm" VALUES('918421077613','Satnam Singh (Owner / Boss)','Owner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T22:45:28.428463','2026-10-03T12:00:00.000Z');
+INSERT INTO "leads_crm" VALUES('+918421940013','Sukhjyot Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T22:45:28.428542','2026-10-03T10:18:13.457Z');
+INSERT INTO "leads_crm" VALUES('+918412070183','Kuldeep Singh Vohra (Partner / Consultant)','Partner / Executive','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T22:45:28.428564','2026-10-03T09:30:00.000Z');
+INSERT INTO "leads_crm" VALUES('+917710916655','AJ','New Inquiry','Rent Agreement (₹1750/side)','','Ambernath East','hinglish','Inquiry','','2026-10-08T22:45:28.425449','2026-10-08T14:15:14.859794');
 CREATE TABLE mmr_projects (
             project_id TEXT PRIMARY KEY,
             name TEXT NOT NULL,

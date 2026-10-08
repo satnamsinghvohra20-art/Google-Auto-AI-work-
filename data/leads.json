@@ -1,10 +1,46 @@
 [
   {
+    "phone": "+917710916655",
+    "name": "AJ",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-08T10:53:11.099Z",
+    "messages": [
+      {
+        "id": "msg_in_1791449113406",
+        "sender": "client",
+        "text": "hello",
+        "timestamp": "2026-10-08T08:45:13.406Z"
+      },
+      {
+        "id": "msg_out_1791449113406",
+        "sender": "bot",
+        "text": "Shubh Dopahar AJ ji! Main *Sia* hoon, Dashmesh Properties desk par aapka swagat karti hoon. 🏡 \n*\"Aapka Vishwas, Hamari Pratibaddhta — Finding Spaces, Building Relationships\"*\n\n🏢 Office: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501\n\nHum Ambernath East aur Pale Gaon ke verified real estate consultants hain for Rent, Buy & Sale:\n1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)\n2️⃣ *Rental Homes:* 1 BHK Rent (₹5,000 - ₹8,500/mo)\n3️⃣ *Commercial Retail Shops:* Rent & Buy (High footfall)\n4️⃣ *Bank Loan Desk:* 90% SBI / HDFC loan approval\n\n🌐 Digital Rate Card: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\nAapko kis type ki property ki requirement hai? Sia aapke saath verified options turant share karegi!",
+        "intent": "GREETING",
+        "timestamp": "2026-10-08T08:45:13.406Z"
+      },
+      {
+        "id": "msg_in_1791456791099",
+        "sender": "client",
+        "text": "hi",
+        "timestamp": "2026-10-08T10:53:11.099Z"
+      },
+      {
+        "id": "msg_out_1791456791099",
+        "sender": "bot",
+        "text": "Ji, Sia yahan hai! Dashmesh Properties par Kuldeep Kaur ji (+91 84120 70183) aur Sukhjyot Singh ji (+91 84219 40013) har client ko personal attention dete hain.\n\nAap apna specific budget, preferred area (Pale Gaon ya Station Road) ya visit ka samay bata dijiye, Sia turant verified options bhejegi!",
+        "intent": "CONVERSATIONAL_FOLLOWUP",
+        "timestamp": "2026-10-08T10:53:11.099Z"
+      }
+    ],
+    "lastIntent": "CONVERSATIONAL_FOLLOWUP",
+    "language": "hinglish"
+  },
+  {
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-03T12:00:00.000Z",
-    "lastIntent": "OWNER_SYSTEM_STATUS",
+    "lastUpdated": "2026-10-08T08:31:32.846Z",
+    "lastIntent": "OWNER_GENERAL_QUERY",
     "language": "hinglish",
     "messages": [
       {
@@ -19,6 +55,110 @@
         "text": "Sat Sri Akal Satnam Sir! 👑 Sia ready hai. Sabhi system live hain, zero fake data policy active hai, aur WhatsApp AI engine 24/7 client inquiries handle kar raha hai.",
         "intent": "OWNER_SYSTEM_STATUS",
         "timestamp": "2026-10-03T12:00:00.000Z"
+      },
+      {
+        "id": "msg_in_1791438425417",
+        "sender": "owner",
+        "text": "Hii",
+        "timestamp": "2026-10-08T05:47:05.417Z"
+      },
+      {
+        "id": "msg_out_1791438425417",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia yahan hai, batayein main kya help kar sakti hoon? 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-08T05:47:05.417Z"
+      },
+      {
+        "id": "msg_in_1791438438306",
+        "sender": "owner",
+        "text": "Check the reviews and reply them",
+        "timestamp": "2026-10-08T05:47:18.306Z"
+      },
+      {
+        "id": "msg_out_1791438438306",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 ⭐ *Google Reviews Status (Real-Time):*\n\n• Total Real Reviews Logged: *1*\n• AI Auto-Reply Rate: *100% Instant*\n• Direct Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nLive on Google Maps!",
+        "intent": "OWNER_REVIEWS_REPORT",
+        "timestamp": "2026-10-08T05:47:18.306Z"
+      },
+      {
+        "id": "msg_in_1791438460510",
+        "sender": "owner",
+        "text": "⭐ Reviews",
+        "timestamp": "2026-10-08T05:47:40.510Z"
+      },
+      {
+        "id": "msg_out_1791438460510",
+        "sender": "bot",
+        "text": "Ji Satnam Sir! Main Sia aapki seva mein hazir hoon. 🌸 ⭐ *Google Reviews Status (Real-Time):*\n\n• Total Real Reviews Logged: *1*\n• AI Auto-Reply Rate: *100% Instant*\n• Direct Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nLive on Google Maps!",
+        "intent": "OWNER_REVIEWS_REPORT",
+        "timestamp": "2026-10-08T05:47:40.510Z"
+      },
+      {
+        "id": "msg_in_1791440691646",
+        "sender": "owner",
+        "text": "Check the reviews and reply them",
+        "timestamp": "2026-10-08T06:24:51.646Z"
+      },
+      {
+        "id": "msg_out_1791440691646",
+        "sender": "bot",
+        "text": "Shubh Prabhat Satnam Sir! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 ⭐ *Google Reviews Status (Real-Time):*\n\n• Total Real Reviews Logged: *1*\n• AI Auto-Reply Rate: *100% Instant*\n• Direct Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nLive on Google Maps!",
+        "intent": "OWNER_REVIEWS_REPORT",
+        "timestamp": "2026-10-08T06:24:51.646Z"
+      },
+      {
+        "id": "msg_in_1791441185638",
+        "sender": "owner",
+        "text": "Hii",
+        "timestamp": "2026-10-08T06:33:05.638Z"
+      },
+      {
+        "id": "msg_out_1791441185638",
+        "sender": "bot",
+        "text": "Good morning Satnam Sir! Sia here. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-08T06:33:05.638Z"
+      },
+      {
+        "id": "msg_in_1791441414783",
+        "sender": "owner",
+        "text": "📊 Leads",
+        "timestamp": "2026-10-08T06:36:54.783Z"
+      },
+      {
+        "id": "msg_out_1791441414784",
+        "sender": "bot",
+        "text": "Good morning Satnam Sir! Sia here. 🌸 📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *0*\n• Total Verified Leads: *2*\n• 24/7 Follow-Up Bot: *Active*\n\n📋 *Real Inquiries:*\n1. *Sukhjyot Singh Vohra (Partner / Consultant)* (+918421940013) - _PARTNER_CONNECT_ \n2. *Kuldeep Singh Vohra (Partner / Consultant)* (+918412070183) - _PARTNER_CONNECT_ \n\n👉 Detailed CRM pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "timestamp": "2026-10-08T06:36:54.784Z"
+      },
+      {
+        "id": "msg_in_1791443989472",
+        "sender": "owner",
+        "text": "Hii",
+        "timestamp": "2026-10-08T07:19:49.472Z"
+      },
+      {
+        "id": "msg_out_1791443989472",
+        "sender": "bot",
+        "text": "Ji Satnam Sir! Main Sia aapki seva mein hazir hoon. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-08T07:19:49.472Z"
+      },
+      {
+        "id": "msg_in_1791448292846",
+        "sender": "owner",
+        "text": "hii",
+        "timestamp": "2026-10-08T08:31:32.846Z"
+      },
+      {
+        "id": "msg_out_1791448292846",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
+        "intent": "OWNER_GENERAL_QUERY",
+        "timestamp": "2026-10-08T08:31:32.846Z"
       }
     ]
   },
