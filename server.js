@@ -1672,6 +1672,13 @@ const server = http.createServer((req, res) => {
               totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
               leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
               reviewsCount: googleReviews.length,
+              totalReviews: googleReviews.length,
+              pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
+              repliedReviewsCount: googleReviews.filter(r => r.reply && r.reply.trim()).length,
+              reviewsList: googleReviews,
+              isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
+              hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
+              googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
               publishedPostsCount: publishedPostLogs.length
             }, true);
 
@@ -1690,6 +1697,9 @@ const server = http.createServer((req, res) => {
                 googlePostId: 'gbp_owner_' + Date.now()
               });
               saveJSONFile('posts.json', publishedPostLogs);
+            } else if (autoRes.triggerAction === 'ADD_REVIEW' && autoRes.newReview) {
+              googleReviews.unshift(autoRes.newReview);
+              saveJSONFile('reviews.json', googleReviews);
             }
           } else {
             autoRes = await getSiaIntelligentResponse(text, name, {
@@ -1820,6 +1830,13 @@ const server = http.createServer((req, res) => {
             totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
             leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
             reviewsCount: googleReviews.length,
+            totalReviews: googleReviews.length,
+            pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
+            repliedReviewsCount: googleReviews.filter(r => r.reply && r.reply.trim()).length,
+            reviewsList: googleReviews,
+            isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
+            hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
+            googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
             publishedPostsCount: publishedPostLogs.length
           }, true);
 

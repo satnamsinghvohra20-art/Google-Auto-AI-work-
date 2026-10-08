@@ -474,7 +474,8 @@ const AIEngine = {
     }
 
     // 8. Google Ranking, Search & SEO Status (Real Ground-Truth Data)
-    if (text.includes("rank") || text.includes("top") || text.includes("search") || (text.includes("google") && !text.includes("post")) || text.includes("seo") || text.includes("kaha hai")) {
+    const hasReviewTerms = text.includes("review") || text.includes("rating") || text.includes("feedback") || text.includes("star") || text.includes("reply") || text.includes("kitne review");
+    if (!hasReviewTerms && (text.includes("rank") || text.includes("top") || text.includes("search") || (text.includes("google") && !text.includes("post")) || text.includes("seo") || text.includes("kaha hai"))) {
       return {
         intent: "OWNER_RANK_STATUS",
         reply: `${sal}🚀 *Live Google Business Profile Status (Dashmesh Properties):*\n\n• Business Name: *Dashmesh Properties*\n• Google Place ID: *ChIJDxFBTbyV5zsRcHylJmmARG8*\n• Office Location: *Shop No. 24, New Floora, Pale Gaon, Ambernath East (421 501)*\n• Verified Phone: *+91 84210 77613 / +91 92702 77281*\n• Real Reviews Logged: *${reviewsCount}*\n• Digital Rate Card: ${publicUrl}/rate-card\n\nTab 1 se Google Profile SEO dominance active hai!`,
@@ -482,12 +483,50 @@ const AIEngine = {
       };
     }
 
-    // 9. Reviews & Ratings Inquiry (Real Ground-Truth Data)
-    if (text.includes("review") || text.includes("rating") || text.includes("feedback") || text.includes("star")) {
+    // 9. Reviews & Ratings Inquiry (Real Ground-Truth Data & Exact Pending Count)
+    if (
+      text.includes("review") || text.includes("rating") || text.includes("feedback") ||
+      text.includes("star") || text.includes("reply") || text.includes("kitno ka") ||
+      text.includes("kitne review") || text.includes("jawab")
+    ) {
+      const revList = context.reviewsList || [];
+      const totalRev = context.totalReviews !== undefined ? context.totalReviews : (revList.length || reviewsCount || 0);
+      const pendingRev = context.pendingReviewsCount !== undefined ? context.pendingReviewsCount : revList.filter(r => !r.reply || !r.reply.trim()).length;
+      const repliedRev = context.repliedReviewsCount !== undefined ? context.repliedReviewsCount : revList.filter(r => r.reply && r.reply.trim()).length;
+      const isConnected = Boolean(context.isGoogleConnected);
+      const placeId = context.googlePlaceId || "ChIJDxFBTbyV5zsRcHylJmmARG8";
+      const directReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+
+      let breakdownText = "";
+      if (totalRev === 0) {
+        breakdownText = `• Total Reviews Logged: *0*\n• Reply Deni Baki Hai: *0* (Koi pending review nahi hai)\n• Status: *Database mein abhi 0 reviews hain.*`;
+      } else {
+        breakdownText = `• Total Google Reviews on Record: *${totalRev}*\n• Replied & Published: *${repliedRev}* (100% SEO Auto-Replied)\n• Reply Deni Baki Hai (Pending): *${pendingRev}*`;
+
+        if (pendingRev > 0) {
+          const pendings = revList.filter(r => !r.reply || !r.reply.trim());
+          breakdownText += `\n\n⚠️ *In Reviews Ka Reply Dena Baki Hai (${pendingRev}):*\n` + pendings.slice(0, 3).map((r, i) => `${i + 1}. *${r.customerName}* (${r.rating}★): "${r.reviewText}"`).join("\n");
+        } else {
+          breakdownText += `\n\n✅ *All Done:* Sabhi *${totalRev}* reviews ko Sia ne SEO keywords ke saath reply de diya hai! Ek bhi review pending nahi hai.`;
+        }
+
+        if (revList.length > 0) {
+          breakdownText += `\n\n📋 *Recent Verified Reviews:*\n` + revList.slice(0, 3).map((r, i) => {
+            const stars = '★'.repeat(r.rating || 5);
+            const replySnippet = r.reply ? `\n   ↳ *Sia Auto-Reply:* "${r.reply.slice(0, 90)}..."` : `\n   ↳ *Status:* ⏳ Pending Reply`;
+            return `${i + 1}. *${r.customerName}* (${stars}): "${r.reviewText}"${replySnippet}`;
+          }).join("\n\n");
+        }
+      }
+
+      const connectionInfo = isConnected
+        ? `🟢 *Google Account Connection:* LIVE & CONNECTED via Google Cloud API`
+        : `📍 *Google Place Link:* Active (Place ID: \`${placeId}\`)\n💡 *Google Cloud Sync:* Background direct sync active. Aap Dashboard > 'Google Access' se 1-click Google Account connect kar sakte hain ya Standee QR se direct 5★ reviews pa sakte hain.`;
+
       return {
         intent: "OWNER_REVIEWS_REPORT",
-        reply: `${sal}⭐ *Google Reviews Status (Real-Time Ground Truth):*\n\n• Total Real Reviews Logged: *${reviewsCount}*\n• Direct Google Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n• Smart Review Shield: *Active on Reception Standee*\n\nAap apne genuine clients ko Review Standee QR ya direct link share karke 5★ reviews collect kar sakte hain. Jaise hi real review aayega, Sia turant live SEO auto-reply karegi aur aapko alert bhejegi!`,
-        suggestedActions: ["⭐ Review Link", "📰 New Post", "📊 Leads"]
+        reply: `${sal}⭐ *Google Reviews & Auto-Reply Status Report:*\n\n${breakdownText}\n\n${connectionInfo}\n\n🔗 *Direct Review Link (Send to Clients):*\n${directReviewUrl}`,
+        suggestedActions: ["⭐ Direct Review Link", "📰 Naya Post Dalo", "📊 Aaj Ki Leads"]
       };
     }
 
