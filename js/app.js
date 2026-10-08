@@ -113,6 +113,7 @@ function initApp() {
   // 11. Sync 24/7 Auto-Pilot Status & stream
   syncAutoPilotStatus();
   setInterval(syncAutoPilotStatus, 6000);
+  setInterval(loadWhatsAppConversations, 2500); // 2.5s Live Real-Time WhatsApp Chat Sync
 }
 
 /**
