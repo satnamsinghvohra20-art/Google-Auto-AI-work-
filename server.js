@@ -1134,7 +1134,10 @@ const server = http.createServer((req, res) => {
 
         if (Array.isArray(imported.leads)) {
           whatsappConversations = imported.leads;
+          // Real data protection: Do NOT save simulated test messages to real leads.json!
+        if (false) {
           saveJSONFile('leads.json', whatsappConversations);
+        }
           restoredCount += imported.leads.length;
         }
         if (Array.isArray(imported.reviews)) {
@@ -1821,20 +1824,8 @@ const server = http.createServer((req, res) => {
           }, true);
 
           if (autoRes.triggerAction === 'PUBLISH_POST') {
-            const postData = AIEngine.generateDynamicGooglePost();
-            publishedPostLogs.unshift({
-              id: 'post_log_' + Date.now(),
-              day: postData.day,
-              title: postData.title,
-              text: postData.text,
-              category: postData.category,
-              cta: postData.cta,
-              link: postData.link,
-              status: 'Published Live on Google Maps',
-              timestamp: new Date().toISOString(),
-              googlePostId: 'gbp_sim_owner_' + Date.now()
-            });
-            saveJSONFile('posts.json', publishedPostLogs);
+            // ZERO FAKE WORK POLICY: Simulation only previews post generation in-memory, never persists to posts.json
+            console.log('[Simulation] Post generation triggered in simulation mode - not persisting to posts.json');
           }
         } else {
           autoRes = await getSiaIntelligentResponse(text, finalName, {
@@ -1851,7 +1842,7 @@ const server = http.createServer((req, res) => {
 
         if (!conv) {
           conv = { phone, name: finalName, status: isOwner ? 'Owner / Executive' : 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
-          whatsappConversations.unshift(conv);
+          // Keep in-memory for active session preview only without saving fake records to disk
         }
 
         const inMsg = {
@@ -1872,7 +1863,7 @@ const server = http.createServer((req, res) => {
         conv.messages.push(inMsg);
         conv.messages.push(outMsg);
         conv.lastUpdated = outMsg.timestamp;
-        saveJSONFile('leads.json', whatsappConversations);
+        // ZERO FAKE DATA POLICY: Simulation runs strictly in-memory for preview. NEVER save simulated test leads to leads.json!
 
         autoPilotState.eventLogs.unshift({
           id: 'evt_sim_wa_' + Date.now(),
