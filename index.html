@@ -1709,8 +1709,8 @@ a:hover {
 body {
   background-color: #020617 !important;
   background-image: 
-    linear-gradient(180deg, rgba(2, 6, 23, 0.42) 0%, rgba(2, 6, 23, 0.60) 40%, rgba(2, 6, 23, 0.78) 100%),
-    url('/public/luxury-bungalow-estate-2.jpg') !important;
+    linear-gradient(180deg, rgba(2, 6, 23, 0.25) 0%, rgba(2, 6, 23, 0.38) 45%, rgba(2, 6, 23, 0.60) 100%),
+    url('/public/executive-sky-penthouse.jpg') !important;
   background-size: cover !important;
   background-position: center top !important;
   background-attachment: fixed !important;
@@ -2263,6 +2263,32 @@ body {
           <span id="audio-toggle-lbl">Sound Effects: ON</span>
         </button>
       </div>
+
+      <!-- SATNAM SIR'S MILLIONAIRE MINDSET & FOCUS BOOSTER -->
+      <div style="margin-top: 20px; background: rgba(3, 7, 18, 0.75); border: 1.5px solid rgba(212, 175, 55, 0.4); border-radius: 16px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 8px 25px rgba(0,0,0,0.5);">
+        <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 280px;">
+          <span style="font-size: 26px; filter: drop-shadow(0 0 10px rgba(254, 243, 199, 0.6));">⚡</span>
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #fef08a; font-weight: 800;">
+              Gary Keller Executive Mindset Booster
+            </div>
+            <div style="font-size: 14px; font-weight: 700; color: #ffffff; font-style: italic; margin-top: 2px;" id="exec-quote-text">
+              "Think Big, Aim High, Act Bold. Your standard determines your success. You are building an empire."
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="exec-quick-btn exec-btn-glass" onclick="cycleMindsetQuote()" style="padding: 6px 14px; font-size: 12px;" title="Inspiring MREA quote">
+            <span>🔄</span>
+            <span>Next Quote</span>
+          </button>
+          <button class="exec-quick-btn exec-btn-glass" onclick="toggleDeepFocusAudio()" id="btn-focus-audio" style="padding: 6px 14px; font-size: 12px; border-color: rgba(52, 211, 153, 0.4);" title="432Hz Deep Focus Alpha Wave Audio">
+            <span>🎧</span>
+            <span id="focus-audio-lbl">Deep Focus Audio: OFF</span>
+          </button>
+        </div>
+      </div>
+
 
       <!-- 3-Column Executive Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 20px;">
@@ -5270,6 +5296,87 @@ function triggerRateCardShareModal() {
   }).catch(() => {
     prompt("Copy Rate Card URL:", rateCardUrl);
   });
+}
+
+
+// Gary Keller MREA Millionaire Mindset Quotes
+const mreaQuotes = [
+  "Think Big, Aim High, Act Bold. Your standard determines your success. You are building an empire.",
+  "Energy flows where attention goes. Spend your morning exclusively on the 3 Hours of Lead Generation.",
+  "Achieving ₹1 Crore Net Profit is not about working 10x harder—it is about mastering Leverage, Listings, and Leads.",
+  "The millionaire real estate agent focuses on what matters most: turning leads into lifelong clients.",
+  "Lead with revenue, not expenses. Every rupee invested must generate a measurable return.",
+  "Amateurs wait for motivation; professionals follow their daily discipline. You are the #1 broker in Ambernath."
+];
+
+let currentQuoteIdx = 0;
+function cycleMindsetQuote() {
+  playAudioChime('click');
+  currentQuoteIdx = (currentQuoteIdx + 1) % mreaQuotes.length;
+  const quoteEl = document.getElementById('exec-quote-text');
+  if (quoteEl) {
+    quoteEl.style.opacity = '0';
+    setTimeout(() => {
+      quoteEl.textContent = '"' + mreaQuotes[currentQuoteIdx] + '"';
+      quoteEl.style.opacity = '1';
+    }, 200);
+  }
+}
+
+// Native 432Hz Deep Focus Alpha Tone Synthesizer
+let deepFocusOsc = null;
+let deepFocusGain = null;
+let deepFocusActive = false;
+
+function toggleDeepFocusAudio() {
+  const lbl = document.getElementById('focus-audio-lbl');
+  const btn = document.getElementById('btn-focus-audio');
+  
+  if (!deepFocusActive) {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      deepFocusOsc = audioCtx.createOscillator();
+      deepFocusGain = audioCtx.createGain();
+
+      // 432 Hz Healing / Deep Alpha Concentration frequency
+      deepFocusOsc.type = 'sine';
+      deepFocusOsc.frequency.setValueAtTime(432, audioCtx.currentTime);
+
+      // Very soft, relaxing ambient volume
+      deepFocusGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      deepFocusGain.gain.exponentialRampToValueAtTime(0.02, audioCtx.currentTime + 1.5);
+
+      deepFocusOsc.connect(deepFocusGain);
+      deepFocusGain.connect(audioCtx.destination);
+      deepFocusOsc.start();
+
+      deepFocusActive = true;
+      if (lbl) lbl.textContent = 'Deep Focus Audio: ON (432Hz)';
+      if (btn) {
+        btn.style.borderColor = '#10b981';
+        btn.style.background = 'rgba(16, 185, 129, 0.2)';
+      }
+    } catch(e) {
+      console.warn('Audio synthesis not supported');
+    }
+  } else {
+    try {
+      if (deepFocusGain) {
+        deepFocusGain.gain.exponentialRampToValueAtTime(0.0001, deepFocusGain.context.currentTime + 0.5);
+        setTimeout(() => {
+          if (deepFocusOsc) deepFocusOsc.stop();
+          deepFocusActive = false;
+        }, 500);
+      }
+    } catch(e) {
+      deepFocusActive = false;
+    }
+    if (lbl) lbl.textContent = 'Deep Focus Audio: OFF';
+    if (btn) {
+      btn.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+      btn.style.background = 'rgba(255, 255, 255, 0.1)';
+    }
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
