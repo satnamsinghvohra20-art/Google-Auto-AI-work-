@@ -27,12 +27,11 @@
       --radius-sm: 10px;
 
       /* DEFAULT THEME: Ultra-Luxury Obsidian 24K Gold & Emerald Ambient */
-      --bg-base: #050811;
+      --bg-base: #030712;
       --bg-gradient: 
-        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(212, 175, 55, 0.15) 0%, transparent 65%),
-        radial-gradient(ellipse 70% 50% at 85% 25%, rgba(16, 185, 129, 0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 70% 50% at 15% 65%, rgba(14, 165, 233, 0.1) 0%, transparent 55%),
-        linear-gradient(180deg, #070b16 0%, #03050a 100%);
+        linear-gradient(180deg, rgba(3, 7, 18, 0.72) 0%, rgba(3, 7, 18, 0.82) 35%, rgba(2, 6, 23, 0.94) 100%),
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(212, 175, 55, 0.22) 0%, transparent 60%),
+        url('/public/luxury-bungalow-estate-2.jpg');
       --text-main: #f8fafc;
       --text-sub: #cbd5e1;
       --text-muted: #94a3b8;
@@ -78,7 +77,10 @@
 
     [data-theme="emerald"] {
       --bg-base: #041a14;
-      --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, #064e3b 0%, transparent 70%), linear-gradient(180deg, #05261d 0%, #020c09 100%);
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(4, 26, 20, 0.72) 0%, rgba(2, 12, 9, 0.88) 100%),
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(16, 185, 129, 0.25) 0%, transparent 70%),
+        url('/public/luxury-villa-bungalow-1.jpg');
       --text-main: #f0fdf4;
       --text-sub: #cbd5e1;
       --text-muted: #94a3b8;
@@ -101,7 +103,10 @@
 
     [data-theme="midnight"] {
       --bg-base: #09090b;
-      --bg-gradient: linear-gradient(180deg, #18181b 0%, #09090b 100%);
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(9, 9, 11, 0.72) 0%, rgba(5, 5, 8, 0.90) 100%),
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.2) 0%, transparent 70%),
+        url('/public/luxury-villa-interior-3.jpg');
       --text-main: #fafafa;
       --text-sub: #a1a1aa;
       --text-muted: #71717a;
@@ -130,14 +135,20 @@
     }
 
     body {
-      background-color: var(--bg-base);
-      background-image: var(--bg-gradient);
+      background-color: #030712;
+      background-image: 
+        linear-gradient(180deg, rgba(3, 7, 18, 0.70) 0%, rgba(3, 7, 18, 0.82) 35%, rgba(2, 6, 23, 0.92) 100%),
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(212, 175, 55, 0.22) 0%, transparent 60%),
+        url('/public/luxury-bungalow-estate-2.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
       background-attachment: fixed;
       color: var(--text-main);
       line-height: 1.6;
       padding-bottom: 80px;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-image 0.5s ease-in-out;
     }
 
     h1, h2, h3, h4, .font-heading {
@@ -4293,6 +4304,41 @@
       }
     }
 
+</script>
+
+
+<script>
+function switchVillaBackground(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const body = document.body;
+
+  if (theme === 'obsidian') {
+    body.style.backgroundImage = "linear-gradient(180deg, rgba(3, 7, 18, 0.68) 0%, rgba(3, 7, 18, 0.82) 35%, rgba(2, 6, 23, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(212, 175, 55, 0.22) 0%, transparent 60%), url('/public/luxury-bungalow-estate-2.jpg')";
+  } else if (theme === 'emerald') {
+    body.style.backgroundImage = "linear-gradient(180deg, rgba(4, 26, 20, 0.68) 0%, rgba(2, 12, 9, 0.85) 100%), radial-gradient(ellipse 80% 50% at 50% -10%, rgba(16, 185, 129, 0.25) 0%, transparent 70%), url('/public/luxury-villa-bungalow-1.jpg')";
+  } else if (theme === 'midnight') {
+    body.style.backgroundImage = "linear-gradient(180deg, rgba(9, 9, 11, 0.68) 0%, rgba(5, 5, 8, 0.88) 100%), radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.2) 0%, transparent 70%), url('/public/luxury-villa-interior-3.jpg')";
+  } else if (theme === 'pearl') {
+    body.style.backgroundImage = "linear-gradient(180deg, #f1f5f9 0%, #f8fafc 40%, #e2e8f0 100%)";
+  }
+
+  body.style.backgroundSize = "cover";
+  body.style.backgroundPosition = "center top";
+  body.style.backgroundRepeat = "no-repeat";
+  body.style.backgroundAttachment = "fixed";
+
+  try {
+    localStorage.setItem('dashmesh_rate_card_theme', theme);
+  } catch (e) {}
+
+  document.querySelectorAll('.btn-theme-pill').forEach(function(pill) {
+    if (pill.getAttribute('data-theme-val') === theme) {
+      pill.classList.add('active');
+    } else {
+      pill.classList.remove('active');
+    }
+  });
+}
 </script>
 
 </body>
