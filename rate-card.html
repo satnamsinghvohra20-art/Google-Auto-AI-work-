@@ -2671,6 +2671,201 @@
       z-index: 1;
     }
 
+
+    /* ==========================================================================
+       CRYSTAL CLEAR LUXURY BACKGROUND & ULTRA-BRIGHT LEGIBLE TYPOGRAPHY
+       Background villa estate is 100% vividly visible.
+       Cards use frosted glass with high contrast so all text is pin-sharp & bright.
+       ========================================================================== */
+
+    body {
+      background-color: #020617;
+      background-image: 
+        linear-gradient(180deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.32) 40%, rgba(2, 6, 23, 0.48) 100%),
+        url('/public/luxury-bungalow-estate-2.jpg');
+      background-size: cover !important;
+      background-position: center top !important;
+      background-repeat: no-repeat !important;
+      background-attachment: fixed !important;
+      color: #ffffff !important;
+      line-height: 1.6;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-image 0.6s ease-in-out;
+    }
+
+    /* CLEAR BACKGROUND OVERLAYS FOR TIME OF DAY */
+    html[data-time-mode="night"], html[data-theme="night-white"] {
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.32) 40%, rgba(2, 6, 23, 0.48) 100%),
+        url('/public/luxury-bungalow-estate-2.jpg');
+    }
+    html[data-time-mode="day"], html[data-theme="cream-white"] {
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(253, 251, 247, 0.20) 40%, rgba(240, 236, 227, 0.35) 100%),
+        url('/public/cream-white-luxury-villa.jpg');
+    }
+    html[data-time-mode="sunset"], html[data-theme="sunset-cream"] {
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(15, 15, 20, 0.22) 0%, rgba(15, 15, 20, 0.32) 40%, rgba(10, 10, 15, 0.48) 100%),
+        url('/public/luxury-villa-interior-3.jpg');
+    }
+
+    /* TOP NAV BAR - SLEEK FROSTED GLASS */
+    .top-nav-bar {
+      background: rgba(4, 8, 20, 0.85) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* EXECUTIVE HEADER CARD - HIGH CONTRAST FROSTED GLASS */
+    .header-card {
+      background: rgba(8, 14, 30, 0.82) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+      border: 1.5px solid rgba(254, 243, 199, 0.5) !important;
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      margin-bottom: 28px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+    .header-card h1 {
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 255, 255, 0.3) !important;
+      letter-spacing: -0.01em !important;
+    }
+    .header-card p {
+      color: #f1f5f9 !important;
+      font-weight: 500 !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* FILTER DECK - ULTRA CLEAN FROSTED GLASS */
+    .filter-deck-card {
+      background: rgba(8, 14, 30, 0.80) !important;
+      backdrop-filter: blur(20px) saturate(160%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.1) !important;
+    }
+    .filter-deck-header h3, .filter-group label {
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+    .filter-chip {
+      background: rgba(15, 23, 42, 0.85) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      color: #f8fafc !important;
+      font-weight: 600 !important;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: #d4af37 !important;
+      color: #000000 !important;
+      border-color: #fef08a !important;
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.6) !important;
+      font-weight: 800 !important;
+    }
+
+    /* RATE CARDS - BRIGHT, PIN-SHARP, EYE-CATCHING */
+    .rate-card {
+      background: rgba(8, 14, 30, 0.82) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+    }
+    .rate-card:hover {
+      transform: translateY(-6px) scale(1.015) !important;
+      border-color: #ffffff !important;
+      box-shadow: 0 30px 65px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 255, 255, 0.4), 0 0 60px rgba(254, 243, 199, 0.25) !important;
+    }
+    .card-title {
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      font-size: 20px !important;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.3) !important;
+    }
+    .card-loc {
+      color: #fef08a !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* PRICE BOX - RADIANT CONTRAST */
+    .price-box {
+      background: rgba(3, 7, 18, 0.90) !important;
+      border: 1.5px solid rgba(254, 243, 199, 0.45) !important;
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+    }
+    .price-box .price-label {
+      color: #cbd5e1 !important;
+      font-size: 11px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.1em !important;
+      font-weight: 700 !important;
+    }
+    .price-box .price-val {
+      color: #fde047 !important;
+      font-weight: 800 !important;
+      font-size: 24px !important;
+      text-shadow: 0 0 20px rgba(253, 224, 71, 0.4), 0 2px 6px rgba(0, 0, 0, 0.8) !important;
+    }
+    .price-box .rate-sqft {
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+    }
+
+    /* FEATURE LIST */
+    .card-features li {
+      color: #f8fafc !important;
+      font-weight: 500 !important;
+      font-size: 13px !important;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .card-features li strong {
+      color: #ffffff !important;
+      font-weight: 700 !important;
+    }
+
+    /* ALL OTHER SECTIONS: COMPARISON, AI TREND, VIP, REVIEWS */
+    .comparison-card,
+    .bank-comparison-deck,
+    .rent-agreement-card,
+    .ai-super-rank-deck,
+    .ai-trend-engine-deck,
+    .ai-faq-deck,
+    .office-card,
+    .testimonial-card,
+    .vip-modal-card {
+      background: rgba(8, 14, 30, 0.82) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: #ffffff !important;
+      font-weight: 800 !important;
+    }
+    td {
+      color: #f1f5f9 !important;
+      font-weight: 600 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
 </style>
 
   <!-- Google Official LocalBusiness Structured Data (JSON-LD) for Rate Card -->
@@ -2716,25 +2911,6 @@
         <span>Growth Suite Dashboard</span>
       </a>
       <div class="nav-actions-right">
-        <!-- Interactive Theme Switcher -->
-        <div class="theme-switcher-wrapper" style="background: rgba(8, 12, 24, 0.85); backdrop-filter: blur(12px); border: 1.5px solid rgba(254, 243, 199, 0.4); border-radius: 999px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;">
-          <span style="font-size: 11px; font-weight: 800; color: #fffbeb; display: inline-flex; align-items: center; gap: 4px;">
-            <span id="time-clock-icon">🕒</span>
-            <span id="time-clock-label">Time-Sync:</span>
-          </span>
-          <button class="btn-theme-pill" data-time-btn="auto" onclick="setTimeMode('auto')" title="Automatically sync background scenery with real local time">
-            🔄 Auto Time
-          </button>
-          <button class="btn-theme-pill" data-time-btn="cream-white" onclick="setTimeMode('cream-white')" title="Morning/Daylight White & Cream Limestone Villa">
-            ☀️ Cream & White Light
-          </button>
-          <button class="btn-theme-pill" data-time-btn="sunset-cream" onclick="setTimeMode('sunset-cream')" title="Golden Hour Mountain Vista Villa">
-            🌅 Sunset Gold
-          </button>
-          <button class="btn-theme-pill" data-time-btn="night-white" onclick="setTimeMode('night-white')" title="Midnight Royal Villa with White Spotlights">
-            🌙 Night White Light
-          </button>
-        </div>
         <a href="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" target="_blank" rel="noopener noreferrer" class="btn-nav-shield" title="Customer Review Shield">
           <span>📱</span>
           <span>Review Shield</span>
@@ -2750,23 +2926,7 @@
   <div class="container">
     <!-- Header Card -->
     
-    <!-- ARCHITECTURAL WHITE & CREAM LIGHTING BANNER -->
-    <div class="white-cream-spotlight" style="margin-bottom: 24px;">
-      <div style="background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(16px); border: 1.5px solid rgba(254, 243, 199, 0.55); border-radius: 16px; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 35px rgba(255,255,255,0.25);">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ffffff 0%, #fef08a 100%); color: #000; font-size: 20px; box-shadow: 0 0 22px rgba(255,255,255,0.95), 0 0 40px rgba(254,243,199,0.8);">💡</span>
-          <div>
-            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: #fef08a; font-weight: 800;">Architectural Ambient Lighting System</div>
-            <div style="font-size: 15px; font-weight: 700; color: #fdfbf7;" id="lighting-status-desc">✨ Pure White Light & Cream Spotlight Illumination Active</div>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <span style="font-size: 12px; color: #cbd5e1; font-weight: 600;">Auto Time Engine:</span>
-          <span class="badge" style="background: rgba(255,255,255,0.18); border: 1.5px solid rgba(254,243,199,0.5); color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 800; font-size: 12px; letter-spacing: 0.04em;" id="lighting-time-badge">🕒 Local Time Synchronized</span>
-        </div>
-      </div>
-      <div class="architectural-light-beam"></div>
-    </div>
+    
 
     <header class="header-card">
       <div class="brand-badge">👑 Verified MahaRERA Certified Real Estate Catalog 2026</div>
@@ -4644,111 +4804,53 @@ let activeTimeMode = 'auto';
 
 function getTimeOfDayScenery() {
   const now = new Date();
-  const hour = now.getHours(); // 0 to 23
+  const hour = now.getHours();
 
-  // Morning & Daylight (06:00 to 16:59)
+  // Morning & Daylight (06:00 to 16:59) - Cream & White Luxury Villa clearly visible
   if (hour >= 6 && hour < 17) {
     return {
       mode: 'day',
       theme: 'cream-white',
       name: '☀️ Morning Cream & White Light',
-      icon: '☀️',
-      bg: "linear-gradient(180deg, rgba(253, 251, 247, 0.78) 0%, rgba(247, 244, 237, 0.86) 35%, rgba(240, 236, 227, 0.94) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.38) 0%, transparent 65%), url('/public/cream-white-luxury-villa.jpg')",
+      bg: "linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(253, 251, 247, 0.20) 40%, rgba(240, 236, 227, 0.35) 100%), url('/public/cream-white-luxury-villa.jpg')",
       timeStr: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
   }
-  // Sunset & Golden Hour (17:00 to 19:45)
+  // Sunset & Golden Hour (17:00 to 19:59) - Golden Mountain Terrace clearly visible
   else if (hour >= 17 && hour < 20) {
     return {
       mode: 'sunset',
       theme: 'sunset-cream',
       name: '🌅 Sunset Cream & Amber',
-      icon: '🌅',
-      bg: "linear-gradient(180deg, rgba(15, 15, 20, 0.68) 0%, rgba(15, 15, 20, 0.82) 35%, rgba(10, 10, 15, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(245, 158, 11, 0.25) 0%, transparent 65%), url('/public/luxury-villa-interior-3.jpg')",
+      bg: "linear-gradient(180deg, rgba(15, 15, 20, 0.22) 0%, rgba(15, 15, 20, 0.32) 40%, rgba(10, 10, 15, 0.48) 100%), url('/public/luxury-villa-interior-3.jpg')",
       timeStr: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
   }
-  // Night & Midnight (20:00 to 05:59)
+  // Night & Midnight (20:00 to 05:59) - Royal Midnight Starry Estate with pool clearly visible
   else {
     return {
       mode: 'night',
       theme: 'night-white',
       name: '🌙 Night White Light & Starry Estate',
-      icon: '🌙',
-      bg: "linear-gradient(180deg, rgba(2, 6, 23, 0.68) 0%, rgba(2, 6, 23, 0.80) 35%, rgba(2, 6, 23, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.22) 0%, transparent 65%), url('/public/luxury-bungalow-estate-2.jpg')",
+      bg: "linear-gradient(180deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.32) 40%, rgba(2, 6, 23, 0.48) 100%), url('/public/luxury-bungalow-estate-2.jpg')",
       timeStr: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
   }
 }
 
-function applyTimeOfDayTheme(customMode = null) {
-  const modeToUse = customMode || activeTimeMode;
+function applyTimeOfDayTheme() {
   const currentScenery = getTimeOfDayScenery();
   const root = document.documentElement;
   const body = document.body;
-  const labelEl = document.getElementById('time-clock-label');
-  const iconEl = document.getElementById('time-clock-icon');
 
-  let chosenTheme = currentScenery.theme;
-  let bgToApply = currentScenery.bg;
+  root.setAttribute('data-theme', currentScenery.theme);
+  root.setAttribute('data-time-mode', currentScenery.mode);
 
-  if (modeToUse === 'cream-white') {
-    chosenTheme = 'cream-white';
-    bgToApply = "linear-gradient(180deg, rgba(253, 251, 247, 0.78) 0%, rgba(247, 244, 237, 0.86) 35%, rgba(240, 236, 227, 0.94) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.38) 0%, transparent 65%), url('/public/cream-white-luxury-villa.jpg')";
-  } else if (modeToUse === 'sunset-cream') {
-    chosenTheme = 'sunset-cream';
-    bgToApply = "linear-gradient(180deg, rgba(15, 15, 20, 0.68) 0%, rgba(15, 15, 20, 0.82) 35%, rgba(10, 10, 15, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(245, 158, 11, 0.25) 0%, transparent 65%), url('/public/luxury-villa-interior-3.jpg')";
-  } else if (modeToUse === 'night-white') {
-    chosenTheme = 'night-white';
-    bgToApply = "linear-gradient(180deg, rgba(2, 6, 23, 0.68) 0%, rgba(2, 6, 23, 0.80) 35%, rgba(2, 6, 23, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.22) 0%, transparent 65%), url('/public/luxury-bungalow-estate-2.jpg')";
-  }
-
-  root.setAttribute('data-theme', chosenTheme);
-  root.setAttribute('data-time-mode', modeToUse === 'auto' ? currentScenery.mode : (modeToUse === 'cream-white' ? 'day' : (modeToUse === 'sunset-cream' ? 'sunset' : 'night')));
-
-  body.style.backgroundImage = bgToApply;
+  body.style.backgroundImage = currentScenery.bg;
   body.style.backgroundSize = "cover";
   body.style.backgroundPosition = "center top";
   body.style.backgroundRepeat = "no-repeat";
   body.style.backgroundAttachment = "fixed";
-
-  if (labelEl) {
-    if (modeToUse === 'auto') {
-      labelEl.textContent = currentScenery.timeStr + ' • ' + (currentScenery.mode === 'night' ? 'Night White Light' : (currentScenery.mode === 'sunset' ? 'Sunset Gold' : 'Cream Daylight'));
-    const statusDesc = document.getElementById('lighting-status-desc');
-    const timeBadge = document.getElementById('lighting-time-badge');
-    if (statusDesc) {
-      if (currentScenery.mode === 'night') {
-        statusDesc.innerHTML = '🌙 Architectural Night Spotlights & Pure White/Cream Illumination';
-      } else if (currentScenery.mode === 'sunset') {
-        statusDesc.innerHTML = '🌅 Golden Hour Amber Dusk with Soft White Lantern Light';
-      } else {
-        statusDesc.innerHTML = '☀️ Natural Morning Sun with Crisp White Marble & Cream Limestone Light';
-      }
-    }
-    if (timeBadge) timeBadge.textContent = '🕒 ' + currentScenery.timeStr + ' (' + currentScenery.mode.toUpperCase() + ')';
-    } else {
-      labelEl.textContent = 'Active: ' + (modeToUse === 'cream-white' ? 'Cream & White' : (modeToUse === 'sunset-cream' ? 'Sunset Gold' : 'Night White Light'));
-    }
-  }
-  if (iconEl) {
-    iconEl.textContent = modeToUse === 'auto' ? currentScenery.icon : (modeToUse === 'cream-white' ? '☀️' : (modeToUse === 'sunset-cream' ? '🌅' : '🌙'));
-  }
-
-  // Update pills UI
-  document.querySelectorAll('[data-time-btn]').forEach(btn => {
-    if (btn.getAttribute('data-time-btn') === modeToUse) {
-      btn.classList.add('active');
-      btn.style.background = '#d4af37';
-      btn.style.color = '#000';
-      btn.style.fontWeight = '800';
-    } else {
-      btn.classList.remove('active');
-      btn.style.background = 'transparent';
-      btn.style.color = '#cbd5e1';
-      btn.style.fontWeight = '600';
-    }
-  });
 }
 
 function setTimeMode(mode) {
