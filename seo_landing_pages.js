@@ -821,9 +821,201 @@ ${getFloatingWhatsAppWidget()}
 </html>`;
 }
 
+
+function renderPropertyDealerPaleGaonPage() {
+  const extraFaqSchema = `
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Who is the best and most trusted property dealer in Pale Gaon, Ambernath East?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dashmesh Properties (led by Satnam Singh Vohra) is the #1 ranked property consultant and real estate dealer in Pale Gaon, located at Shop No. 24, New Floora, Pale Gaon, Ambernath East (421 501). With a 5.0-star Google rating and 238+ verified MMR projects, they specialize in ready 1 BHK/2 BHK flats, commercial spaces, and doorstep registered rent agreements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the property rates in Pale Gaon, Ambernath East in 2026?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In Pale Gaon, ready 1 RK studio apartments range from ₹12 Lakhs to ₹16 Lakhs, standard 1 BHK flats range from ₹21 Lakhs to ₹32 Lakhs, and luxury 2 BHK apartments range from ₹34 Lakhs to ₹52 Lakhs. Nationalized bank loans (SBI, HDFC, Bank of Baroda) up to 90% are fully approved."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I do a registered rent agreement with doorstep biometric in Pale Gaon?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Dashmesh Properties provides official Maharashtra Government registered rent agreements with doorstep biometric capture at Shop No. 24, New Floora, Pale Gaon. Total cost is ₹1,750 per side (₹3,500 all-inclusive covering stamp duty, registration fee, drafting, biometric, and police verification submission)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I book a free VIP site visit in Pale Gaon?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Call or WhatsApp Satnam Sir directly at +91 84210 77613. Dashmesh Properties offers free AC car pickup and drop-off from Ambernath railway station or your residence for site visits across Pale Gaon."
+        }
+      }
+    ]
+  }
+  </script>
+  `;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+${getCommonHead(
+  "Best Property Dealer in Pale Gaon Ambernath East | Dashmesh Properties (#1 Local Agency)",
+  "Top verified property dealer & real estate agent in Pale Gaon, Ambernath East. Buy, sell, rent ready 1 BHK, 2 BHK flats, shops & doorstep registered rent agreements. Shop 24, New Floora, Pale Gaon. Call Satnam Sir: +91 84210 77613.",
+  "/property-dealer-pale-gaon",
+  extraFaqSchema
+)}
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="badge-tag">👑 #1 RANKED GOOGLE LOCAL 3-PACK REAL ESTATE DESK</div>
+    <h1>Property Dealer in Pale Gaon, Ambernath (East)</h1>
+    <p>Official Storefront Desk &bull; Shop No. 24, New Floora, Pale Gaon, Ambernath &bull; 100% Verified Legal Documents</p>
+  </header>
+
+  <!-- Sticky CTA Nav -->
+  <div class="hero-cta-banner">
+    <div style="font-size: 14.5px; font-weight: 700;">
+      📍 <strong>Direct Pale Gaon Office:</strong> Satnam Sir (+91 84210 77613) &bull; Open All 7 Days (10 AM - 9 PM)
+    </div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <a href="tel:${OFFICE_INFO.phone}" class="btn-cta btn-cta-call">📞 Call Satnam Sir</a>
+      <a href="https://wa.me/${OFFICE_INFO.phoneRaw}?text=Namaste%20Satnam%20Sir%2C%20I%20am%20inquiring%20about%20Pale%20Gaon%20properties." target="_blank" class="btn-cta btn-cta-wa">💬 WhatsApp Chat</a>
+      <a href="${OFFICE_INFO.mapsPin}" target="_blank" class="btn-cta btn-cta-map">🗺️ Google Maps Directions</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Local Geo-Beacon Card -->
+    <div style="background: linear-gradient(135deg, #064e3b 0%, #0f766e 100%); color: #ffffff; border-radius: 20px; padding: 28px; margin-bottom: 28px; box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.4);">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+        <div>
+          <span style="background: #34d399; color: #064e3b; font-weight: 900; font-size: 11px; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase;">GPS Storefront Pin Verified</span>
+          <h2 style="font-size: 24px; font-weight: 900; margin: 8px 0 4px; color: #ffffff;">Dashmesh Properties &mdash; Pale Gaon Headquarters</h2>
+          <p style="font-size: 14px; opacity: 0.9; margin: 0;">Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501</p>
+        </div>
+        <div style="text-align: right; font-family: monospace; font-size: 13px; background: rgba(0,0,0,0.25); padding: 12px 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+          <div>Geo-Lat: 19.1881295° N</div>
+          <div>Geo-Lng: 73.1682152° E</div>
+          <div style="color: #fbbf24; font-weight: 800; margin-top: 4px;">Google Rating: 5.0 ★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Services Grid -->
+    <div class="grid-cards">
+      <div class="card">
+        <div class="card-icon">🏡</div>
+        <h3>Ready 1 BHK & 2 BHK in Pale Gaon</h3>
+        <p>Verified title, clear possession flats in prime residential projects across Pale Gaon. Up to 90% home loan sanction from SBI, HDFC, and ICICI Bank with fast processing.</p>
+        <div style="margin-top: 14px; font-weight: 800; color: #047857;">1 BHK from ₹21 Lakhs | 2 BHK from ₹34 Lakhs</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📜</div>
+        <h3>Registered Rent Agreement Desk</h3>
+        <p>Government recognized leave and license agreement desk at Shop No. 24, New Floora. Doorstep biometric verification, stamp duty payment, and police verification submission.</p>
+        <div style="margin-top: 14px; font-weight: 800; color: #047857;">₹1,750 Per Side / ₹3,500 Total (All-Inclusive)</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Commercial Shops & Retail Space</h3>
+        <p>Main road frontage commercial shops, medical stores, grocery stores, and offices with high footfall in Pale Gaon and Anand Nagar corridor.</p>
+        <div style="margin-top: 14px; font-weight: 800; color: #047857;">Sale & Long-Term Rental Available</div>
+      </div>
+    </div>
+
+    <!-- Rate Card Quick Table -->
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 28px; margin-top: 28px;">
+      <h3 style="font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 16px;">
+        📊 2026 Verified Real Estate Price Benchmarks in Pale Gaon
+      </h3>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+          <thead>
+            <tr style="background: #f8fafc; border-bottom: 2px solid #cbd5e1; text-align: left;">
+              <th style="padding: 12px 16px;">Property Type</th>
+              <th style="padding: 12px 16px;">Carpet Area</th>
+              <th style="padding: 12px 16px;">Price Range</th>
+              <th style="padding: 12px 16px;">Est. EMI (8.40% SBI)</th>
+              <th style="padding: 12px 16px;">Rental Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 12px 16px; font-weight: 700;">1 RK Studio Apartment</td>
+              <td style="padding: 12px 16px;">240 – 310 sq.ft.</td>
+              <td style="padding: 12px 16px; color: #059669; font-weight: 800;">₹12L – ₹16L</td>
+              <td style="padding: 12px 16px;">~₹9,800/mo</td>
+              <td style="padding: 12px 16px;">₹3,500 – ₹5,000/mo</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; background: #fafafa;">
+              <td style="padding: 12px 16px; font-weight: 700;">1 BHK Prime Ready Flat</td>
+              <td style="padding: 12px 16px;">390 – 480 sq.ft.</td>
+              <td style="padding: 12px 16px; color: #059669; font-weight: 800;">₹21L – ₹28L</td>
+              <td style="padding: 12px 16px;">~₹17,200/mo</td>
+              <td style="padding: 12px 16px;">₹6,500 – ₹8,500/mo</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 12px 16px; font-weight: 700;">2 BHK Luxury Balcony Flat</td>
+              <td style="padding: 12px 16px;">560 – 710 sq.ft.</td>
+              <td style="padding: 12px 16px; color: #059669; font-weight: 800;">₹34L – ₹48L</td>
+              <td style="padding: 12px 16px;">~₹27,800/mo</td>
+              <td style="padding: 12px 16px;">₹9,500 – ₹13,000/mo</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 16px; font-weight: 700;">Commercial Road-Facing Shop</td>
+              <td style="padding: 12px 16px;">180 – 350 sq.ft.</td>
+              <td style="padding: 12px 16px; color: #059669; font-weight: 800;">₹22L – ₹45L</td>
+              <td style="padding: 12px 16px;">~₹18,500/mo</td>
+              <td style="padding: 12px 16px;">₹8,000 – ₹18,000/mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 18px; text-align: center;">
+        <a href="/rate-card" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #047857; text-decoration: none;">
+          <span>👑 View Full Official 238+ MMR Mega Projects Catalog & Rate Card &rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Review Section -->
+    <div style="background: #ffffff; border: 1px solid #fed7aa; border-radius: 20px; padding: 32px; text-align: center; margin-top: 30px;">
+      <h3 style="font-size: 22px; font-weight: 800; color: #1e293b; margin-bottom: 10px;">⭐ Give Feedback on Google Maps</h3>
+      <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">Support your local Pale Gaon community by sharing your verified experience with Satnam Sir.</p>
+      <a href="${OFFICE_INFO.reviewUrl}" target="_blank" rel="noopener noreferrer" class="btn-cta-review" style="background: #ea580c; color: #ffffff; border: none; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);">
+        ⭐ Write a 5-Star Google Review
+      </a>
+    </div>
+  </div>
+
+${getFloatingWhatsAppWidget()}
+  <footer class="footer">
+    <p><strong>Dashmesh Property & Rent Agreement Services</strong> &bull; Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501</p>
+    <p style="margin-top: 8px;">Direct Owner: <a href="tel:${OFFICE_INFO.phone}">${OFFICE_INFO.phone}</a> | <a href="${OFFICE_INFO.publicUrl}/">Main Suite</a></p>
+  </footer>
+</body>
+</html>`;
+}
+
+
 module.exports = {
   renderRentAgreementPage,
   renderPropertyConsultantPage,
   renderFlatsInAmbernathPage,
+  renderPropertyDealerPaleGaonPage,
   OFFICE_INFO
 };

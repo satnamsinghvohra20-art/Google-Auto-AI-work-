@@ -4093,6 +4093,12 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>${publicUrl}/property-dealer-pale-gaon</loc>
+    <lastmod>${nowIso}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>${publicUrl}/rate-card</loc>
     <lastmod>${nowIso}</lastmod>
     <changefreq>daily</changefreq>
