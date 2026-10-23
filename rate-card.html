@@ -2478,7 +2478,200 @@
       box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
     }
 
-  </style>
+  
+    /* ==========================================================================
+       ARCHITECTURAL WHITE & CREAM LIGHTING SYSTEM (TIME-OF-DAY ADAPTIVE)
+       Only pure white light and warm cream illumination as requested.
+       ========================================================================== */
+
+    /* DAYTIME CREAM & WHITE LIGHT THEME OVERRIDES */
+    [data-theme="cream-white"] {
+      --bg-base: #f7f5f0;
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --text-muted: #64748b;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-border: rgba(217, 180, 102, 0.55);
+      --card-border-hover: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 20px 45px rgba(180, 140, 54, 0.18), 0 0 30px rgba(255, 255, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --price-box-bg: rgba(254, 252, 246, 0.98);
+      --price-box-border: rgba(217, 180, 102, 0.5);
+      --table-header-bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+
+    [data-theme="cream-white"] .top-nav-bar {
+      background: rgba(253, 251, 247, 0.96) !important;
+      border-bottom: 1.5px solid rgba(217, 180, 102, 0.4) !important;
+      box-shadow: 0 4px 25px rgba(217, 180, 102, 0.15), 0 0 20px rgba(255, 255, 255, 0.8) !important;
+    }
+    [data-theme="cream-white"] .theme-switcher-wrapper {
+      background: #ffffff !important;
+      border: 1px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 0 15px rgba(254, 243, 199, 0.5) !important;
+    }
+    [data-theme="cream-white"] .theme-switcher-label {
+      color: #78350f !important;
+      font-weight: 700;
+    }
+    [data-theme="cream-white"] .btn-theme-pill {
+      color: #334155 !important;
+    }
+    [data-theme="cream-white"] .btn-theme-pill:hover {
+      color: #0f172a !important;
+      background: rgba(254, 243, 199, 0.4) !important;
+    }
+    [data-theme="cream-white"] .btn-nav-shield {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-color: rgba(217, 180, 102, 0.5) !important;
+    }
+    [data-theme="cream-white"] .header-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(254, 252, 246, 0.94) 100%) !important;
+      color: #0f172a !important;
+      border: 2px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 25px 55px rgba(180, 140, 54, 0.2), 0 0 40px rgba(255, 255, 255, 0.9) !important;
+    }
+    [data-theme="cream-white"] .header-card h1,
+    [data-theme="cream-white"] .header-card p {
+      color: #0f172a !important;
+    }
+    [data-theme="cream-white"] .rate-card {
+      background: rgba(255, 255, 255, 0.94) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.45) !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12), 0 0 25px rgba(255, 255, 255, 0.7) !important;
+      color: #0f172a !important;
+    }
+    [data-theme="cream-white"] .rate-card:hover {
+      border-color: #d4af37 !important;
+      box-shadow: 0 22px 50px rgba(180, 140, 54, 0.25), 0 0 40px rgba(255, 255, 255, 0.95) !important;
+    }
+    [data-theme="cream-white"] .card-title {
+      color: #0f172a !important;
+    }
+    [data-theme="cream-white"] .card-loc {
+      color: #475569 !important;
+    }
+    [data-theme="cream-white"] .price-box {
+      background: rgba(254, 252, 246, 0.98) !important;
+      border: 1px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: inset 0 0 15px rgba(254, 243, 199, 0.4) !important;
+    }
+    [data-theme="cream-white"] .filter-deck-card {
+      background: rgba(255, 255, 255, 0.94) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.45) !important;
+      color: #0f172a !important;
+    }
+    [data-theme="cream-white"] .filter-chip {
+      background: rgba(254, 252, 246, 0.9) !important;
+      border: 1px solid rgba(217, 180, 102, 0.4) !important;
+      color: #334155 !important;
+    }
+    [data-theme="cream-white"] .filter-chip.active,
+    [data-theme="cream-white"] .filter-chip:hover {
+      background: #d4af37 !important;
+      color: #000000 !important;
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4) !important;
+    }
+    [data-theme="cream-white"] .lux-nav-pill {
+      background: rgba(254, 252, 246, 0.9) !important;
+      border: 1px solid rgba(217, 180, 102, 0.4) !important;
+      color: #334155 !important;
+    }
+    [data-theme="cream-white"] .lux-nav-pill.active-lux-pill {
+      background: #d4af37 !important;
+      color: #000000 !important;
+    }
+    [data-theme="cream-white"] .ai-super-rank-deck,
+    [data-theme="cream-white"] .ai-trend-engine-deck,
+    [data-theme="cream-white"] .ai-faq-deck,
+    [data-theme="cream-white"] .google-ai-command-box,
+    [data-theme="cream-white"] .bank-comparison-deck,
+    [data-theme="cream-white"] .comparison-card,
+    [data-theme="cream-white"] .rent-agreement-card,
+    [data-theme="cream-white"] .office-card,
+    [data-theme="cream-white"] .testimonial-card,
+    [data-theme="cream-white"] .vip-modal-card {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.45) !important;
+      color: #0f172a !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12), 0 0 30px rgba(255, 255, 255, 0.8) !important;
+    }
+    [data-theme="cream-white"] th, 
+    [data-theme="cream-white"] td {
+      color: #1e293b !important;
+      border-bottom-color: rgba(217, 180, 102, 0.3) !important;
+    }
+
+    /* NIGHT WHITE LIGHT THEME OVERRIDES (CRISP WHITE SPOTLIGHTS & WARM CREAM HALO) */
+    [data-theme="night-white"] {
+      --bg-base: #020617;
+      --text-main: #fdfbf7;
+      --text-sub: #e2e8f0;
+      --text-muted: #94a3b8;
+      --card-bg: rgba(11, 16, 32, 0.86);
+      --card-border: rgba(255, 255, 255, 0.28);
+      --card-border-hover: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      --price-box-bg: rgba(6, 11, 25, 0.92);
+      --price-box-border: rgba(254, 243, 199, 0.4);
+    }
+
+    [data-theme="night-white"] .top-nav-bar {
+      background: rgba(4, 8, 20, 0.94) !important;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 255, 255, 0.15) !important;
+    }
+    [data-theme="night-white"] .header-card {
+      background: linear-gradient(135deg, rgba(8, 14, 30, 0.95) 0%, rgba(15, 23, 42, 0.92) 100%) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(255, 255, 255, 0.2), 0 0 80px rgba(254, 243, 199, 0.15) !important;
+    }
+    [data-theme="night-white"] .rate-card {
+      background: rgba(11, 16, 32, 0.88) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.12) !important;
+    }
+    [data-theme="night-white"] .rate-card:hover {
+      border-color: rgba(255, 255, 255, 0.9) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 255, 255, 0.4), 0 0 60px rgba(254, 243, 199, 0.25) !important;
+    }
+    [data-theme="night-white"] .price-box {
+      background: rgba(6, 11, 25, 0.95) !important;
+      border: 1px solid rgba(254, 243, 199, 0.35) !important;
+      box-shadow: inset 0 0 20px rgba(254, 243, 199, 0.15), 0 0 15px rgba(255, 255, 255, 0.1) !important;
+    }
+    [data-theme="night-white"] .filter-deck-card {
+      background: rgba(11, 16, 32, 0.88) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 255, 255, 0.12) !important;
+    }
+
+    /* PURE WHITE & CREAM ARCHITECTURAL LIGHT BEAMS */
+    .architectural-light-beam {
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 20%, rgba(254, 243, 199, 0.95) 50%, rgba(255, 255, 255, 0.9) 80%, transparent 100%);
+      height: 2px;
+      width: 100%;
+      margin: 12px 0 20px 0;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(254, 243, 199, 0.6);
+    }
+    .white-cream-spotlight {
+      position: relative;
+    }
+    .white-cream-spotlight::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: 20%;
+      right: 20%;
+      height: 60px;
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, rgba(254, 243, 199, 0.2) 40%, transparent 80%);
+      pointer-events: none;
+      filter: blur(12px);
+      z-index: 1;
+    }
+
+</style>
 
   <!-- Google Official LocalBusiness Structured Data (JSON-LD) for Rate Card -->
   <script type="application/ld+json">
@@ -2556,6 +2749,25 @@
 
   <div class="container">
     <!-- Header Card -->
+    
+    <!-- ARCHITECTURAL WHITE & CREAM LIGHTING BANNER -->
+    <div class="white-cream-spotlight" style="margin-bottom: 24px;">
+      <div style="background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(16px); border: 1.5px solid rgba(254, 243, 199, 0.55); border-radius: 16px; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 35px rgba(255,255,255,0.25);">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ffffff 0%, #fef08a 100%); color: #000; font-size: 20px; box-shadow: 0 0 22px rgba(255,255,255,0.95), 0 0 40px rgba(254,243,199,0.8);">💡</span>
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: #fef08a; font-weight: 800;">Architectural Ambient Lighting System</div>
+            <div style="font-size: 15px; font-weight: 700; color: #fdfbf7;" id="lighting-status-desc">✨ Pure White Light & Cream Spotlight Illumination Active</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="font-size: 12px; color: #cbd5e1; font-weight: 600;">Auto Time Engine:</span>
+          <span class="badge" style="background: rgba(255,255,255,0.18); border: 1.5px solid rgba(254,243,199,0.5); color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 800; font-size: 12px; letter-spacing: 0.04em;" id="lighting-time-badge">🕒 Local Time Synchronized</span>
+        </div>
+      </div>
+      <div class="architectural-light-beam"></div>
+    </div>
+
     <header class="header-card">
       <div class="brand-badge">👑 Verified MahaRERA Certified Real Estate Catalog 2026</div>
       <h1 class="brand-title">Dashmesh Properties</h1>
@@ -4503,6 +4715,18 @@ function applyTimeOfDayTheme(customMode = null) {
   if (labelEl) {
     if (modeToUse === 'auto') {
       labelEl.textContent = currentScenery.timeStr + ' • ' + (currentScenery.mode === 'night' ? 'Night White Light' : (currentScenery.mode === 'sunset' ? 'Sunset Gold' : 'Cream Daylight'));
+    const statusDesc = document.getElementById('lighting-status-desc');
+    const timeBadge = document.getElementById('lighting-time-badge');
+    if (statusDesc) {
+      if (currentScenery.mode === 'night') {
+        statusDesc.innerHTML = '🌙 Architectural Night Spotlights & Pure White/Cream Illumination';
+      } else if (currentScenery.mode === 'sunset') {
+        statusDesc.innerHTML = '🌅 Golden Hour Amber Dusk with Soft White Lantern Light';
+      } else {
+        statusDesc.innerHTML = '☀️ Natural Morning Sun with Crisp White Marble & Cream Limestone Light';
+      }
+    }
+    if (timeBadge) timeBadge.textContent = '🕒 ' + currentScenery.timeStr + ' (' + currentScenery.mode.toUpperCase() + ')';
     } else {
       labelEl.textContent = 'Active: ' + (modeToUse === 'cream-white' ? 'Cream & White' : (modeToUse === 'sunset-cream' ? 'Sunset Gold' : 'Night White Light'));
     }
