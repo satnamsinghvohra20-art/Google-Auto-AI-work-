@@ -134,6 +134,76 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
+    
+    /* ==========================================================
+       DYNAMIC TIME-OF-DAY & PURE CREAM / WHITE LIGHT LUXURY SYSTEM
+       ========================================================== */
+    :root {
+      --cream-bg: #fdfbf7;
+      --cream-light: #fffbeb;
+      --cream-gold: #fef08a;
+      --cream-border: rgba(254, 243, 199, 0.45);
+      --white-glow: rgba(255, 255, 255, 0.95);
+      --cream-glow: rgba(254, 243, 199, 0.35);
+      --white-light-border: rgba(255, 255, 255, 0.28);
+    }
+
+    /* NIGHT WHITE LIGHT & CREAM AMBIANCE (Default for Night: 20:00 - 05:59) */
+    html[data-time-mode="night"], html[data-theme="night-white"] {
+      --bg-base: #020617;
+      --text-main: #fdfbf7;
+      --text-sub: #e2e8f0;
+      --text-muted: #94a3b8;
+      --card-bg: rgba(11, 16, 32, 0.82);
+      --card-border: rgba(254, 243, 199, 0.35);
+      --card-border-hover: rgba(255, 255, 255, 0.7);
+      --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(2, 6, 23, 0.72) 0%, rgba(2, 6, 23, 0.84) 40%, rgba(2, 6, 23, 0.94) 100%),
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.20) 0%, transparent 65%),
+        url('/public/luxury-bungalow-estate-2.jpg');
+    }
+
+    /* MORNING & DAY CREAM WHITE LIGHT (06:00 - 16:59) */
+    html[data-time-mode="day"], html[data-theme="cream-white"] {
+      --bg-base: #f7f5f0;
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --text-muted: #64748b;
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(217, 180, 102, 0.4);
+      --card-border-hover: #b48c36;
+      --card-shadow: 0 20px 45px rgba(180, 140, 54, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      --price-box-bg: rgba(254, 252, 246, 0.95);
+      --price-box-border: rgba(217, 180, 102, 0.45);
+      --table-header-bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(253, 251, 247, 0.82) 0%, rgba(247, 244, 237, 0.88) 40%, rgba(240, 236, 227, 0.95) 100%),
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.4) 0%, transparent 70%),
+        url('/public/cream-white-luxury-villa.jpg');
+    }
+
+    /* SUNSET GOLDEN CREAM (17:00 - 19:59) */
+    html[data-time-mode="sunset"], html[data-theme="sunset-cream"] {
+      --bg-base: #0f0f14;
+      --text-main: #fffbeb;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --card-bg: rgba(18, 18, 28, 0.84);
+      --card-border: rgba(251, 191, 36, 0.4);
+      --card-border-hover: rgba(255, 255, 255, 0.8);
+      --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      --bg-gradient: 
+        linear-gradient(180deg, rgba(15, 15, 20, 0.70) 0%, rgba(15, 15, 20, 0.84) 40%, rgba(10, 10, 15, 0.95) 100%),
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(245, 158, 11, 0.25) 0%, transparent 65%),
+        url('/public/luxury-villa-interior-3.jpg');
+    }
+
+    /* Soft White & Cream Ambient Halo Glow */
+    .white-cream-halo {
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.18), 0 0 60px rgba(254, 243, 199, 0.14);
+    }
+
     body {
       background-color: #030712;
       background-image: 
@@ -2454,12 +2524,23 @@
       </a>
       <div class="nav-actions-right">
         <!-- Interactive Theme Switcher -->
-        <div class="theme-switcher-wrapper">
-          <span class="theme-switcher-label">Style:</span>
-          <button class="btn-theme-pill active" data-theme-val="obsidian" onclick="switchTheme('obsidian')" title="Ultra-Luxury 24K Gold & Obsidian">👑 Obsidian Gold</button>
-          <button class="btn-theme-pill" data-theme-val="pearl" onclick="switchTheme('pearl')" title="Architectural Platinum Pearl (Light)">🏛️ Pearl Light</button>
-          <button class="btn-theme-pill" data-theme-val="emerald" onclick="switchTheme('emerald')" title="Emerald Reserve">💎 Emerald</button>
-          <button class="btn-theme-pill" data-theme-val="midnight" onclick="switchTheme('midnight')" title="Midnight Matte">🌑 Midnight</button>
+        <div class="theme-switcher-wrapper" style="background: rgba(8, 12, 24, 0.85); backdrop-filter: blur(12px); border: 1.5px solid rgba(254, 243, 199, 0.4); border-radius: 999px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 11px; font-weight: 800; color: #fffbeb; display: inline-flex; align-items: center; gap: 4px;">
+            <span id="time-clock-icon">🕒</span>
+            <span id="time-clock-label">Time-Sync:</span>
+          </span>
+          <button class="btn-theme-pill" data-time-btn="auto" onclick="setTimeMode('auto')" title="Automatically sync background scenery with real local time">
+            🔄 Auto Time
+          </button>
+          <button class="btn-theme-pill" data-time-btn="cream-white" onclick="setTimeMode('cream-white')" title="Morning/Daylight White & Cream Limestone Villa">
+            ☀️ Cream & White Light
+          </button>
+          <button class="btn-theme-pill" data-time-btn="sunset-cream" onclick="setTimeMode('sunset-cream')" title="Golden Hour Mountain Vista Villa">
+            🌅 Sunset Gold
+          </button>
+          <button class="btn-theme-pill" data-time-btn="night-white" onclick="setTimeMode('night-white')" title="Midnight Royal Villa with White Spotlights">
+            🌙 Night White Light
+          </button>
         </div>
         <a href="https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8" target="_blank" rel="noopener noreferrer" class="btn-nav-shield" title="Customer Review Shield">
           <span>📱</span>
@@ -4339,6 +4420,137 @@ function switchVillaBackground(theme) {
     }
   });
 }
+</script>
+
+
+<script>
+// ==========================================================
+// DYNAMIC TIME-OF-DAY SCENERY & CREAM / WHITE LIGHT ENGINE
+// ==========================================================
+
+let activeTimeMode = 'auto';
+
+function getTimeOfDayScenery() {
+  const now = new Date();
+  const hour = now.getHours(); // 0 to 23
+
+  // Morning & Daylight (06:00 to 16:59)
+  if (hour >= 6 && hour < 17) {
+    return {
+      mode: 'day',
+      theme: 'cream-white',
+      name: '☀️ Morning Cream & White Light',
+      icon: '☀️',
+      bg: "linear-gradient(180deg, rgba(253, 251, 247, 0.78) 0%, rgba(247, 244, 237, 0.86) 35%, rgba(240, 236, 227, 0.94) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.38) 0%, transparent 65%), url('/public/cream-white-luxury-villa.jpg')",
+      timeStr: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  }
+  // Sunset & Golden Hour (17:00 to 19:45)
+  else if (hour >= 17 && hour < 20) {
+    return {
+      mode: 'sunset',
+      theme: 'sunset-cream',
+      name: '🌅 Sunset Cream & Amber',
+      icon: '🌅',
+      bg: "linear-gradient(180deg, rgba(15, 15, 20, 0.68) 0%, rgba(15, 15, 20, 0.82) 35%, rgba(10, 10, 15, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(245, 158, 11, 0.25) 0%, transparent 65%), url('/public/luxury-villa-interior-3.jpg')",
+      timeStr: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  }
+  // Night & Midnight (20:00 to 05:59)
+  else {
+    return {
+      mode: 'night',
+      theme: 'night-white',
+      name: '🌙 Night White Light & Starry Estate',
+      icon: '🌙',
+      bg: "linear-gradient(180deg, rgba(2, 6, 23, 0.68) 0%, rgba(2, 6, 23, 0.80) 35%, rgba(2, 6, 23, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.22) 0%, transparent 65%), url('/public/luxury-bungalow-estate-2.jpg')",
+      timeStr: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  }
+}
+
+function applyTimeOfDayTheme(customMode = null) {
+  const modeToUse = customMode || activeTimeMode;
+  const currentScenery = getTimeOfDayScenery();
+  const root = document.documentElement;
+  const body = document.body;
+  const labelEl = document.getElementById('time-clock-label');
+  const iconEl = document.getElementById('time-clock-icon');
+
+  let chosenTheme = currentScenery.theme;
+  let bgToApply = currentScenery.bg;
+
+  if (modeToUse === 'cream-white') {
+    chosenTheme = 'cream-white';
+    bgToApply = "linear-gradient(180deg, rgba(253, 251, 247, 0.78) 0%, rgba(247, 244, 237, 0.86) 35%, rgba(240, 236, 227, 0.94) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.38) 0%, transparent 65%), url('/public/cream-white-luxury-villa.jpg')";
+  } else if (modeToUse === 'sunset-cream') {
+    chosenTheme = 'sunset-cream';
+    bgToApply = "linear-gradient(180deg, rgba(15, 15, 20, 0.68) 0%, rgba(15, 15, 20, 0.82) 35%, rgba(10, 10, 15, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(245, 158, 11, 0.25) 0%, transparent 65%), url('/public/luxury-villa-interior-3.jpg')";
+  } else if (modeToUse === 'night-white') {
+    chosenTheme = 'night-white';
+    bgToApply = "linear-gradient(180deg, rgba(2, 6, 23, 0.68) 0%, rgba(2, 6, 23, 0.80) 35%, rgba(2, 6, 23, 0.92) 100%), radial-gradient(ellipse 90% 60% at 50% 0%, rgba(254, 243, 199, 0.22) 0%, transparent 65%), url('/public/luxury-bungalow-estate-2.jpg')";
+  }
+
+  root.setAttribute('data-theme', chosenTheme);
+  root.setAttribute('data-time-mode', modeToUse === 'auto' ? currentScenery.mode : (modeToUse === 'cream-white' ? 'day' : (modeToUse === 'sunset-cream' ? 'sunset' : 'night')));
+
+  body.style.backgroundImage = bgToApply;
+  body.style.backgroundSize = "cover";
+  body.style.backgroundPosition = "center top";
+  body.style.backgroundRepeat = "no-repeat";
+  body.style.backgroundAttachment = "fixed";
+
+  if (labelEl) {
+    if (modeToUse === 'auto') {
+      labelEl.textContent = currentScenery.timeStr + ' • ' + (currentScenery.mode === 'night' ? 'Night White Light' : (currentScenery.mode === 'sunset' ? 'Sunset Gold' : 'Cream Daylight'));
+    } else {
+      labelEl.textContent = 'Active: ' + (modeToUse === 'cream-white' ? 'Cream & White' : (modeToUse === 'sunset-cream' ? 'Sunset Gold' : 'Night White Light'));
+    }
+  }
+  if (iconEl) {
+    iconEl.textContent = modeToUse === 'auto' ? currentScenery.icon : (modeToUse === 'cream-white' ? '☀️' : (modeToUse === 'sunset-cream' ? '🌅' : '🌙'));
+  }
+
+  // Update pills UI
+  document.querySelectorAll('[data-time-btn]').forEach(btn => {
+    if (btn.getAttribute('data-time-btn') === modeToUse) {
+      btn.classList.add('active');
+      btn.style.background = '#d4af37';
+      btn.style.color = '#000';
+      btn.style.fontWeight = '800';
+    } else {
+      btn.classList.remove('active');
+      btn.style.background = 'transparent';
+      btn.style.color = '#cbd5e1';
+      btn.style.fontWeight = '600';
+    }
+  });
+}
+
+function setTimeMode(mode) {
+  activeTimeMode = mode;
+  try {
+    localStorage.setItem('dashmesh_time_mode', mode);
+  } catch(e) {}
+  applyTimeOfDayTheme(mode);
+}
+
+// Auto-run on load and keep synchronized every minute
+document.addEventListener('DOMContentLoaded', () => {
+  let savedMode = 'auto';
+  try {
+    savedMode = localStorage.getItem('dashmesh_time_mode') || 'auto';
+  } catch(e) {}
+  activeTimeMode = savedMode;
+  applyTimeOfDayTheme(activeTimeMode);
+
+  // Check every 60 seconds if in auto mode
+  setInterval(() => {
+    if (activeTimeMode === 'auto') {
+      applyTimeOfDayTheme('auto');
+    }
+  }, 60000);
+});
 </script>
 
 </body>
