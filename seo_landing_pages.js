@@ -14,10 +14,10 @@ const OFFICE_INFO = {
     { name: "Sukhjyot Singh", phone: "+91 84219 40013" }
   ],
   address: "Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501, Maharashtra",
-  geo: { lat: 19.190800, lng: 73.178500 },
+  geo: { lat: 19.1881295, lng: 73.1682152 },
   placeId: "ChIJDxFBTbyV5zsRcHylJmmARG8",
   reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8",
-  mapsPin: "https://maps.google.com/?q=19.1908,73.1785",
+  mapsPin: "https://maps.app.goo.gl/kba8E8rqdRiv6xL8A",
   rentAgreement: { perSide: "₹1,750", total: "₹3,500" },
   publicUrl: "https://google-auto-ai-work.onrender.com"
 };
@@ -168,7 +168,7 @@ function getCommonHead(title, description, canonicalPath, extraSchema = "") {
       background: #ffffff;
       color: #b45309;
       border: 2px solid #fde68a;
-      padding: 14px 26px;
+      padding: 14px 28px;
       border-radius: 14px;
       font-size: 15px;
       font-weight: 800;
@@ -369,7 +369,7 @@ function getFloatingWhatsAppWidget() {
      class="floating-wa-btn"
      aria-label="Direct WhatsApp Chat with Satnam Sir">
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.121-.527-1.745-.72-2.855-2.493-2.943-2.61-.088-.117-.714-.949-.714-1.808 0-.859.45-1.282.61-1.457.16-.176.35-.22.467-.22.117 0 .235 0 .337.006.108.006.251-.041.393.3.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.088.19-.176.293-.088.102-.186.228-.266.307-.088.087-.18.182-.077.359.103.177.458.756.984 1.224.677.603 1.248.79 1.425.878.177.088.279.074.382-.044.103-.117.44-.513.558-.689.117-.176.235-.147.395-.088.16.059 1.016.48 1.192.568.176.088.293.132.337.205.044.073.044.425-.1 1.002z"/>
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.121-.527-1.745-.72-2.855-2.493-2.943-2.61-.088-.117-.714-.949-.714-1.808 0-.859.45-1.282.61-1.457.16-.176.35-.22.467-.22.117 0 .235 0 .337.006.108.006.251-.041.393.3.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.088.19-.176.293-.088.102-.186.228-.286.307-.088.087-.18.182-.077.359.103.177.458.756.984 1.224.677.603 1.248.79 1.425.878.177.088.279.074.382-.044.103-.117.44-.513.558-.689.117-.176.235-.147.395-.088.16.059 1.016.48 1.192.568.176.088.293.132.337.205.044.073.044.425-.1 1.002z"/>
     </svg>
     <div class="floating-wa-text">
       <strong>WhatsApp Satnam Sir</strong>
@@ -581,7 +581,7 @@ function renderRentAgreementPage() {
 
     <!-- FAQ Section -->
     <div class="faq-section">
-      <h2 style="font-size: 26px; font-weight: 800; margin-bottom: 20px; text-align: center;">Frequently Asked Questions (Ambernath East)</h2>
+      <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 20px; text-align: center;">Frequently Asked Questions (Ambernath East)</h2>
       
       <div class="faq-item">
         <div class="faq-q">1. What documents are needed for rent agreement registration?</div>

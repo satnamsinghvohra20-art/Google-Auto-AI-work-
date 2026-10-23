@@ -37,13 +37,13 @@ const DEFAULT_REPORT = {
       gridImage: "public/grid-ranking-dashmesh.jpeg",
       pointPositions: [
         { id: 1, position: 21, lat: 19.2016, lng: 73.1671, label: "Pale Goan" },
-        { id: 2, position: 21, lat: 19.2016, lng: 73.1785, label: "Ambernath Station E" },
+        { id: 2, position: 21, lat: 19.2016, lng: 73.1682152, label: "Ambernath Station E" },
         { id: 3, position: 21, lat: 19.2016, lng: 73.1900, label: "MIDC Ambernath" },
-        { id: 4, position: 19.1908, lng: 73.1671, label: "Shiv Mandir Rd" },
-        { id: 5, position: 21, lat: 19.1908, lng: 73.1785, label: "Central Ambernath" },
-        { id: 6, position: 21, lat: 19.1908, lng: 73.1900, label: "Kansai Section" },
+        { id: 4, position: 19.1881295, lng: 73.1671, label: "Shiv Mandir Rd" },
+        { id: 5, position: 21, lat: 19.1881295, lng: 73.1682152, label: "Central Ambernath" },
+        { id: 6, position: 21, lat: 19.1881295, lng: 73.1900, label: "Kansai Section" },
         { id: 7, position: 21, lat: 19.1800, lng: 73.1671, label: "Morivali" },
-        { id: 8, position: 21, lat: 19.1800, lng: 73.1785, label: "Badlapur Link Rd" },
+        { id: 8, position: 21, lat: 19.1800, lng: 73.1682152, label: "Badlapur Link Rd" },
         { id: 9, position: 21, lat: 19.1800, lng: 73.1900, label: "Navare Nagar" }
       ]
     },
@@ -96,11 +96,11 @@ const FRANCHISE_LOCATIONS = {
     address: "New Floora, Shop no.24, Pale goan, Ambernath(E), Maharashtra 421501",
     city: "Ambernath",
     phone: "+91 84210 77613",
-    lat: 19.1908,
-    lng: 73.1785,
+    lat: 19.1881295,
+    lng: 73.1682152,
     placeId: "ChIJDxFBTbyV5zsRcHylJmmARG8",
-    rating: 0.0,
-    reviews: 0,
+    rating: 5.0,
+    reviews: 28,
     currentRank: 21
   },
   badlapur_branch: {

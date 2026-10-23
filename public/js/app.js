@@ -285,7 +285,7 @@ function fetchNetworkIp() {
 
 /**
  * =========================================================================
- * GPS PHOTO GEO-TAGGER (AMBERNATH COORDINATES: 19.1908° N, 73.1785° E)
+ * GPS PHOTO GEO-TAGGER (AMBERNATH COORDINATES: 19.1881295° N, 73.1682152° E)
  * =========================================================================
  */
 function loadSampleGeoPhoto(index) {
@@ -474,12 +474,12 @@ function renderGeoPhotoCanvas() {
   // 1. Get raw base64 JPEG from canvas
   const rawDataUrl = canvas.toDataURL("image/jpeg", 0.92);
 
-  // 2. Inject Binary EXIF GPS data (Ambernath 19.1908° N, 73.1785° E)
+  // 2. Inject Binary EXIF GPS data (Ambernath 19.1881295° N, 73.1682152° E)
   let exifDataUrl = rawDataUrl;
   if (typeof AIEngine !== "undefined" && AIEngine.injectExifMetadata) {
     exifDataUrl = AIEngine.injectExifMetadata(rawDataUrl, {
-      lat: 19.1908,
-      lng: 73.1785,
+      lat: 19.1881295,
+      lng: 73.1682152,
       businessName: "Dashmesh Property",
       city: "Ambernath",
       category: "Real Estate Agency"
@@ -527,8 +527,8 @@ function inspectPhotoExif() {
   }
   try {
     const exifData = piexif.load(appState.geoPhotoDataUrl);
-    const lat = "19° 11' 26.88\" N (19.1908)";
-    const lng = "73° 10' 42.60\" E (73.1785)";
+    const lat = "19° 11' 26.88\" N (19.1881295)";
+    const lng = "73° 10' 42.60\" E (73.1682152)";
     const biz = exifData["0th"][piexif.ImageIFD.ImageDescription] || "Dashmesh Properties";
 
     alert(
@@ -1301,8 +1301,8 @@ function initOrUpdateLeafletMap() {
   const mapContainer = document.getElementById("leaflet-map");
   if (!mapContainer || typeof L === "undefined") return;
 
-  const lat = 19.1908;
-  const lng = 73.1785;
+  const lat = 19.1881295;
+  const lng = 73.1682152;
 
   if (!appState.leafletMap) {
     appState.leafletMap = L.map("leaflet-map", {
@@ -2471,13 +2471,13 @@ async function triggerDailyGoogleBoost() {
       // Update telemetry badge if available
       const bannerSub = document.querySelector("#google-dominance-banner p");
       if (bannerSub) {
-        bannerSub.innerHTML = `<strong>Latest Daily Boost Executed:</strong> Published "${postTitle}" with Pale Gaon Geo-Tags (19.1908, 73.1785) & 238 MMR Projects. Rank Score: 98/100.`;
+        bannerSub.innerHTML = `<strong>Latest Daily Boost Executed:</strong> Published "${postTitle}" with Pale Gaon Geo-Tags (19.1881295, 73.1682152) & 238 MMR Projects. Rank Score: 98/100.`;
       }
 
       alert(
         `👑 GOOGLE #1 RANK DAILY BOOST APPLIED SUCCESSFULLY!\n\n` +
         `✅ Today's Google Post: "${postTitle}"\n` +
-        `✅ Pale Gaon Geo-Coordinates: 19.1908, 73.1785 Verified\n` +
+        `✅ Pale Gaon Geo-Coordinates: 19.1881295, 73.1682152 Verified\n` +
         `✅ MMR Catalog: 238+ Verified Real Estate Projects Synced\n` +
         `✅ Reviews Redirection: 100% Direct Google Maps Review\n` +
         `✅ Local 3-Pack Optimization Score: 98/100 (#1 Target)\n\n` +

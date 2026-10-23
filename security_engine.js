@@ -230,6 +230,8 @@ function validateStaticPath(pathname, baseDir) {
     '/robots.txt',
     '/sitemap.xml',
     '/favicon.ico',
+    '/apple-touch-icon.png',
+    '/apple-touch-icon-precomposed.png',
     '/manifest.json',
     '/sw.js'
   ];

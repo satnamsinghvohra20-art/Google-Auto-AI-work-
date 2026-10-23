@@ -423,7 +423,7 @@ const AIEngine = {
     ) {
       return {
         intent: "OWNER_OFFICE_DETAILS",
-        reply: `${sal}🏢 *Dashmesh Properties Head Office Details:*\n\n• *Address:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501\n• *Landmark:* Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)\n• *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n• *Google Map Location:* https://maps.google.com/?q=19.1908,73.1785\n• *Contact:* Satnam Singh Vohra (+91 84210 77613)`,
+        reply: `${sal}🏢 *Dashmesh Properties Head Office Details:*\n\n• *Address:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501\n• *Landmark:* Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)\n• *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n• *Google Map Location:* https://maps.app.goo.gl/kba8E8rqdRiv6xL8A\n• *Contact:* Satnam Singh Vohra (+91 84210 77613)`,
         suggestedActions: ["📍 Google Maps Link", "📊 Leads", "⭐ Reviews"]
       };
     }
@@ -584,9 +584,8 @@ const AIEngine = {
     const officeAddr = context.officeAddress || "New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501";
     const officeLandmark = context.officeLandmark || "Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station";
     const officeTimings = context.officeTimings || "Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)";
-    const officeMap = context.officeMap || "https://maps.google.com/?q=19.1908,73.1785";
-    const publicUrl = context.publicUrl || "https://google-auto-ai-work.onrender.com";
-    const rateCardUrl = `${publicUrl}/rate-card`;
+    const officeMap = context.officeMap || "https://maps.app.goo.gl/kba8E8rqdRiv6xL8A";
+    // CRITICAL PRIVACY: Never expose internal server URLs or dashboard links to clients on WhatsApp
 
     
     // =========================================================================
@@ -835,15 +834,17 @@ Aapko kis business ke liye space chahiye aur required carpet area kitna hai?`,
         language: lang,
         reply: `${greetingPrefix}📑 *Dashmesh Properties — Official Digital Catalog & Rate Card:*
 
-Aap neeche diye verified link par tap karke sabhi property rates, floor plans aur locality comparison matrix dekh sakte hain:
-🔗 ${rateCardUrl}
+Aap hamare verified rates aur floor plans ke liye direct contact kar sakte hain ya office visit kar sakte hain:
+🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)
+📞 *Satnam Sir (Direct):* +91 84210 77613
+⏰ *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days)
 
-• *Pale Gaon & Station Road:* Actual ready-possession flat options
-• *90% Bank Loan Desk:* SBI / HDFC document checklist
+• *Pale Gaon & Station Road:* Actual ready-possession flat options (1 BHK ₹18L-₹30L, 2 BHK ₹32L-₹55L)
+• *90% Bank Loan Desk:* SBI / HDFC document checklist ready
 • *High-Footfall Commercial Shops:* Direct owner inventory
 
 Aapko 1 BHK ya 2 BHK kiske sample photos dekhne hain?`,
-        suggestedActions: ["📊 View Rate Card", "📅 Book Visit", "📍 Office Map"]
+        suggestedActions: ["🏡 1 BHK / 2 BHK", "📅 Book Visit", "📍 Office Map"]
       };
     }
 
@@ -1514,8 +1515,8 @@ Aap investment ke liye dekh rahe hain ya self-use?`,
 • *Alibaug-Coastal (5):* Mandwa Jetty, Awas, Nagaon Beach, Varsoli (HoABL & Hiranandani Villas) (₹65L - ₹4.5 Cr)
 • *Khopoli-Expressway (5):* Khopoli, Khalapur, Imagicaa Corridor (₹16L - ₹54L)
 
-🌐 *Browse Live Directory & Rates:* ${publicUrl}
-*(Go to Tab 8: MMR Projects Directory — Full RERA, Carpet Area & Verified Rates)*
+🏢 *Office Consultation:* Shop No. 24, New Floora, Pale Gaon, Ambernath East (10 AM - 8:30 PM)
+📞 *Satnam Sir (Owner):* +91 84210 77613
 
 Aapko kaunse micro-market ya budget bracket mein options dekhne hain? Sia turant direct builder inventory aur brochure share kar degi!`,
         suggestedActions: ["Kalyan Projects", "Thane Projects", "Dombivli Palava", "Ambernath Base"]
@@ -1589,10 +1590,10 @@ Aap kis weekend par family ke saath sample flat dekhne aana chahenge? Main khud 
 🏪 *Commercial Retail Shops:*
 • Rent: ₹6,000 - ₹35,000/month | Buy: ₹18 Lakh - ₹85 Lakh
 
-🌐 *Digital Catalog:* ${rateCardUrl}
+📞 *Direct Consultation & Site Visit:* +91 84210 77613
 
 Aapko specific kis area ya budget mein property chahiye?`,
-        suggestedActions: ["📊 Digital Catalog", "Under ₹25L", "₹25L - ₹45L"]
+        suggestedActions: ["🏡 Flat Options", "Under ₹25L", "₹25L - ₹45L"]
       };
     }
 
@@ -1613,7 +1614,7 @@ Aamhi Ambernath East & Pale Gaon che verified real estate consultants aahot:
 3️⃣ *Commercial Dukaan:* Rent & Buy (Prime Footfall)
 4️⃣ *Bank Loan Desk:* 90% SBI / HDFC Loan Approval
 
-🌐 Digital Rate Card: ${rateCardUrl}
+📞 *Direct Call:* +91 84210 77613
 Aaplyala kashachi mahiti hawi aahe? Sia lagech verified options share karel!`,
           suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
         };
@@ -1720,8 +1721,8 @@ Target Directories:
     const ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    const lat = meta.lat ? meta.lat.toFixed(4) : "19.1908";
-    const lng = meta.lng ? meta.lng.toFixed(4) : "73.1785";
+    const lat = meta.lat ? meta.lat.toFixed(4) : "19.1881295";
+    const lng = meta.lng ? meta.lng.toFixed(4) : "73.1682152";
     const biz = meta.businessName || "Dashmesh Property";
     const city = meta.city || "Ambernath";
     const timestamp = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -1787,8 +1788,8 @@ Target Directories:
       return jpegDataUrl;
     }
     try {
-      const lat = meta.lat ? parseFloat(meta.lat) : 19.1908;
-      const lng = meta.lng ? parseFloat(meta.lng) : 73.1785;
+      const lat = meta.lat ? parseFloat(meta.lat) : 19.1881295;
+      const lng = meta.lng ? parseFloat(meta.lng) : 73.1682152;
       const biz = meta.businessName || "Dashmesh Property";
       const city = meta.city || "Ambernath";
       const category = meta.category || "Property Consultant";

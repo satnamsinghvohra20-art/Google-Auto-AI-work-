@@ -423,7 +423,7 @@ const AIEngine = {
     ) {
       return {
         intent: "OWNER_OFFICE_DETAILS",
-        reply: `${sal}🏢 *Dashmesh Properties Head Office Details:*\n\n• *Address:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501\n• *Landmark:* Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)\n• *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n• *Google Map Location:* https://maps.google.com/?q=19.1908,73.1785\n• *Contact:* Satnam Singh Vohra (+91 84210 77613)`,
+        reply: `${sal}🏢 *Dashmesh Properties Head Office Details:*\n\n• *Address:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501\n• *Landmark:* Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)\n• *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n• *Google Map Location:* https://maps.app.goo.gl/kba8E8rqdRiv6xL8A\n• *Contact:* Satnam Singh Vohra (+91 84210 77613)`,
         suggestedActions: ["📍 Google Maps Link", "📊 Leads", "⭐ Reviews"]
       };
     }
@@ -584,7 +584,7 @@ const AIEngine = {
     const officeAddr = context.officeAddress || "New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501";
     const officeLandmark = context.officeLandmark || "Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station";
     const officeTimings = context.officeTimings || "Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)";
-    const officeMap = context.officeMap || "https://maps.google.com/?q=19.1908,73.1785";
+    const officeMap = context.officeMap || "https://maps.app.goo.gl/kba8E8rqdRiv6xL8A";
     const publicUrl = context.publicUrl || "https://google-auto-ai-work.onrender.com";
     const rateCardUrl = `${publicUrl}/rate-card`;
 
@@ -1715,8 +1715,8 @@ Target Directories:
     const ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    const lat = meta.lat ? meta.lat.toFixed(4) : "19.1908";
-    const lng = meta.lng ? meta.lng.toFixed(4) : "73.1785";
+    const lat = meta.lat ? meta.lat.toFixed(4) : "19.1881295";
+    const lng = meta.lng ? meta.lng.toFixed(4) : "73.1682152";
     const biz = meta.businessName || "Dashmesh Property";
     const city = meta.city || "Ambernath";
     const timestamp = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -1782,8 +1782,8 @@ Target Directories:
       return jpegDataUrl;
     }
     try {
-      const lat = meta.lat ? parseFloat(meta.lat) : 19.1908;
-      const lng = meta.lng ? parseFloat(meta.lng) : 73.1785;
+      const lat = meta.lat ? parseFloat(meta.lat) : 19.1881295;
+      const lng = meta.lng ? parseFloat(meta.lng) : 73.1682152;
       const biz = meta.businessName || "Dashmesh Property";
       const city = meta.city || "Ambernath";
       const category = meta.category || "Property Consultant";

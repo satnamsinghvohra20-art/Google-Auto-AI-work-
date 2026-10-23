@@ -9,7 +9,7 @@ All money-taking paywalls, subscription pricing cards (₹6,999, ₹9,999, ₹4,
 ## 🚀 Complete Feature Breakdown
 
 ### 🗺️ 1. Live Interactive Leaflet.js GPS Grid Heatmap
-- **Real Geographic Map:** Replaced static map images with an interactive OpenStreetMap engine centered on Ambernath (`19.1908° N, 73.1785° E`).
+- **Real Geographic Map:** Replaced static map images with an interactive OpenStreetMap engine centered on Ambernath (`19.1881295° N, 73.1682152° E`).
 - **3x3 (9 Points) & 5x5 (25 Points) Modes:** Inspect rankings across Pale Goan, Ambernath Station East, MIDC, Kansai Section, Morivali, and surrounding neighborhoods.
 - **Search Radius Rings:** Visualizes the 1.2 km and 2.6 km local ranking pack radiuses.
 - **Day 0 to 90 Timeline Projection Slider:** Drag slider to dynamically project rank improvements from Day 0 (Rank #21, Red) ➔ Day 30 (Top 10 Jump, Orange) ➔ Day 60 (Top 5 Surge, Yellow) ➔ Day 90 (Rank #1 Dominance, Green).

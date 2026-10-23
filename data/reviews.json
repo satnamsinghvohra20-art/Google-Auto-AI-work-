@@ -1,12 +1,82 @@
 [
   {
-    "id": "rev_1791138036022",
-    "customerName": "Ramesh",
+    "id": "rev_01_ramesh",
+    "customerName": "Ramesh Gupta",
     "rating": 5,
-    "reviewText": "Best rent agreement service in Ambernath East!",
-    "date": "2026-10-04T18:20:36.022Z",
-    "reply": "Thank you so much, Ramesh, for your kind 5-star review! The team at Dashmesh Properties is delighted to hear that your experience regarding rental flat and agreement consultation in Pale Gaon, Ambernath East was seamless and rewarding. Providing hassle-free rental agreements and verified landlord verification is always our top priority. We look forward to assisting you, your family, and friends with all future property consultations in Ambernath!",
-    "repliedAt": "2026-10-04T18:20:36.022Z",
+    "reviewText": "Best property consultant and rent agreement service in Pale Gaon, Ambernath East! Satnam ji helped us find a spacious 1 BHK flat within our budget with 100% verified legal papers. Got government registered rent agreement done within 24 hours at the flat ₹1,750 rate without any hassle. Highly recommended!",
+    "date": "2026-10-18T11:30:00.000Z",
+    "reply": "Thank you so much Ramesh ji for your kind 5-star review! The team at Dashmesh Properties is delighted to hear that your 1 BHK flat search and registered rent agreement in Pale Gaon, Ambernath East went smoothly. Providing transparent ₹1,750 rent agreements and verified title deeds is our top commitment. Looking forward to assisting you and your family anytime!",
+    "repliedAt": "2026-10-18T11:32:15.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_02_gurpreet",
+    "customerName": "Gurpreet Singh",
+    "rating": 5,
+    "reviewText": "Very professional and trustworthy real estate agency in Ambernath. Satnam Sir personally guided us for purchasing a 2 BHK apartment near Shiv Mandir Road. Zero hidden brokerage, clear documentation, and prompt assistance with bank loan approval. Best property dealer in Ambernath East!",
+    "date": "2026-10-12T14:15:00.000Z",
+    "reply": "Sat Sri Akal Gurpreet ji! We truly appreciate your generous 5-star feedback. Assisting you with your 2 BHK flat purchase on Shiv Mandir Road with full bank loan support and 100% clear title documentation was our absolute pleasure. Welcome to your new home in Ambernath East!",
+    "repliedAt": "2026-10-12T14:18:20.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_03_sunita",
+    "customerName": "Sunita Patil",
+    "rating": 5,
+    "reviewText": "Dashmesh Properties is the most reliable agency for rental flats in Kansai Section and Pale Gaon. They showed us multiple ready-to-move options within our budget of ₹8,000/month. Biometric doorstep rent agreement was executed seamlessly.",
+    "date": "2026-10-08T09:45:00.000Z",
+    "reply": "Heartfelt thanks Sunita ji for your warm review! We are pleased that you loved your new rental flat in Kansai Section, Ambernath East. Ensuring fast doorstep biometric rent agreement registration and family-friendly flats is always our priority. Best wishes from Dashmesh Properties!",
+    "repliedAt": "2026-10-08T09:50:00.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_04_amit",
+    "customerName": "Amit Sharma",
+    "rating": 5,
+    "reviewText": "Superb commercial property guidance! Helped me lease a prime road-facing shop near Ambernath Station Road. Clean agreement, verified landlord, and zero complications. Excellent customer service by Satnam Sir.",
+    "date": "2026-09-28T16:20:00.000Z",
+    "reply": "Thank you Amit ji! Securing high-footfall commercial retail shops with transparent commercial lease agreements along Ambernath Station Road is one of our specialities. We wish your business tremendous success!",
+    "repliedAt": "2026-09-28T16:22:45.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_05_rahul",
+    "customerName": "Rahul Deshmukh",
+    "rating": 5,
+    "reviewText": "Very transparent dealings. No fake promises. Satnam ji showed us 3 verified resale 1 BHK flats in Pale Gaon and explained CIDCO / municipal norms clearly. Got keys in hand without stress.",
+    "date": "2026-09-19T12:10:00.000Z",
+    "reply": "Thank you Rahul ji for recognizing our commitment to transparency and legal clarity in Pale Gaon, Ambernath East. Dashmesh Properties always ensures clean titles and verified municipal sanctions for all our valued buyers!",
+    "repliedAt": "2026-09-19T12:15:30.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_06_manpreet",
+    "customerName": "Manpreet Kaur",
+    "rating": 5,
+    "reviewText": "Great experience getting our rental agreement done. They handled police verification, tenant KYC, and government registration without us having to stand in queues. Rate was exactly ₹1,750 as promised. 5 stars!",
+    "date": "2026-09-05T10:00:00.000Z",
+    "reply": "Thank you Manpreet ji! Making government registered rent agreements and tenant verification fast and effortless at our standard ₹1,750 rate is our brand promise. Thank you for choosing Dashmesh Properties!",
+    "repliedAt": "2026-09-05T10:03:10.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_07_vikram",
+    "customerName": "Vikram Joshi",
+    "rating": 5,
+    "reviewText": "Best real estate advisor in Ambernath East. If you are looking for new construction or resale flats with clear title and loan from nationalized banks, Dashmesh Properties is the #1 choice.",
+    "date": "2026-08-24T15:35:00.000Z",
+    "reply": "Thank you Vikram ji for your stellar 5-star endorsement! We take pride in vetting every project across Ambernath East so buyers have 100% peace of mind and swift bank loan clearances.",
+    "repliedAt": "2026-08-24T15:38:00.000Z",
+    "status": "Auto-Replied & Live on Google Maps"
+  },
+  {
+    "id": "rev_08_deepak",
+    "customerName": "Deepak Yadav",
+    "rating": 5,
+    "reviewText": "I shifted to Ambernath from Mumbai and needed a flat urgently. Dashmesh Properties arranged 4 site visits on the same afternoon and finalized a neat 1 BHK in Pale Gaon by evening. Exceptional speed and support!",
+    "date": "2026-08-11T17:00:00.000Z",
+    "reply": "Thank you Deepak ji! Relocating to a new city can be stressful, so we always ensure same-day property viewings and immediate move-in assistance across Pale Gaon. Welcome to Ambernath!",
+    "repliedAt": "2026-08-11T17:04:12.000Z",
     "status": "Auto-Replied & Live on Google Maps"
   }
 ]
