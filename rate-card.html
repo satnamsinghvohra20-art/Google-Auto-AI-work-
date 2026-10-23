@@ -2500,6 +2500,9 @@
 
     <!-- Quick Actions Bar -->
     <div class="actions-bar">
+      <button onclick="scrollToBungalows()" class="btn-action" style="background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: #000; font-weight: 800; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);">
+        <span>🏰</span> Royal Bungalows & Villas
+      </button>
       <button onclick="openVipSiteVisitModal()" class="btn-action btn-site-visit">
         <span>🚗</span> Book Free VIP Site Visit (Free AC Car)
       </button>
@@ -2548,6 +2551,7 @@
             <span class="filter-chip" data-cfg="2bhk" onclick="filterByConfig('2bhk', this)">👑 2 BHK Luxury (₹34L - ₹48L)</span>
             <span class="filter-chip" data-cfg="commercial" onclick="filterByConfig('commercial', this)">🏢 Commercial Shops</span>
             <span class="filter-chip" data-cfg="rent" onclick="filterByConfig('rent', this)">📋 Rental Homes (₹5K - ₹12K)</span>
+            <span class="filter-chip" data-cfg="bungalow" onclick="filterByConfig('bungalow', this)">🏰 Luxury Bungalows & Villas (₹45L - ₹2.5Cr)</span>
           </div>
         </div>
 
@@ -2880,6 +2884,273 @@
         </tbody>
       </table>
     </div>
+
+    
+    <!-- ==========================================================
+         ROYAL BUNGALOWS, LUXURY HILLSIDE VILLAS & ESTATE SHOWCASE
+         ========================================================== -->
+    <section id="luxury-bungalows" style="margin: 40px 0 50px 0; background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 7, 9, 0.98) 100%); border: 2px solid rgba(212, 175, 55, 0.45); border-radius: 20px; padding: 32px 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(212, 175, 55, 0.3); position: relative; overflow: hidden;">
+      
+      <!-- Ambient Gold Glow Accent -->
+      <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%); pointer-events: none;"></div>
+      <div style="position: absolute; bottom: -100px; left: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%); pointer-events: none;"></div>
+
+      <!-- Section Header -->
+      <div style="text-align: center; max-width: 900px; margin: 0 auto 32px auto; position: relative; z-index: 2;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 175, 55, 0.15); border: 1.5px solid #d4af37; padding: 6px 18px; border-radius: 999px; margin-bottom: 14px;">
+          <span style="font-size: 14px;">👑</span>
+          <span style="font-size: 12px; font-weight: 900; color: #fde047; text-transform: uppercase; letter-spacing: 1px;">
+            EXCLUSIVE SIGNATURE COLLECTION • AMBERNATH & MMR HILLS
+          </span>
+        </div>
+        <h2 style="font-size: clamp(24px, 4vw, 36px); font-weight: 900; color: #ffffff; margin: 0 0 12px 0; font-family: 'Cinzel', 'Playfair Display', serif; letter-spacing: 0.5px; line-height: 1.25;">
+          The Royal Collection: Luxury Bungalows, Hillside Villas & Private Estates
+        </h2>
+        <p style="font-size: 14.5px; color: #cbd5e1; line-height: 1.6; margin: 0;">
+          Experience supreme freedom, zero shared walls, and bespoke grandeur. Choose from <strong>turnkey independent villas with private plunge pools</strong>, <strong>panoramic Sahyadri mountain retreats</strong>, and <strong>collector-sanctioned NA bungalow plots</strong> with 100% clear titles and instant registry.
+        </p>
+      </div>
+
+      <!-- VIP Luxury Visual Gallery (3 Cards) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 36px; position: relative; z-index: 2;">
+        
+        <!-- Villa Card 1 -->
+        <div style="background: rgba(2, 6, 23, 0.85); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); transition: transform 0.3s ease, border-color 0.3s ease;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='#d4af37';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(212, 175, 55, 0.35)';">
+          <div style="position: relative; height: 220px; overflow: hidden;">
+            <img src="/public/luxury-villa-bungalow-1.jpg" alt="Grand Imperial Tropical Pool Villa Pale Gaon" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); border: 1px solid #d4af37; color: #fde047; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px;">
+              🏊 PRIVATE POOL VILLA
+            </span>
+            <span style="position: absolute; bottom: 12px; right: 12px; background: #059669; color: #fff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              90% SBI LOAN APPROVED
+            </span>
+          </div>
+          <div style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <h3 style="font-size: 17px; font-weight: 800; color: #fff; margin: 0 0 4px 0;">The Grand Imperial Villa</h3>
+                <span style="font-size: 12px; color: #94a3b8;">📍 Pale Gaon Greens, Ambernath (East)</span>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 900; color: #fde047;">₹1.25 Cr*</div>
+                <div style="font-size: 10px; color: #34d399; font-weight: 700;">Zero Brokerage</div>
+              </div>
+            </div>
+            <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 14px;">
+              4 BHK Independent Luxury Bungalow with designer plunge pool, teak sun deck, 3-car portico, and landscaped tropical gardens. 100% Vastu-compliant.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Carpet: 2,850 sq.ft</span>
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Private Lawn</span>
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">FSI 1.5 Sanctioned</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="bookBungalowTour('Grand Imperial Villa', 'Pale Gaon')" class="btn-action" style="flex: 1; background: linear-gradient(135deg, #d4af37, #b8860b); color: #000; font-weight: 800; padding: 10px; border-radius: 8px; font-size: 12.5px; border: none; cursor: pointer;">
+                🚗 Book VIP Site Visit
+              </button>
+              <a href="https://wa.me/918421077613?text=Hi%20Satnam%20Sir%2C%20please%20send%20brochure%20and%20details%20for%20Grand%20Imperial%20Villa%20Pale%20Gaon" target="_blank" style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25d366; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                💬
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa Card 2 -->
+        <div style="background: rgba(2, 6, 23, 0.85); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); transition: transform 0.3s ease, border-color 0.3s ease;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='#d4af37';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(212, 175, 55, 0.35)';">
+          <div style="position: relative; height: 220px; overflow: hidden;">
+            <img src="/public/luxury-bungalow-estate-2.jpg" alt="Signature Sovereign Duplex Estate Chikhloli" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); border: 1px solid #38bdf8; color: #7dd3fc; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px;">
+              🌌 ROOFTOP PERGOLA & ATRIUM
+            </span>
+            <span style="position: absolute; bottom: 12px; right: 12px; background: #0284c7; color: #fff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              CHIKHLOLI BOOM CORRIDOR
+            </span>
+          </div>
+          <div style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <h3 style="font-size: 17px; font-weight: 800; color: #fff; margin: 0 0 4px 0;">Sovereign Duplex Mansion</h3>
+                <span style="font-size: 12px; color: #94a3b8;">📍 Chikhloli Corridor, Ambernath East</span>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 900; color: #fde047;">₹85 Lakhs*</div>
+                <div style="font-size: 10px; color: #38bdf8; font-weight: 700;">10-Min to Thane</div>
+              </div>
+            </div>
+            <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 14px;">
+              Contemporary G+1 Duplex Row Bungalow featuring double-height glass atrium, private driveway, rooftop stargazing party terrace, and private green lawn.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Carpet: 1,950 sq.ft</span>
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Gated Community</span>
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Rooftop Deck</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="bookBungalowTour('Sovereign Duplex Mansion', 'Chikhloli')" class="btn-action" style="flex: 1; background: linear-gradient(135deg, #d4af37, #b8860b); color: #000; font-weight: 800; padding: 10px; border-radius: 8px; font-size: 12.5px; border: none; cursor: pointer;">
+                🚗 Book VIP Site Visit
+              </button>
+              <a href="https://wa.me/918421077613?text=Hi%20Satnam%20Sir%2C%20please%20send%20brochure%20and%20details%20for%20Sovereign%20Duplex%20Mansion%20Chikhloli" target="_blank" style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25d366; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                💬
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa Card 3 -->
+        <div style="background: rgba(2, 6, 23, 0.85); border: 1.5px solid rgba(212, 175, 55, 0.35); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); transition: transform 0.3s ease, border-color 0.3s ease;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='#d4af37';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(212, 175, 55, 0.35)';">
+          <div style="position: relative; height: 220px; overflow: hidden;">
+            <img src="/public/luxury-villa-interior-3.jpg" alt="Sahyadri Hillside Farmhouse Retreat Barvi Dam" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); border: 1px solid #10b981; color: #6ee7b7; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px;">
+              ⛰️ 1/2 ACRE MOUNTAIN ESTATE
+            </span>
+            <span style="position: absolute; bottom: 12px; right: 12px; background: #d97706; color: #fff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              COLLECTOR NA SANCTIONED
+            </span>
+          </div>
+          <div style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <h3 style="font-size: 17px; font-weight: 800; color: #fff; margin: 0 0 4px 0;">Sahyadri Valley Farmhouse</h3>
+                <span style="font-size: 12px; color: #94a3b8;">📍 Barvi Dam Valley / Malanggad Foothills</span>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 900; color: #fde047;">₹65 Lakhs*</div>
+                <div style="font-size: 10px; color: #34d399; font-weight: 700;">Organic Orchard</div>
+              </div>
+            </div>
+            <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 14px;">
+              Exclusive nature retreat with private fruit orchard, uninterrupted valley mist views, 24x7 water, and high-speed solar backup. Perfect weekend haven.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Plot: 11,000 sq.ft</span>
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Separate 7/12</span>
+              <span style="background: rgba(255, 255, 255, 0.06); color: #cbd5e1; font-size: 11px; padding: 3px 8px; border-radius: 4px;">Club Access</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="bookBungalowTour('Sahyadri Valley Farmhouse', 'Barvi Dam')" class="btn-action" style="flex: 1; background: linear-gradient(135deg, #d4af37, #b8860b); color: #000; font-weight: 800; padding: 10px; border-radius: 8px; font-size: 12.5px; border: none; cursor: pointer;">
+                🚗 Book VIP Site Visit
+              </button>
+              <a href="https://wa.me/918421077613?text=Hi%20Satnam%20Sir%2C%20please%20send%20brochure%20and%20details%20for%20Sahyadri%20Valley%20Farmhouse" target="_blank" style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25d366; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                💬
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- High-Conversion VIP Privileges Grid (Why Clients Love to Visit & Stay) -->
+      <div style="background: rgba(2, 6, 23, 0.9); border: 1.5px solid rgba(212, 175, 55, 0.3); border-radius: 16px; padding: 24px; margin-bottom: 32px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h3 style="font-size: 18px; font-weight: 900; color: #fde047; margin: 0 0 6px 0; text-transform: uppercase;">
+            👑 The Dashmesh Royal Hospitality: VIP Visit Privileges
+          </h3>
+          <p style="font-size: 12.5px; color: #94a3b8; margin: 0;">
+            We believe buying a luxury home should be an unforgettable, stress-free celebration for your whole family.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          
+          <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">🚗</div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">Free AC Car Pickup</div>
+            <div style="font-size: 11.5px; color: #94a3b8; line-height: 1.45;">
+              Complimentary doorstep pickup & return for your family from Thane, Kalyan, Mumbai or Station.
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">☕</div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">Weekend High Tea Lounge</div>
+            <div style="font-size: 11.5px; color: #94a3b8; line-height: 1.45;">
+              Enjoy artisan refreshments and private consultations at our Pale Gaon luxury preview lounge.
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">🎁</div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">10g 24K Gold Coin</div>
+            <div style="font-size: 11.5px; color: #94a3b8; line-height: 1.45;">
+              Complimentary certified 24K pure Gold Coin on direct builder bungalow spot-booking.
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">📜</div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">100% Free Legal Search</div>
+            <div style="font-size: 11.5px; color: #94a3b8; line-height: 1.45;">
+              Full 30-year title search & MahaRERA legal certification by Advocate Sukhjyot Singh Vohra.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Interactive "Build & Price Your Custom Bungalow" Widget -->
+      <div style="background: linear-gradient(135deg, rgba(2, 6, 23, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: 16px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 14px;">
+          <div>
+            <h3 style="font-size: 17px; font-weight: 900; color: #34d399; margin: 0 0 4px 0; text-transform: uppercase;">
+              📐 Custom Villa & Bungalow Package Estimator
+            </h3>
+            <span style="font-size: 12px; color: #94a3b8;">Calculate instant package cost for Land Plot + Custom Construction in Ambernath East</span>
+          </div>
+          <span style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 999px;">
+            ⚡ LIVE ESTIMATOR
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+          
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">1. Select Land Plot Size:</label>
+            <select id="bungalow-plot-size" onchange="calcCustomBungalow()" style="width: 100%; padding: 10px 12px; background: #020617; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 13px;">
+              <option value="1200" selected>1,200 sq.ft (NA Sanctioned Plot) — ₹17.4 Lakhs</option>
+              <option value="1800">1,800 sq.ft (Prime Corner Plot) — ₹26.1 Lakhs</option>
+              <option value="2500">2,500 sq.ft (Grand Villa Plot) — ₹36.2 Lakhs</option>
+              <option value="5000">5,000 sq.ft (Half-Acre Luxury Plot) — ₹72.5 Lakhs</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">2. Desired Villa Structure:</label>
+            <select id="bungalow-type" onchange="calcCustomBungalow()" style="width: 100%; padding: 10px 12px; background: #020617; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 13px;">
+              <option value="2bhk" selected>2 BHK Luxury Duplex (1,200 sq.ft built-up) — ₹24.0 Lakhs</option>
+              <option value="3bhk">3 BHK Grand Villa (1,850 sq.ft built-up) — ₹37.0 Lakhs</option>
+              <option value="4bhk">4 BHK Royal Mansion (2,600 sq.ft built-up) — ₹52.0 Lakhs</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">3. Luxury Add-On Amenities:</label>
+            <select id="bungalow-addons" onchange="calcCustomBungalow()" style="width: 100%; padding: 10px 12px; background: #020617; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 13px;">
+              <option value="standard" selected>Standard Premium Finish (Italian Tiles + Landscaped Lawn)</option>
+              <option value="pool">Private Plunge Pool + Teak Sun Deck (+₹6.5 Lakhs)</option>
+              <option value="solar">Rooftop Solar Pergola + Smart Home Automation (+₹4.5 Lakhs)</option>
+              <option value="all">Full Royal Suite (Pool + Solar + Automation + Gazebo) (+₹10.0 Lakhs)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Calculated Summary Box -->
+        <div style="background: rgba(2, 6, 23, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Total Estimated Turnkey Villa Package</div>
+            <div style="font-size: 26px; font-weight: 900; color: #fde047;" id="custom-bungalow-total">₹41.40 Lakhs*</div>
+            <div style="font-size: 11.5px; color: #34d399;" id="custom-bungalow-emi">Estimated 90% Loan EMI: ₹31,200/mo (SBI @ 8.40%)</div>
+          </div>
+          <div>
+            <button onclick="bookCustomBungalowConsultation()" class="btn-solid-emerald" style="padding: 12px 24px; font-size: 13.5px; font-weight: 900; border-radius: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); border: none; cursor: pointer;">
+              📲 Lock This Package & Request Blueprint
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
 
     <!-- Section 3: MMR Real Estate Mega Projects Catalog (238+ Projects) -->
     <h2 class="section-title"><span>🏢</span> MMR Real Estate Mega Projects Catalog</h2>

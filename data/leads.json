@@ -210,7 +210,7 @@
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-20T13:15:38.868Z",
+    "lastUpdated": "2026-10-23T18:11:12.363Z",
     "lastIntent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
     "language": "hinglish",
     "messages": [
@@ -733,6 +733,58 @@
         "text": "Sat Sri Akal Satnam Sir! Main Sia, live reporting de rahi hoon. 🌸 Ji Satnam Sir! Maine aapka aadesh poori tarah samajh liya hai:\n\n💬 *Aapka Command:* \"📋 Live CRM\"\n\nMain aapki personal AI Chief-of-Staff hoon — aapki har ek baat aur instruction mere dhyan mein hai. Main is aadesh ke anusaar poori tarah align ho chuki hoon.\n\nAap chahein to main is par turant action execute karoon, kisi specific client ko update bhejoongi, ya dashboard refresh karoon. Bas bataiye Sir, main execute kar dungi! 🌸",
         "intent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
         "timestamp": "2026-10-20T13:15:38.868Z"
+      },
+      {
+        "id": "msg_in_1792777813465",
+        "sender": "owner",
+        "text": "Hello",
+        "timestamp": "2026-10-23T17:50:13.465Z"
+      },
+      {
+        "id": "msg_out_1792777813465",
+        "sender": "bot",
+        "text": "Aadesh kijiye Satnam Sir! Sia live report karti hai: 🌸 Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!",
+        "intent": "OWNER_GREETING_ACK",
+        "timestamp": "2026-10-23T17:50:13.465Z"
+      },
+      {
+        "id": "msg_in_1792778394707",
+        "sender": "owner",
+        "text": "workon the real leads andmake the follow up now",
+        "timestamp": "2026-10-23T17:59:54.707Z"
+      },
+      {
+        "id": "msg_out_1792778394707",
+        "sender": "bot",
+        "text": "Sat Sri Akal Satnam Sir! Main Sia, live reporting de rahi hoon. 🌸 📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *0*\n• Total Verified Leads: *7*\n• 24/7 Follow-Up Bot: *Active*\n\n📋 *Real Inquiries:*\n1. *Test User* (+919876543211) - _RESIDENTIAL_2BHK_3BHK_ \n2. *Pooja* (+919876543210) - _GREETING_ \n3. *Kirandeep Kaur Vohra* (+918421222813) - _MASTER_RATE_CARD_ \n4. *Ashmeet Rana!* (+918983788913) - _GREETING_ \n5. *AJ* (+917710916655) - _CONVERSATIONAL_FOLLOWUP_ \n\n👉 Detailed CRM pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "timestamp": "2026-10-23T17:59:54.707Z"
+      },
+      {
+        "id": "msg_in_1792778402525",
+        "sender": "owner",
+        "text": "📰 New Post",
+        "timestamp": "2026-10-23T18:00:02.525Z"
+      },
+      {
+        "id": "msg_out_1792778402525",
+        "sender": "bot",
+        "text": "Sat Sri Akal Satnam Sir! Main Sia, live reporting de rahi hoon. 🌸 ✅ Command executed! Sia ne Google Maps par naya verified property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• Bank Loan Tie-ups: SBI, HDFC, Bank of Baroda\n• Lift, 24x7 Water, Clear Title CIDCO/RERA Approved\n• Contact: Satnam Singh Vohra (+91 84210 77613)\n\nLive on Google Business Profile!",
+        "intent": "OWNER_TRIGGER_POST",
+        "timestamp": "2026-10-23T18:00:02.525Z"
+      },
+      {
+        "id": "msg_in_1792779072363",
+        "sender": "owner",
+        "text": "why are you sendingme this messages..?/",
+        "timestamp": "2026-10-23T18:11:12.363Z"
+      },
+      {
+        "id": "msg_out_1792779072363",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia here. 🌸 Ji Satnam Sir! Maine aapka aadesh poori tarah samajh liya hai:\n\n💬 *Aapka Command:* \"why are you sendingme this messages..?/\"\n\nMain aapki personal AI Chief-of-Staff hoon — aapki har ek baat aur instruction mere dhyan mein hai. Main is aadesh ke anusaar poori tarah align ho chuki hoon.\n\nAap chahein to main is par turant action execute karoon, kisi specific client ko update bhejoongi, ya dashboard refresh karoon. Bas bataiye Sir, main execute kar dungi! 🌸",
+        "intent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
+        "timestamp": "2026-10-23T18:11:12.363Z"
       }
     ]
   },
