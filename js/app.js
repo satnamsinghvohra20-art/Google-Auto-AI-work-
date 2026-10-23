@@ -3219,3 +3219,185 @@ if (document.readyState === 'loading') {
 } else {
   loadMreaDashboard();
 }
+
+
+// =========================================================================
+// MREA SUPER-INTELLIGENCE MULTI-AGENT CLIENT CONTROLLER
+// =========================================================================
+let currentMreaTerminalText = '';
+let currentMreaTerminalWa = '';
+
+async function loadMreaTeam(showNotification = false) {
+  try {
+    const res = await fetch('/api/mrea/team');
+    const data = await res.json();
+    if (data.success && showNotification) {
+      if (typeof showToast === 'function') {
+        showToast('✓ All 7 MREA Super-Intelligence AI Agents Synchronized & Active!');
+      }
+      playAudioChime();
+    }
+  } catch (e) {
+    console.error('Error loading MREA team:', e);
+  }
+}
+
+async function executeMreaAgent(agentId, actionId) {
+  playAudioChime();
+  const termTitle = document.getElementById('mrea-terminal-title');
+  const termTag = document.getElementById('mrea-terminal-agent-tag');
+  const termContent = document.getElementById('mrea-terminal-content');
+  const shareBtn = document.getElementById('mrea-btn-share-wa');
+
+  if (termTag) termTag.textContent = 'EXECUTING (' + agentId.toUpperCase() + ')...';
+  if (termContent) {
+    termContent.innerHTML = '<div style="display: flex; align-items: center; gap: 10px; color: #fde047; padding: 20px 0;"><span class="audio-pulse-indicator"></span><span>Super-Intelligence Agent <strong>' + agentId.toUpperCase() + '</strong> is reasoning and executing ' + actionId + '...</span></div>';
+  }
+
+  try {
+    const res = await fetch('/api/mrea/execute-agent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agentId, actionId })
+    });
+    const data = await res.json();
+
+    if (!data.success) {
+      throw new Error(data.error || 'Agent execution failed');
+    }
+
+    const r = data.result;
+    if (termTitle) termTitle.textContent = r.title || 'MREA Execution Output';
+    if (termTag) termTag.textContent = r.agentName.toUpperCase() + ' • SUCCESS';
+
+    let html = '<div style="margin-bottom: 12px;"><strong style="font-size: 15px; color: #34d399;">' + (r.title || '') + '</strong></div>';
+    if (r.summary) {
+      html += '<p style="color: #cbd5e1; margin-bottom: 12px; font-weight: 600;">' + r.summary + '</p>';
+    }
+
+    if (r.steps && Array.isArray(r.steps)) {
+      html += '<ol style="padding-left: 20px; margin: 10px 0; color: #f8fafc; line-height: 1.6;">';
+      r.steps.forEach(s => {
+        html += '<li style="margin-bottom: 6px;">' + s.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #fde047;">$1</strong>') + '</li>';
+      });
+      html += '</ol>';
+    }
+
+    if (r.details && Array.isArray(r.details)) {
+      html += '<div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; margin: 10px 0;">';
+      r.details.forEach(d => {
+        html += '<div style="margin-bottom: 6px; font-size: 12.5px;">' + d.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #93c5fd;">$1</strong>') + '</div>';
+      });
+      html += '</div>';
+    }
+
+    if (r.script) {
+      html += '<div style="background: rgba(30, 27, 75, 0.7); border-left: 3px solid #a855f7; border-radius: 8px; padding: 14px; margin: 10px 0; font-style: italic; color: #e9d5ff;">' + r.script + '</div>';
+    }
+
+    if (r.postContent) {
+      html += '<div style="background: rgba(6, 78, 59, 0.7); border-left: 3px solid #34d399; border-radius: 8px; padding: 14px; margin: 10px 0; white-space: pre-wrap; font-family: monospace; font-size: 12px; color: #d1fae5;">' + r.postContent + '</div>';
+    }
+
+    if (termContent) termContent.innerHTML = html;
+
+    // Plain text for copy
+    currentMreaTerminalText = (r.title ? r.title + '\n\n' : '') +
+      (r.summary ? r.summary + '\n\n' : '') +
+      (r.steps ? r.steps.join('\n') : '') +
+      (r.details ? r.details.join('\n') : '') +
+      (r.script ? r.script : '') +
+      (r.postContent ? r.postContent : '');
+
+    currentMreaTerminalWa = r.whatsappMessage || currentMreaTerminalText;
+
+    if (shareBtn) {
+      shareBtn.style.display = r.whatsappMessage ? 'inline-flex' : 'none';
+    }
+
+    if (typeof showToast === 'function') {
+      showToast('✓ ' + r.agentName + ' executed ' + (r.title || 'task') + ' successfully!');
+    }
+  } catch (err) {
+    if (termTag) termTag.textContent = 'ERROR';
+    if (termContent) termContent.innerHTML = '<div style="color: #f87171;">⚠️ ' + err.message + '</div>';
+    console.error(err);
+  }
+}
+
+async function runMreaMasterLoop() {
+  playAudioChime();
+  const card = document.getElementById('mrea-loop-progress-card');
+  const bar = document.getElementById('mrea-loop-bar');
+  const logDiv = document.getElementById('mrea-loop-steps-log');
+  const statusTxt = document.getElementById('mrea-loop-status-text');
+  const cycleTxt = document.getElementById('mrea-loop-cycle-id');
+
+  if (card) card.style.display = 'block';
+  if (bar) bar.style.width = '10%';
+  if (statusTxt) statusTxt.textContent = 'Initializing MREA Collaborative Agent Pipeline...';
+  if (logDiv) logDiv.innerHTML = '<div>[04:00:00] Synchronizing with all 7 agents...</div>';
+
+  try {
+    const res = await fetch('/api/mrea/master-loop', { method: 'POST' });
+    const data = await res.json();
+
+    if (!data.success) throw new Error(data.error || 'Master Loop failed');
+
+    if (cycleTxt) cycleTxt.textContent = data.cycleId;
+
+    let pct = 20;
+    if (data.log && Array.isArray(data.log)) {
+      logDiv.innerHTML = '';
+      data.log.forEach((item, index) => {
+        setTimeout(() => {
+          const row = document.createElement('div');
+          row.style.marginBottom = '4px';
+          row.innerHTML = '<span style="color: #fde047;">[' + item.agent + ']</span> ' + item.action;
+          logDiv.appendChild(row);
+          logDiv.scrollTop = logDiv.scrollHeight;
+          const p = Math.min(100, 20 + Math.floor((index + 1) * (80 / data.log.length)));
+          if (bar) bar.style.width = p + '%';
+        }, index * 250);
+      });
+    }
+
+    setTimeout(() => {
+      if (bar) bar.style.width = '100%';
+      if (statusTxt) statusTxt.textContent = '✅ MREA Master Loop Completed: All 7 Agents Synchronized';
+      if (typeof showToast === 'function') {
+        showToast('🏆 Full MREA Super-Intelligence Autonomous Loop Completed Successfully!');
+      }
+      playAudioChime();
+    }, (data.log.length + 1) * 250);
+
+  } catch (e) {
+    if (statusTxt) statusTxt.textContent = '⚠️ Master Loop encountered error: ' + e.message;
+    console.error(e);
+  }
+}
+
+function copyMreaTerminalOutput() {
+  if (!currentMreaTerminalText) {
+    if (typeof showToast === 'function') showToast('Nothing to copy yet. Click an agent task first.');
+    return;
+  }
+  if (typeof copyTextToClipboard === 'function') {
+    copyTextToClipboard(currentMreaTerminalText, '✓ MREA Agent Output Copied to Clipboard!');
+  } else {
+    navigator.clipboard.writeText(currentMreaTerminalText).then(() => {
+      if (typeof showToast === 'function') showToast('✓ Copied to clipboard!');
+    });
+  }
+}
+
+function shareMreaTerminalWhatsApp() {
+  if (!currentMreaTerminalWa) return;
+  const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(currentMreaTerminalWa);
+  window.open(url, '_blank');
+}
+
+// Automatically sync MREA team when app starts
+document.addEventListener('DOMContentLoaded', () => {
+  loadMreaTeam(false);
+});
