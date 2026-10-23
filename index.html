@@ -1710,7 +1710,7 @@ body {
   background-color: #020617 !important;
   background-image: 
     linear-gradient(180deg, rgba(2, 6, 23, 0.25) 0%, rgba(2, 6, 23, 0.38) 45%, rgba(2, 6, 23, 0.60) 100%),
-    url('/public/executive-sky-penthouse.jpg') !important;
+    none !important;
   background-size: cover !important;
   background-position: center top !important;
   background-attachment: fixed !important;
@@ -2173,6 +2173,79 @@ table tr:hover td {
   background: rgba(30, 41, 59, 0.95) !important;
   border-color: #fde047 !important;
   color: #fde047 !important;
+}
+
+
+
+/* =========================================================================
+   CLEAN ULTRA-LUXURY EXECUTIVE DARK MODE (DISTRACTION-FREE)
+   Deep obsidian, champagne gold ambient halos, pure white crisp typography.
+   Zero distracting photo backgrounds.
+   ========================================================================= */
+
+body {
+  background-color: #030712 !important;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 175, 55, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 90% 30%, rgba(254, 243, 199, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 10% 70%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+    linear-gradient(180deg, #030712 0%, #060b18 50%, #020617 100%) !important;
+  background-size: 100% 100% !important;
+  background-attachment: fixed !important;
+  color: #ffffff !important;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Luxury Cards - Deep obsidian glass with subtle golden rim */
+.hero-summary-card,
+.feature-card,
+.tool-card,
+.mrea-card,
+.radar-card,
+.review-card,
+.section-card,
+.stat-box,
+.post-card,
+.standee-card,
+.modal-card,
+.ai-panel,
+.chat-window,
+.mrea-grid-item,
+.exif-meta-card {
+  background: rgba(11, 18, 35, 0.82) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(254, 243, 199, 0.22) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+.hero-summary-card:hover,
+.tool-card:hover,
+.feature-card:hover,
+.mrea-card:hover {
+  border-color: rgba(212, 175, 55, 0.65) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.18) !important;
+}
+
+/* Sticky App Header */
+.app-header {
+  background: rgba(3, 7, 18, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(254, 243, 199, 0.25) !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Executive Cockpit Hero */
+.executive-cockpit-hero {
+  background: linear-gradient(135deg, rgba(11, 18, 35, 0.95) 0%, rgba(8, 14, 28, 0.95) 100%) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.75), 0 0 35px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
 
 </style>
