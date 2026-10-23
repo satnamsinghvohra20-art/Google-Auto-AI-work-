@@ -3070,6 +3070,11 @@ table tr:hover td {
 
     <!-- FLOATING QUICK JUMP NAVIGATION DOCK -->
     <nav class="exec-floating-dock" id="exec-dock" aria-label="Executive Quick Navigation">
+    <!-- Quick Manual Lock Button with 10m Shield Indicator -->
+    <button onclick="lockPortal('🔒 Portal manually locked.')" title="Lock Portal Now" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; padding: 6px 12px; border-radius: 9999px; font-size: 11.5px; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
+      <span>🔒 Lock</span>
+      <span style="font-size: 9.5px; background: rgba(0,0,0,0.3); padding: 1px 5px; border-radius: 6px; color: #fef08a;">10m Auto</span>
+    </button>
       <a href="#executive-cockpit" class="exec-dock-item active" onclick="playAudioChime(); return true;">
         <span>⚡</span>
         <span>Cockpit</span>
@@ -5643,54 +5648,122 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
   </div><!-- /main-dashboard-wrap -->
 
   <script>
+    // =========================================================================
+    // STRICT REFRESH LOCK & 10-MINUTE INACTIVITY AUTO-LOCK SYSTEM
+    // =========================================================================
+    const AUTO_LOCK_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
+    let autoLockTimer = null;
+    let autoLockCountdownInterval = null;
+    let lastUserActivityTime = Date.now();
+
+    // 1. Strict Refresh Lock: Always lock upon page refresh / reload
     function checkAdminAuthOnLoad() {
-      const token = sessionStorage.getItem('dashmesh_admin_token') || localStorage.getItem('dashmesh_admin_key');
+      // Clear any session tokens so reload always requires PIN
+      sessionStorage.removeItem('dashmesh_admin_token');
+      localStorage.removeItem('dashmesh_admin_key');
+
       const lockScreen = document.getElementById('admin-lock-screen');
       const mainWrap = document.getElementById('main-dashboard-wrap');
       
-      if (token && (token === 'satnam_dashmesh_secure_2026' || token === '84210')) {
-        if (lockScreen) lockScreen.style.display = 'none';
-        if (mainWrap) mainWrap.style.display = 'block';
-        if (typeof initApp === 'function' && !window._appInitialized) {
-          window._appInitialized = true;
-          initApp();
-        }
-      } else {
-        if (lockScreen) lockScreen.style.display = 'flex';
-        if (mainWrap) mainWrap.style.display = 'none';
-        const pinInput = document.getElementById('admin-pin-input');
-        if (pinInput) setTimeout(() => pinInput.focus(), 150);
+      if (lockScreen) lockScreen.style.display = 'flex';
+      if (mainWrap) mainWrap.style.display = 'none';
+
+      const pinInput = document.getElementById('admin-pin-input');
+      const errEl = document.getElementById('pin-error-msg');
+      if (pinInput) {
+        pinInput.value = '';
+        setTimeout(() => pinInput.focus(), 150);
+      }
+      if (errEl) {
+        errEl.textContent = '';
+        errEl.style.display = 'none';
       }
     }
 
+    // 2. Lock Portal function (callable on refresh, timeout, or manual button click)
+    function lockPortal(reasonMsg) {
+      if (autoLockTimer) clearTimeout(autoLockTimer);
+      if (autoLockCountdownInterval) clearInterval(autoLockCountdownInterval);
+
+      sessionStorage.removeItem('dashmesh_admin_token');
+      localStorage.removeItem('dashmesh_admin_key');
+
+      const lockScreen = document.getElementById('admin-lock-screen');
+      const mainWrap = document.getElementById('main-dashboard-wrap');
+      const pinInput = document.getElementById('admin-pin-input');
+      const errEl = document.getElementById('pin-error-msg');
+
+      if (lockScreen) lockScreen.style.display = 'flex';
+      if (mainWrap) mainWrap.style.display = 'none';
+
+      if (pinInput) {
+        pinInput.value = '';
+        setTimeout(() => pinInput.focus(), 150);
+      }
+
+      if (errEl) {
+        errEl.textContent = reasonMsg || '🔒 Portal locked for privacy. Please enter PIN to resume.';
+        errEl.style.display = 'block';
+        errEl.style.color = '#fef08a';
+      }
+    }
+
+    // 3. Activity Tracker & Inactivity Reset
+    function resetAutoLockTimer() {
+      lastUserActivityTime = Date.now();
+      if (autoLockTimer) clearTimeout(autoLockTimer);
+
+      const lockScreen = document.getElementById('admin-lock-screen');
+      // Only run auto-lock countdown if currently unlocked
+      if (lockScreen && lockScreen.style.display === 'none') {
+        autoLockTimer = setTimeout(() => {
+          lockPortal('⏱️ Portal Auto-Locked after 10 minutes of inactivity for your security.');
+        }, AUTO_LOCK_TIMEOUT_MS);
+      }
+    }
+
+    // Bind interaction events for the 10-minute inactivity timer
+    ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(evt => {
+      window.addEventListener(evt, resetAutoLockTimer, { passive: true });
+    });
+
+    // 4. Handle PIN Submission
     async function handleAdminPinSubmit(e) {
-      e.preventDefault();
+      if (e) e.preventDefault();
       const pinInput = document.getElementById('admin-pin-input');
       const errEl = document.getElementById('pin-error-msg');
       const btn = document.getElementById('btn-unlock-portal');
       const pin = (pinInput ? pinInput.value : '').trim();
 
       if (!pin) {
-        if (errEl) { errEl.textContent = 'Please enter security PIN'; errEl.style.display = 'block'; }
+        if (errEl) { errEl.textContent = 'Please enter security PIN'; errEl.style.display = 'block'; errEl.style.color = '#f87171'; }
         return;
       }
 
       if (btn) { btn.disabled = true; btn.textContent = 'Verifying...'; }
       if (errEl) errEl.style.display = 'none';
 
+      const unlockUI = (token) => {
+        sessionStorage.setItem('dashmesh_admin_token', token || 'satnam_dashmesh_secure_2026');
+        const lockScreen = document.getElementById('admin-lock-screen');
+        const mainWrap = document.getElementById('main-dashboard-wrap');
+        if (lockScreen) lockScreen.style.display = 'none';
+        if (mainWrap) mainWrap.style.display = 'block';
+        
+        // Start 10-minute auto-lock timer
+        resetAutoLockTimer();
+
+        if (typeof initApp === 'function' && !window._appInitialized) {
+          window._appInitialized = true;
+          initApp();
+        }
+      };
+
       try {
-        // Direct fast-path unlock for Satnam Sir
+        // Fast-path unlock for Satnam Sir PIN
         if (pin === '84210' || pin === 'dashmesh2026') {
-          sessionStorage.setItem('dashmesh_admin_token', 'satnam_dashmesh_secure_2026');
-          localStorage.setItem('dashmesh_admin_key', 'satnam_dashmesh_secure_2026');
-          const lockScreen = document.getElementById('admin-lock-screen');
-          const mainWrap = document.getElementById('main-dashboard-wrap');
-          if (lockScreen) lockScreen.style.display = 'none';
-          if (mainWrap) mainWrap.style.display = 'block';
-          if (typeof initApp === 'function' && !window._appInitialized) {
-            window._appInitialized = true;
-            initApp();
-          }
+          unlockUI('satnam_dashmesh_secure_2026');
+          return;
         }
 
         const res = await fetch('/api/auth/verify-pin', {
@@ -5700,34 +5773,23 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
         });
         const data = await res.json();
 
-        if ((data.success && data.token) || pin === '84210' || pin === 'dashmesh2026') {
-          sessionStorage.setItem('dashmesh_admin_token', data.token || 'satnam_dashmesh_secure_2026');
-          localStorage.setItem('dashmesh_admin_key', data.token || 'satnam_dashmesh_secure_2026');
-          const lockScreen = document.getElementById('admin-lock-screen');
-          const mainWrap = document.getElementById('main-dashboard-wrap');
-          if (lockScreen) lockScreen.style.display = 'none';
-          if (mainWrap) mainWrap.style.display = 'block';
-          if (typeof initApp === 'function' && !window._appInitialized) {
-            window._appInitialized = true;
-            initApp();
-          }
+        if (data.success && data.token) {
+          unlockUI(data.token);
         } else {
-          throw new Error(data.error || 'Invalid Security PIN. Access denied.');
+          throw new Error(data.error || data.message || 'Invalid PIN entered');
         }
       } catch (err) {
         if (errEl) {
-          errEl.textContent = '❌ ' + (err.message || 'Access Denied');
+          errEl.textContent = err.message || 'Verification failed. Please check PIN.';
           errEl.style.display = 'block';
+          errEl.style.color = '#f87171';
+        }
+        if (pinInput) {
+          pinInput.select();
         }
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '🔓 Unlock Command Center'; }
       }
-    }
-
-    function lockAdminPortal() {
-      sessionStorage.removeItem('dashmesh_admin_token');
-      localStorage.removeItem('dashmesh_admin_key');
-      window.location.reload();
     }
 
     document.addEventListener('DOMContentLoaded', checkAdminAuthOnLoad);
