@@ -2372,7 +2372,23 @@ let isTunnelOnline = false;
 function startNgrokTunnel() {
   if (ngrokProcessInstance) return;
 
-  console.log(`[Ngrok Watchdog] Auto-launching persistent ngrok tunnel for ${ngrokDomain}...`);
+  // Check if ngrok is already running in Windows to prevent ERR_NGROK_6030 duplicate tunnel conflict
+  const { execSync } = require('child_process');
+  try {
+    const procs = execSync('tasklist /FI "IMAGENAME eq ngrok.exe" /NH', { encoding: 'utf8' });
+    const matches = procs.match(/ngrok\.exe/gi) || [];
+    if (matches.length >= 1) {
+      if (matches.length > 1) {
+        console.warn('[Ngrok Watchdog] Multiple ngrok processes detected. Cleaning duplicates...');
+        execSync('taskkill /F /IM ngrok.exe');
+      } else {
+        // Exactly one is already running
+        return;
+      }
+    }
+  } catch (e) {}
+
+  console.log(`[Ngrok Watchdog] Launching single dedicated ngrok tunnel for ${ngrokDomain}...`);
   try {
     ngrokProcessInstance = spawnProc('ngrok', ['http', '3000', '--url', ngrokDomain], {
       stdio: 'ignore',
