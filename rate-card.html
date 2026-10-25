@@ -2929,7 +2929,7 @@
     /* ==========================================================
        DAYLIGHT & MORNING THEME (ULTRA-HIGH CONTRAST LUXURY CREAM & OBSIDIAN)
        Active: 06:00 to 16:59 (data-time-mode="day" & data-theme="cream-white")
-       GUARANTEED: Zero white-on-white text, razor-sharp typography, vivid accents!
+       GUARANTEED: Zero invisible text, razor-sharp typography, vivid accents!
        ========================================================== */
     html[data-time-mode="day"] .top-nav-bar,
     html[data-theme="cream-white"] .top-nav-bar {
@@ -2951,6 +2951,18 @@
       border: 1.5px solid rgba(217, 180, 102, 0.6) !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
       font-weight: 700 !important;
+    }
+
+    /* SECTION TITLES */
+    html[data-time-mode="day"] .section-title,
+    html[data-theme="cream-white"] .section-title {
+      color: #0f172a !important;
+      text-shadow: none !important;
+      font-weight: 900 !important;
+    }
+    html[data-time-mode="day"] .section-title span,
+    html[data-theme="cream-white"] .section-title span {
+      text-shadow: none !important;
     }
 
     /* HEADER CARD - LUXURY WARM CREAM PALACE */
@@ -3099,7 +3111,7 @@
       box-shadow: 0 0 14px rgba(212, 175, 55, 0.4) !important;
     }
 
-    /* RATE CARDS */
+    /* RATE CARDS (PROPERTY CARDS) */
     html[data-time-mode="day"] .rate-card,
     html[data-theme="cream-white"] .rate-card {
       background: rgba(255, 255, 255, 0.97) !important;
@@ -3177,66 +3189,318 @@
       font-weight: 800 !important;
     }
 
-    /* ALL OTHER SECTIONS IN DAYLIGHT */
+    /* ==========================================================
+       MASTER COMPREHENSIVE PRICE MATRIX (TABLE CONTAINER & CELLS)
+       CRITICAL: Zero dark-on-dark text! Complete high-contrast daylight card!
+       ========================================================== */
+    html[data-time-mode="day"] .table-container,
+    html[data-theme="cream-white"] .table-container {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 2px solid rgba(217, 180, 102, 0.65) !important;
+      box-shadow: 0 20px 45px rgba(180, 140, 54, 0.15) !important;
+      border-radius: var(--radius);
+      padding: 26px;
+    }
+    html[data-time-mode="day"] .table-container table,
+    html[data-theme="cream-white"] .table-container table {
+      background: transparent !important;
+    }
+    html[data-time-mode="day"] .table-container table thead th,
+    html[data-theme="cream-white"] .table-container table thead th {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+      color: #fde047 !important;
+      font-weight: 800 !important;
+      border-bottom: 2px solid #d4af37 !important;
+      text-shadow: none !important;
+      padding: 14px 16px;
+    }
+    html[data-time-mode="day"] .table-container table tbody td,
+    html[data-theme="cream-white"] .table-container table tbody td {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+      border-bottom: 1px solid rgba(217, 180, 102, 0.35) !important;
+      background: transparent !important;
+      text-shadow: none !important;
+      padding: 14px 16px;
+    }
+    html[data-time-mode="day"] .table-container table tbody td strong,
+    html[data-theme="cream-white"] .table-container table tbody td strong {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+    }
+    html[data-time-mode="day"] .table-container table tbody tr:hover td,
+    html[data-theme="cream-white"] .table-container table tbody tr:hover td {
+      background: rgba(254, 243, 199, 0.45) !important;
+    }
+    html[data-time-mode="day"] .table-container .badge-emerald,
+    html[data-theme="cream-white"] .table-container .badge-emerald {
+      background: #dcfce7 !important;
+      color: #166534 !important;
+      border: 1.5px solid #22c55e !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .table-container .badge-gold,
+    html[data-theme="cream-white"] .table-container .badge-gold {
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      border: 1.5px solid #f59e0b !important;
+      font-weight: 800 !important;
+    }
+
+    /* MMR MEGA PROJECTS CATALOG TABLE & CARDS */
     html[data-time-mode="day"] .comparison-card,
-    html[data-time-mode="day"] .bank-comparison-deck,
-    html[data-time-mode="day"] .rent-agreement-card,
-    html[data-time-mode="day"] .ai-super-rank-deck,
-    html[data-time-mode="day"] .ai-trend-engine-deck,
-    html[data-time-mode="day"] .ai-faq-deck,
-    html[data-time-mode="day"] .google-ai-command-box,
-    html[data-time-mode="day"] .office-card,
-    html[data-time-mode="day"] .testimonial-card,
-    html[data-time-mode="day"] .vip-modal-card,
-    html[data-theme="cream-white"] .comparison-card,
-    html[data-theme="cream-white"] .bank-comparison-deck,
-    html[data-theme="cream-white"] .rent-agreement-card,
-    html[data-theme="cream-white"] .ai-super-rank-deck,
-    html[data-theme="cream-white"] .ai-trend-engine-deck,
-    html[data-theme="cream-white"] .ai-faq-deck,
-    html[data-theme="cream-white"] .google-ai-command-box,
-    html[data-theme="cream-white"] .office-card,
-    html[data-theme="cream-white"] .testimonial-card,
-    html[data-theme="cream-white"] .vip-modal-card {
-      background: rgba(255, 255, 255, 0.97) !important;
-      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
-      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12), 0 0 30px rgba(255, 255, 255, 0.8) !important;
+    html[data-theme="cream-white"] .comparison-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 2px solid rgba(217, 180, 102, 0.65) !important;
+      box-shadow: 0 20px 45px rgba(180, 140, 54, 0.15) !important;
       color: #0f172a !important;
     }
-    html[data-time-mode="day"] .comparison-card h2,
     html[data-time-mode="day"] .comparison-card h3,
+    html[data-theme="cream-white"] .comparison-card h3 {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .comparison-table,
+    html[data-theme="cream-white"] .comparison-table {
+      background: transparent !important;
+    }
+    html[data-time-mode="day"] .comparison-table th,
+    html[data-theme="cream-white"] .comparison-table th {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+      color: #fde047 !important;
+      font-weight: 800 !important;
+      border-bottom: 2px solid #d4af37 !important;
+      padding: 12px 14px;
+    }
+    html[data-time-mode="day"] .comparison-table td,
+    html[data-theme="cream-white"] .comparison-table td {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+      border-bottom: 1px solid rgba(217, 180, 102, 0.35) !important;
+      background: transparent !important;
+    }
+    html[data-time-mode="day"] .comparison-table td strong,
+    html[data-theme="cream-white"] .comparison-table td strong {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+    }
+    html[data-time-mode="day"] .comparison-table td span,
+    html[data-theme="cream-white"] .comparison-table td span {
+      color: #475569 !important;
+      font-weight: 600 !important;
+    }
+    html[data-time-mode="day"] .comparison-table td[style*="color: #34d399"],
+    html[data-theme="cream-white"] .comparison-table td[style*="color: #34d399"] {
+      color: #047857 !important;
+      font-weight: 900 !important;
+    }
+
+    /* REGION HIGHLIGHT SUMMARY CARDS IN DAYLIGHT */
+    html[data-time-mode="day"] div[style*="border-left: 4px solid"],
+    html[data-theme="cream-white"] div[style*="border-left: 4px solid"] {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border-color: rgba(217, 180, 102, 0.45) !important;
+      box-shadow: 0 8px 24px rgba(180, 140, 54, 0.12) !important;
+    }
+    html[data-time-mode="day"] div[style*="border-left: 4px solid"] strong,
+    html[data-theme="cream-white"] div[style*="border-left: 4px solid"] strong {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+    }
+    html[data-time-mode="day"] div[style*="border-left: 4px solid"] span:last-child,
+    html[data-theme="cream-white"] div[style*="border-left: 4px solid"] span:last-child {
+      color: #475569 !important;
+      font-weight: 600 !important;
+    }
+
+    /* ROYAL COLLECTION LUXURY BUNGALOWS HIGHER CONTRAST */
+    #luxury-bungalows p {
+      color: #e2e8f0 !important;
+    }
+    #luxury-bungalows div[style*="background: rgba(2, 6, 23"] p {
+      color: #f1f5f9 !important;
+      font-weight: 500 !important;
+    }
+    #luxury-bungalows div[style*="background: rgba(2, 6, 23"] span[style*="color: #94a3b8"] {
+      color: #fde047 !important;
+      font-weight: 700 !important;
+    }
+    #luxury-bungalows div[style*="background: rgba(2, 6, 23"] span[style*="color: #cbd5e1"] {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.15) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      font-weight: 700 !important;
+    }
+
+    /* EMI CALCULATOR SECTION IN DAYLIGHT */
+    html[data-time-mode="day"] .emi-calc-wrapper,
+    html[data-theme="cream-white"] .emi-calc-wrapper,
+    html[data-time-mode="day"] #emi-calculator,
+    html[data-theme="cream-white"] #emi-calculator {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 2px solid rgba(217, 180, 102, 0.65) !important;
+      box-shadow: 0 20px 45px rgba(180, 140, 54, 0.15) !important;
+      border-radius: var(--radius);
+      padding: 32px 24px;
+    }
+    html[data-time-mode="day"] .emi-label,
+    html[data-theme="cream-white"] .emi-label {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .emi-input-badge,
+    html[data-theme="cream-white"] .emi-input-badge {
+      background: #0f172a !important;
+      color: #fde047 !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .emi-preset-chip,
+    html[data-theme="cream-white"] .emi-preset-chip {
+      background: #f8fafc !important;
+      color: #1e293b !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      font-weight: 700 !important;
+    }
+    html[data-time-mode="day"] .emi-preset-chip.active,
+    html[data-theme="cream-white"] .emi-preset-chip.active {
+      background: #d4af37 !important;
+      color: #000000 !important;
+      border-color: #aa771c !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .bank-comparison-deck,
+    html[data-theme="cream-white"] .bank-comparison-deck {
+      background: #f8fafc !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .bank-deck-title,
+    html[data-theme="cream-white"] .bank-deck-title {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .bank-row,
+    html[data-theme="cream-white"] .bank-row {
+      color: #0f172a !important;
+      border-bottom-color: rgba(217, 180, 102, 0.3) !important;
+    }
+    html[data-time-mode="day"] .bank-row strong,
+    html[data-theme="cream-white"] .bank-row strong {
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .bank-badge,
+    html[data-theme="cream-white"] .bank-badge {
+      background: rgba(2, 132, 199, 0.15) !important;
+      color: #0369a1 !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .bank-row span:last-child,
+    html[data-theme="cream-white"] .bank-row span:last-child {
+      color: #047857 !important;
+      font-weight: 900 !important;
+    }
+
+    /* OFFICE LOCATION CARD IN DAYLIGHT */
+    html[data-time-mode="day"] .office-card,
+    html[data-theme="cream-white"] .office-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 2px solid rgba(217, 180, 102, 0.65) !important;
+      box-shadow: 0 20px 45px rgba(180, 140, 54, 0.15) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .office-card h3,
+    html[data-theme="cream-white"] .office-card h3 {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .office-card p,
+    html[data-theme="cream-white"] .office-card p {
+      color: #334155 !important;
+      font-weight: 500 !important;
+    }
+
+    /* TESTIMONIAL CARDS IN DAYLIGHT */
+    html[data-time-mode="day"] .testimonial-card,
+    html[data-theme="cream-white"] .testimonial-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .testi-author,
+    html[data-theme="cream-white"] .testi-author {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .testi-text,
+    html[data-theme="cream-white"] .testi-text {
+      color: #334155 !important;
+    }
+    html[data-time-mode="day"] .testi-role,
+    html[data-theme="cream-white"] .testi-role {
+      color: #64748b !important;
+    }
+
+    /* RENT AGREEMENT CARD IN DAYLIGHT */
+    html[data-time-mode="day"] .rent-agreement-card,
+    html[data-theme="cream-white"] .rent-agreement-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 2px solid rgba(217, 180, 102, 0.65) !important;
+      box-shadow: 0 20px 45px rgba(180, 140, 54, 0.15) !important;
+      color: #0f172a !important;
+    }
     html[data-time-mode="day"] .rent-agreement-card h2,
     html[data-time-mode="day"] .rent-agreement-card h3,
-    html[data-theme="cream-white"] .comparison-card h2,
-    html[data-theme="cream-white"] .comparison-card h3,
     html[data-theme="cream-white"] .rent-agreement-card h2,
     html[data-theme="cream-white"] .rent-agreement-card h3 {
       color: #0f172a !important;
       font-weight: 800 !important;
       text-shadow: none !important;
     }
-    html[data-time-mode="day"] .comparison-card p,
     html[data-time-mode="day"] .rent-agreement-card p,
-    html[data-theme="cream-white"] .comparison-card p,
     html[data-theme="cream-white"] .rent-agreement-card p {
       color: #334155 !important;
       font-weight: 500 !important;
-      text-shadow: none !important;
-    }
-    html[data-time-mode="day"] th,
-    html[data-theme="cream-white"] th {
-      background: #f8fafc !important;
-      color: #0f172a !important;
-      font-weight: 800 !important;
-      border-bottom: 2px solid #d4af37 !important;
-    }
-    html[data-time-mode="day"] td,
-    html[data-theme="cream-white"] td {
-      color: #1e293b !important;
-      font-weight: 600 !important;
-      border-bottom: 1px solid rgba(217, 180, 102, 0.3) !important;
     }
 
+    /* ALL OTHER SECTIONS IN DAYLIGHT */
+    html[data-time-mode="day"] .ai-super-rank-deck,
+    html[data-time-mode="day"] .ai-trend-engine-deck,
+    html[data-time-mode="day"] .ai-faq-deck,
+    html[data-time-mode="day"] .google-ai-command-box,
+    html[data-time-mode="day"] .vip-modal-card,
+    html[data-theme="cream-white"] .ai-super-rank-deck,
+    html[data-theme="cream-white"] .ai-trend-engine-deck,
+    html[data-theme="cream-white"] .ai-faq-deck,
+    html[data-theme="cream-white"] .google-ai-command-box,
+    html[data-theme="cream-white"] .vip-modal-card {
+      background: rgba(255, 255, 255, 0.97) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12), 0 0 30px rgba(255, 255, 255, 0.8) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .ai-super-rank-deck h3,
+    html[data-time-mode="day"] .ai-trend-engine-deck h3,
+    html[data-time-mode="day"] .ai-faq-deck h3,
+    html[data-theme="cream-white"] .ai-super-rank-deck h3,
+    html[data-theme="cream-white"] .ai-trend-engine-deck h3,
+    html[data-theme="cream-white"] .ai-faq-deck h3 {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .ai-super-rank-deck p,
+    html[data-time-mode="day"] .ai-trend-engine-deck p,
+    html[data-time-mode="day"] .ai-faq-deck p,
+    html[data-theme="cream-white"] .ai-super-rank-deck p,
+    html[data-theme="cream-white"] .ai-trend-engine-deck p,
+    html[data-theme="cream-white"] .ai-faq-deck p {
+      color: #334155 !important;
+      font-weight: 500 !important;
+    }
 </style>
 
   <!-- Google Official LocalBusiness Structured Data (JSON-LD) for Rate Card -->
