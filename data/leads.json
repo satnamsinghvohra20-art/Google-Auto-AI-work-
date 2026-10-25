@@ -1,5 +1,85 @@
 [
   {
+    "phone": "+918287617759",
+    "name": "Client",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-25T10:26:08.407Z",
+    "messages": [
+      {
+        "id": "msg_in_1792923968407",
+        "sender": "client",
+        "text": "",
+        "timestamp": "2026-10-25T10:26:08.407Z"
+      },
+      {
+        "id": "msg_out_1792923968407",
+        "sender": "bot",
+        "text": "Hello 🌸 Main *Sia* hoon Dashmesh Properties se. Bataiye aaj main aapki kya help kar sakti hoon? \nBataiye na, aaj main aapke liye kya help kar sakti hoon? 🌸\n\n🏡 *Rent par Flat dekh rahe hain ya Buy karna hai?*\n📜 *Ya Legal Registered Rent Agreement banwana hai?*\n\nAap mujhe apna budget ya area bata dijiye, main aapke liye sabse pyara aur verified option nikaal kar doongi! 😊✨",
+        "intent": "GREETING",
+        "timestamp": "2026-10-25T10:26:08.407Z"
+      }
+    ],
+    "lastIntent": "GREETING",
+    "language": "hinglish",
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
+  },
+  {
+    "phone": "+919137156440",
+    "name": "Skill Circle",
+    "status": "New Inquiry",
+    "lastUpdated": "2026-10-25T08:54:58.893Z",
+    "messages": [
+      {
+        "id": "msg_in_1792918498893",
+        "sender": "client",
+        "text": "Hello",
+        "timestamp": "2026-10-25T08:54:58.893Z"
+      },
+      {
+        "id": "msg_out_1792918498893",
+        "sender": "bot",
+        "text": "Hey Skill Circle ji! 🌸 Main *Sia* hoon, Dashmesh Properties se. Aapse baat karke sach mein bohot achha laga! \nBataiye na, aaj main aapke liye kya help kar sakti hoon? 🌸\n\n🏡 *Rent par Flat dekh rahe hain ya Buy karna hai?*\n📜 *Ya Legal Registered Rent Agreement banwana hai?*\n\nAap mujhe apna budget ya area bata dijiye, main aapke liye sabse pyara aur verified option nikaal kar doongi! 😊✨",
+        "intent": "GREETING",
+        "timestamp": "2026-10-25T08:54:58.893Z"
+      }
+    ],
+    "lastIntent": "GREETING",
+    "language": "hinglish",
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
+  },
+  {
     "phone": "+919876543211",
     "name": "Test User",
     "status": "New Inquiry",
@@ -28,7 +108,24 @@
     ],
     "lastIntent": "RESIDENTIAL_2BHK_3BHK",
     "language": "hinglish",
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   },
   {
     "phone": "+919876543210",
@@ -59,7 +156,24 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   },
   {
     "phone": "+918421222813",
@@ -129,7 +243,24 @@
     ],
     "lastIntent": "MASTER_RATE_CARD",
     "language": "hinglish",
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   },
   {
     "phone": "+918983788913",
@@ -160,7 +291,24 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   },
   {
     "phone": "+917710916655",
@@ -204,7 +352,24 @@
     ],
     "lastIntent": "CONVERSATIONAL_FOLLOWUP",
     "language": "hinglish",
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   },
   {
     "phone": "918421077613",
@@ -786,6 +951,23 @@
         "intent": "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
         "timestamp": "2026-10-23T18:11:12.363Z"
       }
+    ],
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
     ]
   },
   {
@@ -817,7 +999,24 @@
         "timestamp": "2026-10-04T18:24:03.984Z"
       }
     ],
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   },
   {
     "phone": "+918412070183",
@@ -848,6 +1047,23 @@
         "timestamp": "2026-10-04T18:24:39.988Z"
       }
     ],
-    "followUpSent": true
+    "followUpSent": true,
+    "touchCount": 2,
+    "lastTouchDate": "2026-10-25T10:47:30.537Z",
+    "currentTouchStage": "8x8 Program (Week 2)",
+    "touchHistory": [
+      {
+        "date": "2026-10-25T10:47:30.479Z",
+        "type": "8x8_ONBOARDING",
+        "week": 1,
+        "description": "Automated MREA Touch #1 executed"
+      },
+      {
+        "date": "2026-10-25T10:47:30.537Z",
+        "type": "8x8_ONBOARDING",
+        "week": 2,
+        "description": "Automated MREA Touch #2 executed"
+      }
+    ]
   }
 ]
