@@ -2711,8 +2711,12 @@
         url('/public/luxury-villa-interior-3.jpg');
     }
 
-    /* TOP NAV BAR - SLEEK FROSTED GLASS */
-    .top-nav-bar {
+    /* ==========================================================
+       NIGHT & OBSIDIAN THEME (LUXURY FROSTED DARK GLASS)
+       ========================================================== */
+    html[data-theme="obsidian"] .top-nav-bar,
+    html[data-theme="night-white"] .top-nav-bar,
+    html[data-time-mode="night"] .top-nav-bar {
       background: rgba(4, 8, 20, 0.85) !important;
       backdrop-filter: blur(20px) saturate(180%) !important;
       -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
@@ -2720,8 +2724,9 @@
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.1) !important;
     }
 
-    /* EXECUTIVE HEADER CARD - HIGH CONTRAST FROSTED GLASS */
-    .header-card {
+    html[data-theme="obsidian"] .header-card,
+    html[data-theme="night-white"] .header-card,
+    html[data-time-mode="night"] .header-card {
       background: rgba(8, 14, 30, 0.82) !important;
       backdrop-filter: blur(24px) saturate(180%) !important;
       -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
@@ -2731,38 +2736,55 @@
       margin-bottom: 28px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
     }
-    .header-card h1 {
+    html[data-theme="obsidian"] .header-card h1,
+    html[data-theme="night-white"] .header-card h1,
+    html[data-time-mode="night"] .header-card h1 {
       color: #ffffff !important;
       font-weight: 800 !important;
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 255, 255, 0.3) !important;
       letter-spacing: -0.01em !important;
     }
-    .header-card p {
+    html[data-theme="obsidian"] .header-card p,
+    html[data-theme="night-white"] .header-card p,
+    html[data-time-mode="night"] .header-card p {
       color: #f1f5f9 !important;
       font-weight: 500 !important;
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8) !important;
     }
 
-    /* FILTER DECK - ULTRA CLEAN FROSTED GLASS */
-    .filter-deck-card {
+    html[data-theme="obsidian"] .filter-deck-card,
+    html[data-theme="night-white"] .filter-deck-card,
+    html[data-time-mode="night"] .filter-deck-card {
       background: rgba(8, 14, 30, 0.80) !important;
       backdrop-filter: blur(20px) saturate(160%) !important;
       -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
       border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.1) !important;
     }
-    .filter-deck-header h3, .filter-group label {
+    html[data-theme="obsidian"] .filter-deck-header h3,
+    html[data-theme="obsidian"] .filter-group label,
+    html[data-theme="night-white"] .filter-deck-header h3,
+    html[data-theme="night-white"] .filter-group label,
+    html[data-time-mode="night"] .filter-deck-header h3,
+    html[data-time-mode="night"] .filter-group label {
       color: #ffffff !important;
       font-weight: 700 !important;
       text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     }
-    .filter-chip {
+    html[data-theme="obsidian"] .filter-chip,
+    html[data-theme="night-white"] .filter-chip,
+    html[data-time-mode="night"] .filter-chip {
       background: rgba(15, 23, 42, 0.85) !important;
       border: 1px solid rgba(255, 255, 255, 0.25) !important;
       color: #f8fafc !important;
       font-weight: 600 !important;
     }
-    .filter-chip.active, .filter-chip:hover {
+    html[data-theme="obsidian"] .filter-chip.active,
+    html[data-theme="obsidian"] .filter-chip:hover,
+    html[data-theme="night-white"] .filter-chip.active,
+    html[data-theme="night-white"] .filter-chip:hover,
+    html[data-time-mode="night"] .filter-chip.active,
+    html[data-time-mode="night"] .filter-chip:hover {
       background: #d4af37 !important;
       color: #000000 !important;
       border-color: #fef08a !important;
@@ -2770,8 +2792,9 @@
       font-weight: 800 !important;
     }
 
-    /* RATE CARDS - BRIGHT, PIN-SHARP, EYE-CATCHING */
-    .rate-card {
+    html[data-theme="obsidian"] .rate-card,
+    html[data-theme="night-white"] .rate-card,
+    html[data-time-mode="night"] .rate-card {
       background: rgba(8, 14, 30, 0.82) !important;
       backdrop-filter: blur(24px) saturate(180%) !important;
       -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
@@ -2780,73 +2803,106 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
       transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
     }
-    .rate-card:hover {
+    html[data-theme="obsidian"] .rate-card:hover,
+    html[data-theme="night-white"] .rate-card:hover,
+    html[data-time-mode="night"] .rate-card:hover {
       transform: translateY(-6px) scale(1.015) !important;
       border-color: #ffffff !important;
       box-shadow: 0 30px 65px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 255, 255, 0.4), 0 0 60px rgba(254, 243, 199, 0.25) !important;
     }
-    .card-title {
+    html[data-theme="obsidian"] .card-title,
+    html[data-theme="night-white"] .card-title,
+    html[data-time-mode="night"] .card-title {
       color: #ffffff !important;
       font-weight: 800 !important;
       font-size: 20px !important;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.3) !important;
     }
-    .card-loc {
+    html[data-theme="obsidian"] .card-loc,
+    html[data-theme="night-white"] .card-loc,
+    html[data-time-mode="night"] .card-loc {
       color: #fef08a !important;
       font-weight: 700 !important;
       font-size: 13px !important;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
     }
 
-    /* PRICE BOX - RADIANT CONTRAST */
-    .price-box {
+    html[data-theme="obsidian"] .price-box,
+    html[data-theme="night-white"] .price-box,
+    html[data-time-mode="night"] .price-box {
       background: rgba(3, 7, 18, 0.90) !important;
       border: 1.5px solid rgba(254, 243, 199, 0.45) !important;
       border-radius: 14px;
       padding: 16px 18px;
       box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 4px 15px rgba(0, 0, 0, 0.5) !important;
     }
-    .price-box .price-label {
+    html[data-theme="obsidian"] .price-box .price-label,
+    html[data-theme="night-white"] .price-box .price-label,
+    html[data-time-mode="night"] .price-box .price-label {
       color: #cbd5e1 !important;
       font-size: 11px !important;
       text-transform: uppercase !important;
       letter-spacing: 0.1em !important;
       font-weight: 700 !important;
     }
-    .price-box .price-val {
+    html[data-theme="obsidian"] .price-box .price-val,
+    html[data-theme="night-white"] .price-box .price-val,
+    html[data-time-mode="night"] .price-box .price-val {
       color: #fde047 !important;
       font-weight: 800 !important;
       font-size: 24px !important;
       text-shadow: 0 0 20px rgba(253, 224, 71, 0.4), 0 2px 6px rgba(0, 0, 0, 0.8) !important;
     }
-    .price-box .rate-sqft {
+    html[data-theme="obsidian"] .price-box .rate-sqft,
+    html[data-theme="night-white"] .price-box .rate-sqft,
+    html[data-time-mode="night"] .price-box .rate-sqft {
       color: #ffffff !important;
       font-weight: 700 !important;
       font-size: 14px !important;
     }
 
-    /* FEATURE LIST */
-    .card-features li {
+    html[data-theme="obsidian"] .card-features li,
+    html[data-theme="night-white"] .card-features li,
+    html[data-time-mode="night"] .card-features li {
       color: #f8fafc !important;
       font-weight: 500 !important;
       font-size: 13px !important;
       text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
-    .card-features li strong {
+    html[data-theme="obsidian"] .card-features li strong,
+    html[data-theme="night-white"] .card-features li strong,
+    html[data-time-mode="night"] .card-features li strong {
       color: #ffffff !important;
       font-weight: 700 !important;
     }
 
-    /* ALL OTHER SECTIONS: COMPARISON, AI TREND, VIP, REVIEWS */
-    .comparison-card,
-    .bank-comparison-deck,
-    .rent-agreement-card,
-    .ai-super-rank-deck,
-    .ai-trend-engine-deck,
-    .ai-faq-deck,
-    .office-card,
-    .testimonial-card,
-    .vip-modal-card {
+    html[data-theme="obsidian"] .comparison-card,
+    html[data-theme="obsidian"] .bank-comparison-deck,
+    html[data-theme="obsidian"] .rent-agreement-card,
+    html[data-theme="obsidian"] .ai-super-rank-deck,
+    html[data-theme="obsidian"] .ai-trend-engine-deck,
+    html[data-theme="obsidian"] .ai-faq-deck,
+    html[data-theme="obsidian"] .office-card,
+    html[data-theme="obsidian"] .testimonial-card,
+    html[data-theme="obsidian"] .vip-modal-card,
+    html[data-theme="night-white"] .comparison-card,
+    html[data-theme="night-white"] .bank-comparison-deck,
+    html[data-theme="night-white"] .rent-agreement-card,
+    html[data-theme="night-white"] .ai-super-rank-deck,
+    html[data-theme="night-white"] .ai-trend-engine-deck,
+    html[data-theme="night-white"] .ai-faq-deck,
+    html[data-theme="night-white"] .office-card,
+    html[data-theme="night-white"] .testimonial-card,
+    html[data-theme="night-white"] .vip-modal-card,
+    html[data-time-mode="night"] .comparison-card,
+    html[data-time-mode="night"] .bank-comparison-deck,
+    html[data-time-mode="night"] .rent-agreement-card,
+    html[data-time-mode="night"] .ai-super-rank-deck,
+    html[data-time-mode="night"] .ai-trend-engine-deck,
+    html[data-time-mode="night"] .ai-faq-deck,
+    html[data-time-mode="night"] .office-card,
+    html[data-time-mode="night"] .testimonial-card,
+    html[data-time-mode="night"] .vip-modal-card {
       background: rgba(8, 14, 30, 0.82) !important;
       backdrop-filter: blur(24px) saturate(180%) !important;
       -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
@@ -2855,15 +2911,330 @@
       color: #ffffff !important;
     }
 
-    th {
+    html[data-theme="obsidian"] th,
+    html[data-theme="night-white"] th,
+    html[data-time-mode="night"] th {
       background: rgba(15, 23, 42, 0.95) !important;
       color: #ffffff !important;
       font-weight: 800 !important;
     }
-    td {
+    html[data-theme="obsidian"] td,
+    html[data-theme="night-white"] td,
+    html[data-time-mode="night"] td {
       color: #f1f5f9 !important;
       font-weight: 600 !important;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
+    /* ==========================================================
+       DAYLIGHT & MORNING THEME (ULTRA-HIGH CONTRAST LUXURY CREAM & OBSIDIAN)
+       Active: 06:00 to 16:59 (data-time-mode="day" & data-theme="cream-white")
+       GUARANTEED: Zero white-on-white text, razor-sharp typography, vivid accents!
+       ========================================================== */
+    html[data-time-mode="day"] .top-nav-bar,
+    html[data-theme="cream-white"] .top-nav-bar {
+      background: rgba(255, 255, 255, 0.96) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-bottom: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 4px 25px rgba(180, 140, 54, 0.14) !important;
+    }
+    html[data-time-mode="day"] .btn-nav-back,
+    html[data-theme="cream-white"] .btn-nav-back {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+    html[data-time-mode="day"] .btn-nav-shield,
+    html[data-theme="cream-white"] .btn-nav-shield {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.6) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+      font-weight: 700 !important;
+    }
+
+    /* HEADER CARD - LUXURY WARM CREAM PALACE */
+    html[data-time-mode="day"] .header-card,
+    html[data-theme="cream-white"] .header-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 252, 246, 0.95) 100%) !important;
+      border: 2px solid rgba(217, 180, 102, 0.65) !important;
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      margin-bottom: 28px;
+      box-shadow: 0 25px 60px rgba(180, 140, 54, 0.18), 0 0 35px rgba(255, 255, 255, 0.95) !important;
+      color: #0f172a !important;
+    }
+
+    /* BRAND BADGE */
+    html[data-time-mode="day"] .brand-badge,
+    html[data-theme="cream-white"] .brand-badge {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+      border: 1.5px solid #d97706 !important;
+      color: #92400e !important;
+      font-weight: 800 !important;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15) !important;
+    }
+
+    /* BRAND TITLE - RAZOR SHARP SOLID OBSIDIAN (NO BLUR, NO TRANSPARENT CLIP!) */
+    html[data-time-mode="day"] .brand-title,
+    html[data-theme="cream-white"] .brand-title,
+    html[data-time-mode="day"] .header-card h1,
+    html[data-theme="cream-white"] .header-card h1 {
+      background: none !important;
+      -webkit-background-clip: border-box !important;
+      -webkit-text-fill-color: #0f172a !important;
+      color: #0f172a !important;
+      text-shadow: none !important;
+      font-weight: 900 !important;
+      letter-spacing: -0.5px !important;
+    }
+
+    /* BRAND TAGLINE */
+    html[data-time-mode="day"] .brand-tagline,
+    html[data-theme="cream-white"] .brand-tagline,
+    html[data-time-mode="day"] .header-card p,
+    html[data-theme="cream-white"] .header-card p {
+      color: #334155 !important;
+      font-weight: 600 !important;
+      font-style: italic !important;
+      text-shadow: none !important;
+    }
+
+    /* STATS GRID - EXECUTIVE LUXURY COCKPIT BAR */
+    html[data-time-mode="day"] .header-stats-grid,
+    html[data-theme="cream-white"] .header-stats-grid {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+      border: 1.5px solid rgba(212, 175, 55, 0.5) !important;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18) !important;
+      border-radius: 14px !important;
+      padding: 16px 14px !important;
+    }
+    html[data-time-mode="day"] .stat-pill-num,
+    html[data-theme="cream-white"] .stat-pill-num {
+      color: #fde047 !important;
+      font-weight: 900 !important;
+      font-size: 20px !important;
+      text-shadow: 0 0 14px rgba(253, 224, 71, 0.4) !important;
+    }
+    html[data-time-mode="day"] .stat-pill-label,
+    html[data-theme="cream-white"] .stat-pill-label {
+      color: #f1f5f9 !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      font-size: 11px !important;
+      text-shadow: none !important;
+    }
+
+    /* CONTACT CHIPS - CRISP WHITE TILES WITH RICH OBSIDIAN TEXT */
+    html[data-time-mode="day"] .header-contacts,
+    html[data-theme="cream-white"] .header-contacts {
+      border-top: 1.5px solid rgba(217, 180, 102, 0.4) !important;
+    }
+    html[data-time-mode="day"] .contact-chip,
+    html[data-theme="cream-white"] .contact-chip {
+      background: #ffffff !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.65) !important;
+      color: #0f172a !important;
+      font-weight: 700 !important;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .contact-chip:hover,
+    html[data-theme="cream-white"] .contact-chip:hover {
+      background: #fef08a !important;
+      border-color: #d4af37 !important;
+      color: #78350f !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3) !important;
+    }
+
+    /* ACTION BAR BUTTONS */
+    html[data-time-mode="day"] .btn-print,
+    html[data-theme="cream-white"] .btn-print {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.65) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+      font-weight: 700 !important;
+    }
+    html[data-time-mode="day"] .btn-print:hover,
+    html[data-theme="cream-white"] .btn-print:hover {
+      background: #f8fafc !important;
+      border-color: #d4af37 !important;
+      color: #0f172a !important;
+    }
+
+    /* FILTER DECK */
+    html[data-time-mode="day"] .filter-deck-card,
+    html[data-theme="cream-white"] .filter-deck-card {
+      background: rgba(255, 255, 255, 0.97) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .filter-deck-header h3,
+    html[data-time-mode="day"] .filter-group label,
+    html[data-theme="cream-white"] .filter-deck-header h3,
+    html[data-theme="cream-white"] .filter-group label {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .filter-chip,
+    html[data-theme="cream-white"] .filter-chip {
+      background: #f8fafc !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.45) !important;
+      color: #1e293b !important;
+      font-weight: 700 !important;
+    }
+    html[data-time-mode="day"] .filter-chip.active,
+    html[data-time-mode="day"] .filter-chip:hover,
+    html[data-theme="cream-white"] .filter-chip.active,
+    html[data-theme="cream-white"] .filter-chip:hover {
+      background: #d4af37 !important;
+      color: #000000 !important;
+      border-color: #aa771c !important;
+      font-weight: 800 !important;
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.4) !important;
+    }
+
+    /* RATE CARDS */
+    html[data-time-mode="day"] .rate-card,
+    html[data-theme="cream-white"] .rate-card {
+      background: rgba(255, 255, 255, 0.97) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.55) !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12), 0 0 25px rgba(255, 255, 255, 0.8) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .rate-card:hover,
+    html[data-theme="cream-white"] .rate-card:hover {
+      border-color: #d4af37 !important;
+      box-shadow: 0 25px 55px rgba(180, 140, 54, 0.25), 0 0 35px rgba(255, 255, 255, 0.95) !important;
+    }
+    html[data-time-mode="day"] .card-title,
+    html[data-theme="cream-white"] .card-title {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .card-loc,
+    html[data-theme="cream-white"] .card-loc {
+      color: #475569 !important;
+      font-weight: 600 !important;
+      text-shadow: none !important;
+    }
+
+    /* PRICE BOX IN DAYLIGHT */
+    html[data-time-mode="day"] .price-box,
+    html[data-theme="cream-white"] .price-box {
+      background: rgba(254, 252, 246, 0.98) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.6) !important;
+      box-shadow: inset 0 0 15px rgba(254, 243, 199, 0.4), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+    html[data-time-mode="day"] .price-box .price-label,
+    html[data-theme="cream-white"] .price-box .price-label {
+      color: #475569 !important;
+      font-size: 11px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.08em !important;
+      font-weight: 800 !important;
+    }
+    html[data-time-mode="day"] .price-box .price-val,
+    html[data-theme="cream-white"] .price-box .price-val {
+      color: #b45309 !important;
+      font-weight: 900 !important;
+      font-size: 24px !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .price-box .price-rent,
+    html[data-theme="cream-white"] .price-box .price-rent {
+      color: #047857 !important;
+      font-weight: 900 !important;
+      font-size: 22px !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .price-box .rate-sqft,
+    html[data-theme="cream-white"] .price-box .rate-sqft {
+      color: #1e293b !important;
+      font-weight: 800 !important;
+    }
+
+    /* CARD FEATURES IN DAYLIGHT */
+    html[data-time-mode="day"] .card-features,
+    html[data-time-mode="day"] .card-features li,
+    html[data-theme="cream-white"] .card-features,
+    html[data-theme="cream-white"] .card-features li {
+      color: #1e293b !important;
+      font-weight: 600 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .card-features strong,
+    html[data-time-mode="day"] .card-features li strong,
+    html[data-theme="cream-white"] .card-features strong,
+    html[data-theme="cream-white"] .card-features li strong {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+
+    /* ALL OTHER SECTIONS IN DAYLIGHT */
+    html[data-time-mode="day"] .comparison-card,
+    html[data-time-mode="day"] .bank-comparison-deck,
+    html[data-time-mode="day"] .rent-agreement-card,
+    html[data-time-mode="day"] .ai-super-rank-deck,
+    html[data-time-mode="day"] .ai-trend-engine-deck,
+    html[data-time-mode="day"] .ai-faq-deck,
+    html[data-time-mode="day"] .google-ai-command-box,
+    html[data-time-mode="day"] .office-card,
+    html[data-time-mode="day"] .testimonial-card,
+    html[data-time-mode="day"] .vip-modal-card,
+    html[data-theme="cream-white"] .comparison-card,
+    html[data-theme="cream-white"] .bank-comparison-deck,
+    html[data-theme="cream-white"] .rent-agreement-card,
+    html[data-theme="cream-white"] .ai-super-rank-deck,
+    html[data-theme="cream-white"] .ai-trend-engine-deck,
+    html[data-theme="cream-white"] .ai-faq-deck,
+    html[data-theme="cream-white"] .google-ai-command-box,
+    html[data-theme="cream-white"] .office-card,
+    html[data-theme="cream-white"] .testimonial-card,
+    html[data-theme="cream-white"] .vip-modal-card {
+      background: rgba(255, 255, 255, 0.97) !important;
+      border: 1.5px solid rgba(217, 180, 102, 0.5) !important;
+      box-shadow: 0 15px 35px rgba(180, 140, 54, 0.12), 0 0 30px rgba(255, 255, 255, 0.8) !important;
+      color: #0f172a !important;
+    }
+    html[data-time-mode="day"] .comparison-card h2,
+    html[data-time-mode="day"] .comparison-card h3,
+    html[data-time-mode="day"] .rent-agreement-card h2,
+    html[data-time-mode="day"] .rent-agreement-card h3,
+    html[data-theme="cream-white"] .comparison-card h2,
+    html[data-theme="cream-white"] .comparison-card h3,
+    html[data-theme="cream-white"] .rent-agreement-card h2,
+    html[data-theme="cream-white"] .rent-agreement-card h3 {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] .comparison-card p,
+    html[data-time-mode="day"] .rent-agreement-card p,
+    html[data-theme="cream-white"] .comparison-card p,
+    html[data-theme="cream-white"] .rent-agreement-card p {
+      color: #334155 !important;
+      font-weight: 500 !important;
+      text-shadow: none !important;
+    }
+    html[data-time-mode="day"] th,
+    html[data-theme="cream-white"] th {
+      background: #f8fafc !important;
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      border-bottom: 2px solid #d4af37 !important;
+    }
+    html[data-time-mode="day"] td,
+    html[data-theme="cream-white"] td {
+      color: #1e293b !important;
+      font-weight: 600 !important;
+      border-bottom: 1px solid rgba(217, 180, 102, 0.3) !important;
     }
 
 </style>
