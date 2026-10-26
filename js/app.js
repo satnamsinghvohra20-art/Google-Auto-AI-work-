@@ -861,7 +861,8 @@ function simulateIncomingClientMessage(text) {
       if (indicator) indicator.remove();
 
       // Instant local fallback using AIEngine
-      const isOngoing = Boolean(conv.messages && conv.messages.length > 1);
+      const isOngoing = Boolean(conv && (conv.hasGreeted || (conv.messages && conv.messages.length > 1)));
+      if (conv) conv.hasGreeted = true;
       const autoRes = AIEngine.generateWhatsAppAutoResponse(trimmed, conv.name, {
         isOngoing,
         messageCount: conv.messages ? conv.messages.length : 1,

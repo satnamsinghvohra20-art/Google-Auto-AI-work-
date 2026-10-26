@@ -3640,8 +3640,14 @@ const server = http.createServer((req, res) => {
           const isOwner = (cleanFrom === ownerPhone || cleanFrom.endsWith('8421077613'));
           const name = isOwner ? 'Satnam Singh (Owner / Boss)' : rawName;
 
-          let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanFrom);
-          const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
+          // Robust phone matching on last 10 digits
+          const cleanFrom10 = cleanFrom.length >= 10 ? cleanFrom.slice(-10) : cleanFrom;
+          let conv = whatsappConversations.find(c => {
+            const cDigits = (c.phone || '').replace(/[^0-9]/g, '');
+            const c10 = cDigits.length >= 10 ? cDigits.slice(-10) : cDigits;
+            return (cleanFrom10 && c10 && cleanFrom10 === c10) || cDigits === cleanFrom;
+          });
+          const isOngoing = Boolean(conv && (conv.hasGreeted || (conv.messages && conv.messages.length > 0)));
           const messageCount = conv ? conv.messages.length : 0;
           const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
@@ -3697,8 +3703,10 @@ const server = http.createServer((req, res) => {
           }
 
           if (!conv) {
-            conv = { phone: '+' + from, name, status: isOwner ? 'Owner / Executive' : 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
+            conv = { phone: '+' + from, name, status: isOwner ? 'Owner / Executive' : 'New Inquiry', hasGreeted: true, lastUpdated: new Date().toISOString(), messages: [] };
             whatsappConversations.unshift(conv);
+          } else {
+            conv.hasGreeted = true;
           }
           conv.status = isOwner ? 'Owner / Executive' : (conv.status || 'New Inquiry');
           conv.lastIntent = autoRes.intent;
@@ -3844,8 +3852,14 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
         const cleanName = (name || '').replace(/\s+ji$/i, '').trim();
         const finalName = isOwner ? 'Satnam Singh (Owner / Boss)' : (cleanName ? `${cleanName} ji` : 'Client');
 
-        let conv = whatsappConversations.find(c => c.phone.replace(/[^0-9]/g, '') === cleanPhone);
-        const isOngoing = Boolean(conv && conv.messages && conv.messages.length > 0);
+        // Robust phone matching on last 10 digits
+        const cleanPhone10 = cleanPhone.length >= 10 ? cleanPhone.slice(-10) : cleanPhone;
+        let conv = whatsappConversations.find(c => {
+          const cDigits = (c.phone || '').replace(/[^0-9]/g, '');
+          const c10 = cDigits.length >= 10 ? cDigits.slice(-10) : cDigits;
+          return (cleanPhone10 && c10 && cleanPhone10 === c10) || cDigits === cleanPhone;
+        });
+        const isOngoing = Boolean(conv && (conv.hasGreeted || (conv.messages && conv.messages.length > 0)));
         const messageCount = conv ? conv.messages.length : 0;
         const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
@@ -3886,8 +3900,10 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
         }
 
         if (!conv) {
-          conv = { phone, name: finalName, status: isOwner ? 'Owner / Executive' : 'New Inquiry', lastUpdated: new Date().toISOString(), messages: [] };
-          // Keep in-memory for active session preview only without saving fake records to disk
+          conv = { phone, name: finalName, status: isOwner ? 'Owner / Executive' : 'New Inquiry', hasGreeted: true, lastUpdated: new Date().toISOString(), messages: [] };
+          whatsappConversations.unshift(conv); // Retain in active session
+        } else {
+          conv.hasGreeted = true;
         }
 
         const inMsg = {

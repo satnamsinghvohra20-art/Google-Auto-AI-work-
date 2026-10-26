@@ -270,66 +270,24 @@ const AIEngine = {
    * Never sounds like a boring, repetitive robot! Speaks with polite female executive warmth.
    */
   getSiaGreetingPrefix(name, lang, isOngoing) {
-    const cleanName = (name || '').replace(/\s+ji$/i, '').trim();
-
-    if (!isOngoing) {
-      // First contact / Initial message: Sweet, charming, warm female introduction
-      if (lang === "marathi") {
-        const marathiGreetings = [
-          `Namaskar ${cleanName ? cleanName + ' ji! ' : ''}Mi *Sia*, Dashmesh Properties madhun. Aple manasparvak swagat karte! 🌸 `,
-          `Hello ${cleanName ? cleanName + ' ji! ' : ''}Mi *Sia* aahe, Dashmesh Properties chi property advisor. Aplya sobat bolun khup chhan vatle! ✨ `
-        ];
-        return marathiGreetings[Math.floor(Math.random() * marathiGreetings.length)];
-      }
-
-      if (lang === "english") {
-        const englishGreetings = [
-          `Hey ${cleanName ? cleanName : 'there'}! I'm *Sia* from Dashmesh Properties. So glad to connect with you! 🌸 `,
-          `Hello ${cleanName ? cleanName : ''}! I'm *Sia* — your dedicated property advisor. Excited to help you find your dream home! ✨ `
-        ];
-        return englishGreetings[Math.floor(Math.random() * englishGreetings.length)];
-      }
-
-      // Hinglish / Hindi: Sweet, friendly, attractive girl tone (Zero boring robotic Namaste)
-      const hinglishGreetings = [
-        `Hey ${cleanName ? cleanName + ' ji! ' : ''}🌸 Main *Sia* hoon, Dashmesh Properties se. Aapse baat karke sach mein bohot achha laga! `,
-        `Arey hello ${cleanName ? cleanName + ' ji! ' : ''}✨ Main *Sia* hoon... Aaiye aapki property search ekdum aasan aur pyari bana dete hain! `,
-        `Hello ${cleanName ? cleanName + ' ji! ' : ''}🌸 Main *Sia* hoon Dashmesh Properties se. Bataiye aaj main aapki kya help kar sakti hoon? `,
-        `Welcome ${cleanName ? cleanName + ' ji! ' : ''}💖 Main *Sia* hoon — aapki personal property guide. Bohot khushi hui aapse connect karke! `
-      ];
-      return hinglishGreetings[Math.floor(Math.random() * hinglishGreetings.length)];
-    } else {
-      // Ongoing conversation: NEVER repeat boring "Namaste"!
-      // Sweet, lively, natural girl conversational connectors:
-      if (lang === "marathi") {
-        const marathiBridges = [
-          "Ho nakki! Mi lagech mahiti share karte: 🌸 ",
-          "Agdi barobar! Mi ahe na aamche best options sangayla: ✨ ",
-          "Aapan agdi yogya vichar kelat! Mi madat karte: 💖 "
-        ];
-        return marathiBridges[Math.floor(Math.random() * marathiBridges.length)];
-      }
-
-      if (lang === "english") {
-        const englishBridges = [
-          "Absolutely! Let me share the exact options with you: 🌸 ",
-          "Glad you asked! Here is what you need to know: ✨ ",
-          "Don't worry at all, I'm here to guide you step-by-step: 💖 "
-        ];
-        return englishBridges[Math.floor(Math.random() * englishBridges.length)];
-      }
-
-      // Hinglish / Hindi: Warm, natural, charming girl tone
-      const hinglishBridges = [
-        "Arey waah! Main samajh gayi 😊 ",
-        "Ji bilkul! Main abhi aapko saari details batati hoon 🌸 ",
-        "Aap bilkul chinta mat kijiye na, main hoon na sab sort out karne ke liye! 💖 ",
-        "Haan ji zaroor! Main aapke liye best options dekhti hoon ✨ ",
-        "Sahi baat hai! Main abhi share karti hoon 🏡 ",
-        "Arey bilkul, mujhe bohot khushi hogi aapki help karke! 🌸 "
-      ];
-      return hinglishBridges[Math.floor(Math.random() * hinglishBridges.length)];
+    if (isOngoing) {
+      // NEVER repeat greeting or conversational fluff on ongoing conversations
+      return "";
     }
+
+    const cleanName = (name || '').replace(/\s+ji$/i, '').trim();
+    const namePrefix = cleanName ? `${cleanName} ji! ` : '';
+
+    if (lang === "marathi") {
+      return `नमस्कार ${namePrefix}मी *सिया*, दशमेश प्रॉपर्टीजची सीनियर प्रॉपर्टी व रेंट ॲग्रीमेंट सल्लागार. दशमेश प्रॉपर्टीजमध्ये आपले सहर्ष स्वागत आहे! 🏢\n\n`;
+    }
+
+    if (lang === "english") {
+      return `Welcome to Dashmesh Properties${cleanName ? ', ' + cleanName : ''}! I am *Sia*, Senior Real Estate & Registered Rent Agreement Consultant.\n\n`;
+    }
+
+    // Hinglish (Standard Professional Real Estate Consultant)
+    return `Namaste ${namePrefix}Dashmesh Properties mein aapka swagat hai! Main *Sia*, Senior Real Estate & Rent Agreement Consultant.\n\n`;
   },
 
   /**
@@ -571,7 +529,7 @@ const AIEngine = {
    * Minds the ongoing conversation: NEVER repeats boring greetings; uses pleasant, dynamic, human bridges.
    * Multi-Language: Seamlessly switches between Hinglish, Marathi, and English!
    */
-  generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
+    generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
     const text = (incomingText || "").toLowerCase().trim();
     const name = clientName && clientName !== "Ji" && clientName !== "Client" ? clientName : "";
     const isOngoing = Boolean(context.isOngoing || context.messageCount > 1);
@@ -587,10 +545,103 @@ const AIEngine = {
     const officeMap = context.officeMap || "https://maps.app.goo.gl/kba8E8rqdRiv6xL8A";
     // CRITICAL PRIVACY: Never expose internal server URLs or dashboard links to clients on WhatsApp
 
-    
+    // =========================================================================
+    // EXPLICIT GREETINGS CHECK ("hi", "hello", "hey", "namaste", "good morning")
+    // =========================================================================
+    const cleanOnlyText = text.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+    const isExplicitGreeting = (
+      cleanOnlyText === "hi" || cleanOnlyText === "hello" || cleanOnlyText === "hey" ||
+      cleanOnlyText === "namaste" || cleanOnlyText === "pranam" || cleanOnlyText === "namaskar" ||
+      cleanOnlyText === "good morning" || cleanOnlyText === "good afternoon" || cleanOnlyText === "good evening" ||
+      cleanOnlyText === "hii" || cleanOnlyText === "helo" || cleanOnlyText === "sat sri akal" ||
+      cleanOnlyText === "salaam" || cleanOnlyText === "kaisa hai" || cleanOnlyText === "kaise ho" ||
+      cleanOnlyText === "kasa ahes" || cleanOnlyText === "kashi ahes" ||
+      text.startsWith("hi ") || text.startsWith("hello ") || text.startsWith("hey ") ||
+      text.startsWith("namaste ") || text.startsWith("namaskar ")
+    );
+
+    if (isExplicitGreeting && !text.includes("bhk") && !text.includes("rent") && !text.includes("agreement") && !text.includes("flat") && !text.includes("price") && !text.includes("rate") && !text.includes("loan") && !text.includes("shop")) {
+      if (isOngoing) {
+        // ONGOING CONVERSATION: DO NOT REPEAT GREETINGS OR IDENTITY!
+        if (lang === "marathi") {
+          return {
+            intent: "CONVERSATIONAL_FOLLOWUP",
+            language: "marathi",
+            reply: `हो ${name ? name + ' ' : ''}जी! बोला, पुढे कोणत्या पर्यायावर माहिती हवी आहे?
+
+🏢 *दशमेश प्रॉपर्टीज - उपलब्ध सेवा व इन्व्हेंटरी:*
+1️⃣ *१ व २ BHK फ्लॅट्स:* पाले गाव (₹२१L - ₹४८L) | स्टेशन रोड (₹२८L - ₹६२L)
+2️⃣ *घरपोच बायोमेट्रिक भाडेकरार:* ₹१,७५० एका बाजूने, २४-४८ तासांत इंडेक्स-२
+3️⃣ *९०% बँक कर्ज:* SBI / HDFC सह ७ दिवसांत मंजुरी
+4️⃣ *व्हीआयपी साईट व्हिजिट:* सतनाम सर (+91 84210 77613) यांच्यासोबत
+
+आपली नक्की काय आवश्यकता आहे ते सांगा, त्वरित माहिती देतो.`,
+            suggestedActions: ["१ व २ BHK", "भाडेकरार", "बँक कर्ज", "व्हिजिट बुक करा"]
+          };
+        }
+
+        if (lang === "english") {
+          return {
+            intent: "CONVERSATIONAL_FOLLOWUP",
+            language: "english",
+            reply: `Yes ${name ? name : ''}! How would you like to proceed today?
+
+🏢 *Dashmesh Properties Key Inventory & Services:*
+1️⃣ *1 BHK & 2 BHK Ready Flats:* Pale Gaon (₹21L - ₹48L) | Station / Kansai (₹28L - ₹65L)
+2️⃣ *Doorstep Registered Rent Agreement:* ₹1,750 per side, biometric at doorstep, 24-48 hrs Index-2
+3️⃣ *Rental Homes:* 1 BHK (₹5K-₹8.5K) | 2 BHK (₹9K-₹15K)
+4️⃣ *SBI / HDFC Home Loans:* Up to 90% funding @ 8.40% interest
+
+Please share your budget or preferred location so I can share exact verified units.`,
+            suggestedActions: ["1 BHK Flats", "2 BHK Flats", "Rent Agreement", "Site Visit"]
+          };
+        }
+
+        return {
+          intent: "CONVERSATIONAL_FOLLOWUP",
+          language: "hinglish",
+          reply: `Ji ${name ? name : ''}! Batayein, aage kis property option ya service par move karein?
+
+🏢 *Dashmesh Properties Active Inventory & Services:*
+1️⃣ *1 BHK & 2 BHK Ready Flats:* Pale Gaon (₹21L - ₹48L) | Station Road (₹28L - ₹65L)
+2️⃣ *Doorstep Rent Agreement:* ₹1,750/side, biometric at your doorstep, 24-48 hrs Index-2
+3️⃣ *Rental Flats:* 1 BHK (₹5K-₹8.5K) | 2 BHK (₹9K-₹15K)
+4️⃣ *SBI / HDFC Home Loans:* 90% funding approval @ 8.40% ROI
+5️⃣ *VIP Site Visit:* Direct meeting with Principal Broker Satnam Sir (+91 84210 77613)
+
+Aapka preferred budget ya specific requirement share karein, verified inventory shortlist bhejta hoon.`,
+          suggestedActions: ["1 BHK Flats", "2 BHK Flats", "📜 Rent Agreement", "📅 Book Visit"]
+        };
+      } else {
+        // FIRST CONTACT GREETING
+        return {
+          intent: "GREETING",
+          language: lang,
+          reply: `${greetingPrefix}*"Aapka Vishwas, Hamari Zimmedari — Finding Spaces, Building Relationships"*
+
+🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
+📍 Landmark: Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)
+⏰ Timings: 10:00 AM to 8:30 PM (All 7 Days Open)
+
+Hum Ambernath East aur Pale Gaon ke verified direct builder & owner real estate consultants hain:
+1️⃣ *Residential Flats (Ready Possession & Clear Title):*
+   • 1 BHK: ₹21 Lakh - ₹28 Lakh (Pale Gaon) | ₹28 Lakh - ₹38 Lakh (Station Road)
+   • 2 BHK: ₹34 Lakh - ₹48 Lakh (Pale Gaon) | ₹44 Lakh - ₹62 Lakh (Station Road)
+2️⃣ *Maharashtra Govt Registered Rent Agreement (Sec 55):*
+   • Flat ₹1,750 per side (₹3,500 all-inclusive package) with Doorstep Biometric & 24-48 hr Index-2
+3️⃣ *Rental Homes:* 1 BHK (₹5,000 - ₹8,500/mo) | 2 BHK (₹9,000 - ₹15,000/mo)
+4️⃣ *Commercial Retail Shops:* Prime Main Road & Station Road Footfall (Sale & Rent)
+5️⃣ *Bank Loan Desk:* Up to 90% loan sanction from SBI, HDFC & Bank of Baroda @ 8.40%
+
+Aapko kis property ya legal rent agreement ke baare mein jaankari chahiye? Direct verified options share karta hoon.
+📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
+          suggestedActions: ["1 BHK / 2 BHK", "📜 Rent Agreement", "Rental Flats", "📍 Office Location"]
+        };
+      }
+    }
+
     // =========================================================================
     // 0. SPECIALTY: MAHARASHTRA REGISTERED RENT AGREEMENT & BIOMETRIC DOORSTEP DESK
-    // Matches: rent agreement, agreement, leave and license, biometric, stamp duty, police verification
     // =========================================================================
     if (
       text.includes("agreement") ||
@@ -650,20 +701,35 @@ const AIEngine = {
       return {
         intent: "RENT_AGREEMENT_BIOMETRIC",
         language: lang,
-        reply: `${greetingPrefix}
-Arey rent agreement aur paperwork ka tension toh aap bilkul chhod dijiye, main hoon na! 😊
+        reply: `${greetingPrefix}📄 *Dashmesh Properties — Maharashtra Registered Rent Agreement & Doorstep Biometric Desk:*
 
-Hamare paas *100% Legal Govt Registered Rent Agreement with Doorstep Biometric* service hai:
-🌸 *No Office Visits:* Hamara executive biometric device lekar direct aapke ghar aayega — sirf 15 minute mein process ho jayega!
-💰 *Sabse Sasta & Clear:* Sirf ₹1,750 per side (Stamp duty, drafting aur Govt fee sab included hai).
-⚡ *Super Fast:* 24 se 48 hours mein verified Govt registered agreement PDF direct aapke WhatsApp par!
+Maharashtra Rent Control Act (Section 55) ke tehat registered leave & license agreement legally compulsory hai. Hum complete doorstep biometric service provide karte hain:
 
-Aap batayein na, biometric ke liye kaunsa din aur time aapko sabse convenient rahega — aaj ya kal? Main aapka preferred slot book karwa doongi! 🏡✨`,
-        suggestedActions: ["Book Biometric Slot", "Send Document List", "📞 Call Satnam Sir"]
+✅ *Doorstep Biometric Verification (Ghar Baithe Registration):*
+• Sub-Registrar office jane ya line mein khade rehne ki zaroorat nahi hai.
+• Hamara authorized biometric operator fingerprint scanner aur webcam lekar direct aapke ghar/office aayega.
+• Time required: Only 15 minutes for biometric scanning!
+
+💰 *Official Govt Package Rates (100% Transparent — Zero Hidden Fees):*
+• Per side cost (Owner ya Tenant): *Sirf ₹1,750*
+• Total All-Inclusive Package: *Sirf ₹3,500*
+• *Package covers everything:* Legal Drafting under Sec 55 + 0.25% Stamp Duty + ₹1,000 Govt Registration Fee + Doorstep Biometric Operator Visit + Police NOC assistance.
+• Delivery: Official QR-code verified Govt Registered Index-2 PDF directly delivered on WhatsApp in 24 to 48 hours!
+
+📑 *Documents Required:*
+1. Property Owner: Aadhar Card & PAN Card
+2. Tenant: Aadhar Card & PAN Card
+3. 2 Witnesses: Aadhar Cards
+4. Property Electricity Bill or Index-2
+
+Aapka preferred slot aur location (Ambernath / Badlapur / Ulhasnagar / Kalyan) bataiye:
+📞 *Direct Desk:* Satnam Singh (+91 84210 77613) | Sukhjyot Singh (+91 84219 40013)
+📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)`,
+        suggestedActions: ["Book Biometric Slot", "Send Document List", "📞 Call Desk"]
       };
     }
 
-        // 0. REVIEW REQUEST ("review dena hai", "feedback dena hai", "google review link")
+    // 0. REVIEW REQUEST ("review dena hai", "feedback dena hai", "google review link")
     if (
       text.includes("review dena") ||
       text.includes("rating dena") ||
@@ -721,14 +787,16 @@ Review complete hone ke baad hum aapko Ambernath ke newly launched verified proj
         language: lang,
         reply: `${greetingPrefix}🤝 *Property Bechna ya Kiraye Par Dena Chahte Hain?*
 
-Dashmesh Properties ke paas Ambernath East aur Pale Gaon mein verified active buyers aur quality tenants ki daily requirements rehti hain:
+Dashmesh Properties ke paas Ambernath East aur Pale Gaon mein pre-qualified buyers aur corporate tenants ki active demand hai:
 
-✅ Accurate Market Valuation & Genuine Buyers Matching
-✅ Zero Legal Hassle & Complete Agreement Paperwork Support
-✅ Quick Closure at Best Prevailing Market Price
+✅ *Hamari Advisory Se Kya Milega:*
+• Realistic & Accurate Fair Market Valuation (Based on prevailing ₹/sq.ft registry rates)
+• Genuine, pre-screened buyers (No time-pass visits)
+• Complete Legal Due Diligence & Section 55 Agreement support
+• Quick execution at best prevailing market pricing
 
-Aapki property ka type (1 BHK / 2 BHK / Shop), society ka naam aur exact floor details bhej dijiye — Sukhjyot Singh ji (+91 84219 40013) turant review karke best deal arrange karenge!`,
-        suggestedActions: ["Share Details", "📞 Call Sukhjyot"]
+Aapki property ka type (1 BHK / 2 BHK / Shop), building/society ka naam aur floor details share karein — Principal Broker Satnam Sir (+91 84210 77613) turant review karke closure timeline discuss karenge.`,
+        suggestedActions: ["Share Property Info", "📞 Call Satnam Sir", "📍 Office Location"]
       };
     }
 
@@ -747,21 +815,29 @@ Aapki property ka type (1 BHK / 2 BHK / Shop), society ka naam aur exact floor d
       return {
         intent: "SITE_VISIT_BOOKING",
         language: lang,
-        reply: `${greetingPrefix}Ji bilkul! Dashmesh Properties par aapka welcome hai. 🤝
+        reply: `${greetingPrefix}🤝 *Dashmesh Properties — VIP Guided Site Visit Booking:*
 
-Roz subah 10:00 AM se shaam 7:30 PM ke beech guided site visits rehti hain:
-• Hum aapko Pale Gaon & Station Road ke actual ready-possession flats aur verified projects dikha denge.
-• Direct builder/owner transparency (No hidden brokerage traps).
+Hum roz subah 10:00 AM se shaam 8:00 PM ke beech actual ready-possession flats aur verified projects ki site visit arrange karte hain:
 
-Aap apna convenient day aur time bata dijiye (jaise Kal 11:30 AM ya Sunday 4:00 PM), hum property keys aur executive pehle se ready rakhenge!`,
-        suggestedActions: ["Morning 11 AM", "Evening 4:30 PM", "📍 Office Map"]
+✅ *Highlights:*
+• Actual flat carpet area, light, ventilation aur layout inspection
+• 100% legal documents, building CC/OC aur KDMC water supply verification
+• Direct developer & owner transparency (Zero hidden brokerage traps)
+• Principal Broker Satnam Sir (+91 84210 77613) personally available for negotiation
+
+📍 *Meeting Point:*
+Shop No. 24, New Floora, Pale Gaon, Ambernath (East) — 7 mins from Railway Station.
+
+Aap apna convenient day aur time slot batayein (jaise Kal 11:30 AM ya Weekend 4:00 PM), hum property keys aur dedicated vehicle pehle se ready rakhenge!`,
+        suggestedActions: ["Morning 11 AM", "Evening 4:30 PM", "📍 Office Map", "📞 Call Satnam Sir"]
       };
     }
 
-    // 4. BANK LOAN / EMI / FINANCE INQUIRY
+    // 4. HOME LOAN ASSISTANCE ("loan", "finance", "sbi", "hdfc", "emi")
     if (
       text.includes("loan") ||
       text.includes("finance") ||
+      text.includes("home loan") ||
       text.includes("sbi") ||
       text.includes("hdfc") ||
       text.includes("bank") ||
@@ -771,755 +847,320 @@ Aap apna convenient day aur time bata dijiye (jaise Kal 11:30 AM ya Sunday 4:00 
       return {
         intent: "LOAN_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏦 *Dashmesh Properties Home Loan Assistance Desk:*
+        reply: `${greetingPrefix}🏦 *Dashmesh Properties — Authorized Bank Home Loan Sanction Desk:*
 
-Hamare paas sabhi leading nationalized & private banks (SBI, HDFC, ICICI, Bank of Baroda, Axis) se direct tie-ups hain:
+Hamare nationalized aur leading private banks ke direct institutional tie-ups hain:
 
-• 90% tak property cost funding available
-• Lowest interest rates with fast 7-day sanction
-• PMAY Credit-Linked Subsidy guidance
-• Complete document processing & legal search report assistance
+✅ *Key Highlights:*
+• *Tie-up Banks:* State Bank of India (SBI), HDFC Bank, Bank of Baroda, ICICI Bank, Axis Bank
+• *Loan Coverage:* Up to 90% funding on property agreement value
+• *Interest Rate:* Starting @ 8.40% per annum (Lowest in Ambernath market)
+• *Express Processing:* 7 working days sanction turnaround
+• *Government Benefits:* PMAY interest subsidy support available
+• *Doorstep Service:* Document collection directly from your residence or office
 
-*Estimated EMI Guideline:*
-• ₹20 Lakh Loan @ 8.5% = ~₹17,350/month
-• ₹35 Lakh Loan @ 8.5% = ~₹30,370/month
+📊 *Approximate EMI Calculator (per ₹1 Lakh @ 8.40% for 20 years):* ~₹862/month.
+• ₹20 Lakh Loan: Approx ₹17,200/month
+• ₹35 Lakh Loan: Approx ₹30,100/month
 
-Kya aapko loan eligibility check karani hai ya document checklist chahiye?`,
-        suggestedActions: ["Check Eligibility", "Send Checklist", "Talk to Advisor"]
+Aapka profile salaried hai ya self-employed? Eligibility calculate karke exact sanction eligibility batata hoon.`,
+        suggestedActions: ["Salaried Profile", "Self Employed", "Calculate EMI", "📞 Loan Desk"]
       };
     }
 
-    // 5. COMMERCIAL / RETAIL SHOPS: Dukaan, Office, Gala, Showroom
+    // 5. COMMERCIAL SHOPS & INVESTMENTS ("shop", "dukaan", "commercial", "gala", "office space")
     if (
       text.includes("shop") ||
       text.includes("dukaan") ||
-      text.includes("dukan") ||
       text.includes("commercial") ||
-      text.includes("showroom") ||
-      text.includes("godown") ||
       text.includes("gala") ||
-      (text.includes("office") && (text.includes("rent") || text.includes("sale") || text.includes("buy") || text.includes("space")))
+      text.includes("office space") ||
+      text.includes("retail") ||
+      text.includes("godown")
     ) {
       return {
         intent: "COMMERCIAL_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏪 *Dashmesh Properties Commercial Desk (Ambernath East):*
-*(High-footfall retail shops & business spaces for Rent & Sale)*
+        reply: `${greetingPrefix}🏪 *Dashmesh Properties — Commercial Retail Shops & Galas (Ambernath East):*
 
-• *Pale Gaon Main Road Shops:*
-  - Rent: ₹6,000 - ₹20,000/month | Sale: ₹18 Lakh - ₹40 Lakh
-• *Station Road Prime Frontage Shops:*
-  - Rent: ₹15,000 - ₹35,000/month | Sale: ₹32 Lakh - ₹85 Lakh (Heavy pedestrian footfall)
-• *Industrial Galas & Godowns (MIDC / Morivali):*
-  - Rent: ₹10,000 - ₹40,000/month
+High footfall commercial properties available for Sale & Lease:
 
-✅ Clear commercial title, electric meter & water connection ready
-Aapko kis business ke liye space chahiye aur required carpet area kitna hai?`,
-        suggestedActions: ["Shop for Rent", "Shop for Sale", "📅 Book Visit"]
+🏬 *1. Pale Gaon Main Road / Market Entrance:*
+• *Sale Price:* ₹18 Lakh - ₹40 Lakh | *Rent:* ₹6,000 - ₹20,000/month
+• *Best Suited For:* Medical store, dairy, grocery, salon, mobile retail, clinic, professional office.
+
+🚉 *2. Station Road / Kansai Prime Corridor:*
+• *Sale Price:* ₹32 Lakh - ₹85 Lakh | *Rent:* ₹15,000 - ₹35,000/month
+• Heavy continuous pedestrian & vehicular footfall.
+
+🏭 *3. Morivali MIDC Industrial Galas / Godowns:*
+• *Sale Price:* ₹45 Lakh - ₹1.5 Crore | *Rent:* ₹20,000 - ₹75,000/month
+• High ceiling, 3-phase industrial power, heavy vehicle loading access.
+
+Aapko self-business chalane ke liye chahiye ya rental income investment ke liye?`,
+        suggestedActions: ["Shop for Buy", "Shop for Rent", "MIDC Gala", "📞 Call Satnam Sir"]
       };
     }
 
-    // 6. DIGITAL BROCHURE & PROPERTY PHOTOS DISPATCH
+    // 6. BROCHURE, PHOTOS & PROJECT INVENTORY ("brochure", "photo", "image", "pic", "floor plan", "video")
     if (
-      text.includes("photo") ||
       text.includes("brochure") ||
-      text.includes("catalog") ||
-      text.includes("pdf") ||
-      text.includes("pamphlet") ||
+      text.includes("photo") ||
       text.includes("image") ||
-      text.includes("pics")
+      text.includes("pic") ||
+      text.includes("floor plan") ||
+      text.includes("video") ||
+      text.includes("catalog")
     ) {
       return {
         intent: "BROCHURE_AND_PHOTOS",
         language: lang,
-        reply: `${greetingPrefix}📑 *Dashmesh Properties — Official Digital Catalog & Rate Card:*
+        reply: `${greetingPrefix}📁 *Dashmesh Properties — Project Brochures & Actual Sample Flat Photos:*
 
-Aap hamare verified rates aur floor plans ke liye direct contact kar sakte hain ya office visit kar sakte hain:
-🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)
-📞 *Satnam Sir (Direct):* +91 84210 77613
-⏰ *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days)
+Hum Ambernath East aur Pale Gaon ke verified projects ke actual photos, layout floor plans aur legal documents directly provide karte hain:
 
-• *Pale Gaon & Station Road:* Actual ready-possession flat options (1 BHK ₹18L-₹30L, 2 BHK ₹32L-₹55L)
-• *90% Bank Loan Desk:* SBI / HDFC document checklist ready
-• *High-Footfall Commercial Shops:* Direct owner inventory
+📂 *Available Project Folios:*
+1. *New Floora (Pale Gaon):* Ready possession 1 BHK & 2 BHK with OC, KDMC water.
+2. *GBK Whispering Palms (Pale Gaon):* Premium gated township with modern lifestyle amenities.
+3. *Pale Heights:* Budget-friendly 1 BHK flats with high rental demand.
+4. *Laxmi Niwas & Kansai Enclave:* Station vicinity premium 2 BHK residences.
 
-Aapko 1 BHK ya 2 BHK kiske sample photos dekhne hain?`,
-        suggestedActions: ["🏡 1 BHK / 2 BHK", "📅 Book Visit", "📍 Office Map"]
+Aapko kis configuration (1 BHK, 2 BHK ya Commercial Shop) ke photos aur PDF floor plans chahiye? Batayein, WhatsApp par share kar deta hoon.`,
+        suggestedActions: ["1 BHK Photos", "2 BHK Photos", "Shop Layouts", "📅 Book Visit"]
       };
     }
 
-    // 7. RENTAL / LEASE INQUIRY: Flat or Shop on Rent
+    // 7. RENT / LEASE SPECIFIC INQUIRIES ("kiraya", "rent", "bhadya", "bhadya var")
     if (
-      text.includes("rent") ||
       text.includes("kiraya") ||
-      text.includes("kiraye") ||
-      text.includes("bhaada") ||
-      text.includes("bhada") ||
-      text.includes("lease") ||
+      text.includes("rent pe") ||
+      text.includes("rent par") ||
+      text.includes("kiraye par") ||
+      text.includes("rent flat") ||
+      text.includes("rental") ||
+      text.includes("bhadya var") ||
       text.includes("bhadya")
     ) {
-      if (lang === "marathi") {
-        return {
-          intent: "RENTAL_INQUIRY",
-          language: "marathi",
-          reply: `${greetingPrefix}🔑 *Dashmesh Properties - Bhadya che Flats (Ambernath East):*
-
-• *1 RK Flat:* ₹3,500 - ₹4,500/mahina (Deposit: ₹20,000 - ₹35,000)
-• *1 BHK Flat:* ₹5,000 - ₹8,500/mahina (Deposit: ₹30,000 - ₹50,000)
-• *2 BHK Flat:* ₹9,000 - ₹15,000/mahina (Deposit: ₹50,000 - ₹80,000)
-• *Commercial Dukaan:* ₹6,000 - ₹30,000/mahina
-
-✅ 100% Legal Police Verification & Registered Rent Agreement Support
-Aaplyala Pale Gaon madhe pahije ki Station Road javal?`,
-          suggestedActions: ["1 BHK Rent", "2 BHK Rent", "Shop on Rent"]
-        };
-      }
-
       return {
         intent: "RENTAL_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🔑 *Dashmesh Properties - Verified Rental Rates (Ambernath East):*
+        reply: `${greetingPrefix}🔑 *Dashmesh Properties — Verified Rental Flats (Ambernath East & Pale Gaon):*
 
-• *1 RK Flat Rent:* ₹3,500 - ₹4,500/month (Deposit: ₹20,000 - ₹35,000)
-• *1 BHK Flat Rent:* ₹5,000 - ₹8,500/month (Deposit: ₹30,000 - ₹50,000)
-• *2 BHK Flat Rent:* ₹9,000 - ₹15,000/month (Deposit: ₹50,000 - ₹80,000)
-• *Commercial Shop Rent:* ₹6,000 - ₹30,000/month (Location & carpet dependent)
+Hamare paas family aur working professionals ke liye ready-to-move rental flats verified condition mein available hain:
 
-✅ 100% Legal Police Verification & Registered Rent Agreement Support
-✅ Bachelor & Family friendly verified flats available
+🏡 *1 BHK Rental Inventory:*
+• *Pale Gaon:* ₹5,000 - ₹8,500/month (Quiet residential pocket, 24x7 water, lift).
+• *Station Road / Kansai:* ₹7,500 - ₹12,000/month (Walking distance to station).
 
-Aapko residential flat rent par chahiye ya commercial shop? Preferred location bata dijiye!`,
-        suggestedActions: ["1 BHK Rent", "2 BHK Rent", "Commercial Shop Rent"]
+🏰 *2 BHK Rental Inventory:*
+• *Pale Gaon:* ₹9,000 - ₹14,000/month.
+• *Station Road / Kansai:* ₹13,000 - ₹18,000/month (Gated complex, parking, amenities).
+
+📋 *Lease Terms:*
+• Security Deposit: 4 to 6 months rent (standard).
+• Maharashtra Section 55 Registered Leave & License agreement with doorstep biometric execution included.
+
+Aap family ke saath shift ho rahe hain ya bachelors? Aur move-in date kab tak plan kar rahe hain?`,
+        suggestedActions: ["1 BHK Rent", "2 BHK Rent", "📜 Rent Agreement", "📞 Call Office"]
       };
     }
 
-    // 8. OFFICE LOCATION, ADDRESS & TIMINGS
+    // 8. OFFICE LOCATION, MAP & TIMINGS ("kahan hai", "location", "address", "timing", "office kahan")
     if (
-      text.includes("kahan") ||
+      text.includes("kahan hai") ||
       text.includes("kidhar") ||
       text.includes("location") ||
       text.includes("address") ||
       text.includes("timing") ||
-      text.includes("pata") ||
-      text.includes("samay") ||
-      text.includes("open") ||
-      text.includes("kab") ||
+      text.includes("office") ||
+      text.includes("karyalay") ||
       text.includes("map") ||
-      text.includes("pahuch") ||
-      text.includes("email") ||
-      text.includes("contact") ||
-      (text.includes("office") && !text.includes("rent") && !text.includes("buy") && !text.includes("commercial"))
+      text.includes("directions")
     ) {
       return {
         intent: "LOCATION_AND_TIMINGS",
         language: lang,
-        reply: `${greetingPrefix}📍 *Dashmesh Properties ka Official Registered Office:*
+        reply: `${greetingPrefix}📍 *Dashmesh Properties — Office Address & Consultation Timings:*
 
-🏢 *Office Address:*
-${officeAddr}
-(${officeLandmark})
+🏢 *Address:*
+Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501, Maharashtra.
 
-⏰ *Office Timings:* ${officeTimings}
-📍 *Google Maps Pin:* ${officeMap}
+📌 *Landmark:*
+Near Pale Gaon Bus Stop / Entry Gate (Just 7 minutes from Ambernath East Railway Station).
 
-📞 *Direct Team Contacts:*
-• Kuldeep Kaur: +91 84120 70183 (WhatsApp: +91 87937 71911)
-• Sukhjyot Singh: +91 84219 40013
-✉️ Email: info@dashmeshproperties.com
+⏰ *Office Hours:*
+10:00 AM to 8:30 PM — Open All 7 Days (Saturday & Sunday special site visits available).
 
-Aap kis din ya kis samay visit karna chahenge? Hum desk par pehle se properties shortlist karke ready rakhenge!`,
-        suggestedActions: ["📍 Google Map Pin", "📅 Confirm Time", "📞 Call Office"]
+🗺️ *Google Maps Live Location:*
+${officeMap}
+
+📞 *Direct Helpline:*
+• Satnam Singh (Owner / Principal Broker): +91 84210 77613
+• Sukhjyot Singh (Legal & Agreement Desk): +91 84219 40013
+• Kuldeep Singh (Site Visits & Inventory): +91 84120 70183
+
+Aap direct office visit plan kar sakte hain, ya call karke appointment book kar sakte hain!`,
+        suggestedActions: ["📍 Open Google Maps", "📅 Book Appointment", "📞 Call Satnam Sir"]
       };
     }
 
-    // 9. SPECIFIC LOCALITY: Pale Gaon Inquiry (Dashmesh Properties Core Base)
+    // 9. LOCALITY INQUIRY: PALE GAON
     if (text.includes("pale gaon") || text.includes("palegaon") || text.includes("pale")) {
-      if (lang === "marathi") {
-        return {
-          intent: "LOCALITY_PALE_GAON",
-          language: "marathi",
-          reply: `${greetingPrefix}🏡 *Pale Gaon (Ambernath East) Verified Property Rates:*
-*(Ambernath Railway Station pasun fakt 7 mins dur, Bus Stop javal)*
-
-• *1 RK Studio:* ₹12 Lakh - ₹16 Lakh (Budget friendly)
-• *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (Ready & New, SBI/HDFC 90% Loan Manjur)
-• *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Lift, power backup, parking)
-• *Bhadya sathi (Rent):* 1 BHK: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
-• *Commercial Dukaan:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
-
-📍 *Dashmesh Properties Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath East.
-📞 *Direct Desk:* Satnam Sir (+91 84210 77613) | Kuldeep Kaur (+91 84120 70183)
-Aaplyala Flat Kharedi, Vikri ki Bhadya sathi hawa aahe?`,
-          suggestedActions: ["1 BHK Pale Gaon", "2 BHK Pale Gaon", "Rent in Pale Gaon"]
-        };
-      }
-
-      if (lang === "english") {
-        return {
-          intent: "LOCALITY_PALE_GAON",
-          language: "english",
-          reply: `${greetingPrefix}🏡 *Pale Gaon (Ambernath East) Verified Property Rates:*
-*(7 mins from Ambernath Railway Station, peaceful residential pocket)*
-
-• *1 RK Studio:* ₹12 Lakh - ₹16 Lakh
-• *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (90% Bank Loan Approved)
-• *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Gated with lift & parking)
-• *Rental Flats:* 1 BHK: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
-• *Commercial Shops:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
-
-📍 *Dashmesh Properties Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath East.
-📞 *Direct Desk:* Satnam Sir (+91 84210 77613) | Kuldeep Kaur (+91 84120 70183)
-Are you looking to Buy, Rent, or Sell?`,
-          suggestedActions: ["1 BHK in Pale Gaon", "2 BHK in Pale Gaon", "Rent in Pale Gaon"]
-        };
-      }
-
       return {
         intent: "LOCALITY_PALE_GAON",
-        language: "hinglish",
-        reply: `${greetingPrefix}🏡 *Pale Gaon (Ambernath East) Verified Property Rates:*
-*(Ambernath Railway Station se sirf 7 mins dur, Pale Gaon Bus Stop connectivity)*
+        language: lang,
+        reply: `${greetingPrefix}🌿 *Pale Gaon, Ambernath East — Market Intelligence & Overview:*
 
-• *1 RK Studio:* ₹12 Lakh - ₹16 Lakh (Budget friendly)
-• *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (Ready & Under Construction, SBI/HDFC 90% Loan)
-• *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Lift, power backup, parking)
-• *Rental Flats:* 1 BHK Rent: ₹5,000 - ₹7,500/mo | 2 BHK: ₹9,000 - ₹13,000/mo
-• *Commercial Shops:* Rent: ₹6,000 - ₹20,000/mo | Sale: ₹18 Lakh - ₹40 Lakh
+Pale Gaon Ambernath East ka sabse high-demand, peaceful residential corridor ban chuka hai:
+• *Prevailing Property Rates:* ₹3,800 - ₹4,400 / sq.ft.
+• *Connectivity:* Just 7 minutes to Ambernath East Railway Station, direct sharing autos & KDMC bus stop.
+• *Civic Infrastructure:* 24x7 KDMC drinking water supply, wide concrete roads, clean air.
+• *Top Verified Projects:* New Floora, Pale Heights, GBK Whispering Palms, Laxmi Niwas.
+• *Price Points:* 1 BHK from ₹21L - ₹28L | 2 BHK from ₹34L - ₹48L.
 
-📍 *Dashmesh Properties Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath East.
-📞 *Direct Desk:* Satnam Sir (+91 84210 77613) | Kuldeep Kaur (+91 84120 70183)
-Aapka requirement Buy, Sale ya Rent mein se kismein hai?`,
-        suggestedActions: ["1 BHK in Pale Gaon", "2 BHK in Pale Gaon", "Rent in Pale Gaon"]
+Hamara head office New Floora, Shop 24 mein hi located hai. Pale Gaon ke kisi bhi project ki physical inspection ke liye batayein!`,
+        suggestedActions: ["Pale Gaon 1 BHK", "Pale Gaon 2 BHK", "📍 Office Location", "📅 Book Visit"]
       };
     }
 
-    // 10. SPECIFIC LOCALITY: Station Road & Kansai (Prime Walkable Area)
-    if (text.includes("station") || text.includes("kansai") || text.includes("shiv mandir")) {
+    // 10. LOCALITY INQUIRY: STATION ROAD & KANSAI
+    if (text.includes("kansai") || text.includes("station road") || text.includes("station") || text.includes("east station")) {
       return {
         intent: "LOCALITY_STATION_KANSAI",
         language: lang,
-        reply: `${greetingPrefix}🚉 *Ambernath East (Station Road & Kansai) Verified Property Rates:*
-*(Station se walking distance & prime commercial corridor)*
+        reply: `${greetingPrefix}🚉 *Ambernath East Station Road & Kansai Section — Market Report:*
 
-• *1 BHK Flat:* ₹28 Lakh - ₹38 Lakh (Walkable to Station, lift, municipal water)
-• *2 BHK Flat:* ₹44 Lakh - ₹62 Lakh (Township projects, club amenities, parking)
-• *3 BHK Flat:* ₹65 Lakh - ₹90 Lakh (Premium living)
-• *Commercial Retail Shops:* Rent: ₹15,000 - ₹35,000/mo | Sale: ₹32 Lakh - ₹85 Lakh (Prime footfall)
-• *Rental 1 BHK:* ₹8,000 - ₹12,000/mo | 2 BHK: ₹14,000 - ₹20,000/mo
+Prime urban residential hub with premium lifestyle amenities:
+• *Prevailing Rates:* ₹4,800 - ₹6,500 / sq.ft.
+• *Proximity:* 2 to 5 minutes walking distance to Ambernath Station & local market.
+• *Amenities:* Gated townships, high-speed elevators, power backup, podium parking, security.
+• *Price Points:* 1 BHK (₹28L - ₹38L) | 2 BHK (₹45L - ₹65L) | 3 BHK (₹68L - ₹95L).
 
-Aapko station se kitne distance ke andar flat ya shop chahiye?`,
-        suggestedActions: ["Station 5min Walk", "Kansai Townships", "Station Shops"]
+Station vicinity inventory high demand mein rehti hai. Preferred floor aur parking requirement share karein!`,
+        suggestedActions: ["Station 1 BHK", "Station 2 BHK", "📅 Book Visit"]
       };
     }
 
-    // 11. SPECIFIC LOCALITY: Morivali, Anand Nagar & MIDC
-    if (text.includes("morivali") || text.includes("midc") || text.includes("anand nagar")) {
+    // 11. LOCALITY INQUIRY: MORIVALI & MIDC
+    if (text.includes("morivali") || text.includes("midc")) {
       return {
         intent: "LOCALITY_MORIVALI_MIDC",
         language: lang,
-        reply: `${greetingPrefix}🏭 *Morivali & MIDC / Anand Nagar (Ambernath East) Rates:*
-*(Affordable budget corridor with continuous rental tenant demand)*
+        reply: `${greetingPrefix}🏭 *Morivali MIDC Corridor — Industrial & Budget Residential Report:*
 
-• *1 RK Flat:* ₹10 Lakh - ₹14 Lakh
-• *1 BHK Flat:* ₹19 Lakh - ₹25 Lakh (Low EMI, 90% loan approved)
-• *2 BHK Flat:* ₹30 Lakh - ₹42 Lakh
-• *Rental Flats:* 1 BHK Rent: ₹4,500 - ₹6,500/mo (High rental yield for investors)
-• *Commercial / Industrial Gala / Shop:* ₹8,000 - ₹25,000/mo
+• *Prevailing Rates:* ₹3,500 - ₹4,200 / sq.ft.
+• *Commercial Galas & Plots:* Ready industrial galas with 3-phase power & high loading bays.
+• *Residential:* Highly affordable rental flats for working professionals with consistent rental yields.
 
-Kya aap investment/rental income ke liye dekh rahe hain ya khud rehne ke liye?`,
-        suggestedActions: ["1 BHK Budget", "High Rental Yield", "Industrial Galas"]
+Aapko industrial gala chahiye ya residential flat?`,
+        suggestedActions: ["MIDC Galas", "Affordable Flats", "📞 Call Office"]
       };
     }
 
-    // 12. SPECIFIC LOCALITY: Ambernath West
-    if (text.includes("west") || text.includes("paschim") || text.includes("navare")) {
+    // 12. LOCALITY INQUIRY: AMBERNATH WEST
+    if (text.includes("west") || text.includes("paschim") || text.includes("ambernath west")) {
       return {
         intent: "LOCALITY_WEST",
         language: lang,
-        reply: `${greetingPrefix}🏙️ *Ambernath West Verified Property Rates:*
-*(Navare Nagar, Sai Baba Temple & Station West corridor)*
+        reply: `${greetingPrefix}🌆 *Ambernath West — Market Overview:*
 
-• *1 BHK Flat:* ₹26 Lakh - ₹35 Lakh
-• *2 BHK Flat:* ₹40 Lakh - ₹58 Lakh
-• *Rental 1 BHK:* ₹6,500 - ₹9,000/mo | 2 BHK: ₹11,000 - ₹16,000/mo
+Hum Ambernath West ke bhi select verified projects handle karte hain:
+• *Prevailing Rates:* ₹4,200 - ₹5,400 / sq.ft.
+• *1 BHK:* ₹24 Lakh - ₹32 Lakh | *2 BHK:* ₹38 Lakh - ₹54 Lakh.
+• Gated societies with clear title approvals.
 
-Ambernath West mein aapka preferred location kaunsa hai?`,
-        suggestedActions: ["Navare Nagar", "Station West", "Compare with East"]
+Aapko East prefer hai ya West? Hum dono sections compare karke best ROI option guide kar denge.`,
+        suggestedActions: ["Compare East vs West", "West 1 BHK", "West 2 BHK"]
       };
     }
 
-    // 13. KALYAN MEGA PROJECTS INQUIRY (Regency Antilia, Tycoons Square, Godrej Golf Links, Raunak City, Kohinoor Eden)
-    if (
-      text.includes("kalyan") ||
-      text.includes("khadakpada") ||
-      text.includes("gandhar nagar") ||
-      text.includes("regency antilia") ||
-      text.includes("tycoons") ||
-      text.includes("raunak city") ||
-      text.includes("kohinoor eden")
-    ) {
+    // =========================================================================
+    // REGIONAL MMR CITIES INQUIRIES
+    // =========================================================================
+    if (text.includes("kalyan")) {
       return {
         intent: "KALYAN_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏙️ *Kalyan Prime Real Estate & Mega Projects Directory:*
-*(Dashmesh Properties Verified Partner Projects)*
-
-🌟 *Featured Top Projects in Kalyan:*
-1. *Regency Antilia (Khadakpada):* Ultra-luxury 2, 3, 4 BHK starting ₹82L - ₹1.45 Cr (Rate: ₹7,600/sq.ft)
-2. *Tycoons Square (Khadakpada):* 1 & 2 BHK lifestyle towers starting ₹58L - ₹88L (Rate: ₹7,200/sq.ft)
-3. *Godrej Golf Links (Gandhar Nagar):* Premium 2 & 3 BHK golf-facing homes starting ₹68L - ₹1.15 Cr
-4. *Raunak City (Adharwadi):* Budget-friendly township 1 & 2 BHK starting ₹35L - ₹56L (Rate: ₹5,400/sq.ft)
-5. *Kohinoor Eden (Kalyan East):* 1 & 2 BHK with 30+ amenities starting ₹38L - ₹62L
-
-✅ Up to 90% SBI / HDFC Home Loan Sanction
-✅ Clear MahaRERA Verified Title & Zero Brokerage on direct partner inventory
-
-Aapko Kalyan West (Khadakpada) mein dekhna hai ya Kalyan East? Hum floor plans aur inventory details share karte hain!`,
-        suggestedActions: ["Regency Antilia", "Tycoons Square", "Raunak City Budget", "📅 Site Visit"]
+        reply: `${greetingPrefix}🏙️ *Kalyan Corridor Property Intelligence:*
+• *Key Hubs:* Khadakpada, Gandhari, Kalyan West & East.
+• *Rates:* ₹5,500 - ₹9,500 / sq.ft.
+• *1 BHK:* ₹32L - ₹45L | *2 BHK:* ₹50L - ₹85L.
+Hum Kalyan ke verified A-grade developer inventory ke authorized channel partners hain.`,
+        suggestedActions: ["Khadakpada 2BHK", "Kalyan West", "Ambernath Base"]
       };
     }
 
-    // 14. THANE MEGA PROJECTS INQUIRY (Hiranandani Estate, Dosti West County, Rustomjee, Lodha Amāra, Raymond Ten X)
-    if (
-      text.includes("thane") ||
-      text.includes("ghodbunder") ||
-      text.includes("kolshet") ||
-      text.includes("pokhran") ||
-      text.includes("hiranandani estate") ||
-      text.includes("dosti west county") ||
-      text.includes("rustomjee urbania") ||
-      text.includes("lodha amara") ||
-      text.includes("raymond")
-    ) {
+    if (text.includes("thane")) {
       return {
         intent: "THANE_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🌳 *Thane Mega Township & High-Growth Projects Directory:*
-*(Direct Developer Tie-ups via Dashmesh Properties)*
-
-🌟 *Premier Projects in Thane:*
-1. *Hiranandani Estate (Ghodbunder Rd):* 1, 2, 3 BHK starting ₹85L - ₹2.8 Cr (Rate: ₹15,500/sq.ft)
-2. *Lodha Amāra (Kolshet Rd):* 1, 2, 3 BHK 40-acre grand clubhouse township starting ₹75L - ₹1.85 Cr
-3. *Dosti West County (Balkum):* 1, 2, 3 BHK starting ₹64L - ₹1.45 Cr (Rate: ₹12,800/sq.ft)
-4. *Rustomjee Urbania (Majiwada):* 2 & 3 BHK urban township starting ₹98L - ₹1.75 Cr
-5. *Raymond Realty Ten X Habitat (Pokhran Rd 1):* Smart 2 BHK homes starting ₹92L - ₹1.35 Cr
-
-✅ Direct builder discount assistance & inventory allotment
-✅ Complete bank loan financing with nationalized banks
-
-Aapka budget segment ₹65L - ₹1 Cr mein hai ya ₹1 Cr+ luxury township?`,
-        suggestedActions: ["Lodha Amāra", "Dosti West County", "Hiranandani Estate", "Talk to Satnam Sir"]
+        reply: `${greetingPrefix}🌟 *Thane Prime Corridor Intelligence:*
+• *Key Hubs:* Ghodbunder Road, Majiwada, Pokhran, Kolshet.
+• *Rates:* ₹9,500 - ₹18,000 / sq.ft.
+• *1 BHK:* ₹52L - ₹75L | *2 BHK:* ₹85L - ₹1.65 Cr.
+Thane developer inventory ke liye direct builder desk consultation available hai.`,
+        suggestedActions: ["Ghodbunder Rd", "Majiwada", "Ambernath Comparison"]
       };
     }
 
-    // 15. ULHASNAGAR MEGA PROJECTS INQUIRY (Tharwani Ariana, Regency Plaza, Shree Sai Avenue)
-    if (
-      text.includes("ulhasnagar") ||
-      text.includes("unr") ||
-      text.includes("ariana") ||
-      text.includes("regency plaza") ||
-      text.includes("sai avenue") ||
-      text.includes("section 17") ||
-      text.includes("gol maidan")
-    ) {
+    if (text.includes("ulhasnagar")) {
       return {
         intent: "ULHASNAGAR_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏘️ *Ulhasnagar Prime Residential & Commercial Projects:*
-*(Connected via Ambernath-Ulhasnagar central arterial belt)*
-
-🌟 *Top Projects in Ulhasnagar:*
-1. *Tharwani Ariana (Near Section 17):* 1 & 2 BHK high-rise with luxury lifestyle starting ₹34L - ₹58L (Rate: ₹5,800/sq.ft)
-2. *Regency Plaza (Shanti Nagar):* 1, 2 & 3 BHK premium apartments starting ₹42L - ₹78L (Rate: ₹6,100/sq.ft)
-3. *Shree Sai Avenue (Gol Maidan):* 1 & 2 BHK with podium amenities starting ₹28L - ₹48L (Rate: ₹5,000/sq.ft)
-
-✅ Clear title & 100% bank loan approval
-✅ Close to commercial markets, schools, and station connectivity
-
-Aapko 1 BHK dekhna hai ya 2 BHK? Hum turant verified options bhejte hain!`,
-        suggestedActions: ["Tharwani Ariana", "Regency Plaza", "Shree Sai Avenue", "📞 Call Direct"]
+        reply: `${greetingPrefix}🏬 *Ulhasnagar Corridor Overview:*
+• *Key Sectors:* Camp 1 to 5, Gol Maidan, Section 17.
+• *Rates:* ₹4,500 - ₹7,200 / sq.ft.
+• Residential flats & high-yield commercial shops.
+Ambernath East se sirf 5 minute distance par hone se hum direct verified inventory handle karte hain.`,
+        suggestedActions: ["Camp 3 Flats", "Commercial Shops", "Ambernath Base"]
       };
     }
 
-    // 16. DOMBIVLI MEGA PROJECTS INQUIRY (Lodha Palava, Runwal Gardens, Regency Anantam)
-    if (
-      text.includes("dombivli") ||
-      text.includes("palava") ||
-      text.includes("runwal gardens") ||
-      text.includes("regency anantam") ||
-      text.includes("shilphata")
-    ) {
+    if (text.includes("dombivli") || text.includes("palava")) {
       return {
         intent: "DOMBIVLI_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏢 *Dombivli & Kalyan-Shilphata Smart Mega Projects:*
-*(Top Integrated Townships & High-Rental Demand Hubs)*
-
-🌟 *Featured Projects:*
-1. *Lodha Palava City (Kalyan-Shil Rd):* 1, 2, 3 BHK smart city with Olympic sports complex, ICSE schools starting ₹38L - ₹95L (Rate: ₹6,200/sq.ft)
-2. *Runwal Gardens (Kalyan-Shilphata):* 115-acre mega township with shopping mall, cricket academy, 1, 2, 3 BHK starting ₹42L - ₹88L (Rate: ₹6,500/sq.ft)
-3. *Regency Anantam (Dombivli East):* 1 & 2 BHK luxury air-conditioned homes starting ₹48L - ₹78L (Rate: ₹6,900/sq.ft)
-
-✅ Ready-to-move and under-construction options
-✅ High rental demand from Airoli & Navi Mumbai IT professionals
-
-Kya aap investment ke liye plan kar rahe hain ya self-use?`,
-        suggestedActions: ["Lodha Palava", "Runwal Gardens", "Regency Anantam", "📅 Site Visit"]
+        reply: `${greetingPrefix}🚆 *Dombivli & Palava Corridor Intelligence:*
+• *Key Pockets:* Dombivli East, Manpada, Nilje, Palava.
+• *Rates:* ₹5,200 - ₹8,500 / sq.ft.
+• *1 BHK:* ₹30L - ₹45L | *2 BHK:* ₹48L - ₹80L.
+Direct developer inventories available with complete home loan tie-ups.`,
+        suggestedActions: ["Manpada 2BHK", "Palava Flats", "Ambernath Option"]
       };
     }
 
-    // 17. BADLAPUR MEGA PROJECTS INQUIRY (Godrej Vihaa, Tharwani Vedant, Aryan Fountain Square)
-    if (
-      text.includes("badlapur") ||
-      text.includes("vihaa") ||
-      text.includes("godrej vihaa") ||
-      text.includes("vedant nakshatra") ||
-      text.includes("katrap") ||
-      text.includes("shirgaon")
-    ) {
+    if (text.includes("badlapur")) {
       return {
         intent: "BADLAPUR_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏡 *Badlapur Affordable & Branded Mega Projects:*
-*(Clean green environment with 100% bank loan availability)*
-
-🌟 *Top Projects in Badlapur:*
-1. *Godrej Vihaa (Barvi Dam Rd):* Branded 1 & 2 BHK township starting ₹26L - ₹45L (Rate: ₹4,500/sq.ft)
-2. *Tharwani Vedant Nakshatra (Shirgaon):* 1 & 2 BHK with podium amenities starting ₹22L - ₹40L (Rate: ₹4,100/sq.ft)
-3. *Aryan Fountain Square (Katrap):* 1 & 2 BHK starting ₹18L - ₹32L (Rate: ₹3,900/sq.ft)
-
-✅ Budget under ₹30 Lakhs with minimum down-payment
-✅ Clear titles & ready possession flats available
-
-Kya aapka budget 1 BHK ke liye ₹20L - ₹25L ke aas-paas hai?`,
-        suggestedActions: ["Godrej Vihaa", "Tharwani Vedant", "Katrap Flats", "📅 Book Visit"]
+        reply: `${greetingPrefix}🌿 *Badlapur East & West Corridor Intelligence:*
+• *Key Pockets:* Katrap, Shirgaon, Belavali, Badlapur East.
+• *Rates:* ₹3,200 - ₹4,200 / sq.ft.
+• *1 BHK:* ₹16L - ₹24L | *2 BHK:* ₹26L - ₹38L.
+• *Rent Agreement:* Full Doorstep Biometric coverage in Badlapur at ₹1,750 per side.`,
+        suggestedActions: ["Katrap 1BHK", "Shirgaon 2BHK", "Doorstep Biometric"]
       };
     }
 
-    // 18. MUMBAI ISLAND & SUBURBS INQUIRY (Oberoi Sky City, Lodha Park, Runwal Bliss)
-    if (
-      text.includes("mumbai") ||
-      text.includes("borivali") ||
-      text.includes("lower parel") ||
-      text.includes("kanjurmarg") ||
-      text.includes("chandivali") ||
-      text.includes("oberoi sky city") ||
-      text.includes("lodha park") ||
-      text.includes("runwal bliss")
-    ) {
+    if (text.includes("mumbai") && !text.includes("navi mumbai")) {
       return {
         intent: "MUMBAI_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🌊 *Mumbai Suburbs & Island City Luxury Projects:*
-*(High-Profile Developer Portfolios via Dashmesh Network)*
-
-🌟 *Iconic Projects in Mumbai:*
-1. *Oberoi Sky City (Borivali East):* 3 & 4 BHK luxury residences on WEH starting ₹3.2 Cr - ₹5.8 Cr (Rate: ₹27,500/sq.ft)
-2. *Lodha Park (Lower Parel):* 2, 3, 4 BHK 7-acre private park living starting ₹4.5 Cr - ₹16 Cr (Rate: ₹42,000/sq.ft)
-3. *Runwal Bliss (Kanjurmarg East):* 2 & 3 BHK green township starting ₹1.48 Cr - ₹2.65 Cr (Rate: ₹19,800/sq.ft)
-4. *Godrej Urban Park (Chandivali, Powai):* 1, 2, 3 BHK starting ₹98L - ₹2.2 Cr (Rate: ₹18,500/sq.ft)
-
-✅ Pre-launch pricing, NRI advisory & structured developer payment schemes
-
-Aap Mumbai mein Central Suburbs (Powai/Kanjurmarg) dekh rahe hain ya Western (Borivali)?`,
-        suggestedActions: ["Runwal Bliss", "Godrej Urban Park", "Oberoi Sky City", "Consult Satnam Sir"]
+        reply: `${greetingPrefix}🏙️ *Mumbai Metropolitan Property Desk:*
+Hum Central & Western suburbs ke premium developer inventory ke authorized corporate channel partner hain. Specific location aur budget bracket share karein.`,
+        suggestedActions: ["Central Suburbs", "Western Suburbs", "Ambernath Base"]
       };
     }
 
-    // 19. NAVI MUMBAI MEGA PROJECTS INQUIRY (Marathon Nexzone, Fortune City, Seawoods, Kharghar)
-    if (
-      text.includes("navi mumbai") ||
-      text.includes("panvel") ||
-      text.includes("kharghar") ||
-      text.includes("seawoods") ||
-      text.includes("ulwe") ||
-      text.includes("taloja") ||
-      text.includes("marathon nexzone") ||
-      text.includes("fortune city")
-    ) {
+    if (text.includes("navi mumbai")) {
       return {
         intent: "NAVI_MUMBAI_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🚢 *Navi Mumbai High-Appreciation Mega Projects:*
-*(Near Navi Mumbai International Airport, Atal Setu MTHL & Metro Corridor)*
-
-🌟 *Top Projects in Navi Mumbai:*
-1. *Marathon Nexzone (Panvel):* 1 & 2 BHK township starting ₹48L - ₹85L (Rate: ₹7,200/sq.ft)
-2. *Hiranandani Fortune City (Panvel):* 1, 2, 3 BHK 588-acre mega city starting ₹68L - ₹1.75 Cr
-3. *L&T Seawoods Residences (Seawoods Grand Central):* 2 & 3 BHK transit-oriented luxury starting ₹1.85 Cr - ₹3.8 Cr (Rate: ₹21,500/sq.ft)
-4. *Arihant Clan Aalishan (Kharghar):* 1, 2, 3 BHK Persian-themed palace living starting ₹72L - ₹1.6 Cr
-5. *Today Global Anandam (Upper Kharghar):* 1 & 2 BHK starting ₹32L - ₹56L (Rate: ₹5,800/sq.ft)
-6. *Delta Tower (Ulwe):* 2 & 3 BHK near Atal Setu starting ₹78L - ₹1.25 Cr (Rate: ₹9,500/sq.ft)
-
-✅ High capital appreciation driven by Airport & Metro operations
-
-Aap Panvel, Kharghar ya Seawoods mein se kahan prefer karte hain?`,
-        suggestedActions: ["Marathon Nexzone", "Hiranandani Panvel", "L&T Seawoods", "Upper Kharghar"]
-      };
-    }
-
-    // 19b. VASAI-VIRAR MEGA PROJECTS INQUIRY
-    if (
-      text.includes("vasai") ||
-      text.includes("virar") ||
-      text.includes("naigaon") ||
-      text.includes("rustomjee global city") ||
-      text.includes("joyville") ||
-      text.includes("sunteck west world")
-    ) {
-      return {
-        intent: "VASAI_VIRAR_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏖️ *Vasai-Virar & Naigaon Growth Corridor Projects:*
-*(Connected via Western Railway & proposed Coastal Road / Metro)*
-
-🌟 *Featured Projects in Vasai-Virar:*
-1. *Rustomjee Global City (Virar West):* 1 & 2 BHK 200+ acre mega township with amusement park & school starting ₹34L - ₹54L (Rate: ₹5,400/sq.ft)
-2. *Joyville Virar by Shapoorji Pallonji (Virar West):* 1 & 2 BHK branded gated community starting ₹36L - ₹62L (Rate: ₹5,600/sq.ft)
-3. *Sunteck West World (Naigaon East):* 1 & 2 BHK self-contained township starting ₹32L - ₹52L (Rate: ₹5,800/sq.ft)
-4. *Sunteck Beach Residences (Vasai West):* 2 & 3 BHK beachfront luxury residences starting ₹68L - ₹1.25 Cr (Rate: ₹7,800/sq.ft)
-5. *Dhoot Pratham (Vasai East):* 1 & 2 BHK near highway starting ₹30L - ₹48L (Rate: ₹5,100/sq.ft)
-
-✅ Affordable ticket sizes with branded developer infrastructure
-✅ Ready possession & under-construction with 90% loan sanction
-
-Aap Virar West township dekh rahe hain ya Naigaon budget homes?`,
-        suggestedActions: ["Rustomjee Global City", "Joyville Virar", "Sunteck Naigaon", "📞 Talk to Satnam Sir"]
-      };
-    }
-
-    // 19c. KARJAT-NERAL SCENIC & BUDGET HOMES INQUIRY
-    if (
-      text.includes("karjat") ||
-      text.includes("neral") ||
-      text.includes("vangani") ||
-      text.includes("matheran") ||
-      text.includes("labham hills") ||
-      text.includes("tulsi aanandam") ||
-      text.includes("xrbia")
-    ) {
-      return {
-        intent: "KARJAT_NERAL_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}⛰️ *Karjat, Neral & Vangani Scenic & Budget Residential Projects:*
-*(Pure air, foothills of Matheran, direct Central Railway connectivity)*
-
-🌟 *Featured Affordable & Weekend Living Projects:*
-1. *Labham Hills (Neral):* 1 RK, 1 BHK, 2 BHK scenic valley homes starting ₹14L - ₹28L (Rate: ₹3,100/sq.ft)
-2. *Tulsi Aanandam (Neral West):* 1 RK & 1 BHK township with clubhouse starting ₹16L - ₹26L (Rate: ₹3,300/sq.ft)
-3. *Xrbia Smart City (Vangani):* 1 RK & 1 BHK smart homes near station starting ₹15L - ₹24L (Rate: ₹3,200/sq.ft)
-4. *Pushpam Sanskruti (Karjat):* 1 & 2 BHK resort lifestyle suites starting ₹28L - ₹55L (Rate: ₹4,200/sq.ft)
-
-✅ Ultra-affordable entry: 1 RK/1 BHK starting as low as ₹14 Lakhs!
-✅ Perfect for first-time buyers, weekend holiday homes, or high-yield rental
-
-Aapko retirement/holiday home ke liye dekhna hai ya budget investment?`,
-        suggestedActions: ["Labham Hills Neral", "Tulsi Aanandam", "Xrbia Vangani", "📅 Weekend Visit"]
-      };
-    }
-
-    // 19d. MIRA-BHAYANDAR SATELLITE TOWNSHIP INQUIRY
-    if (
-      text.includes("mira bhayandar") ||
-      text.includes("mira road") ||
-      text.includes("bhayandar") ||
-      text.includes("beverly park") ||
-      text.includes("kanakia beverly") ||
-      text.includes("jangid galaxy")
-    ) {
-      return {
-        intent: "MIRA_BHAYANDAR_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🌅 *Mira Road & Bhayandar Prime Township Projects:*
-*(Direct Western Express Highway & Metro 9 connectivity to Mumbai)*
-
-🌟 *Featured Projects in Mira-Bhayandar:*
-1. *Kanakia Beverly Heights (Beverly Park):* 1 & 2 BHK starting ₹65L - ₹1.15 Cr (Rate: ₹12,800/sq.ft)
-2. *Jangid Galaxy (Mira Road East):* 1 & 2 BHK starting ₹62L - ₹1.05 Cr (Rate: ₹12,200/sq.ft)
-3. *Man Opus (Dahisar Check Naka):* 1 & 2 BHK starting ₹66L - ₹1.12 Cr (Rate: ₹12,500/sq.ft)
-4. *Salasar Exotica (Bhayandar West):* 1, 2 & 3 BHK near Maxus Mall starting ₹72L - ₹1.35 Cr (Rate: ₹13,500/sq.ft)
-5. *JP North Garden City (Vinay Nagar):* 1, 2 & 3 BHK 27-acre Spanish township starting ₹59L - ₹1.28 Cr
-
-✅ High rental yields & immediate transit to Western Mumbai
-Aap Mira Road East dekh rahe hain ya Bhayandar West?`,
-        suggestedActions: ["Kanakia Beverly", "Jangid Galaxy", "JP North", "📞 Talk to Satnam Sir"]
-      };
-    }
-
-    // 19e. BHIWANDI & KASHELI-KALHER LOGISTICS & RESIDENTIAL CORRIDOR
-    if (
-      text.includes("bhiwandi") ||
-      text.includes("kasheli") ||
-      text.includes("kalher") ||
-      text.includes("anjurphata") ||
-      text.includes("arihant city") ||
-      text.includes("temghar")
-    ) {
-      return {
-        intent: "BHIWANDI_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏭 *Bhiwandi, Kasheli & Kalher Growth Corridor Projects:*
-*(Directly connected to Thane Balkum & upcoming Metro Line 5)*
-
-🌟 *Top Projects in Bhiwandi Belt:*
-1. *Arihant City (Kalyan-Bhiwandi Bypass):* 1 & 2 BHK township starting ₹26L - ₹45L (Rate: ₹4,800/sq.ft)
-2. *Kasheli Urban Hub (Near Thane Toll):* 1 RK, 1 & 2 BHK starting ₹19L - ₹36L (Rate: ₹4,200/sq.ft) — *Only 10 mins from Thane Balkum!*
-3. *Kalher Pride (Kalher Metro Corridor):* 1 & 2 BHK starting ₹24L - ₹41L (Rate: ₹4,400/sq.ft)
-4. *Ornate Galaxy (Anjurphata):* 1 & 2 BHK starting ₹28L - ₹48L (Rate: ₹4,900/sq.ft)
-
-✅ Immense price difference vs Thane with 90% loan sanction
-Aap Kasheli (Thane border) prefer karenge ya Bypass township?`,
-        suggestedActions: ["Arihant City", "Kasheli Urban Hub", "Kalher Pride", "📅 Site Visit"]
-      };
-    }
-
-    // 19f. BOISAR & PALGHAR INDUSTRIAL & BULLET TRAIN CORRIDOR
-    if (
-      text.includes("boisar") ||
-      text.includes("palghar") ||
-      text.includes("tata shubh griha") ||
-      text.includes("mahindra happinest") ||
-      text.includes("tarapur")
-    ) {
-      return {
-        intent: "BOISAR_PALGHAR_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏗️ *Boisar & Palghar Affordable & Industrial Township Projects:*
-*(Hub of Maharashtra's largest MIDC & upcoming Mumbai-Ahmedabad Bullet Train station)*
-
-🌟 *Featured Projects in Boisar & Palghar:*
-1. *Tata Shubh Griha & New Haven (Boisar):* Tata branded 1 RK, 1 & 2 BHK starting ₹15L - ₹32L (Rate: ₹3,400/sq.ft)
-2. *Mahindra Happinest (Boisar MIDC):* Green 1 RK, 1 & 2 BHK starting ₹16L - ₹35L (Rate: ₹3,500/sq.ft)
-3. *HDIL Paradise City (Palghar):* 1 RK, 1 & 2 BHK starting ₹14L - ₹28L (Rate: ₹3,200/sq.ft)
-4. *Agate Park (Betegaon, Boisar E):* 1 & 2 BHK starting ₹17L - ₹29L (Rate: ₹3,350/sq.ft)
-
-✅ Branded developers (Tata & Mahindra) under ₹20 Lakhs!
-✅ High rental demand from industrial engineers & corporate executives
-Aap investment ke liye dekh rahe hain ya self-use?`,
-        suggestedActions: ["Tata Shubh Griha", "Mahindra Happinest", "Palghar Flats", "📞 Call Direct"]
-      };
-    }
-
-    // 19g. SHAHAPUR & ASANGAON WATER SANCTUARY & NASHIK HIGHWAY
-    if (
-      text.includes("shahapur") ||
-      text.includes("asangaon") ||
-      text.includes("vashind") ||
-      text.includes("atgaon") ||
-      text.includes("poddar riviera")
-    ) {
-      return {
-        intent: "SHAHAPUR_ASANGAON_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🌲 *Shahapur & Asangaon Green Sanctuary Projects:*
-*(Chemical-free tourism zone, pure dam water reservoirs & Samruddhi Mahamarg link)*
-
-🌟 *Top Projects in Shahapur-Asangaon:*
-1. *Poddar Riviera (Shahapur NH 3):* 1 RK, 1 & 2 BHK riverfront township starting ₹15L - ₹29L (Rate: ₹3,200/sq.ft)
-2. *Aakash Heritage (Asangaon Station):* 1 & 2 BHK starting ₹18L - ₹32L (Rate: ₹3,400/sq.ft) — *Walking distance to local train terminal!*
-3. *Nirvana Woods (Shahapur):* Nature resort holiday homes starting ₹24L - ₹52L (Rate: ₹3,800/sq.ft)
-4. *Deep Paradise (Vashind):* 1 RK & 1 BHK starting ₹14L - ₹23L (Rate: ₹3,150/sq.ft)
-
-✅ Direct Central Railway local train frequency to Mumbai CSMT
-✅ Pollution-free healthy living for family and retirement`,
-        suggestedActions: ["Poddar Riviera", "Aakash Asangaon", "Nirvana Woods", "📅 Book Visit"]
-      };
-    }
-
-    // 19h. ALIBAUG & COASTAL LUXURY ESTATES
-    if (
-      text.includes("alibaug") ||
-      text.includes("mandwa") ||
-      text.includes("awas") ||
-      text.includes("nagaon") ||
-      text.includes("ro-ro") ||
-      text.includes("hoabl")
-    ) {
-      return {
-        intent: "ALIBAUG_COASTAL_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}⛵ *Alibaug & Mandwa Coastal Luxury Estates & Villas:*
-*(Just 20 mins from Colaba / South Mumbai via Speedboat & connected by Atal Setu MTHL)*
-
-🌟 *Premier Coastal Developments:*
-1. *The House of Abhinandan Lodha (HoABL Awas/Mandwa):* Luxury villa estates starting ₹1.25 Cr - ₹4.50 Cr (Rate: ₹7,500/sq.ft)
-2. *Hiranandani Sands (Nagaon Beach):* 2 & 3 BHK coastal villas starting ₹1.45 Cr - ₹3.80 Cr (Rate: ₹8,200/sq.ft)
-3. *Samira Habitats Sante (Mandwa Jetty):* 2 & 3 BHK luxury suites starting ₹95L - ₹2.50 Cr (Rate: ₹7,800/sq.ft)
-4. *Godrej Coastal Retreat (Varsoli Beach):* 1, 2 & 3 BHK starting ₹78L - ₹1.75 Cr (Rate: ₹7,400/sq.ft)
-
-✅ Prestigious holiday homes for Mumbai's top corporate & business leaders
-✅ Lucrative Airbnb weekend holiday rental returns`,
-        suggestedActions: ["HoABL Alibaug", "Hiranandani Sands", "Samira Mandwa", "Consult Satnam Sir"]
-      };
-    }
-
-    // 19i. KHOPOLI & MUMBAI-PUNE EXPRESSWAY CORRIDOR
-    if (
-      text.includes("khopoli") ||
-      text.includes("khalapur") ||
-      text.includes("imagicaa") ||
-      text.includes("expressway") ||
-      text.includes("arshiya")
-    ) {
-      return {
-        intent: "KHOPOLI_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🛣️ *Khopoli & Mumbai-Pune Expressway Corridor Projects:*
-*(Scenic foothills of Khandala with Central suburban rail and Expressway access)*
-
-🌟 *Top Projects in Khopoli Corridor:*
-1. *Arihant Arshiya (Khopoli):* 20-acre township, 1 RK, 1 & 2 BHK starting ₹18L - ₹38L (Rate: ₹3,900/sq.ft)
-2. *Unimont Aurum (Karjat-Khopoli Rd):* 1 & 2 BHK starting ₹22L - ₹42L (Rate: ₹4,100/sq.ft)
-3. *Adlabs Imagicaa Living:* Resort holiday suites starting ₹27L - ₹54L (Rate: ₹4,300/sq.ft)
-4. *Samarth Heights (Khopoli Station):* 1 RK & 1 BHK starting ₹16L - ₹27L (Rate: ₹3,700/sq.ft)
-
-✅ Excellent bridge connectivity between Mumbai, Navi Mumbai & Pune`,
-        suggestedActions: ["Arihant Arshiya", "Unimont Aurum", "Imagicaa Living", "📞 Contact Us"]
-      };
-    }
-
-    // 20. WHOLE MMR PROJECTS DIRECTORY INQUIRY (All Projects / Master Directory)
-    if (
-      text.includes("projects") ||
-      text.includes("all projects") ||
-      text.includes("directory") ||
-      text.includes("whole mumbai") ||
-      text.includes("pura mumbai") ||
-      text.includes("sab project") ||
-      text.includes("options dikhao") ||
-      text.includes("total projects") ||
-      text.includes("all states") ||
-      text.includes("har jagha")
-    ) {
-      return {
-        intent: "MMR_PROJECTS_DIRECTORY",
-        language: lang,
-        reply: `${greetingPrefix}🏢 *Dashmesh Properties — Whole MMR Real Estate Mega Projects & Estates Directory:*
-*(168+ Verified Projects across 16 Strategic Regional Hubs & All Granular Sub-Areas)*
-
-🌍 *All 16 Strategic Regions & Micro-Markets Covered:*
-• *Ambernath (12):* Pale Gaon, MIDC/Chikhali, Kansai, Shiv Mandir Rd, Chinchpada, Morivali, Navare Nagar, B-Cabin (₹18L - ₹65L)
-• *Badlapur (8):* Barvi Dam Rd, Shirgaon, Katrap, Belavali, Badlapur West, Manjarli (₹18L - ₹48L)
-• *Ulhasnagar (10):* Section 17, Shanti Nagar, Gol Maidan, Section 19, Venus Chowk, Nehru Chowk, Press Bazar, Camp 2 (₹26L - ₹78L)
-• *Kalyan (16):* Khadakpada, Gandhar Nagar, Adharwadi, Kalyan East, Wayle Nagar, Titwala, Chikan Ghar (₹32L - ₹1.45 Cr)
-• *Dombivli (10):* Kalyan-Shilphata Rd, Manpada, Dombivli East, Dombivli West, Casa Bella, Palava (₹38L - ₹1.40 Cr)
-• *Thane (16):* Ghodbunder Rd, Kolshet, Balkum, Majiwada, Pokhran 1 & 2, Panchpakhadi, Wagle Estate, Shilphata (₹64L - ₹3.5 Cr)
-• *Mumbai (30):* Western Suburbs (Borivali, Kandivali, Goregaon, Andheri, Malad, Dahisar, Mira Rd) & South/Central (Lower Parel, Byculla, Wadala, Powai, Kanjurmarg, Mulund, Chembur, Ghatkopar, Parel, Worli, Prabhadevi) (₹68L - ₹25 Cr)
-• *Navi Mumbai (18):* Panvel, Seawoods, Kharghar, Upper Kharghar, Ulwe, Taloja, Ghansoli, Nerul, Dronagiri, Vashi (₹32L - ₹3.8 Cr)
-• *Mira-Bhayandar (6):* Beverly Park, Mira Road East, Bhayandar West, Bhayandar East (₹58L - ₹1.35 Cr)
-• *Vasai-Virar (8):* Virar West, Naigaon East, Vasai West, Vasai East, Nalasopara West (₹26L - ₹1.25 Cr)
-• *Bhiwandi (6):* Kalyan-Bhiwandi Bypass, Kasheli, Kalher, Anjurphata, Temghar (₹19L - ₹48L)
-• *Boisar-Palghar (6):* Boisar MIDC, Palghar, Betegaon (Tata & Mahindra Townships) (₹14L - ₹35L)
-• *Karjat-Neral (6):* Neral, Vangani, Karjat Valley, Shelu (₹14L - ₹65L)
-• *Shahapur-Asangaon (6):* Shahapur Dam Belt, Asangaon Station, Vashind, Atgaon (₹13.5L - ₹52L)
-• *Alibaug-Coastal (5):* Mandwa Jetty, Awas, Nagaon Beach, Varsoli (HoABL & Hiranandani Villas) (₹65L - ₹4.5 Cr)
-• *Khopoli-Expressway (5):* Khopoli, Khalapur, Imagicaa Corridor (₹16L - ₹54L)
-
-🏢 *Office Consultation:* Shop No. 24, New Floora, Pale Gaon, Ambernath East (10 AM - 8:30 PM)
-📞 *Satnam Sir (Owner):* +91 84210 77613
-
-Aapko kaunse micro-market ya budget bracket mein options dekhne hain? Sia turant direct builder inventory aur brochure share kar degi!`,
-        suggestedActions: ["Kalyan Projects", "Thane Projects", "Dombivli Palava", "Ambernath Base"]
+        reply: `${greetingPrefix}🌊 *Navi Mumbai Corridor Overview:*
+• *Key Nodes:* Kharghar, Panvel, Ulwe, Taloja, Dronagiri.
+• *Rates:* ₹4,800 - ₹12,000 / sq.ft.
+• High appreciation due to upcoming Navi Mumbai International Airport.`,
+        suggestedActions: ["Kharghar Flats", "Panvel / Ulwe", "Ambernath Base"]
       };
     }
 
@@ -1528,16 +1169,24 @@ Aapko kaunse micro-market ya budget bracket mein options dekhne hain? Sia turant
       return {
         intent: "RESIDENTIAL_1BHK",
         language: lang,
-        reply: `${greetingPrefix}
-Arey waah! Pale Gaon aur Ambernath East mein 1 BHK dekh rahe hain? Bohot hi pyare aur verified options hain mere paas! 🌸
+        reply: `${greetingPrefix}📊 *Ambernath East & Pale Gaon — 1 BHK Verified Pricing & Inventory:*
 
-🏡 *Prime Locations:* Pale Gaon, Shiv Mandir Road aur Station se sirf 5-7 minute ki doori par.
-✨ *Ready Possession:* 24x7 KDMC paani, lift, balcony aur 100% clear legal title.
-💰 *Budget:* ₹21 Lakh se ₹28 Lakh (Rent: ₹5,000 - ₹8,500/month).
-🏦 *Easy Loan:* 90% tak SBI aur HDFC loan approval main khud karwa doongi!
+🏡 *Pale Gaon (Prime Growth Pocket - 7 mins to Station):*
+• *Carpet Area:* 430 sq.ft - 485 sq.ft
+• *Price Range:* ₹21 Lakh - ₹28 Lakh (All-inclusive budget)
+• *Rental Value:* ₹5,000 - ₹8,500/month
+• *Status:* Ready Possession with OC Received, 24x7 KDMC Water, Lift & Balcony, 100% Clear Title.
+• *Key Projects:* New Floora, Pale Heights, GBK Whispering Palms.
 
-Aap family ke saath shift ho rahe hain ya investment ke liye? Mujhe batayein na, taaki main sabse sundar flat ke photos aur details aapko bhej sakoon! 😊💖`,
-        suggestedActions: ["Under ₹25L", "₹25L - ₹35L", "📅 Book Visit"]
+🚉 *Station Road / Kansai Section:*
+• *Price Range:* ₹28 Lakh - ₹38 Lakh (Premium gated societies, reserved parking, power backup).
+
+🏦 *Financing Desk:*
+• Up to 90% Home Loan sanctioned via SBI, HDFC & Bank of Baroda @ 8.40% ROI (Monthly EMI approx ₹16,500 - ₹22,000).
+
+Aapka preference Ready-to-Move hai ya Under-Construction? Aur loan self-arranged hai ya hamari banking team se sanction karwana hai?
+📞 *VIP Site Visit Booking:* +91 84210 77613 (Satnam Sir)`,
+        suggestedActions: ["Pale Gaon 1BHK", "Station 1BHK", "📅 Book Visit", "Bank Loan Desk"]
       };
     }
 
@@ -1546,17 +1195,27 @@ Aap family ke saath shift ho rahe hain ya investment ke liye? Mujhe batayein na,
       return {
         intent: "RESIDENTIAL_2BHK_3BHK",
         language: lang,
-        reply: `${greetingPrefix}
-2 BHK ya 3 BHK spacious ghar dekh rahe hain? Sach mein family ke saath rehne ke liye bohot hi shandaar aur pyara decision hai! ❤️
+        reply: `${greetingPrefix}🏰 *Ambernath East & Pale Gaon — 2 BHK & 3 BHK Premium Inventory:*
 
-🏰 *Verified Options:*
-• *2 BHK (Pale Gaon):* ₹34 Lakh - ₹48 Lakh (Spacious carpet, master bedroom, quiet family environment)
-• *2 BHK (Station Road / Kansai):* ₹44 Lakh - ₹62 Lakh (Modern township, gym, garden, reserved parking)
-• *3 BHK Premium Flats:* ₹65 Lakh - ₹90 Lakh
+🏡 *Pale Gaon 2 BHK (Spacious Family Residences):*
+• *Carpet Area:* 620 sq.ft - 710 sq.ft
+• *Price Range:* ₹34 Lakh - ₹48 Lakh
+• *Rental Value:* ₹9,000 - ₹14,000/month
+• *Features:* Master bedroom with attached bath, 2 balconies, peaceful green surroundings, OC received.
 
-✅ 90% tak SBI/HDFC bank loan approval & OC received!
-Aap kis weekend par family ke saath sample flat dekhne aana chahenge? Main khud aapki visit arrange karwa doongi! 😊✨`,
-        suggestedActions: ["2 BHK Pale Gaon", "2 BHK Station", "📅 Book Visit"]
+🚉 *Station Road / Kansai 2 BHK (Gated Townships):*
+• *Price Range:* ₹45 Lakh - ₹65 Lakh (Clubhouse, gym, landscaped garden, podium covered parking, 3 mins to station).
+
+🌟 *3 BHK Luxury Apartments:*
+• *Price Range:* ₹68 Lakh - ₹95 Lakh (Expansive layout, premium fittings, high floor panoramic view).
+
+✅ *Legal & Banking Transparency:*
+• 100% Clear Title & CC/OC received.
+• Up to 90% home loan pre-approved with SBI, HDFC & ICICI Bank @ 8.40% interest.
+
+Sample flat layout inspection aur actual site verification ke liye kab plan karna chahenge?
+📞 *Schedule VIP Site Visit:* +91 84210 77613 (Satnam Sir)`,
+        suggestedActions: ["2 BHK Pale Gaon", "2 BHK Station", "3 BHK Luxury", "📅 Book Visit"]
       };
     }
 
@@ -1575,48 +1234,54 @@ Aap kis weekend par family ke saath sample flat dekhne aana chahenge? Main khud 
       return {
         intent: "MASTER_RATE_CARD",
         language: lang,
-        reply: `${greetingPrefix}📊 *Dashmesh Properties - Master Property Rate Card (Ambernath East):*
+        reply: `${greetingPrefix}📊 *Dashmesh Properties — Official Market Rate Card (Ambernath East & Micro-Markets):*
 
-🏠 *Residential Flats:*
+🏙️ *Prevailing Micro-Market Per Sq.Ft Rates:*
+• *Pale Gaon Corridor:* ₹3,800 - ₹4,400 / sq.ft (Highest ROI & rapid appreciation)
+• *Kansai & Station Road:* ₹4,800 - ₹6,500 / sq.ft (Prime commercial & residential hub)
+• *Morivali MIDC Zone:* ₹3,500 - ₹4,200 / sq.ft (Affordable rental & commercial hubs)
+
+🏠 *Residential Flat Budgets (Ready & Under-Construction):*
 • *1 RK Studio:* ₹12 Lakh - ₹16 Lakh
 • *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (Pale Gaon) | ₹28 Lakh - ₹38 Lakh (Station Road)
 • *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Pale Gaon) | ₹44 Lakh - ₹62 Lakh (Station Road)
-• *3 BHK Flat:* ₹65 Lakh - ₹90 Lakh
+• *3 BHK Premium:* ₹68 Lakh - ₹95 Lakh
 
-🔑 *Rental Properties:*
-• 1 BHK Rent: ₹5,000 - ₹8,500/month
-• 2 BHK Rent: ₹9,000 - ₹15,000/month
+🔑 *Rental Yields:*
+• 1 BHK: ₹5,000 - ₹8,500/month | 2 BHK: ₹9,000 - ₹15,000/month
 
 🏪 *Commercial Retail Shops:*
-• Rent: ₹6,000 - ₹35,000/month | Buy: ₹18 Lakh - ₹85 Lakh
+• Sale: ₹18 Lakh - ₹85 Lakh | Rent: ₹6,000 - ₹35,000/month
 
-📞 *Direct Consultation & Site Visit:* +91 84210 77613
+📋 *Section 55 Registered Rent Agreement:*
+• Flat ₹1,750 per side (₹3,500 all-inclusive package with Doorstep Biometric)
 
-Aapko specific kis area ya budget mein property chahiye?`,
-        suggestedActions: ["🏡 Flat Options", "Under ₹25L", "₹25L - ₹45L"]
+📞 *Direct Consultation & Site Visit:* +91 84210 77613 (Satnam Sir)
+Aapko kis specific budget ya locality mein options shortlist karun?`,
+        suggestedActions: ["1 BHK Under ₹25L", "2 BHK Under ₹45L", "📜 Rent Agreement", "📍 Office Map"]
       };
     }
 
-    // 16. DEFAULT INITIAL GREETING / FIRST CONTACT (Sia Warm Welcome)
+    // 16. DEFAULT INITIAL GREETING / FIRST CONTACT
     if (!isOngoing) {
       if (lang === "marathi") {
         return {
           intent: "GREETING",
           language: "marathi",
-          reply: `${greetingPrefix}
-*"Aapla Vishwas, Aamchi Baddhata — Finding Spaces, Building Relationships"*
+          reply: `${greetingPrefix}*"आपला विश्वास, आमची बांधिलकी — Finding Spaces, Building Relationships"*
 
-🏢 Karyalay: New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501
+🏢 *कार्यालय:* न्यू फ्लोरा, शॉप नं. २४, पाले गाव, अंबरनाथ (पूर्व) - ४२१ ५०१
+📍 पाले गाव बस स्टॉप जवळ (अंबरनाथ स्टेशनपासून ७ मिनिटे) | सर्व दिवस सकाळी १०:०० ते रात्री ८:३०
 
-Aamhi Ambernath East & Pale Gaon che verified real estate consultants aahot:
-1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹38L) | 2 BHK (₹34L - ₹62L)
-2️⃣ *Bhadya che Flats:* 1 BHK Rent (₹5,000 - ₹8,500/mahina)
-3️⃣ *Commercial Dukaan:* Rent & Buy (Prime Footfall)
-4️⃣ *Bank Loan Desk:* 90% SBI / HDFC Loan Approval
+आम्ही अंबरनाथ पूर्व व पाले गाव परिसरातील अधिकृत प्रॉपर्टी सल्लागार आहोत:
+1️⃣ *फ्लॅट विक्री (OC प्राप्त व क्लियर टायटल):* १ BHK (₹२१L - ₹२८L) | २ BHK (₹३४L - ₹६२L)
+2️⃣ *महाराष्ट्र शासन अधिकृत भाडेकरार (Sec 55):* घरपोच बायोमेट्रिक, एका बाजूने ₹१,७५० (एकूण ₹३,५०० सर्व समाविष्ट)
+3️⃣ *भाड्याने फ्लॅट्स:* १ BHK (₹५,००० - ₹८,५००) | २ BHK (₹९,००० - ₹१५,०००)
+4️⃣ *बँक कर्ज:* ९०% पर्यंत SBI / HDFC बँक कर्ज ८.४०% दराने
 
-📞 *Direct Call:* +91 84210 77613
-Aaplyala kashachi mahiti hawi aahe? Sia lagech verified options share karel!`,
-          suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Commercial", "Office Location"]
+आपल्याला कशाबद्दल माहिती हवी आहे? थेट माहिती देतो.
+📞 संपर्क: +91 84210 77613 (सतनाम सर)`,
+          suggestedActions: ["१ व २ BHK", "भाडेकरार", "भाड्याने फ्लॅट", "कार्यालय लोकेशन"]
         };
       }
 
@@ -1624,41 +1289,94 @@ Aaplyala kashachi mahiti hawi aahe? Sia lagech verified options share karel!`,
         return {
           intent: "GREETING",
           language: "english",
-          reply: `${greetingPrefix}
-Tell me, how can I help you find your perfect place today? 🌸
+          reply: `${greetingPrefix}*"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
 
-🏡 *Looking to Rent or Buy a Flat?*
-📜 *Or need a Legal Registered Rent Agreement with Doorstep Biometric?*
+🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
+📍 Near Pale Gaon Bus Stop (7 mins from Railway Station) | Open All 7 Days (10 AM - 8:30 PM)
 
-Just let me know your preferred area or budget, and I'll find the most beautiful, verified options for you! 😊✨`,
-          suggestedActions: ["1 BHK / 2 BHK", "Rental Homes", "Rent Agreement", "📍 Office Map"]
+We are verified real estate & legal documentation consultants in Ambernath East:
+1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹28L) | 2 BHK (₹34L - ₹62L) - 100% OC Received & Clear Title
+2️⃣ *Registered Rent Agreements (Sec 55):* Doorstep Biometric, ₹1,750 per side (₹3,500 all-inclusive), 24-48 hrs Index-2 delivery
+3️⃣ *Rental Homes:* 1 BHK (₹5,000 - ₹8,500/mo) | 2 BHK (₹9,000 - ₹15,000/mo)
+4️⃣ *Bank Home Loans:* Up to 90% loan sanction from SBI, HDFC & Bank of Baroda @ 8.40%
+
+How can I assist your property search today?
+📞 Direct: +91 84210 77613 (Satnam Sir)`,
+          suggestedActions: ["1 BHK / 2 BHK", "Rent Agreement", "Rental Homes", "📍 Office Map"]
         };
       }
 
       return {
         intent: "GREETING",
         language: "hinglish",
-        reply: `${greetingPrefix}
-Bataiye na, aaj main aapke liye kya help kar sakti hoon? 🌸
+        reply: `${greetingPrefix}*"Aapka Vishwas, Hamari Zimmedari — Finding Spaces, Building Relationships"*
 
-🏡 *Rent par Flat dekh rahe hain ya Buy karna hai?*
-📜 *Ya Legal Registered Rent Agreement banwana hai?*
+🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
+📍 Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station) | Open All 7 Days (10 AM - 8:30 PM)
 
-Aap mujhe apna budget ya area bata dijiye, main aapke liye sabse pyara aur verified option nikaal kar doongi! 😊✨`,
-        suggestedActions: ["1 BHK / 2 BHK", "Rental Flats", "Rent Agreement", "📍 Office Map"]
+Hum Ambernath East aur Pale Gaon ke verified direct builder & owner advisory desk hain:
+1️⃣ *Residential Flats (Ready Possession & Clear Title):*
+   • 1 BHK: ₹21 Lakh - ₹28 Lakh (Pale Gaon) | ₹28 Lakh - ₹38 Lakh (Station Road)
+   • 2 BHK: ₹34 Lakh - ₹48 Lakh (Pale Gaon) | ₹44 Lakh - ₹62 Lakh (Station Road)
+2️⃣ *Maharashtra Govt Registered Rent Agreement (Sec 55):*
+   • Flat ₹1,750 per side (₹3,500 all-inclusive package) with Doorstep Biometric & 24-48 hr Index-2
+3️⃣ *Rental Homes:* 1 BHK (₹5,000 - ₹8,500/mo) | 2 BHK (₹9,000 - ₹15,000/mo)
+4️⃣ *Commercial Retail Shops:* High footfall shops in Pale Gaon & Station Road
+5️⃣ *Bank Loan Desk:* Up to 90% loan sanction from SBI, HDFC & Bank of Baroda @ 8.40%
+
+Aapko kis property ya legal rent agreement ke baare mein jaankari chahiye? Direct verified options share karta hoon.
+📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
+        suggestedActions: ["1 BHK / 2 BHK", "📜 Rent Agreement", "Rental Flats", "📍 Office Map"]
       };
     }
 
-    // 17. ONGOING CHAT FALLBACK (Sweet, charming, emotional girl conversation)
+    // 17. ONGOING CHAT FALLBACK (Professional Real Estate Consultant)
+    if (lang === "marathi") {
+      return {
+        intent: "CONVERSATIONAL_FOLLOWUP",
+        language: "marathi",
+        reply: `हो नक्कीच! दशमेश प्रॉपर्टीजकडून मी आपल्या सेवेसाठी तत्पर आहे.
+
+आपल्याला अंबरनाथ पूर्व किंवा पाले गाव परिसरात:
+• १ व २ BHK रेडी पझेशन फ्लॅट खरेदी करायचा आहे,
+• भाड्याने फ्लॅट किंवा व्यावसायिक दुकान हवे आहे, किंवा
+• घरपोच बायोमेट्रिक भाडेकरार (Rent Agreement) करायचा आहे?
+
+आपली नेमकी गरज किंवा बजेट सांगा — थेट बिल्डर इन्व्हेंटरी आणि खात्रीशीर पर्याय लगेच देतो.
+📞 थेट संपर्क: +91 84210 77613 (सतनाम सर)`,
+        suggestedActions: ["१ व २ BHK फ्लॅट्स", "भाडेकरार", "📞 थेट संपर्क"]
+      };
+    }
+
+    if (lang === "english") {
+      return {
+        intent: "CONVERSATIONAL_FOLLOWUP",
+        language: "english",
+        reply: `Certainly! I am here to assist you with verified property options at Dashmesh Properties.
+
+Whether you are looking to:
+• Buy a Ready Possession 1 BHK / 2 BHK Flat in Pale Gaon / Ambernath East,
+• Rent a residential home or commercial retail shop, or
+• Execute a Legal Doorstep Biometric Rent Agreement (Index-2 in 24-48 hrs)
+
+Please share your budget or requirement, and I will share matching verified options right away.
+📞 Direct Advisory: +91 84210 77613 (Satnam Sir)`,
+        suggestedActions: ["1 BHK / 2 BHK", "Rent Agreement", "📞 Call Office"]
+      };
+    }
+
     return {
       intent: "CONVERSATIONAL_FOLLOWUP",
-      language: lang,
-      reply: `Haan ji, main yahin hoon aapke saath! 🌸
+      language: "hinglish",
+      reply: `Ji bilkul! Dashmesh Properties se main aapki property query mein poori madad kar sakta hoon.
 
-Aap bilkul bina kisi jhijhak ke batayein — aapko kis type ka flat ya rent agreement ki zaroorat hai? Main khud verify karke aapke budget mein sabse best deal arrange karwa doongi! 😊
+Aapko Ambernath East ya Pale Gaon mein:
+• Ready possession 1 BHK / 2 BHK flat dekhna hai,
+• Rental property ya commercial shop chahiye, ya
+• Doorstep Biometric Rent Agreement (Index-2 in 24-48 hrs) banwana hai?
 
-Aap direct call karna chahein toh Satnam Sir (+91 84210 77613) se bhi baat karwa sakti hoon. Bataiye na, kya dekhna pasand karenge? ✨`,
-      suggestedActions: ["🏡 Flat Options", "📜 Rent Agreement", "📞 Satnam Sir Call"]
+Apna budget ya preferred locality batayein — direct builder inventory aur verified options turant arrange kar dunga.
+📞 Direct Consultation: +91 84210 77613 (Satnam Sir)`,      suggestedActions: ["🏡 Flat Options", "📜 Rent Agreement", "📞 Satnam Sir Call"]
     };
   },
 
