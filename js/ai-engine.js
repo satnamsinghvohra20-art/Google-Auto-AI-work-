@@ -306,6 +306,7 @@ const AIEngine = {
 
     // 1. Owner Greetings, Identity & Personal Check (Satnam Sir / Boss)
     if (
+      /\b(hi+|hey+|helo+|hello+|salam|namaste|pranam|ram ram|radhe radhe)\b/i.test(text) ||
       text.includes("sat sri akal") || text.includes("satsriakal") || text.includes("kaise ho") || text.includes("kaisi ho") ||
       text.includes("ki haal") || text.includes("kaisa hai") || text.includes("namaste") || text.includes("hello") ||
       text.includes("hi sia") || text === "sia" || text.includes("good morning") || text.includes("good afternoon") ||
@@ -357,6 +358,15 @@ const AIEngine = {
         triggerAction: "PUBLISH_POST",
         reply: `${sal}✅ Command executed! Sia ne Google Maps par naya verified property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• Bank Loan Tie-ups: SBI, HDFC, Bank of Baroda\n• Lift, 24x7 Water, Clear Title CIDCO/RERA Approved\n• Contact: Satnam Singh Vohra (+91 84210 77613)\n\nLive on Google Business Profile!`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 Next Post"]
+      };
+    }
+
+    // 3b. MREA Millionaire Real Estate Growth Model
+    if (text.includes("mrea") || text.includes("millionaire") || text.includes("growth report") || text.includes("economic model")) {
+      return {
+        intent: "OWNER_MREA_REPORT",
+        reply: `${sal}👑 *Dashmesh Properties — MREA Millionaire Report:*\n\n📚 *Playbook:* Gary Keller MREA (Leads, Listings, Leverage)\n\n🎯 *The Three L's Status:*\n• *Leads:* Met & Haven't Met systematic touch cadence active\n• *Listings:* Verified Pale Gaon & MMR inventory with bank tie-ups\n• *Leverage:* 7th Level Automation (Sia 24/7 AI Suite + Meta Cloud API)\n\n🧮 *Economic Model:* GCI Target ₹2.4 Cr | Lead with Revenue (Green Light)\n📍 *Storefront Beacon:* 19.1881295° N, 73.1682152° E (Pale Gaon)\n\nSir, Gary Keller MREA growth engine background execution is 100% active!`,
+        suggestedActions: ["📊 Aaj Ki Leads", "📰 Naya Post Dalo", "⭐ Google Reviews"]
       };
     }
 

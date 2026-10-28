@@ -243,6 +243,7 @@ const whatsappConfig = {
 };
 
 let whatsappConversations = loadJSONFile('leads.json', []);
+const processedWhatsAppMessageIds = new Set();
 
 
 function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
@@ -1520,7 +1521,7 @@ const MREAEngine = {
     };
   },
 
-  async runMREAGrowthCycle() {
+  async runMREAGrowthCycle(options = {}) {
     // Run the full Master Loop to execute and chain all 7 agents
     const masterReport = await this.runMasterLoop();
     const telemetry = masterReport.telemetry;
@@ -1540,7 +1541,7 @@ const MREAEngine = {
       '📍 *Storefront Geo-Beacon:* 19.1881295° N, 73.1682152° E (Pale Gaon)\n\n' +
       'Satnam Sir, your business is executing the Millionaire Real Estate Agent playbook in real time.';
 
-    if (typeof sendMetaWhatsAppMessage === 'function' && process.env.META_ACCESS_TOKEN && process.env.WHATSAPP_PHONE_NUMBER_ID) {
+    if (options && options.notifyOwner && typeof sendMetaWhatsAppMessage === 'function' && process.env.META_ACCESS_TOKEN && process.env.WHATSAPP_PHONE_NUMBER_ID) {
       sendMetaWhatsAppMessage(ownerPhone, waMsg, {
         accessToken: process.env.META_ACCESS_TOKEN,
         phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID
@@ -1792,7 +1793,7 @@ const autoActions = [
     icon: '👑',
     execute: (cycleNum) => {
       if (cycleNum % 5 === 0) {
-        MREAEngine.runMREAGrowthCycle().catch(e => console.warn('[MREA Auto] Cycle err:', e.message));
+        MREAEngine.runMREAGrowthCycle({ notifyOwner: false }).catch(e => console.warn('[MREA Auto] Cycle err:', e.message));
         return `Gary Keller MREA Engine: Executing Three L's autonomous growth cycle & master database sync.`;
       }
       return `Gary Keller MREA Model: Monitoring Met (${MREAEngine.threeLs.leads.databaseModel.metDatabase.currentCount}) & Haven\'t Met (${MREAEngine.threeLs.leads.databaseModel.haventMetDatabase.currentCount}) database cadence.`;
@@ -3818,6 +3819,13 @@ const server = http.createServer((req, res) => {
         } else {
           console.log('[WhatsApp Webhook] Processing incoming message (META_APP_SECRET not configured, signature verification bypassed)');
         }
+
+        // Immediate 200 OK response to Meta so Meta never times out and never retries
+        if (!res.writableEnded) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ status: 'EVENT_RECEIVED' }));
+        }
+
         const payload = JSON.parse(rawBody.toString('utf8') || '{}');
         const entry = payload.entry && payload.entry[0];
         const changes = entry && entry.changes && entry.changes[0];
@@ -3826,6 +3834,21 @@ const server = http.createServer((req, res) => {
 
         if (messages && messages.length > 0) {
           const msg = messages[0];
+          const msgId = msg.id;
+
+          // Deduplication: prevent duplicate processing if Meta retries
+          if (msgId) {
+            if (processedWhatsAppMessageIds.has(msgId)) {
+              console.log(`[WhatsApp Webhook] Duplicate message ${msgId} ignored.`);
+              return;
+            }
+            processedWhatsAppMessageIds.add(msgId);
+            if (processedWhatsAppMessageIds.size > 1000) {
+              const oldest = processedWhatsAppMessageIds.values().next().value;
+              processedWhatsAppMessageIds.delete(oldest);
+            }
+          }
+
           const from = msg.from;
           let text = '';
           if (msg.type === 'text') {
@@ -3965,11 +3988,15 @@ const server = http.createServer((req, res) => {
           });
         }
 
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'EVENT_RECEIVED' }));
+        if (!res.writableEnded) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ status: 'EVENT_RECEIVED' }));
+        }
       } catch (e) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'ERROR_HANDLED' }));
+        if (!res.writableEnded) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ status: 'ERROR_HANDLED' }));
+        }
       }
     });
     return;
