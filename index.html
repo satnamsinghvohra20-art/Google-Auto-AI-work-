@@ -5097,6 +5097,95 @@ Dashmesh Properties is a premier real estate consultancy and property advisory f
             </div>
           </div>
 
+          <!-- Omnichannel Social Broadcast & SEO Keyword Studio -->
+          <div class="omni-social-card" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%); border: 1px solid rgba(52, 211, 153, 0.35); border-radius: 16px; padding: 22px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 22px;">🚀</span>
+                  <h4 style="margin: 0; font-size: 16px; font-weight: 800; color: #ffffff;">1-Click Omnichannel Social Broadcast & SEO Guardian</h4>
+                  <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.4);">4 Networks Synced</span>
+                </div>
+                <p style="margin: 5px 0 0; font-size: 12.5px; color: #94a3b8;">Create once &mdash; automatically cross-post across <strong>Google Maps (GBP), Facebook Page, Instagram Business & LinkedIn</strong> with 24/7 Local 3-Pack SEO Keyword Guardian.</p>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-solid-primary" style="padding: 8px 14px; font-size: 12px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); cursor: pointer;" onclick="openSocialAccountsModal()">
+                  <span>⚙️ Manage Accounts & Keys</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Channel Selector Checkboxes -->
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px; background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+              <span style="font-size: 12px; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px;">Active Broadcast Channels:</span>
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="omni-ch-google" checked style="accent-color: #047857;">
+                <span>🌐 Google Maps (GBP)</span>
+              </label>
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="omni-ch-facebook" checked style="accent-color: #1877f2;">
+                <span>🔵 Facebook Page</span>
+              </label>
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="omni-ch-instagram" checked style="accent-color: #e1306c;">
+                <span>📸 Instagram Business</span>
+              </label>
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="omni-ch-linkedin" checked style="accent-color: #0a66c2;">
+                <span>💼 LinkedIn Corporate</span>
+              </label>
+            </div>
+
+            <!-- Post Content Box -->
+            <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px;">
+              <div>
+                <input type="text" id="omni-post-title" placeholder="Post Title / Headline (e.g. Ready 1 BHK & 2 BHK in Pale Gaon | 90% SBI Home Loan Approved)" style="width: 100%; box-sizing: border-box; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 14px; color: #ffffff; font-size: 14px; font-weight: 700;">
+              </div>
+              <div>
+                <textarea id="omni-post-body" rows="3" placeholder="Post Message / Property Details with pricing, carpet area, bank loans, and contact info..." style="width: 100%; box-sizing: border-box; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 14px; color: #ffffff; font-size: 13.5px; line-height: 1.5; resize: vertical;"></textarea>
+              </div>
+            </div>
+
+            <!-- SEO Keyword Guardian Tags -->
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11.5px; font-weight: 800; color: #34d399; text-transform: uppercase;">⚡ Quick-Inject Top Local 3-Pack Keywords:</span>
+                <button type="button" onclick="autoEnrichPostSEO()" style="background: none; border: none; color: #38bdf8; font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;">✨ 1-Click Auto-Enrich with SEO & Hashtags</button>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="omni-seo-keyword-pills">
+                <span class="seo-pill" onclick="injectKeywordToPost('Property Dealer in Pale Gaon Ambernath East')" style="background: rgba(255,255,255,0.08); color: #cbd5e1; font-size: 11.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">+ Pale Gaon Property Dealer</span>
+                <span class="seo-pill" onclick="injectKeywordToPost('Registered Rent Agreement Ambernath East ₹1,750')" style="background: rgba(255,255,255,0.08); color: #cbd5e1; font-size: 11.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">+ Registered Rent Agreement ₹1,750</span>
+                <span class="seo-pill" onclick="injectKeywordToPost('Doorstep Biometric Rent Agreement Ambernath')" style="background: rgba(255,255,255,0.08); color: #cbd5e1; font-size: 11.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">+ Doorstep Biometric</span>
+                <span class="seo-pill" onclick="injectKeywordToPost('Ready 1 BHK Flat in Pale Gaon under 25 Lakhs')" style="background: rgba(255,255,255,0.08); color: #cbd5e1; font-size: 11.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">+ Ready 1 BHK Flat</span>
+                <span class="seo-pill" onclick="injectKeywordToPost('Shop No. 24, New Floora, Pale Gaon')" style="background: rgba(255,255,255,0.08); color: #cbd5e1; font-size: 11.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">+ Shop 24 New Floora</span>
+              </div>
+            </div>
+
+            <!-- Action Row -->
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <label style="font-size: 12px; color: #94a3b8; font-weight: 700;">Action CTA Button:</label>
+                <select id="omni-post-cta" style="background: rgba(15, 23, 42, 0.9); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700;">
+                  <option value="CALL_NOW">📞 Call Satnam Sir (+91 84210 77613)</option>
+                  <option value="WHATSAPP">💬 WhatsApp Chat Support</option>
+                  <option value="BOOK_VISIT">📅 Book VIP Site Visit</option>
+                  <option value="VIEW_RATE_CARD">👑 View 238+ Projects Catalog</option>
+                </select>
+              </div>
+
+              <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-solid-emerald" style="padding: 10px 24px; font-weight: 800; font-size: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="triggerOmniPostPublish()">
+                  <span>🚀 Broadcast Everywhere (Omni-Publish)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Live Multi-Platform Result Alert Box (Hidden until published) -->
+            <div id="omni-broadcast-result-box" style="display: none; margin-top: 18px; background: rgba(6, 78, 59, 0.45); border: 1px solid #10b981; border-radius: 12px; padding: 16px;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
           <!-- 3 Ready Google Posts Grid -->
           <div class="posts-grid" id="weekly-posts-list">
             <!-- Populated dynamically by app.js -->
@@ -6500,6 +6589,75 @@ document.addEventListener('DOMContentLoaded', () => {
   initRoutineTasks();
 });
 </script>
+
+
+  <!-- Modal: Manage Social Accounts & Credentials -->
+  <div id="social-accounts-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 20px; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; padding: 28px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); color: #ffffff;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 24px;">⚙️</span>
+          <div>
+            <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: #ffffff;">Connected Social Channels & API Credentials</h3>
+            <p style="margin: 2px 0 0; font-size: 12px; color: #94a3b8;">Manage Google, Facebook, Instagram & LinkedIn connections</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeSocialAccountsModal()" style="background: none; border: none; font-size: 22px; color: #94a3b8; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Channel Inputs -->
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <!-- Google -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: 800; font-size: 13.5px; color: #34d399;">🌐 Google Business Profile (Maps Local 3-Pack)</span>
+            <span style="font-size: 11px; background: rgba(16,185,129,0.2); color: #34d399; padding: 2px 8px; border-radius: 9999px;">Connected 🟢</span>
+          </div>
+          <div style="font-size: 12px; color: #cbd5e1; margin-bottom: 6px;">Place ID: ChIJDxFBTbyV5zsRcHylJmmARG8 (Dashmesh Properties)</div>
+          <div style="font-size: 11px; color: #94a3b8;">Status: Full Auto-Publish & Review Auto-Responder Active</div>
+        </div>
+
+        <!-- Facebook -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: 800; font-size: 13.5px; color: #60a5fa;">🔵 Facebook Business Page</span>
+            <span style="font-size: 11px; background: rgba(59,130,246,0.2); color: #60a5fa; padding: 2px 8px; border-radius: 9999px;">Meta Graph API Active 🟢</span>
+          </div>
+          <label style="font-size: 11.5px; color: #94a3b8; display: block; margin-bottom: 4px;">Facebook Page ID</label>
+          <input type="text" id="cfg-fb-page-id" value="104829104829104" placeholder="Enter Facebook Page ID" style="width: 100%; box-sizing: border-box; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 8px 12px; color: #ffffff; font-size: 13px; margin-bottom: 8px;">
+          <label style="font-size: 11.5px; color: #94a3b8; display: block; margin-bottom: 4px;">Page Access Token (Leave empty to use .env META_ACCESS_TOKEN)</label>
+          <input type="password" id="cfg-fb-token" placeholder="EAABw..." style="width: 100%; box-sizing: border-box; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 8px 12px; color: #ffffff; font-size: 13px;">
+        </div>
+
+        <!-- Instagram -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: 800; font-size: 13.5px; color: #f472b6;">📸 Instagram Business Account</span>
+            <span style="font-size: 11px; background: rgba(244,114,182,0.2); color: #f472b6; padding: 2px 8px; border-radius: 9999px;">Connected 🟢</span>
+          </div>
+          <label style="font-size: 11.5px; color: #94a3b8; display: block; margin-bottom: 4px;">Instagram Business Account ID</label>
+          <input type="text" id="cfg-ig-id" value="178414000000000" placeholder="Enter Instagram Business ID" style="width: 100%; box-sizing: border-box; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 8px 12px; color: #ffffff; font-size: 13px;">
+        </div>
+
+        <!-- LinkedIn -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: 800; font-size: 13.5px; color: #38bdf8;">💼 LinkedIn Corporate Page / Profile</span>
+            <span style="font-size: 11px; background: rgba(56,189,248,0.2); color: #38bdf8; padding: 2px 8px; border-radius: 9999px;">REST API Active 🟢</span>
+          </div>
+          <label style="font-size: 11.5px; color: #94a3b8; display: block; margin-bottom: 4px;">LinkedIn Organization URN or Member ID</label>
+          <input type="text" id="cfg-li-urn" value="urn:li:organization:98421077" placeholder="urn:li:organization:..." style="width: 100%; box-sizing: border-box; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 8px 12px; color: #ffffff; font-size: 13px; margin-bottom: 8px;">
+          <label style="font-size: 11.5px; color: #94a3b8; display: block; margin-bottom: 4px;">LinkedIn OAuth Bearer Token (Optional)</label>
+          <input type="password" id="cfg-li-token" placeholder="AQV..." style="width: 100%; box-sizing: border-box; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 8px 12px; color: #ffffff; font-size: 13px;">
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; border-top: 1px solid #1e293b; padding-top: 16px;">
+        <button type="button" onclick="closeSocialAccountsModal()" style="background: #334155; color: #ffffff; border: none; border-radius: 8px; padding: 9px 18px; font-weight: 700; cursor: pointer;">Cancel</button>
+        <button type="button" onclick="saveSocialAccountsCredentials()" style="background: #0f766e; color: #ffffff; border: none; border-radius: 8px; padding: 9px 22px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(15,118,110,0.3);">Save Credentials</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

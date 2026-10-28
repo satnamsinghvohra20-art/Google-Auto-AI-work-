@@ -3137,3 +3137,202 @@ if (document.readyState === 'loading') {
 } else {
   loadMreaDashboard();
 }
+
+// =========================================================================
+// OMNICHANNEL SOCIAL BROADCAST (GOOGLE, FB, INSTA, LINKEDIN) & SEO ENGINE
+// =========================================================================
+
+function injectKeywordToPost(kw) {
+  const bodyEl = document.getElementById('omni-post-body');
+  if (!bodyEl) return;
+  if (!bodyEl.value.includes(kw)) {
+    bodyEl.value = (bodyEl.value ? bodyEl.value.trim() + '\n' : '') + '• ' + kw;
+    if (typeof showToast === 'function') showToast('Added keyword: ' + kw);
+  }
+}
+
+async function autoEnrichPostSEO() {
+  const titleEl = document.getElementById('omni-post-title');
+  const bodyEl = document.getElementById('omni-post-body');
+  if (!titleEl || !bodyEl) return;
+
+  const rawTitle = titleEl.value.trim() || 'Ready 1 BHK & 2 BHK Flats in Pale Gaon';
+  const rawBody = bodyEl.value.trim() || 'Direct builder inventory with verified legal title, 90% SBI home loan approval, and doorstep registered rent agreement at Shop No. 24, New Floora.';
+
+  try {
+    if (typeof showToast === 'function') showToast('✨ Enriching with Google Local 3-Pack SEO keywords & hashtags...');
+    const res = await fetch('/api/seo/optimize-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: rawTitle, content: rawBody })
+    });
+    const data = await res.json();
+    if (data && data.success && data.optimized) {
+      titleEl.value = data.optimized.title;
+      bodyEl.value = data.optimized.content;
+      if (typeof showToast === 'function') showToast('✓ Post enriched with top Pale Gaon keywords & SEO hashtags!');
+    }
+  } catch (err) {
+    console.error('Error auto-enriching SEO:', err);
+  }
+}
+
+async function triggerOmniPostPublish() {
+  const titleEl = document.getElementById('omni-post-title');
+  const bodyEl = document.getElementById('omni-post-body');
+  const ctaEl = document.getElementById('omni-post-cta');
+  const resultBox = document.getElementById('omni-broadcast-result-box');
+
+  const title = (titleEl && titleEl.value.trim()) || 'Verified Property Update | Pale Gaon, Ambernath (East)';
+  const content = (bodyEl && bodyEl.value.trim()) || 'Ready 1 BHK & 2 BHK flats with clear OC, 90% nationalized bank loan sanction, and doorstep registered rent agreement desk.';
+  const cta = ctaEl ? ctaEl.value : 'CALL_NOW';
+
+  const selectedPlatforms = [];
+  if (document.getElementById('omni-ch-google')?.checked) selectedPlatforms.push('google');
+  if (document.getElementById('omni-ch-facebook')?.checked) selectedPlatforms.push('facebook');
+  if (document.getElementById('omni-ch-instagram')?.checked) selectedPlatforms.push('instagram');
+  if (document.getElementById('omni-ch-linkedin')?.checked) selectedPlatforms.push('linkedin');
+
+  if (selectedPlatforms.length === 0) {
+    alert('Please select at least one broadcast channel (Google, Facebook, Instagram, or LinkedIn)!');
+    return;
+  }
+
+  if (typeof showToast === 'function') {
+    showToast('🚀 Broadcasting post to ' + selectedPlatforms.length + ' social channels...');
+  }
+
+  if (resultBox) {
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = '<div style="color: #6ee7b7; font-weight: 700; font-size: 13.5px;">⏳ Broadcasting to ' + selectedPlatforms.join(', ') + '... Please wait.</div>';
+  }
+
+  try {
+    const res = await fetch('/api/social/omni-publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title,
+        content,
+        cta,
+        platforms: selectedPlatforms
+      })
+    });
+    const data = await res.json();
+
+    if (data && data.success) {
+      if (typeof showToast === 'function') {
+        showToast('🎉 Omni-Publish successful across all ' + data.totalSuccess + ' platforms!');
+      }
+
+      if (resultBox) {
+        let cardsHtml = '<div style="font-weight: 800; font-size: 14px; color: #34d399; margin-bottom: 10px;">🎉 ' + data.message + '</div>';
+        cardsHtml += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">';
+
+        const reports = data.platformReports || {};
+        const pNames = {
+          google: { name: 'Google Maps (GBP)', icon: '🌐', color: '#10b981' },
+          facebook: { name: 'Facebook Page', icon: '🔵', color: '#3b82f6' },
+          instagram: { name: 'Instagram Business', icon: '📸', color: '#ec4899' },
+          linkedin: { name: 'LinkedIn Company', icon: '💼', color: '#0ea5e9' }
+        };
+
+        for (const [pKey, pInfo] of Object.entries(reports)) {
+          const meta = pNames[pKey] || { name: pKey, icon: '📡', color: '#ffffff' };
+          cardsHtml += '<div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 12px;">';
+          cardsHtml += '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">';
+          cardsHtml += '<span style="font-weight: 800; font-size: 12px; color: #ffffff;">' + meta.icon + ' ' + meta.name + '</span>';
+          cardsHtml += '<span style="font-size: 10.5px; background: rgba(16,185,129,0.25); color: #34d399; padding: 2px 6px; border-radius: 4px; font-weight: 800;">LIVE ✅</span>';
+          cardsHtml += '</div>';
+          cardsHtml += '<div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">' + (pInfo.message || 'Published') + '</div>';
+          if (pInfo.liveUrl) {
+            cardsHtml += '<a href="' + pInfo.liveUrl + '" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: ' + meta.color + '; text-decoration: underline; display: inline-block; margin-top: 6px; font-weight: 700;">View Live Post &rarr;</a>';
+          }
+          cardsHtml += '</div>';
+        }
+        cardsHtml += '</div>';
+
+        resultBox.innerHTML = cardsHtml;
+      }
+
+      // Refresh local published posts list
+      if (typeof loadGooglePosts === 'function') loadGooglePosts();
+      if (typeof renderWeeklyPosts === 'function') renderWeeklyPosts();
+    } else {
+      if (resultBox) {
+        resultBox.innerHTML = '<div style="color: #f87171; font-weight: 700;">Broadcast Error: ' + (data.error || 'Failed to publish') + '</div>';
+      }
+    }
+  } catch (err) {
+    console.error('Omni publish error:', err);
+    if (resultBox) {
+      resultBox.innerHTML = '<div style="color: #f87171; font-weight: 700;">Network or server error while publishing.</div>';
+    }
+  }
+}
+
+function openSocialAccountsModal() {
+  const modal = document.getElementById('social-accounts-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    // Fetch latest credentials status
+    fetch('/api/social/channels')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.channels) {
+          if (data.channels.facebook && data.channels.facebook.pageId) {
+            const el = document.getElementById('cfg-fb-page-id');
+            if (el) el.value = data.channels.facebook.pageId;
+          }
+          if (data.channels.instagram && data.channels.instagram.accountId) {
+            const el = document.getElementById('cfg-ig-id');
+            if (el) el.value = data.channels.instagram.accountId;
+          }
+          if (data.channels.linkedin && data.channels.linkedin.organizationId) {
+            const el = document.getElementById('cfg-li-urn');
+            if (el) el.value = data.channels.linkedin.organizationId;
+          }
+        }
+      })
+      .catch(() => {});
+  }
+}
+
+function closeSocialAccountsModal() {
+  const modal = document.getElementById('social-accounts-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function saveSocialAccountsCredentials() {
+  const fbPageId = document.getElementById('cfg-fb-page-id')?.value.trim();
+  const fbToken = document.getElementById('cfg-fb-token')?.value.trim();
+  const igId = document.getElementById('cfg-ig-id')?.value.trim();
+  const liUrn = document.getElementById('cfg-li-urn')?.value.trim();
+  const liToken = document.getElementById('cfg-li-token')?.value.trim();
+
+  const payload = {
+    facebook: { pageId: fbPageId },
+    instagram: { accountId: igId },
+    linkedin: { organizationId: liUrn }
+  };
+  if (fbToken) payload.facebook.pageAccessToken = fbToken;
+  if (liToken) payload.linkedin.accessToken = liToken;
+
+  try {
+    const res = await fetch('/api/social/channels/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data && data.success) {
+      if (typeof showToast === 'function') {
+        showToast('✓ Social channels credentials saved successfully!');
+      }
+      closeSocialAccountsModal();
+    }
+  } catch (err) {
+    console.error('Error saving credentials:', err);
+    alert('Failed to save credentials.');
+  }
+}

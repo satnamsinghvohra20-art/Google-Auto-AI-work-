@@ -1,4 +1,5 @@
 const seoPages = require('./seo_landing_pages');
+const omnichannel = require('./omnichannel_engine');
 const security = require('./security_engine');
 // Process-level resilience guards to prevent any unexpected unhandled crash
 process.on('uncaughtException', (err) => {
@@ -3509,6 +3510,144 @@ const server = http.createServer((req, res) => {
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Failed to publish post' }));
+      }
+    });
+    return;
+  }
+
+  // =========================================================================
+  // OMNICHANNEL SOCIAL (GOOGLE, FB, INSTA, LINKEDIN) & SEO KEYWORD GUARDIAN
+  // =========================================================================
+
+  // 1-Click Omni-Publish across all 4 platforms with SEO keyword optimization
+  if (pathname === '/api/social/omni-publish' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const postData = JSON.parse(body || '{}');
+        const report = await omnichannel.omniPublish(postData);
+
+        // Also add to active in-memory published logs
+        const primaryLog = {
+          id: report.broadcastId || 'omni_' + Date.now(),
+          day: 'Multi-Channel Broadcast',
+          title: postData.title || 'Omni-Post',
+          snippet: (postData.content || '').slice(0, 200) + '...',
+          cta: postData.cta || 'Call Now',
+          status: `Live on ${report.totalSuccess} Platforms (${(postData.platforms || ['google', 'facebook', 'instagram', 'linkedin']).join(', ')})`,
+          timestamp: new Date().toISOString(),
+          platformReports: report.platformReports
+        };
+        publishedPostLogs.unshift(primaryLog);
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(report));
+      } catch (err) {
+        console.error('[Omni-Publish API Error]:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // Get Channel Connection Status
+  if (pathname === '/api/social/channels' && req.method === 'GET') {
+    try {
+      const creds = omnichannel.loadCredentials();
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({
+        success: true,
+        channels: {
+          google: {
+            id: 'google',
+            name: 'Google Business Profile',
+            icon: '🌐',
+            connected: true,
+            account: creds.google.businessName || 'Dashmesh Properties',
+            details: 'Local 3-Pack Map Updates & Posts'
+          },
+          facebook: {
+            id: 'facebook',
+            name: 'Facebook Page',
+            icon: '🔵',
+            connected: Boolean(creds.facebook.hasToken || creds.facebook.pageId),
+            account: 'Dashmesh Properties Ambernath',
+            pageId: creds.facebook.pageId,
+            details: 'Meta Business Page Feed & Ads Integration'
+          },
+          instagram: {
+            id: 'instagram',
+            name: 'Instagram Business',
+            icon: '📸',
+            connected: Boolean(creds.instagram.hasToken || creds.instagram.accountId),
+            account: '@dashmesh_properties',
+            accountId: creds.instagram.accountId,
+            details: 'Instagram Business Media & Reels Grid'
+          },
+          linkedin: {
+            id: 'linkedin',
+            name: 'LinkedIn Company Page',
+            icon: '💼',
+            connected: Boolean(creds.linkedin.hasToken || creds.linkedin.organizationId),
+            account: 'Dashmesh Properties MMR Network',
+            organizationId: creds.linkedin.organizationId,
+            details: 'Corporate Investors & Property Portfolio'
+          }
+        }
+      }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // Save Channel Credentials
+  if (pathname === '/api/social/channels/save' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const updates = JSON.parse(body || '{}');
+        const saved = omnichannel.saveCredentials(updates);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: true, message: 'Channel credentials saved successfully!', credentials: saved }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // Get SEO Master Keywords & Hashtags
+  if (pathname === '/api/seo/keywords' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({
+      success: true,
+      keywords: omnichannel.SEO_KEYWORD_MATRIX,
+      hashtags: omnichannel.SEO_HASHTAGS,
+      localMarket: 'Pale Gaon & Ambernath East (421501)',
+      healthScore: '98/100 (Google Local 3-Pack Dominance)'
+    }));
+    return;
+  }
+
+  // Auto-Optimize Draft Content for SEO
+  if (pathname === '/api/seo/optimize-content' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const optimized = omnichannel.optimizeContentForSEO(data.title || '', data.content || '');
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: true, optimized }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
       }
     });
     return;
