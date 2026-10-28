@@ -3398,9 +3398,211 @@ function shareMreaTerminalWhatsApp() {
   window.open(url, '_blank');
 }
 
+// Direct WhatsApp Dispatch for any MREA Agent
+async function sendAgentDirectWhatsApp(agentId, actionId) {
+  playAudioChime();
+  if (typeof showToast === 'function') {
+    showToast('📱 Preparing WhatsApp dispatch for ' + agentId.toUpperCase() + '...');
+  }
+  try {
+    const res = await fetch('/api/mrea/execute-agent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agentId, actionId })
+    });
+    const data = await res.json();
+    if (data.success && data.result) {
+      const r = data.result;
+      const waText = r.whatsappMessage || r.summary || (r.title + '\n\n' + (r.details ? r.details.join('\n') : ''));
+      const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(waText);
+      window.open(url, '_blank');
+      if (typeof showToast === 'function') {
+        showToast('✓ Dispatched to WhatsApp successfully!');
+      }
+    } else {
+      throw new Error(data.error || 'Execution failed');
+    }
+  } catch (err) {
+    console.error('Error in sendAgentDirectWhatsApp:', err);
+    if (typeof showToast === 'function') {
+      showToast('⚠️ WhatsApp dispatch error: ' + err.message);
+    }
+  }
+}
+
+// 1-Click Bridge from MREA Market Radar to 4-Channel Social Broadcaster
+function sendMreaToOmniBroadcast(customContent, customTitle) {
+  playAudioChime();
+  const title = customTitle || 'Title-Verified Ready 1 BHK & 2 BHK in Pale Gaon | 90% SBI Loan Approved';
+  const content = customContent || currentMreaTerminalText || 'Direct builder inventory in Pale Gaon, Ambernath (East). Clear title, 90% nationalized bank loan approval, and doorstep registered rent agreement (Section 55) at Shop No. 24, New Floora.\n\nCall Satnam Sir: +91 84210 77613';
+
+  // Navigate to Autopilot tab where broadcaster is located
+  const tabAutopilot = document.querySelector('[data-tab="tab-autopilot"]');
+  if (tabAutopilot && typeof tabAutopilot.click === 'function') {
+    tabAutopilot.click();
+  } else if (typeof switchTab === 'function') {
+    switchTab('tab-autopilot');
+  }
+
+  // Populate title & body
+  const titleEl = document.getElementById('omni-post-title');
+  const bodyEl = document.getElementById('omni-post-body');
+  if (titleEl) titleEl.value = title;
+  if (bodyEl) bodyEl.value = content;
+
+  // Ensure all 4 channels are selected
+  ['omni-ch-google', 'omni-ch-facebook', 'omni-ch-instagram', 'omni-ch-linkedin'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = true;
+  });
+
+  // Scroll to broadcaster card
+  const broadCard = document.getElementById('omnichannel-broadcast-suite');
+  if (broadCard) {
+    broadCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    broadCard.style.outline = '3px solid #10b981';
+    broadCard.style.boxShadow = '0 0 30px rgba(16, 185, 129, 0.6)';
+    setTimeout(() => {
+      broadCard.style.outline = 'none';
+      broadCard.style.boxShadow = '0 10px 30px rgba(0,0,0,0.35)';
+    }, 2500);
+  }
+
+  if (typeof showToast === 'function') {
+    showToast('🚀 MREA content loaded into 4-Channel Broadcaster! Click "Publish" or "Auto-Enrich SEO".');
+  }
+}
+
+// Interactive Gary Keller MREA Financial & Lead Generation Calculator
+let currentMreaPlanText = '';
+
+function calculateMreaFinancials() {
+  const netInput = document.getElementById('mrea-calc-net-target');
+  const priceInput = document.getElementById('mrea-calc-avg-price');
+  const commInput = document.getElementById('mrea-calc-comm-rate');
+  const splitInput = document.getElementById('mrea-calc-listing-split');
+
+  if (!netInput || !priceInput || !commInput) return;
+
+  const netTarget = parseFloat(netInput.value) || 10000000;
+  const avgPrice = parseFloat(priceInput.value) || 3500000;
+  const commRate = parseFloat(commInput.value) || 2.0;
+  const listingSplit = splitInput ? (parseFloat(splitInput.value) || 50) : 50;
+
+  // Gary Keller MREA Ratio: 41.6% Net Profit, 29.2% Cost of Sales, 29.2% OpEx
+  const gciNeeded = Math.round(netTarget / 0.41666667);
+  const cosBudget = Math.round(gciNeeded * 0.29166667);
+  const opexBudget = Math.round(gciNeeded * 0.29166667);
+
+  // Big Two OpEx breakdown (Salaries 12% of GCI, Lead Gen 9.2% of GCI)
+  const salariesBudget = Math.round(gciNeeded * 0.12);
+  const leadGenBudget = Math.round(gciNeeded * 0.092);
+
+  // Sales Volume & Units
+  const avgCommissionPerSide = Math.round(avgPrice * (commRate / 100));
+  const totalVolumeNeeded = Math.round(gciNeeded / (commRate / 100));
+  const totalUnitsNeeded = Math.round(gciNeeded / avgCommissionPerSide);
+
+  const sellerUnits = Math.round(totalUnitsNeeded * (listingSplit / 100));
+  const buyerUnits = totalUnitsNeeded - sellerUnits;
+
+  // Conversion Benchmarks (Figure 34): 65% Listings Taken to Sold; 80% Appointments to Listings Taken
+  const listingsTakenNeeded = Math.round(sellerUnits / 0.65);
+  const listingApptsNeeded = Math.round(listingsTakenNeeded / 0.80);
+
+  // Monthly breakdown
+  const monthlyUnits = (totalUnitsNeeded / 12).toFixed(1);
+  const monthlyListings = (listingsTakenNeeded / 12).toFixed(1);
+  const monthlyAppts = (listingApptsNeeded / 12).toFixed(1);
+
+  // Database size needed (MREA Database Model: 12:2 Met ratio; 50:1 Haven't Met ratio)
+  const metDbNeeded = Math.round(totalUnitsNeeded * 6);
+  const haventMetDbNeeded = Math.round(totalUnitsNeeded * 50);
+
+  const setEl = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  const fmtCurrency = (n) => {
+    if (n >= 10000000) return '₹' + (n / 10000000).toFixed(2) + ' Cr';
+    if (n >= 100000) return '₹' + (n / 100000).toFixed(2) + ' Lakhs';
+    return '₹' + n.toLocaleString('en-IN');
+  };
+
+  setEl('mrea-out-net-target', fmtCurrency(netTarget));
+  setEl('mrea-out-gci', fmtCurrency(gciNeeded));
+  setEl('mrea-out-cos', fmtCurrency(cosBudget));
+  setEl('mrea-out-opex', fmtCurrency(opexBudget));
+  setEl('mrea-out-salaries', fmtCurrency(salariesBudget));
+  setEl('mrea-out-leadgen', fmtCurrency(leadGenBudget));
+
+  setEl('mrea-out-volume', fmtCurrency(totalVolumeNeeded));
+  setEl('mrea-out-units-annual', totalUnitsNeeded + ' Units / Year');
+  setEl('mrea-out-units-monthly', monthlyUnits + ' Units / Month');
+  setEl('mrea-out-seller-units', sellerUnits + ' Sellers');
+  setEl('mrea-out-buyer-units', buyerUnits + ' Buyers');
+
+  setEl('mrea-out-listings-taken', listingsTakenNeeded + ' Taken (' + monthlyListings + '/mo)');
+  setEl('mrea-out-appts-needed', listingApptsNeeded + ' Appts (' + monthlyAppts + '/mo)');
+
+  setEl('mrea-out-mets-needed', metDbNeeded.toLocaleString('en-IN') + ' Mets');
+  setEl('mrea-out-havent-mets-needed', haventMetDbNeeded.toLocaleString('en-IN') + ' Households');
+
+  currentMreaPlanText = '👑 *GARY KELLER MREA CUSTOM GROWTH PLAN — DASHMESH PROPERTIES*\n\n' +
+    '🎯 *Target Net Personal Income:* ' + fmtCurrency(netTarget) + '\n' +
+    '📈 *Required GCI (100%):* ' + fmtCurrency(gciNeeded) + '\n' +
+    '💼 *Cost of Sales Budget (29.2%):* ' + fmtCurrency(cosBudget) + '\n' +
+    '⚙️ *Operating Expenses Budget (29.2%):* ' + fmtCurrency(opexBudget) + '\n' +
+    '   • Salaries (12%): ' + fmtCurrency(salariesBudget) + '\n' +
+    '   • Lead Generation (9.2%): ' + fmtCurrency(leadGenBudget) + '\n' +
+    '💵 *Net Owner Profit Margin:* 41.6%\n\n' +
+    '🏡 *SALES PRODUCTION NUMBERS:*\n' +
+    '• Total Annual Closed Units: ' + totalUnitsNeeded + ' (' + monthlyUnits + ' deals/month)\n' +
+    '• Seller Listings to Take: ' + listingsTakenNeeded + ' (' + monthlyListings + '/month @ 65% conversion)\n' +
+    '• Listing Appointments Needed: ' + listingApptsNeeded + ' (' + monthlyAppts + '/month @ 80% conversion)\n' +
+    '• Total Closed Sales Volume: ' + fmtCurrency(totalVolumeNeeded) + ' (@ avg ₹' + (avgPrice/100000).toFixed(1) + 'L / 2% brokerage)\n\n' +
+    '👥 *DATABASE TARGETS:*\n' +
+    '• Met Database Size (12:2 Ratio): ' + metDbNeeded.toLocaleString('en-IN') + ' Contacts\n' +
+    '• Haven\'t Met Farming Base (50:1 Ratio): ' + haventMetDbNeeded.toLocaleString('en-IN') + ' Households in Pale Gaon / Ambernath E\n\n' +
+    'Principal Broker: Satnam Singh Vohra (+91 84210 77613)\n' +
+    'Dashmesh Properties, Shop 24, New Floora, Pale Gaon, Ambernath East';
+}
+
+function setMreaCalcPreset(netTarget, avgPrice) {
+  const netInput = document.getElementById('mrea-calc-net-target');
+  const priceInput = document.getElementById('mrea-calc-avg-price');
+  if (netInput) netInput.value = netTarget;
+  if (priceInput) priceInput.value = avgPrice;
+  calculateMreaFinancials();
+  playAudioChime();
+  if (typeof showToast === 'function') {
+    const netFormatted = (netTarget >= 10000000) ? (netTarget/10000000) + ' Crore' : (netTarget/100000) + ' Lakhs';
+    showToast('✓ Applied MREA Target: ₹' + netFormatted + ' Net Profit!');
+  }
+}
+
+function copyMreaCustomPlan() {
+  if (!currentMreaPlanText) calculateMreaFinancials();
+  if (typeof copyTextToClipboard === 'function') {
+    copyTextToClipboard(currentMreaPlanText, '✓ Custom MREA Plan Copied to Clipboard!');
+  } else {
+    navigator.clipboard.writeText(currentMreaPlanText).then(() => {
+      if (typeof showToast === 'function') showToast('✓ Custom MREA Plan Copied to Clipboard!');
+    });
+  }
+}
+
+function sendMreaPlanToWhatsApp() {
+  if (!currentMreaPlanText) calculateMreaFinancials();
+  const url = 'https://api.whatsapp.com/send?phone=918421077613&text=' + encodeURIComponent(currentMreaPlanText);
+  window.open(url, '_blank');
+}
+
 // Automatically sync MREA team when app starts
 document.addEventListener('DOMContentLoaded', () => {
   loadMreaTeam(false);
+  calculateMreaFinancials();
 });
 
 // =========================================================================

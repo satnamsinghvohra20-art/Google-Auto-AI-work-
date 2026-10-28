@@ -28,8 +28,8 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -184,6 +184,192 @@
       },
       {
         "date": "2026-10-28T11:46:09.038Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.313Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -220,8 +406,8 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -376,396 +562,198 @@
       },
       {
         "date": "2026-10-28T11:46:09.038Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.313Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
       }
     ],
     "followUpSent": true
-  },
-  {
-    "phone": "+919876543211",
-    "name": "Test User",
-    "status": "New Inquiry",
-    "lastUpdated": "2026-10-20T12:43:24.766Z",
-    "messages": [
-      {
-        "id": "msg_in_1792435370115",
-        "sender": "client",
-        "text": "hi mujhe 2 bhk flat chahiye ambernath mein",
-        "timestamp": "2026-10-19T18:42:50.115Z"
-      },
-      {
-        "id": "msg_out_1792435370115",
-        "sender": "bot",
-        "text": "Arey hello Test User ji! ✨ Main *Sia* hoon... Aaiye aapki property search ekdum aasan aur pyari bana dete hain! \n2 BHK ya 3 BHK spacious ghar dekh rahe hain? Sach mein family ke saath rehne ke liye bohot hi shandaar aur pyara decision hai! ❤️\n\n🏰 *Verified Options:*\n• *2 BHK (Pale Gaon):* ₹34 Lakh - ₹48 Lakh (Spacious carpet, master bedroom, quiet family environment)\n• *2 BHK (Station Road / Kansai):* ₹44 Lakh - ₹62 Lakh (Modern township, gym, garden, reserved parking)\n• *3 BHK Premium Flats:* ₹65 Lakh - ₹90 Lakh\n\n✅ 90% tak SBI/HDFC bank loan approval & OC received!\nAap kis weekend par family ke saath sample flat dekhne aana chahenge? Main khud aapki visit arrange karwa doongi! 😊✨",
-        "intent": "RESIDENTIAL_2BHK_3BHK",
-        "timestamp": "2026-10-19T18:42:50.115Z"
-      },
-      {
-        "id": "msg_followup_1792500204766",
-        "sender": "bot",
-        "text": "Namaste Test User ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
-        "intent": "FOLLOWUP_DRIP",
-        "timestamp": "2026-10-20T12:43:24.766Z"
-      }
-    ],
-    "lastIntent": "RESIDENTIAL_2BHK_3BHK",
-    "language": "hinglish",
-    "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
-    "currentTouchStage": "8x8 Program (Week 8)",
-    "touchHistory": [
-      {
-        "date": "2026-10-25T10:47:30.479Z",
-        "type": "8x8_ONBOARDING",
-        "week": 1,
-        "description": "Automated MREA Touch #1 executed"
-      },
-      {
-        "date": "2026-10-25T10:47:30.537Z",
-        "type": "8x8_ONBOARDING",
-        "week": 2,
-        "description": "Automated MREA Touch #2 executed"
-      },
-      {
-        "date": "2026-10-25T10:50:25.320Z",
-        "type": "8x8_ONBOARDING",
-        "week": 3,
-        "description": "Automated MREA Touch #3 executed"
-      },
-      {
-        "date": "2026-10-25T10:53:55.616Z",
-        "type": "8x8_ONBOARDING",
-        "week": 4,
-        "description": "Automated MREA Touch #4 executed"
-      },
-      {
-        "date": "2026-10-25T10:57:25.900Z",
-        "type": "8x8_ONBOARDING",
-        "week": 5,
-        "description": "Automated MREA Touch #5 executed"
-      },
-      {
-        "date": "2026-10-25T11:00:56.133Z",
-        "type": "8x8_ONBOARDING",
-        "week": 6,
-        "description": "Automated MREA Touch #6 executed"
-      },
-      {
-        "date": "2026-10-26T15:37:35.172Z",
-        "type": "8x8_ONBOARDING",
-        "week": 7,
-        "description": "Automated MREA Touch #7 executed"
-      },
-      {
-        "date": "2026-10-26T15:41:05.462Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-26T15:44:35.751Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-26T15:48:06.054Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T10:50:17.246Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T10:53:48.374Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T10:57:18.861Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:00:49.161Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:04:19.559Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:07:49.882Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:11:20.624Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:14:50.935Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:18:21.232Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:21:51.709Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:25:21.928Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:28:52.214Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:32:22.475Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:39:08.583Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:42:38.816Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:46:09.038Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      }
-    ]
-  },
-  {
-    "phone": "+919876543210",
-    "name": "Pooja",
-    "status": "New Inquiry",
-    "lastUpdated": "2026-10-09T14:50:34.798Z",
-    "messages": [
-      {
-        "id": "msg_in_1791492608838",
-        "sender": "client",
-        "text": "",
-        "timestamp": "2026-10-08T20:50:08.838Z"
-      },
-      {
-        "id": "msg_out_1791492608838",
-        "sender": "bot",
-        "text": "Welcome Pooja ji! 💖 Main *Sia* hoon — aapki personal property guide. Bohot khushi hui aapse connect karke! \nBataiye na, aaj main aapke liye kya help kar sakti hoon? 🌸\n\n🏡 *Rent par Flat dekh rahe hain ya Buy karna hai?*\n📜 *Ya Legal Registered Rent Agreement banwana hai?*\n\nAap mujhe apna budget ya area bata dijiye, main aapke liye sabse pyara aur verified option nikaal kar doongi! 😊✨",
-        "intent": "GREETING",
-        "timestamp": "2026-10-08T20:50:08.838Z"
-      },
-      {
-        "id": "msg_followup_1791557434798",
-        "sender": "bot",
-        "text": "Namaste Pooja ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
-        "intent": "FOLLOWUP_DRIP",
-        "timestamp": "2026-10-09T14:50:34.798Z"
-      }
-    ],
-    "lastIntent": "GREETING",
-    "language": "hinglish",
-    "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
-    "currentTouchStage": "8x8 Program (Week 8)",
-    "touchHistory": [
-      {
-        "date": "2026-10-25T10:47:30.479Z",
-        "type": "8x8_ONBOARDING",
-        "week": 1,
-        "description": "Automated MREA Touch #1 executed"
-      },
-      {
-        "date": "2026-10-25T10:47:30.537Z",
-        "type": "8x8_ONBOARDING",
-        "week": 2,
-        "description": "Automated MREA Touch #2 executed"
-      },
-      {
-        "date": "2026-10-25T10:50:25.320Z",
-        "type": "8x8_ONBOARDING",
-        "week": 3,
-        "description": "Automated MREA Touch #3 executed"
-      },
-      {
-        "date": "2026-10-25T10:53:55.616Z",
-        "type": "8x8_ONBOARDING",
-        "week": 4,
-        "description": "Automated MREA Touch #4 executed"
-      },
-      {
-        "date": "2026-10-25T10:57:25.900Z",
-        "type": "8x8_ONBOARDING",
-        "week": 5,
-        "description": "Automated MREA Touch #5 executed"
-      },
-      {
-        "date": "2026-10-25T11:00:56.133Z",
-        "type": "8x8_ONBOARDING",
-        "week": 6,
-        "description": "Automated MREA Touch #6 executed"
-      },
-      {
-        "date": "2026-10-26T15:37:35.172Z",
-        "type": "8x8_ONBOARDING",
-        "week": 7,
-        "description": "Automated MREA Touch #7 executed"
-      },
-      {
-        "date": "2026-10-26T15:41:05.462Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-26T15:44:35.751Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-26T15:48:06.054Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T10:50:17.246Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T10:53:48.374Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T10:57:18.861Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:00:49.161Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:04:19.559Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:07:49.883Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:11:20.624Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:14:50.935Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:18:21.232Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:21:51.709Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:25:21.928Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:28:52.214Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:32:22.475Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:39:08.583Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:42:38.816Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      },
-      {
-        "date": "2026-10-28T11:46:09.038Z",
-        "type": "8x8_ONBOARDING",
-        "week": 8,
-        "description": "Automated MREA Touch #8 executed"
-      }
-    ]
   },
   {
     "phone": "+918421222813",
@@ -836,8 +824,8 @@
     "lastIntent": "MASTER_RATE_CARD",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -995,6 +983,192 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.314Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -1028,8 +1202,8 @@
     "lastIntent": "GREETING",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -1184,6 +1358,192 @@
       },
       {
         "date": "2026-10-28T11:46:09.038Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.314Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -1233,8 +1593,8 @@
     "lastIntent": "CONVERSATIONAL_FOLLOWUP",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -1389,6 +1749,192 @@
       },
       {
         "date": "2026-10-28T11:46:09.038Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.314Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -1976,8 +2522,8 @@
         "timestamp": "2026-10-23T18:11:12.363Z"
       }
     ],
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2132,6 +2678,192 @@
       },
       {
         "date": "2026-10-28T11:46:09.038Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.314Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -2168,8 +2900,8 @@
       }
     ],
     "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2327,6 +3059,192 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.314Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -2360,8 +3278,8 @@
       }
     ],
     "followUpSent": true,
-    "touchCount": 26,
-    "lastTouchDate": "2026-10-28T11:46:09.038Z",
+    "touchCount": 57,
+    "lastTouchDate": "2026-10-28T17:24:02.983Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2516,6 +3434,192 @@
       },
       {
         "date": "2026-10-28T11:46:09.038Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:36:20.325Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:39:50.751Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:43:21.294Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:46:51.556Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:50:22.327Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:53:58.402Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T15:58:22.076Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:01:55.078Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:05:30.807Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:09:25.079Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:13:42.934Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:17:26.800Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:20:57.246Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:24:28.011Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:27:58.359Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:31:28.608Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:34:58.932Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:38:29.243Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:41:59.561Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:45:29.776Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:49:00.046Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:52:30.314Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:56:00.569Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T16:59:30.879Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:03:01.148Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:06:31.420Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:10:01.713Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:13:32.047Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:17:02.354Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:20:32.678Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-28T17:24:02.983Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"

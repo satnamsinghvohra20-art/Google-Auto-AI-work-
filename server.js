@@ -1005,6 +1005,11 @@ const MREAEngine = {
           '• **₹' + m.loanLakhs + ' Loan (25 Yrs @ 8.4%):** EMI = ₹' + m.emi.toLocaleString('en-IN') + '/mo | Min. Required Salary = ₹' + m.minSalary.toLocaleString('en-IN') + '/mo | Down Payment (10%) = ₹' + m.downPayment.toLocaleString('en-IN')
         );
         result.details.push('• **Approved Lending Partners:** State Bank of India (Ambernath East Branch), HDFC Bank, Bank of Baroda.');
+        result.whatsappMessage = '🧮 *90% HOME LOAN EMI MATRIX — DASHMESH PROPERTIES*\n\n' +
+          matrix.map(m => '• ₹' + m.loanLakhs + ' Loan: EMI ₹' + m.emi.toLocaleString('en-IN') + '/mo (Min Salary ₹' + m.minSalary.toLocaleString('en-IN') + ')').join('\n') +
+          '\n\n🏦 *Nationalized Bank Approval:* SBI, HDFC & BOB @ 8.40%\n' +
+          'Free Home Loan guidance with Satnam Sir: +91 84210 77613\n' +
+          'Dashmesh Properties, Shop 24, New Floora, Pale Gaon';
         break;
       }
 
@@ -1153,6 +1158,14 @@ const MREAEngine = {
           '5. **Non-Agricultural (NA) Order:** Clear NA Sanad for residential construction.',
           '6. **Zero Encumbrance Certificate:** Verified free of unpaid builder mortgages or court litigations.'
         ];
+        result.whatsappMessage = '🔍 *30-YEAR TITLE & RERA SEARCH DOSSIER — DASHMESH PROPERTIES*\n\n' +
+          '• Project: ' + pSample.name + ' (RERA: ' + (pSample.reraNumber || 'Verified') + ')\n' +
+          '• 7/12 & PR Card Chain: Verified at Talathi Office Ambernath\n' +
+          '• Advocate Search Report: 30-Year clear title\n' +
+          '• CC & OC Approvals: Verified with Ambernath Municipal Council\n' +
+          '• Encumbrance: Clear & Free of litigation\n\n' +
+          '100% dispute-free property verification by Satnam Sir: +91 84210 77613\n' +
+          'Shop 24, New Floora, Pale Gaon, Ambernath (East)';
         break;
       }
 
@@ -1181,6 +1194,15 @@ const MREAEngine = {
           '• **Live CRM Pipeline GCI:** ₹' + (estPipelineGCI / 100000).toFixed(2) + ' Lakhs across ' + telemetry.activeLeadsCount + ' active inquiries',
           '• **Rent Agreement Desk Revenue:** ₹' + rentGCI.toLocaleString('en-IN') + ' collected from ' + rentAgreements.length + ' registered deeds'
         ];
+        result.whatsappMessage = '💰 *MREA FINANCIAL & BUDGET AUDIT — DASHMESH PROPERTIES*\n\n' +
+          '🎯 *Target Net Profit:* ₹1,00,00,000 (1.00 Crore)\n' +
+          '📈 *Required GCI (100%):* ₹2,40,00,000\n' +
+          '💼 *Cost of Sales (29.2%):* ₹70.00 Lakhs\n' +
+          '⚙️ *Operating Expenses (29.2%):* ₹70.00 Lakhs\n' +
+          '💵 *Net Personal Margin (41.6%):* ₹1,00,00,000\n' +
+          '📊 *Monthly Numbers:* 25.7 Appointments ➔ 20.6 Listings Taken ➔ 13.3 Closed Units\n\n' +
+          'Principal Broker: Satnam Singh Vohra (+91 84210 77613)\n' +
+          'Shop 24, New Floora, Pale Gaon, Ambernath East';
         break;
       }
 
@@ -1193,6 +1215,12 @@ const MREAEngine = {
           '• **Zero-Cost High-ROI Channels:** Google Business Profile #1 Local 3-Pack, Meta WhatsApp Cloud API Concierge, Word-of-Mouth rent agreement referrals.',
           '• **Recommendation:** Maintain current lean cost structure while scaling lead touches toward the 960 Met benchmark.'
         ];
+        result.whatsappMessage = '🚦 *MREA EXPENSE & BUDGET AUDIT — DASHMESH PROPERTIES*\n\n' +
+          '🟢 *Status: GREEN LIGHT*\n' +
+          '• Principle: "Lead with Revenue" — spend only what the business has already earned.\n' +
+          '• Key Focus: Zero-cost organic growth via Google #1 Local 3-Pack and WhatsApp 24/7 Concierge.\n' +
+          '• Action: Maintain lean overhead and scale Met touches toward 960 database benchmark.\n\n' +
+          'Consultation: Satnam Sir (+91 84210 77613)';
         break;
       }
 
@@ -1223,6 +1251,14 @@ const MREAEngine = {
           '• **Morivali MIDC Residential:** ₹3,500 - ₹4,200 / sq.ft (Affordable starter housing)',
           '• **Chikhloli Railway Station Corridor:** ₹3,900 - ₹4,800 / sq.ft (Top capital appreciation zone)'
         ];
+        result.whatsappMessage = '📡 *AMBERNATH MICRO-MARKET PRICE RADAR — DASHMESH PROPERTIES*\n\n' +
+          '📍 *Pale Gaon (HQ Base):* ₹' + telemetry.avgPaleRate.toLocaleString('en-IN') + ' / sq.ft (Top rental yield)\n' +
+          '📍 *Kansai Enclave:* ₹4,400 - ₹5,800 / sq.ft\n' +
+          '📍 *Station Road (East):* ₹5,500 - ₹7,200 / sq.ft\n' +
+          '📍 *Morivali MIDC:* ₹3,500 - ₹4,200 / sq.ft\n' +
+          '📍 *Chikhloli Corridor:* ₹3,900 - ₹4,800 / sq.ft\n\n' +
+          'Free micro-market valuation with Satnam Sir: +91 84210 77613\n' +
+          'Shop No. 24, New Floora, Pale Gaon, Ambernath East';
         break;
       }
 
