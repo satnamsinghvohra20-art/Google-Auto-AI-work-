@@ -178,6 +178,36 @@ function getCommonHead(title, description, canonicalPath, extraSchema = "") {
       gap: 8px;
     }
     .btn-cta-review:hover { background: #fffbeb; }
+    .btn-cta-call {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 26px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.25);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-cta-call:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15, 118, 110, 0.35); }
+    .btn-cta-map {
+      background: #ffffff;
+      color: #0f766e;
+      border: 2px solid #0f766e;
+      padding: 14px 26px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-cta-map:hover { transform: translateY(-2px); background: #f0fdfa; }
     .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px; }
     .card {
       background: #ffffff;
@@ -877,26 +907,55 @@ ${getCommonHead(
 )}
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="badge-tag">👑 #1 RANKED GOOGLE LOCAL 3-PACK REAL ESTATE DESK</div>
-    <h1>Property Dealer in Pale Gaon, Ambernath (East)</h1>
-    <p>Official Storefront Desk &bull; Shop No. 24, New Floora, Pale Gaon, Ambernath &bull; 100% Verified Legal Documents</p>
-  </header>
-
-  <!-- Sticky CTA Nav -->
-  <div class="hero-cta-banner">
-    <div style="font-size: 14.5px; font-weight: 700;">
-      📍 <strong>Direct Pale Gaon Office:</strong> Satnam Sir (+91 84210 77613) &bull; Open All 7 Days (10 AM - 9 PM)
-    </div>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-      <a href="tel:${OFFICE_INFO.phone}" class="btn-cta btn-cta-call">📞 Call Satnam Sir</a>
-      <a href="https://wa.me/${OFFICE_INFO.phoneRaw}?text=Namaste%20Satnam%20Sir%2C%20I%20am%20inquiring%20about%20Pale%20Gaon%20properties." target="_blank" class="btn-cta btn-cta-wa">💬 WhatsApp Chat</a>
-      <a href="${OFFICE_INFO.mapsPin}" target="_blank" class="btn-cta btn-cta-map">🗺️ Google Maps Directions</a>
-    </div>
+  <div class="header-banner">
+    👑 #1 Ranked Real Estate Desk in Pale Gaon &bull; 100% Verified Legal Documents &bull; Doorstep Rent Agreement &bull; 
+    <a href="https://wa.me/${OFFICE_INFO.phoneRaw}?text=Namaste%20Satnam%20Sir%2C%20I%20am%20inquiring%20about%20Pale%20Gaon%20properties.">Chat on WhatsApp &rarr;</a>
   </div>
 
+  <nav class="nav-bar">
+    <div>
+      <div class="brand-title">🏢 Dashmesh Properties</div>
+      <div class="brand-sub">Shop No. 24, New Floora, Pale Gaon, Ambernath (E) &bull; Satnam Singh Vohra</div>
+    </div>
+    <div class="nav-links">
+      <a href="${OFFICE_INFO.mapsPin}" target="_blank" rel="noopener noreferrer" class="btn-nav-review" style="background:#f0fdf4; color:#166534; border-color:#bbf7d0;">
+        📍 Google Maps Pin
+      </a>
+      <a href="${OFFICE_INFO.reviewUrl}" target="_blank" rel="noopener noreferrer" class="btn-nav-review">
+        ⭐ Google Review
+      </a>
+      <a href="tel:${OFFICE_INFO.phone}" class="btn-nav-call">
+        📞 ${OFFICE_INFO.phone}
+      </a>
+    </div>
+  </nav>
+
   <div class="container">
+    <div class="hero-box">
+      <div class="badge-top">👑 #1 RANKED GOOGLE LOCAL 3-PACK REAL ESTATE DESK</div>
+      <h1>Property Dealer in <span>Pale Gaon, Ambernath (East)</span></h1>
+      <p class="hero-desc">
+        Official Storefront Desk &bull; Shop No. 24, New Floora, Pale Gaon &bull; 100% Verified Legal Documents.<br>
+        <strong>Direct Pale Gaon Office:</strong> Satnam Sir (+91 84210 77613) &bull; Open All 7 Days (10 AM &ndash; 9 PM)
+      </p>
+
+      <div class="cta-row">
+        <a href="https://wa.me/${OFFICE_INFO.phoneRaw}?text=Namaste%20Satnam%20Sir%2C%20I%20am%20inquiring%20about%20Pale%20Gaon%20properties." target="_blank" class="btn-cta-wa">
+          <span>💬</span>
+          <span>WhatsApp Chat</span>
+        </a>
+        <a href="tel:${OFFICE_INFO.phone}" class="btn-cta-call">
+          <span>📞</span>
+          <span>Call Satnam Sir</span>
+        </a>
+        <a href="${OFFICE_INFO.mapsPin}" target="_blank" class="btn-cta-map">
+          <span>🗺️</span>
+          <span>Google Maps Directions</span>
+        </a>
+      </div>
+    </div>
+
+  
     <!-- Local Geo-Beacon Card -->
     <div style="background: linear-gradient(135deg, #064e3b 0%, #0f766e 100%); color: #ffffff; border-radius: 20px; padding: 28px; margin-bottom: 28px; box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.4);">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
