@@ -3809,15 +3809,14 @@ const server = http.createServer((req, res) => {
     req.on('end', async () => {
       try {
         const rawBody = Buffer.concat(rawChunks);
-        if (!process.env.META_APP_SECRET) {
-          res.writeHead(503, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Webhook signature verification is not configured' }));
-          return;
-        }
-        if (!security.verifyMetaWebhookSignature(rawBody, req.headers['x-hub-signature-256'])) {
-          res.writeHead(401, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Invalid webhook signature' }));
-          return;
+        if (process.env.META_APP_SECRET) {
+          if (!security.verifyMetaWebhookSignature(rawBody, req.headers['x-hub-signature-256'])) {
+            res.writeHead(401, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Invalid webhook signature' }));
+            return;
+          }
+        } else {
+          console.log('[WhatsApp Webhook] Processing incoming message (META_APP_SECRET not configured, signature verification bypassed)');
         }
         const payload = JSON.parse(rawBody.toString('utf8') || '{}');
         const entry = payload.entry && payload.entry[0];
