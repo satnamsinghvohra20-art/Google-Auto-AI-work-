@@ -3876,17 +3876,22 @@ const server = http.createServer((req, res) => {
             const c10 = cDigits.length >= 10 ? cDigits.slice(-10) : cDigits;
             return (cleanFrom10 && c10 && cleanFrom10 === c10) || cDigits === cleanFrom;
           });
-          const isOngoing = Boolean(conv && (conv.hasGreeted || (conv.messages && conv.messages.length > 0)));
+          const lastMsg = conv && conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : null;
+          const lastMsgTime = lastMsg && lastMsg.timestamp ? new Date(lastMsg.timestamp).getTime() : 0;
+          const hoursSinceLastMsg = lastMsgTime ? (Date.now() - lastMsgTime) / (1000 * 60 * 60) : 999;
+          const isOngoing = Boolean(conv && conv.hasGreeted && hoursSinceLastMsg < 8);
           const messageCount = conv ? conv.messages.length : 0;
           const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
           let autoRes;
           if (isOwner) {
             autoRes = await getSiaIntelligentResponse(text, name, {
+              isOngoing,
+              messageCount,
               publicUrl,
               phoneNumber: cleanFrom,
               totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
-              leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
+              leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent, lastUpdated: c.lastUpdated })),
               reviewsCount: googleReviews.length,
               totalReviews: googleReviews.length,
               pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
@@ -3895,7 +3900,9 @@ const server = http.createServer((req, res) => {
               isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
               hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
               googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
-              publishedPostsCount: publishedPostLogs.length
+              publishedPostsCount: publishedPostLogs.length,
+              rentAgreements: typeof rentAgreements !== 'undefined' ? rentAgreements : [],
+              realEstateProjects: typeof realEstateProjects !== 'undefined' ? realEstateProjects : []
             }, true);
 
             if (autoRes.triggerAction === 'PUBLISH_POST') {
@@ -4092,17 +4099,22 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
           const c10 = cDigits.length >= 10 ? cDigits.slice(-10) : cDigits;
           return (cleanPhone10 && c10 && cleanPhone10 === c10) || cDigits === cleanPhone;
         });
-        const isOngoing = Boolean(conv && (conv.hasGreeted || (conv.messages && conv.messages.length > 0)));
+        const lastMsg = conv && conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : null;
+        const lastMsgTime = lastMsg && lastMsg.timestamp ? new Date(lastMsg.timestamp).getTime() : 0;
+        const hoursSinceLastMsg = lastMsgTime ? (Date.now() - lastMsgTime) / (1000 * 60 * 60) : 999;
+        const isOngoing = Boolean(conv && conv.hasGreeted && hoursSinceLastMsg < 8);
         const messageCount = conv ? conv.messages.length : 0;
         const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
         let autoRes;
         if (isOwner) {
           autoRes = await getSiaIntelligentResponse(text, "Satnam Sir", {
+            isOngoing,
+            messageCount,
             publicUrl,
             phoneNumber: cleanPhone,
             totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
-            leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
+            leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent, lastUpdated: c.lastUpdated })),
             reviewsCount: googleReviews.length,
             totalReviews: googleReviews.length,
             pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
@@ -4111,7 +4123,9 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
             isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
             hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
             googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
-            publishedPostsCount: publishedPostLogs.length
+            publishedPostsCount: publishedPostLogs.length,
+            rentAgreements: typeof rentAgreements !== 'undefined' ? rentAgreements : [],
+            realEstateProjects: typeof realEstateProjects !== 'undefined' ? realEstateProjects : []
           }, true);
 
           if (autoRes.triggerAction === 'PUBLISH_POST') {

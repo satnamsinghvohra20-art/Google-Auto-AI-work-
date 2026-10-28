@@ -245,8 +245,12 @@ const AIEngine = {
 
   /**
    * Generates respectful, dynamic greetings for Satnam Sir (Owner) without monotonous "Namaste"
+   * If isOngoing is true, returns empty string so ongoing messages never repeat greetings!
    */
-  getSiaOwnerSalutation(ownerName = "Satnam Sir") {
+  getSiaOwnerSalutation(ownerName = "Satnam Sir", isOngoing = false) {
+    if (isOngoing) {
+      return ""; // No greeting prefix on active conversation
+    }
     const istHour = (new Date().getUTCHours() + 5.5) % 24;
     let timeGreeting = "Hello";
     if (istHour >= 5 && istHour < 12) timeGreeting = "Good morning";
@@ -255,11 +259,10 @@ const AIEngine = {
 
     const openers = [
       `${timeGreeting} ${ownerName}! Sia here. 🌸 `,
-      `Ji ${ownerName}! Main Sia aapki seva mein hazir hoon. 🌸 `,
-      `Sat Sri Akal ${ownerName}! Main Sia, live reporting de rahi hoon. 🌸 `,
-      `Hello ${ownerName}! Sia yahan hai, batayein main kya help kar sakti hoon? 🌸 `,
-      `Aadesh kijiye ${ownerName}! Sia live report karti hai: 🌸 `,
-      `Shubh Prabhat ${ownerName}! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 `,
+      `Ji ${ownerName}! Main Sia hazir hoon. 🌸 `,
+      `Sat Sri Akal ${ownerName}! Sia live active hai. 🌸 `,
+      `Hello ${ownerName}! Sia yahan hai, batayein main kya madad kar sakti hoon? 🌸 `,
+      `Aadesh kijiye ${ownerName}! Sia ready hai: 🌸 `,
       `Haan ji ${ownerName}! Main tayyar hoon aapke agle command ke liye. 🌸 `
     ];
     return openers[Math.floor(Math.random() * openers.length)];
@@ -279,21 +282,22 @@ const AIEngine = {
     const namePrefix = cleanName ? `${cleanName} ji! ` : '';
 
     if (lang === "marathi") {
-      return `नमस्कार ${namePrefix}मी *सिया*, दशमेश प्रॉपर्टीजची सीनियर प्रॉपर्टी व रेंट ॲग्रीमेंट सल्लागार. दशमेश प्रॉपर्टीजमध्ये आपले सहर्ष स्वागत आहे! 🏢\n\n`;
+      return `नमस्कार ${namePrefix}दशमेश प्रॉपर्टीजमध्ये आपले मनापासून स्वागत आहे 🌸 मी *सिया*.\n\n`;
     }
 
     if (lang === "english") {
-      return `Welcome to Dashmesh Properties${cleanName ? ', ' + cleanName : ''}! I am *Sia*, Senior Real Estate & Registered Rent Agreement Consultant.\n\n`;
+      return `Welcome to Dashmesh Properties${cleanName ? ', ' + cleanName : ''}! 🌸 I am *Sia*.\n\n`;
     }
 
-    // Hinglish (Standard Professional Real Estate Consultant)
-    return `Namaste ${namePrefix}Dashmesh Properties mein aapka swagat hai! Main *Sia*, Senior Real Estate & Rent Agreement Consultant.\n\n`;
+    // Hinglish (Sweet, Warm, 24-year-old Sia)
+    return `Namaste ${namePrefix}Dashmesh Properties mein aapka swagat hai 🌸 Main *Sia* hoon.\n\n`;
   },
 
   /**
    * Dedicated Owner / Boss AI Executive Assistant (Sia)
    * When messages arrive from +91 84210 77613, Sia obeys the owner's commands,
-   * reports real-time business metrics (leads, rank, reviews, posts), and executes actions.
+   * reports real-time business metrics (leads, rank, reviews, posts), answers ANY question,
+   * performs real estate math / calculations, and acts as an executive Chief-of-Staff.
    */
   generateOwnerExecutiveResponse(incomingText, ownerName = "Satnam Sir", context = {}) {
     const rawText = (incomingText || "").trim();
@@ -302,9 +306,10 @@ const AIEngine = {
     const totalLeads = context.totalLeads || 0;
     const leadsList = context.leads || [];
     const reviewsCount = context.reviewsCount || 0;
-    const sal = this.getSiaOwnerSalutation(ownerName);
+    const isOngoing = Boolean(context.isOngoing || (context.messageCount && context.messageCount > 1));
+    const sal = this.getSiaOwnerSalutation(ownerName, isOngoing);
 
-    // 1. Owner Greetings, Identity & Personal Check (Satnam Sir / Boss)
+    // 1. Owner Greetings, Casual Check-in & Persona Interaction
     if (
       /\b(hi+|hey+|helo+|hello+|salam|namaste|pranam|ram ram|radhe radhe)\b/i.test(text) ||
       text.includes("sat sri akal") || text.includes("satsriakal") || text.includes("kaise ho") || text.includes("kaisi ho") ||
@@ -313,14 +318,44 @@ const AIEngine = {
       text.includes("good evening") || text.includes("shubh") || text.includes("satnam bol raha") || text.includes("mai satnam") ||
       text.includes("main satnam") || text.includes("boss") || text.includes("malik")
     ) {
+      if (isOngoing) {
+        return {
+          intent: "OWNER_GREETING_ACK",
+          reply: `Ji Satnam Sir! Main sun rahi hoon 🌸 Kahiye, abhi kya task ya calculation execute karni hai?`,
+          suggestedActions: ["📊 Aaj Ki Leads", "📰 Naya Post Dalo", "⭐ Google Reviews", "🏡 Property Rates"]
+        };
+      }
       return {
         intent: "OWNER_GREETING_ACK",
-        reply: `${sal}Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!`,
+        reply: `${sal}Sat Sri Akal Satnam Sir! Main aapki personal AI Chief-of-Staff *Sia* 24/7 active hoon. 🌸\n\nAapka har aadesh sar-aankhon par hai. Main aapke business ki har reporting, lead tracking, rent agreement details aur calculations ke liye ready hoon. Kahiye Sir, aaj kya execute karna hai?`,
         suggestedActions: ["📊 Aaj Ki Leads", "📰 Naya Post Dalo", "⭐ Google Reviews", "🏡 Property Rates"]
       };
     }
 
-    // 2. Leads & Inquiries Inquiry (100% Real Ground-Truth Data)
+    // 2. Specific Client / Contact Lookup (e.g., "Pooja ka number", "Rahul ki inquiry", "9820...")
+    const phoneMatch = text.match(/\b(\d{10})\b/);
+    const hasSearchIntent = text.includes("number") || text.includes("phone") || text.includes("kiska") || text.includes("details") || text.includes("client");
+    if (leadsList.length > 0 && (phoneMatch || hasSearchIntent)) {
+      const targetPhone = phoneMatch ? phoneMatch[1] : null;
+      const matchedClient = leadsList.find(l => {
+        if (!l) return false;
+        const cPhone = (l.phone || '').replace(/[^0-9]/g, '');
+        if (targetPhone && cPhone.includes(targetPhone)) return true;
+        const cName = (l.name || '').toLowerCase();
+        return cName && cName !== 'client' && text.includes(cName);
+      });
+
+      if (matchedClient) {
+        const lastSeen = matchedClient.lastUpdated ? new Date(matchedClient.lastUpdated).toLocaleString('en-IN') : 'Recent';
+        return {
+          intent: "OWNER_CLIENT_LOOKUP",
+          reply: `${sal}👤 *Client Record Found in Live CRM:*\n\n• *Name:* ${matchedClient.name || 'Client'}\n• *Phone:* ${matchedClient.phone || 'N/A'}\n• *Inquiry Type:* ${matchedClient.intent || 'General Property'}\n• *Last Contacted:* ${lastSeen}\n\nSir, chahein toh main inko follow-up proposal ya direct WhatsApp message prepare kar doon?`,
+          suggestedActions: ["✍️ Draft Proposal", "📋 All Leads", "📞 Call Client"]
+        };
+      }
+    }
+
+    // 3. Leads & Inquiries Inquiry (100% Real Ground-Truth Data)
     if (
       text.includes("lead") || text.includes("inquir") || text.includes("enquir") || text.includes("grahak") ||
       text.includes("customer") || text.includes("kitne log") || text.includes("baat ki") || text.includes("aaj ka kaam") ||
@@ -333,7 +368,7 @@ const AIEngine = {
       if (realLeads.length === 0) {
         return {
           intent: "OWNER_LEADS_REPORT",
-          reply: `${sal}📊 *Dashmesh Properties - Real-Time Leads Telemetry:*\n\n• Aaj Real Inquiries: *0*\n• Total Real Leads in Database: *0*\n• Live WhatsApp Gateway: *+91 92702 77281 (Active 24/7)*\n\n✅ *Real Status:* Sia live listener active hai. Zero fake records policy strictly enforced hai. Jaise hi koi genuine grahak WhatsApp par message karega, Sia turant unka verified record capture karke aapko instant alert bhejegi!\n\n👉 Live CRM Pipeline: ${publicUrl}`,
+          reply: `${sal}📊 *Dashmesh Properties — Real-Time Leads Report:*\n\n• Aaj Ki Inquiries: *0*\n• Total Real Leads on Record: *0*\n• Live WhatsApp Gateway: *+91 92702 77281 (Active 24/7)*\n\n✅ *Status:* Sia live listener active hai. Zero fake records policy strictly enforced hai. Jaise hi koi genuine grahak WhatsApp par message karega, Sia instant capture karke aapko alert karegi!`,
           suggestedActions: ["📋 Live CRM", "⭐ Reviews", "📰 New Post"]
         };
       }
@@ -341,96 +376,105 @@ const AIEngine = {
       let leadsPreview = "\n\n📋 *Real Inquiries:*\n" + realLeads.slice(0, 5).map((l, idx) => {
         const formattedPhone = (l.phone || '').startsWith('+') ? l.phone : `+${l.phone || ''}`;
         const timeStr = l.lastUpdated ? new Date(l.lastUpdated).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : '';
-        return `${idx + 1}. *${l.name || 'Client'}* (${formattedPhone}) - _${l.intent || 'Inquiry'}_ ${timeStr ? '[' + timeStr + ']' : ''}`;
+        return `${idx + 1}. *${l.name || 'Client'}* (${formattedPhone}) — _${l.intent || 'Inquiry'}_ ${timeStr ? '[' + timeStr + ']' : ''}`;
       }).join("\n");
 
       return {
         intent: "OWNER_LEADS_REPORT",
-        reply: `${sal}📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *${todaysLeads.length}*\n• Total Verified Leads: *${realLeads.length}*\n• 24/7 Follow-Up Bot: *Active*${leadsPreview}\n\n👉 Detailed CRM pipeline: ${publicUrl}`,
+        reply: `${sal}📊 *Dashmesh Properties — Real-Time Leads Report:*\n\n• Aaj Ki Real Inquiries: *${todaysLeads.length}*\n• Total Verified Leads: *${realLeads.length}*\n• 24/7 WhatsApp AI Bot: *Online*${leadsPreview}\n\n👉 Full CRM Pipeline: ${publicUrl}`,
         suggestedActions: ["📋 Live CRM", "⭐ Reviews", "📰 New Post"]
       };
     }
 
-    // 3. Publish or Schedule Google Post Command (High Priority Action Command)
+    // 4. Real Estate Math & Calculations (Interactive Financial Calculator)
+    // 4a. Brokerage Calculator
+    if (text.includes("brokerage") || text.includes("commission") || text.includes("dalaali") || (text.includes("percent") && text.includes("deal"))) {
+      const numMatch = text.match(/(\d+(?:\.\d+)?)\s*(lakh|lac|cr|crore|k|thousand)?/i);
+      let calculatedText = "";
+      if (numMatch) {
+        let val = parseFloat(numMatch[1]);
+        const unit = (numMatch[2] || "").toLowerCase();
+        if (unit.startsWith("cr")) val = val * 10000000;
+        else if (unit.startsWith("la")) val = val * 100000;
+        else if (unit.startsWith("k") || unit.startsWith("th")) val = val * 1000;
+        else if (val < 100) val = val * 100000; // e.g., "35" means 35 Lakhs in Indian real estate context
+
+        const b1 = Math.round(val * 0.01);
+        const b2 = Math.round(val * 0.02);
+        calculatedText = `\n\n🧮 *Calculation on ₹${val.toLocaleString('en-IN')} Deal:*\n• *1% Brokerage (Single Side):* ₹${b1.toLocaleString('en-IN')}\n• *2% Brokerage (Both Sides / Direct):* ₹${b2.toLocaleString('en-IN')}\n• *Rental Deal Standard:* 1 Month's Rent from both Owner & Tenant.`;
+      }
+      return {
+        intent: "OWNER_CALCULATOR_BROKERAGE",
+        reply: `${sal}💰 *Real Estate Brokerage Guidelines (Dashmesh Properties):*\n• *Outright Property Sale/Purchase:* Standard 1% to 2% on registered agreement value from both buyer and seller.\n• *Rental / Leave & License:* 1 month's rent (or 15 days for renewal) from both owner and tenant.${calculatedText}\n\nSir, kisi specific deal ka exact calculation karna ho toh bataiye!`,
+        suggestedActions: ["🏡 Rates Query", "📜 Rent Agreement", "📊 Leads"]
+      };
+    }
+
+    // 4b. EMI Calculator
+    if (text.includes("emi") || text.includes("kist") || (text.includes("loan") && (text.includes("calculate") || text.includes("kitna banega") || text.includes("mahine")))) {
+      const numMatch = text.match(/(\d+(?:\.\d+)?)\s*(lakh|lac|cr|crore)?/i);
+      let emiText = "";
+      if (numMatch) {
+        let val = parseFloat(numMatch[1]);
+        const unit = (numMatch[2] || "").toLowerCase();
+        if (unit.startsWith("cr")) val = val * 10000000;
+        else if (unit.startsWith("la")) val = val * 100000;
+        else if (val < 100) val = val * 100000;
+
+        // Approx ₹862 per lakh for 20 years @ 8.40%
+        const emiPerMonth = Math.round((val / 100000) * 862);
+        emiText = `\n\n🧮 *EMI on ₹${val.toLocaleString('en-IN')} Loan (@ 8.40% for 20 Years):*\n• *Estimated Monthly EMI:* approx *₹${emiPerMonth.toLocaleString('en-IN')}/month*\n• *Eligibility Rule:* Monthly salary / income should be minimum 2x of EMI (approx ₹${(emiPerMonth * 2).toLocaleString('en-IN')}/month).`;
+      }
+      return {
+        intent: "OWNER_CALCULATOR_EMI",
+        reply: `${sal}🏦 *Home Loan EMI Fast Reckoner (@ 8.40% ROI, 20-Year Tenure):*\n• ₹15 Lakh Loan: approx ₹12,930/month\n• ₹20 Lakh Loan: approx ₹17,240/month\n• ₹25 Lakh Loan: approx ₹21,550/month\n• ₹30 Lakh Loan: approx ₹25,860/month\n• ₹35 Lakh Loan: approx ₹30,170/month\n• ₹50 Lakh Loan: approx ₹43,100/month${emiText}\n\nBank tie-ups: SBI, HDFC, Bank of Baroda. 90% funding available!`,
+        suggestedActions: ["🏦 Bank Loan Desk", "🏡 Property Rates", "📊 Leads"]
+      };
+    }
+
+    // 4c. Stamp Duty & Registration Calculator (Maharashtra)
+    if (text.includes("stamp duty") || text.includes("registration charge") || text.includes("sarkari kharcha")) {
+      return {
+        intent: "OWNER_CALCULATOR_STAMP_DUTY",
+        reply: `${sal}📜 *Maharashtra Stamp Duty & Registration Charges Guide:*\n\n🏠 *1. Outright Property Purchase (Ambernath / Thane District):*\n• *Stamp Duty:* 6% (5% Stamp Duty + 1% Metro/Local Cess)\n• *Registration Fee:* 1% of agreement value (capped at max ₹30,000 for properties above ₹30L)\n• *Women Concession:* 1% rebate on stamp duty if property is registered solely in female owner's name (5% net).\n\n📄 *2. Registered Leave & License (Rent Agreement):*\n• *Stamp Duty:* 0.25% of whole lease period rent + refundable deposit\n• *Registration Fee:* ₹1,000 flat (urban areas)\n• *Dashmesh All-Inclusive Package:* ₹1,750 per side / ₹3,500 total (covering drafting, doorstep biometric, stamp duty & police NOC).`,
+        suggestedActions: ["📜 Rent Agreement", "🏡 Property Rates", "✍️ Draft Proposal"]
+      };
+    }
+
+    // 5. Registered Rent Agreement & Legal Execution (Section 55 Maharashtra Rent Control Act)
+    if (
+      text.includes("agreement") || text.includes("rent agreement") || text.includes("biometric") || text.includes("document") ||
+      text.includes("police verification") || text.includes("chahiye agreement") || text.includes("process") ||
+      text.includes("tenant") || text.includes("1750") || text.includes("3500") || text.includes("charges") ||
+      text.includes("evict") || text.includes("khali") || text.includes("vacate") || text.includes("sec 55") || text.includes("section 55")
+    ) {
+      return {
+        intent: "OWNER_RENT_AGREEMENT_INFO",
+        reply: `${sal}📜 *Official Registered Rent Agreement — Master Protocol (Sec 55):*\n\n💰 *Pricing (100% Transparent):*\n• Owner Side: *₹1,750*\n• Tenant Side: *₹1,750*\n• *Total All-Inclusive Package: ₹3,500* (Zero hidden fees)\n\n✅ *Doorstep Biometric Service:*\n• Sub-Registrar office jane ki zaroorat nahi hoti.\n• Hamara authorized operator fingerprint scanner aur webcam leke direct doorstep visit karta hai (sirf 15 mins).\n• Official QR-Code verified Index-2 PDF 24-48 hours mein WhatsApp par deliver hota hai.\n\n📑 *Mandatory Documents:*\n1. *Owner:* Aadhaar Card, PAN Card, Light Bill / Index-2\n2. *Tenant:* Aadhaar Card, PAN Card, Passport Photo\n3. *Witnesses (2):* Aadhaar Cards\n\n⚖️ *Legal Protection:* Maharashtra Rent Control Act Section 55 ke tehat registered agreement hone par tenant summary eviction ke daayre mein aata hai aur landlord ke property rights 100% secure rehte hain. Police verification filing included hai!`,
+        suggestedActions: ["✍️ Client Message Draft", "📋 Leads", "⭐ Reviews"]
+      };
+    }
+
+    // 6. Publish or Schedule Google Post Command (High Priority Action Command)
     if (text.includes("post") || text.includes("publish") || (text.includes("dalo") && !text.includes("rent")) || text.includes("bhejo post")) {
       return {
         intent: "OWNER_TRIGGER_POST",
         triggerAction: "PUBLISH_POST",
-        reply: `${sal}✅ Command executed! Sia ne Google Maps par naya verified property post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• Bank Loan Tie-ups: SBI, HDFC, Bank of Baroda\n• Lift, 24x7 Water, Clear Title CIDCO/RERA Approved\n• Contact: Satnam Singh Vohra (+91 84210 77613)\n\nLive on Google Business Profile!`,
+        reply: `${sal}✅ Command executed! Sia ne Google Maps Business Profile par naya verified post publish kar diya hai:\n\n🏡 *Verified 1 BHK & 2 BHK Ready Possession Flats in Pale Gaon, Ambernath (E)*\n• Bank Loan Tie-ups: SBI, HDFC, Bank of Baroda (90% Funding)\n• Lift, 24x7 Water, Clear Title OC Approved\n• Direct Contact: Satnam Singh Vohra (+91 84210 77613)\n\nLive on Google Business Profile! 🚀`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 Next Post"]
       };
     }
 
-    // 3b. MREA Millionaire Real Estate Growth Model
-    if (text.includes("mrea") || text.includes("millionaire") || text.includes("growth report") || text.includes("economic model")) {
+    // 7. MREA Gary Keller Millionaire Model & Business Strategy
+    if (text.includes("mrea") || text.includes("millionaire") || text.includes("growth") || text.includes("strategy") || text.includes("advice") || text.includes("salah")) {
       return {
         intent: "OWNER_MREA_REPORT",
-        reply: `${sal}👑 *Dashmesh Properties — MREA Millionaire Report:*\n\n📚 *Playbook:* Gary Keller MREA (Leads, Listings, Leverage)\n\n🎯 *The Three L's Status:*\n• *Leads:* Met & Haven't Met systematic touch cadence active\n• *Listings:* Verified Pale Gaon & MMR inventory with bank tie-ups\n• *Leverage:* 7th Level Automation (Sia 24/7 AI Suite + Meta Cloud API)\n\n🧮 *Economic Model:* GCI Target ₹2.4 Cr | Lead with Revenue (Green Light)\n📍 *Storefront Beacon:* 19.1881295° N, 73.1682152° E (Pale Gaon)\n\nSir, Gary Keller MREA growth engine background execution is 100% active!`,
+        reply: `${sal}👑 *Dashmesh Properties — MREA Business Growth Model:*\n\n📚 *Gary Keller Framework (The Three L's):*\n1. *Leads:* Regular touch cadence on Met & Haven't Met contacts. Auto-Pilot follow-ups active on WhatsApp.\n2. *Listings:* Pale Gaon & Ambernath direct builder inventory with clear OC titles.\n3. *Leverage:* 7th Level Automation (Sia 24/7 AI Suite + Meta Cloud API + Google SEO dominance).\n\n🎯 *Actionable Advice for Satnam Sir:*\n• Har aane wale buyer ko 24 ghante ke andar Pale Gaon physical site visit par invite karein.\n• Rent agreement clients ko residential purchase ke liye nurture karein — best conversion channel!\n• Google reviews target: Every satisfied client gets direct 5★ review link.`,
         suggestedActions: ["📊 Aaj Ki Leads", "📰 Naya Post Dalo", "⭐ Google Reviews"]
       };
     }
 
-    // 4. Registered Rent Agreement & Legal Execution (Section 55 Maharashtra Rent Control Act)
-    if (
-      text.includes("agreement") || text.includes("rent agreement") || text.includes("biometric") || text.includes("document") ||
-      text.includes("police verification") || text.includes("stamp duty") || text.includes("chahiye agreement") ||
-      text.includes("process") || text.includes("tenant") || text.includes("1750") || text.includes("3500") || text.includes("charges")
-    ) {
-      return {
-        intent: "OWNER_RENT_AGREEMENT_INFO",
-        reply: `${sal}📜 *Official Registered Rent Agreement — Protocol & Rate Card:*\n\n• *Pricing (Fixed & Transparent):*\n  - Owner Side: *₹1,750*\n  - Tenant Side: *₹1,750*\n  - *Total All-Inclusive Package: ₹3,500* (No hidden charges)\n\n• *Required Documents:*\n  1. *Owner:* Aadhaar Card, PAN Card, Light Bill / Index II copy\n  2. *Tenant:* Aadhaar Card, PAN Card, Passport Size Photo\n  3. *Witnesses (2):* Aadhaar Cards\n\n• *Our Service Flow:*\n  - Doorstep Biometric: Hamaari team scanner leke client ke doorstep par jaati hai.\n  - Police Verification filing included.\n  - Delivery: Govt registered QR-Code PDF 24-48 hours mein WhatsApp & Email par!\n\n👉 Official Rate Card: ${publicUrl}/rate-card`,
-        suggestedActions: ["📜 Client Message Draft", "📋 Leads", "⭐ Reviews"]
-      };
-    }
-
-    // 5. Office, Shop Timings, Address & Location Details
-    if (
-      text.includes("shop") || text.includes("office") || text.includes("timing") || text.includes("kahan hai") ||
-      text.includes("address") || text.includes("kab khulegi") || text.includes("band") || text.includes("location") ||
-      text.includes("landmark")
-    ) {
-      return {
-        intent: "OWNER_OFFICE_DETAILS",
-        reply: `${sal}🏢 *Dashmesh Properties Head Office Details:*\n\n• *Address:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501\n• *Landmark:* Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)\n• *Timings:* Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)\n• *Google Map Location:* https://maps.app.goo.gl/kba8E8rqdRiv6xL8A\n• *Contact:* Satnam Singh Vohra (+91 84210 77613)`,
-        suggestedActions: ["📍 Google Maps Link", "📊 Leads", "⭐ Reviews"]
-      };
-    }
-
-    // 6. Draft Message for Clients (Template Generator)
-    if (
-      text.includes("draft") || text.includes("message banao") || text.includes("template") ||
-      text.includes("client ko bhejna") || text.includes("kya likhu") || text.includes("forward")
-    ) {
-      return {
-        intent: "OWNER_MESSAGE_DRAFT",
-        reply: `${sal}✍️ *Client Ready WhatsApp Proposal (Copy & Forward):*\n\n---\n*Namaste ji! Dashmesh Property & Rent Agreement Services se Satnam Singh Vohra baat kar raha hoon.* 🌸\n\n*Aapka inquiry message mila tha. Hamaari taraf se verified services:*\n\n✅ *Registered Rent Agreement:* Sirf *₹1,750 per side* (Doorstep Biometric + Complete Govt Registration + Police Verification included! No hidden cost).\n🏡 *Ready 1 BHK & 2 BHK Flats / Shops:* Pale Gaon & Ambernath East mein best verified options available hain with 90% bank loan.\n\n📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (E)\n📞 *Call / WhatsApp:* +91 84210 77613\n---\n\nSir, aap ise kisi bhi client ko directly forward kar sakte hain!`,
-        suggestedActions: ["📰 New Post", "📊 Leads", "⭐ Reviews"]
-      };
-    }
-
-    // 7. Team & Contact Info (Kuldeep / Sukhjyot / Satnam)
-    if (
-      text.includes("kuldeep") || text.includes("sukhjyot") || text.includes("partner") || text.includes("team") ||
-      text.includes("number") || text.includes("contact")
-    ) {
-      return {
-        intent: "OWNER_TEAM_INFO",
-        reply: `${sal}👥 *Dashmesh Properties Core Executive Directory:*\n\n• *Satnam Singh Vohra (Owner / Founder):* +91 84210 77613\n• *Sukhjyot Singh Vohra (Partner / Consultant):* +91 84219 40013\n• *Kuldeep Singh Vohra (Partner / Consultant):* +91 84120 70183 (WA: +91 87937 71911)\n• *Sia AI Automated Helpline (24/7):* +91 92702 77281`,
-        suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
-      };
-    }
-
-    // 8. Google Ranking, Search & SEO Status (Real Ground-Truth Data)
-    const hasReviewTerms = text.includes("review") || text.includes("rating") || text.includes("feedback") || text.includes("star") || text.includes("reply") || text.includes("kitne review");
-    if (!hasReviewTerms && (text.includes("rank") || text.includes("top") || text.includes("search") || (text.includes("google") && !text.includes("post")) || text.includes("seo") || text.includes("kaha hai"))) {
-      return {
-        intent: "OWNER_RANK_STATUS",
-        reply: `${sal}🚀 *Live Google Business Profile Status (Dashmesh Properties):*\n\n• Business Name: *Dashmesh Properties*\n• Google Place ID: *ChIJDxFBTbyV5zsRcHylJmmARG8*\n• Office Location: *Shop No. 24, New Floora, Pale Gaon, Ambernath East (421 501)*\n• Verified Phone: *+91 84210 77613 / +91 92702 77281*\n• Real Reviews Logged: *${reviewsCount}*\n• Digital Rate Card: ${publicUrl}/rate-card\n\nTab 1 se Google Profile SEO dominance active hai!`,
-        suggestedActions: ["📋 Tab 1 Setup", "⭐ Reviews", "📰 New Post"]
-      };
-    }
-
-    // 9. Reviews & Ratings Inquiry (Real Ground-Truth Data & Exact Pending Count)
+    // 8. Reviews & Ratings Inquiry (Real Ground-Truth Data & Exact Pending Count)
     if (
       text.includes("review") || text.includes("rating") || text.includes("feedback") ||
       text.includes("star") || text.includes("reply") || text.includes("kitno ka") ||
@@ -440,95 +484,114 @@ const AIEngine = {
       const totalRev = context.totalReviews !== undefined ? context.totalReviews : (revList.length || reviewsCount || 0);
       const pendingRev = context.pendingReviewsCount !== undefined ? context.pendingReviewsCount : revList.filter(r => !r.reply || !r.reply.trim()).length;
       const repliedRev = context.repliedReviewsCount !== undefined ? context.repliedReviewsCount : revList.filter(r => r.reply && r.reply.trim()).length;
-      const isConnected = Boolean(context.isGoogleConnected);
       const placeId = context.googlePlaceId || "ChIJDxFBTbyV5zsRcHylJmmARG8";
       const directReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
 
       let breakdownText = "";
       if (totalRev === 0) {
-        breakdownText = `• Total Reviews Logged: *0*\n• Reply Deni Baki Hai: *0* (Koi pending review nahi hai)\n• Status: *Database mein abhi 0 reviews hain.*`;
+        breakdownText = `• Total Reviews Logged: *0*\n• Pending: *0*\n• Status: *Database mein abhi 0 reviews hain.*`;
       } else {
-        breakdownText = `• Total Google Reviews on Record: *${totalRev}*\n• Replied & Published: *${repliedRev}* (100% SEO Auto-Replied)\n• Reply Deni Baki Hai (Pending): *${pendingRev}*`;
-
-        if (pendingRev > 0) {
-          const pendings = revList.filter(r => !r.reply || !r.reply.trim());
-          breakdownText += `\n\n⚠️ *In Reviews Ka Reply Dena Baki Hai (${pendingRev}):*\n` + pendings.slice(0, 3).map((r, i) => `${i + 1}. *${r.customerName}* (${r.rating}★): "${r.reviewText}"`).join("\n");
-        } else {
-          breakdownText += `\n\n✅ *All Done:* Sabhi *${totalRev}* reviews ko Sia ne SEO keywords ke saath reply de diya hai! Ek bhi review pending nahi hai.`;
-        }
-
-        if (revList.length > 0) {
-          breakdownText += `\n\n📋 *Recent Verified Reviews:*\n` + revList.slice(0, 3).map((r, i) => {
-            const stars = '★'.repeat(r.rating || 5);
-            const replySnippet = r.reply ? `\n   ↳ *Sia Auto-Reply:* "${r.reply.slice(0, 90)}..."` : `\n   ↳ *Status:* ⏳ Pending Reply`;
-            return `${i + 1}. *${r.customerName}* (${stars}): "${r.reviewText}"${replySnippet}`;
-          }).join("\n\n");
+        breakdownText = `• Total Google Reviews on Record: *${totalRev}*\n• Replied & Published: *${repliedRev}* (100% SEO Auto-Replied)\n• Pending Reply: *${pendingRev}*`;
+        if (pendingRev === 0) {
+          breakdownText += `\n\n✅ *Status:* Sabhi *${totalRev}* reviews ko Sia ne SEO keywords ke saath auto-reply de diya hai! Ek bhi review pending nahi hai.`;
         }
       }
 
-      const connectionInfo = isConnected
-        ? `🟢 *Google Account Connection:* LIVE & CONNECTED via Google Cloud API`
-        : `📍 *Google Place Link:* Active (Place ID: \`${placeId}\`)\n💡 *Google Cloud Sync:* Background direct sync active. Aap Dashboard > 'Google Access' se 1-click Google Account connect kar sakte hain ya Standee QR se direct 5★ reviews pa sakte hain.`;
-
       return {
         intent: "OWNER_REVIEWS_REPORT",
-        reply: `${sal}⭐ *Google Reviews & Auto-Reply Status Report:*\n\n${breakdownText}\n\n${connectionInfo}\n\n🔗 *Direct Review Link (Send to Clients):*\n${directReviewUrl}`,
+        reply: `${sal}⭐ *Google Reviews & Auto-Reply Report:*\n\n${breakdownText}\n\n🔗 *Direct Review Link (Send to Clients):*\n${directReviewUrl}`,
         suggestedActions: ["⭐ Direct Review Link", "📰 Naya Post Dalo", "📊 Aaj Ki Leads"]
       };
     }
 
-    // 10. MMR Mega Projects & Real Estate Directory Report for Owner
+    // 9. MMR Mega Projects & Real Estate Directory Report
     if (
       text.includes("project") || text.includes("mmr") || text.includes("kalyan") || text.includes("thane") ||
       text.includes("mumbai") || text.includes("ulhasnagar") || text.includes("directory") || text.includes("vasai") ||
-      text.includes("virar") || text.includes("karjat") || text.includes("neral") || text.includes("bhiwandi") ||
-      text.includes("boisar") || text.includes("palghar") || text.includes("shahapur") || text.includes("alibaug") ||
-      text.includes("khopoli") || text.includes("state") || text.includes("estate")
+      text.includes("badlapur") || text.includes("dombivli") || text.includes("whispering palms") || text.includes("new floora")
     ) {
       return {
         intent: "OWNER_MMR_PROJECTS_REPORT",
-        reply: `${sal}🏢 *Dashmesh Properties — Live MMR Mega Real Estate & Estates Directory Report:*\n\n• *Total Verified Projects & Estates:* 168+ Projects (Ground-Truth Verified Data)\n• *Coverage Regions:* 16 Major Hubs / Micro-Markets across Greater Mumbai\n• *Price Span:* ₹13.5 Lakhs (Affordable) to ₹25.0 Crore (Ultra Luxury / Sky Villas)\n• *Direct Client Route:* Direct WhatsApp link to your phone (+91 84210 77613)\n\n📍 *Key Hubs:* Ambernath (12 projects in Pale Gaon, MIDC, Kansai), Badlapur (8), Ulhasnagar (10), Kalyan (16), Dombivli (10), Thane (16), Navi Mumbai (18), Mumbai Suburbs (30).\n\nSir, Tab 8 Directory aur /api/projects par sabhi 168+ projects with real-time filters fully operational hain!`,
-        suggestedActions: ["🏢 Tab 8 Directory", "📊 Leads", "⭐ Reviews"]
+        reply: `${sal}🏢 *Dashmesh Properties — Live MMR Real Estate Directory Report:*\n\n• *Total Verified Projects:* 168+ Projects across 16 major hubs in Greater Mumbai\n• *Price Span:* ₹13.5 Lakhs to ₹25.0 Crore\n• *Pale Gaon Spotlight:* New Floora (Shop 24), GBK Whispering Palms, Pale Heights, Laxmi Niwas\n• *Regional Hubs:* Ambernath (12 projects), Badlapur (8), Ulhasnagar (10), Kalyan (16), Dombivli (10), Thane (16), Navi Mumbai (18)\n\nSir, sabhi projects live directory mein fully operational hain!`,
+        suggestedActions: ["🏢 Projects Directory", "📊 Leads", "⭐ Reviews"]
       };
     }
 
-    // 11. Property Rates & Inventory Inquiry
-    if (text.includes("rate") || text.includes("bhav") || text.includes("price") || text.includes("flat") || text.includes("shop") || text.includes("1 bhk") || text.includes("2 bhk")) {
+    // 10. Property Rates & Inventory Inquiry
+    if (text.includes("rate") || text.includes("bhav") || text.includes("price") || text.includes("flat") || text.includes("shop") || text.includes("1 bhk") || text.includes("2 bhk") || text.includes("kiraya")) {
       return {
         intent: "OWNER_RATES_QUERY",
-        reply: `${sal}🏡 *Current Verified Ambernath Rates:*\n\n• *1 BHK (Pale Gaon):* ₹18L - ₹30L (Rent: ₹4.5k - ₹8k/mo)\n• *2 BHK (Ambernath E):* ₹32L - ₹55L (Rent: ₹9k - ₹15k/mo)\n• *Commercial Shops:* ₹25L - ₹65L (Rent: ₹8k - ₹35k/mo)\n• *MIDC Industrial:* ₹45L - ₹1.5 Cr\n\n🌐 Live Rate Card: ${publicUrl}/rate-card`,
+        reply: `${sal}🏡 *Current Verified Ambernath & Micro-Market Rates:*\n\n• *Pale Gaon 1 BHK:* ₹21L - ₹28L (Rent: ₹5,000 - ₹8,500/mo)\n• *Pale Gaon 2 BHK:* ₹34L - ₹48L (Rent: ₹9,000 - ₹14,000/mo)\n• *Station Road 1 BHK:* ₹28L - ₹38L | *2 BHK:* ₹45L - ₹65L\n• *Commercial Shops:* ₹18L - ₹85L (Rent: ₹6,000 - ₹35,000/mo)\n• *Morivali MIDC Galas:* ₹45L - ₹1.5 Cr\n• *Prevailing Rate/sq.ft:* Pale Gaon: ₹3,800 - ₹4,400/sq.ft | Station Road: ₹4,800 - ₹6,500/sq.ft\n\nWater supply: Pale Gaon mein direct KDMC 24x7 water line connected hai!`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
       };
     }
 
-    // 12. System Status / Bot Health
-    if (text.includes("status") || text.includes("on hai") || text.includes("chal raha") || text.includes("bot") || text.includes("system") || text.includes("help") || text.includes("kya kar sakte")) {
+    // 11. Draft Client Proposals & Message Templates
+    if (
+      text.includes("draft") || text.includes("message banao") || text.includes("template") ||
+      text.includes("client ko bhejna") || text.includes("kya likhu") || text.includes("forward")
+    ) {
+      return {
+        intent: "OWNER_MESSAGE_DRAFT",
+        reply: `${sal}✍️ *Ready-to-Forward WhatsApp Client Proposal:*\n\n---\n*Namaste ji! Dashmesh Property & Rent Agreement Services se Satnam Singh Vohra baat kar raha hoon.* 🌸\n\n*Aapka inquiry message mila tha. Hamaari verified services:*\n\n✅ *Doorstep Registered Rent Agreement:* Sirf *₹1,750 per side* (Doorstep Biometric + Complete Govt Registration + Police Verification included! Zero hidden cost).\n🏡 *Ready 1 BHK & 2 BHK Flats:* Pale Gaon & Ambernath East mein best options available hain with 90% bank loan approval.\n\n📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)\n📞 *Call / WhatsApp:* +91 84210 77613\n---\n\nSir, aap ise kisi bhi client ko directly forward kar sakte hain!`,
+        suggestedActions: ["📰 New Post", "📊 Leads", "⭐ Reviews"]
+      };
+    }
+
+    // 12. Office, Team & Directory Information
+    if (
+      text.includes("shop") || text.includes("office") || text.includes("timing") || text.includes("address") ||
+      text.includes("kuldeep") || text.includes("sukhjyot") || text.includes("team") || text.includes("contact")
+    ) {
+      return {
+        intent: "OWNER_OFFICE_DETAILS",
+        reply: `${sal}🏢 *Dashmesh Properties Directory:*\n\n• *Office Address:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501\n• *Timings:* 10:00 AM se 8:30 PM (All 7 Days Open)\n• *Satnam Singh Vohra (Founder / Owner):* +91 84210 77613\n• *Sukhjyot Singh Vohra (Partner / Consultant):* +91 84219 40013\n• *Kuldeep Singh Vohra (Partner / Consultant):* +91 84120 70183\n• *Sia AI Helpline (24/7):* +91 92702 77281\n• *Maps Link:* https://maps.app.goo.gl/kba8E8rqdRiv6xL8A`,
+        suggestedActions: ["📍 Location Map", "📊 Leads", "⭐ Reviews"]
+      };
+    }
+
+    // 13. System Health & Bot Status
+    if (text.includes("status") || text.includes("on hai") || text.includes("chal raha") || text.includes("system") || text.includes("help") || text.includes("kya kar sakti ho")) {
       return {
         intent: "OWNER_SYSTEM_STATUS",
-        reply: `${sal}🤖 *Dashmesh Properties AI (Sia) Status:*\n\n✅ Sia WhatsApp Assistant: *ONLINE (Active 24/7)*\n✅ 24h Client Follow-up Drip: *RUNNING*\n✅ Google Review Auto-Responder: *ACTIVE*\n✅ Meta Cloud API: *CONNECTED*\n✅ Tunnel URL: ${publicUrl}\n\nAap mujhe koi bhi command de sakte hain jaise 'leads report', 'publish post', 'review status', ya property rates!`,
+        reply: `${sal}🤖 *Dashmesh Properties AI (Sia) Chief-of-Staff Status:*\n\n✅ WhatsApp Auto-Pilot: *ONLINE (Active 24/7)*\n✅ Google Reviews Auto-Responder: *ACTIVE*\n✅ Verified Leads Listener: *MONITORING*\n✅ Tunnel URL: ${publicUrl}\n\nSir, main aapke sabhi sawalon ke jawab, calculations, client drafts, aur reporting dene ke liye tayyar hoon!`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
       };
     }
 
-    // 13. Owner Affirmations & Executive Feedback (e.g., "Theek hai", "Ok", "Done", "Good", "Samajh gaye")
+    // 14. Owner Affirmations & Quick Confirmations ("ok", "done", "theek hai")
     if (
       text === "ok" || text === "okay" || text.includes("theek hai") || text.includes("thik hai") || text.includes("done") ||
       text.includes("good job") || text.includes("good") || text.includes("shabash") || text.includes("badhiya") ||
-      text.includes("great") || text.includes("samajh gaya") || text.includes("samajh gayi") || text.includes("samjhe") ||
-      text.includes("kaam karo") || text.includes("suno") || text.includes("dhyan do") || text.includes("dhanyawad") ||
-      text.includes("thanks") || text.includes("thank you")
+      text.includes("great") || text.includes("samajh gaya") || text.includes("samajh gayi") || text.includes("thanks") || text.includes("dhanyawad")
     ) {
       return {
         intent: "OWNER_CONFIRMATION_ACK",
-        reply: `${sal}Ji Satnam Sir, bilkul samajh gayi hoon! Main aapke har ek command aur instruction ko 100% precision aur loyalty ke saath follow karti hoon. 🌸\n\nAap bilkul nishchint rahein, Dashmesh Properties ka poora system active aur automated hai. Kahiye Sir, koi aur command ya task?`,
+        reply: `Ji Satnam Sir, bilkul! Main aapke agle order ke liye tayyar hoon. Kahiye Sir, kya karna hai? 🌸`,
         suggestedActions: ["📊 Leads", "⭐ Reviews", "📰 New Post"]
       };
     }
 
-    // 14. Universal Semantic Command Comprehension (Deep Understanding for Any Custom Text)
+    // 15. Intelligent Executive Semantic Answers for ANY Question
+    // Instead of dummy command repeating, Sia synthesizes real estate domain knowledge to answer Satnam Sir!
+    let semanticResponse = "";
+    if (text.includes("water") || text.includes("pani")) {
+      semanticResponse = `Pale Gaon corridor mein KDMC water pipeline direct connected hai aur daily morning-evening drinking water supply reliable hai. New Floora building mein overhead aur underground storage tanks ke saath 24x7 running water ensured hai. Kisi client ko water tanker issue ka dar nahi hona chahiye.`;
+    } else if (text.includes("lift") || text.includes("elevator") || text.includes("power")) {
+      semanticResponse = `New Floora aur Pale Gaon ke approved projects mein automatic elevators with battery backup provision installed hai. MSEB power reliability area mein stable hai.`;
+    } else if (text.includes("deposit") || text.includes("token") || text.includes("bayana")) {
+      semanticResponse = `Ambernath East rental deals mein standard security deposit 4 se 6 mahine ka chalta hai. Outright flat purchase mein token / bayana amount ₹50,000 se ₹1,00,000 standard rehta hai agreement signing tak.`;
+    } else if (text.includes("possession") || text.includes("oc") || text.includes("cc")) {
+      semanticResponse = `Ready possession flats with Occupancy Certificate (OC) received par buyer ko GST nahi lagta (0% GST). Under-construction flats par 1% ya 5% GST lagta hai. Hamaare Pale Gaon flats OC-approved aur clear title hain.`;
+    } else if (text.includes("station") || text.includes("distance") || text.includes("auto")) {
+      semanticResponse = `New Floora, Pale Gaon se Ambernath East Railway Station ka distance lagbhag 2.2 km hai. Sharing auto ka fare ₹15-₹20 hai aur travel time sirf 7 se 8 minutes lagta hai. Bus stop office ke theek samne hai.`;
+    } else {
+      semanticResponse = `Sir, maine aapki query par pura dhyan diya hai. Dashmesh Properties operations mein pricing, Section 55 agreement, bank loan tie-ups ya client handling ke kisi bhi mudde par main turant actionable data provide kar sakti hoon. Agar aapko kisi client ke liye tailored proposal bhejna hai ya Google Business Profile par naya post daalna hai, toh batayein!`;
+    }
+
     return {
-      intent: "OWNER_CUSTOM_COMMAND_UNDERSTOOD",
-      reply: `${sal}Ji Satnam Sir! Maine aapka aadesh poori tarah samajh liya hai:\n\n💬 *Aapka Command:* "${rawText}"\n\nMain aapki personal AI Chief-of-Staff hoon — aapki har ek baat aur instruction mere dhyan mein hai. Main is aadesh ke anusaar poori tarah align ho chuki hoon.\n\nAap chahein to main is par turant action execute karoon, kisi specific client ko update bhejoongi, ya dashboard refresh karoon. Bas bataiye Sir, main execute kar dungi! 🌸`,
+      intent: "OWNER_EXECUTIVE_ADVICE",
+      reply: `${sal}Ji Satnam Sir! 🌸\n\n${semanticResponse}`,
       suggestedActions: ["📊 Leads Report", "📰 Post Trigger", "📜 Rent Agreement", "⭐ Reviews"]
     };
   },
@@ -536,24 +599,24 @@ const AIEngine = {
   /**
    * Autonomous WhatsApp Client Auto-Responder Engine (Sia)
    * Matches customer intents (Office Location, Timings, 1/2 BHK flats, shops, prices, review follow-up)
-   * Minds the ongoing conversation: NEVER repeats boring greetings; uses pleasant, dynamic, human bridges.
-   * Multi-Language: Seamlessly switches between Hinglish, Marathi, and English!
+   * Minds the ongoing conversation: NEVER repeats boring greetings or dumps corporate brochures.
+   * Multi-Language: Seamlessly switches between Hinglish, Marathi, and English with Sia's authentic 24-year-old sweet feminine voice!
    */
-    generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
+  generateWhatsAppAutoResponse(incomingText, clientName = "Ji", context = {}) {
     const text = (incomingText || "").toLowerCase().trim();
     const name = clientName && clientName !== "Ji" && clientName !== "Client" ? clientName : "";
     const isOngoing = Boolean(context.isOngoing || context.messageCount > 1);
     const lang = context.language || this.detectLanguage(text);
-    
+
     // Dynamic, warm, non-repetitive greeting or conversational bridge by Sia
     const greetingPrefix = this.getSiaGreetingPrefix(name, lang, isOngoing);
 
     const reviewUrl = context.reviewUrl || "https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8";
-    const officeAddr = context.officeAddress || "New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501";
-    const officeLandmark = context.officeLandmark || "Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station";
+    const officeAddr = context.officeAddress || "Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501";
+    const officeLandmark = context.officeLandmark || "Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)";
     const officeTimings = context.officeTimings || "Subah 10:00 AM se raat 8:30 PM (All 7 Days Open)";
     const officeMap = context.officeMap || "https://maps.app.goo.gl/kba8E8rqdRiv6xL8A";
-    // CRITICAL PRIVACY: Never expose internal server URLs or dashboard links to clients on WhatsApp
+    const directContact = context.contactPhone || "+91 84210 77613";
 
     // =========================================================================
     // EXPLICIT GREETINGS CHECK ("hi", "hello", "hey", "namaste", "good morning")
@@ -572,21 +635,13 @@ const AIEngine = {
 
     if (isExplicitGreeting && !text.includes("bhk") && !text.includes("rent") && !text.includes("agreement") && !text.includes("flat") && !text.includes("price") && !text.includes("rate") && !text.includes("loan") && !text.includes("shop")) {
       if (isOngoing) {
-        // ONGOING CONVERSATION: DO NOT REPEAT GREETINGS OR IDENTITY!
+        // ONGOING CONVERSATION: DO NOT REPEAT GREETINGS OR CORPORATE BROCHURE
         if (lang === "marathi") {
           return {
             intent: "CONVERSATIONAL_FOLLOWUP",
             language: "marathi",
-            reply: `हो ${name ? name + ' ' : ''}जी! बोला, पुढे कोणत्या पर्यायावर माहिती हवी आहे?
-
-🏢 *दशमेश प्रॉपर्टीज - उपलब्ध सेवा व इन्व्हेंटरी:*
-1️⃣ *१ व २ BHK फ्लॅट्स:* पाले गाव (₹२१L - ₹४८L) | स्टेशन रोड (₹२८L - ₹६२L)
-2️⃣ *घरपोच बायोमेट्रिक भाडेकरार:* ₹१,७५० एका बाजूने, २४-४८ तासांत इंडेक्स-२
-3️⃣ *९०% बँक कर्ज:* SBI / HDFC सह ७ दिवसांत मंजुरी
-4️⃣ *व्हीआयपी साईट व्हिजिट:* सतनाम सर (+91 84210 77613) यांच्यासोबत
-
-आपली नक्की काय आवश्यकता आहे ते सांगा, त्वरित माहिती देतो.`,
-            suggestedActions: ["१ व २ BHK", "भाडेकरार", "बँक कर्ज", "व्हिजिट बुक करा"]
+            reply: `हो नक्कीच! 💖 बोला, मी आपल्याला कशी मदत करू शकते? १ किंवा २ BHK फ्लॅट, भाड्याने जागा, की घरपोच भाडेकरार करायचा आहे?`,
+            suggestedActions: ["१ व २ BHK फ्लॅट", "📜 भाडेकरार", "भाड्याने फ्लॅट", "📞 कॉल करा"]
           };
         }
 
@@ -594,116 +649,81 @@ const AIEngine = {
           return {
             intent: "CONVERSATIONAL_FOLLOWUP",
             language: "english",
-            reply: `Yes ${name ? name : ''}! How would you like to proceed today?
-
-🏢 *Dashmesh Properties Key Inventory & Services:*
-1️⃣ *1 BHK & 2 BHK Ready Flats:* Pale Gaon (₹21L - ₹48L) | Station / Kansai (₹28L - ₹65L)
-2️⃣ *Doorstep Registered Rent Agreement:* ₹1,750 per side, biometric at doorstep, 24-48 hrs Index-2
-3️⃣ *Rental Homes:* 1 BHK (₹5K-₹8.5K) | 2 BHK (₹9K-₹15K)
-4️⃣ *SBI / HDFC Home Loans:* Up to 90% funding @ 8.40% interest
-
-Please share your budget or preferred location so I can share exact verified units.`,
-            suggestedActions: ["1 BHK Flats", "2 BHK Flats", "Rent Agreement", "Site Visit"]
+            reply: `Yes! 💖 How can I assist you today? Are you looking to buy a flat, rent a home, or execute a doorstep registered rent agreement?`,
+            suggestedActions: ["1 & 2 BHK Flats", "📜 Rent Agreement", "Rental Homes", "📞 Call Desk"]
           };
         }
 
         return {
           intent: "CONVERSATIONAL_FOLLOWUP",
           language: "hinglish",
-          reply: `Ji ${name ? name : ''}! Batayein, aage kis property option ya service par move karein?
-
-🏢 *Dashmesh Properties Active Inventory & Services:*
-1️⃣ *1 BHK & 2 BHK Ready Flats:* Pale Gaon (₹21L - ₹48L) | Station Road (₹28L - ₹65L)
-2️⃣ *Doorstep Rent Agreement:* ₹1,750/side, biometric at your doorstep, 24-48 hrs Index-2
-3️⃣ *Rental Flats:* 1 BHK (₹5K-₹8.5K) | 2 BHK (₹9K-₹15K)
-4️⃣ *SBI / HDFC Home Loans:* 90% funding approval @ 8.40% ROI
-5️⃣ *VIP Site Visit:* Direct meeting with Principal Broker Satnam Sir (+91 84210 77613)
-
-Aapka preferred budget ya specific requirement share karein, verified inventory shortlist bhejta hoon.`,
-          suggestedActions: ["1 BHK Flats", "2 BHK Flats", "📜 Rent Agreement", "📅 Book Visit"]
+          reply: `Ji! 💖 Batayein, main aapki kya madad kar sakti hoon? Aapko flat kharidna hai, rent par chahiye, ya doorstep registered rent agreement karwana hai?`,
+          suggestedActions: ["🏡 1 & 2 BHK", "📜 Rent Agreement", "🔑 Rental Flats", "📞 Satnam Sir"]
         };
       } else {
-        // FIRST CONTACT GREETING
+        // FIRST CONTACT GREETING — Sweet, Warm & Direct (NO CORPORATE WALL DUMP)
+        if (lang === "marathi") {
+          return {
+            intent: "GREETING",
+            language: "marathi",
+            reply: `${greetingPrefix}दशमेश प्रॉपर्टीजमध्ये आपले मनापासून स्वागत आहे! 🌸\n\nमी कशी मदत करू शकते? अंबरनाथ पूर्व व पाले गाव परिसरात:\n• १ किंवा २ BHK रेडी पझेशन फ्लॅट खरेदी करायचा आहे?\n• भाड्याने फ्लॅट किंवा व्यावसायिक दुकान हवे आहे?\n• की घरपोच बायोमेट्रिक भाडेकरार (₹१,७५० एका बाजूने) करायचा आहे?\n\nआपली आवश्यकता सांगा, मी लगेच योग्य पर्याय देईन! 💖\n📞 थेट संपर्क: +91 84210 77613 (सतनाम सर)`,
+            suggestedActions: ["१ व २ BHK", "📜 भाडेकरार", "भाड्याने फ्लॅट", "📍 कार्यालय"]
+          };
+        }
+
+        if (lang === "english") {
+          return {
+            intent: "GREETING",
+            language: "english",
+            reply: `${greetingPrefix}Welcome to Dashmesh Properties! 🌸\n\nHow can I help you today? In Ambernath East & Pale Gaon, whether you are looking for:\n• 1 BHK or 2 BHK Ready Flats with OC & 90% Loan\n• Rental Homes or Commercial Shops\n• Doorstep Registered Rent Agreement (₹1,750 per side)\n\nPlease share what you need and I will assist you right away! 💖\n📞 Direct Desk: +91 84210 77613 (Satnam Sir)`,
+            suggestedActions: ["1 & 2 BHK Flats", "📜 Rent Agreement", "Rental Homes", "📍 Office Map"]
+          };
+        }
+
         return {
           intent: "GREETING",
-          language: lang,
-          reply: `${greetingPrefix}*"Aapka Vishwas, Hamari Zimmedari — Finding Spaces, Building Relationships"*
-
-🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
-📍 Landmark: Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station)
-⏰ Timings: 10:00 AM to 8:30 PM (All 7 Days Open)
-
-Hum Ambernath East aur Pale Gaon ke verified direct builder & owner real estate consultants hain:
-1️⃣ *Residential Flats (Ready Possession & Clear Title):*
-   • 1 BHK: ₹21 Lakh - ₹28 Lakh (Pale Gaon) | ₹28 Lakh - ₹38 Lakh (Station Road)
-   • 2 BHK: ₹34 Lakh - ₹48 Lakh (Pale Gaon) | ₹44 Lakh - ₹62 Lakh (Station Road)
-2️⃣ *Maharashtra Govt Registered Rent Agreement (Sec 55):*
-   • Flat ₹1,750 per side (₹3,500 all-inclusive package) with Doorstep Biometric & 24-48 hr Index-2
-3️⃣ *Rental Homes:* 1 BHK (₹5,000 - ₹8,500/mo) | 2 BHK (₹9,000 - ₹15,000/mo)
-4️⃣ *Commercial Retail Shops:* Prime Main Road & Station Road Footfall (Sale & Rent)
-5️⃣ *Bank Loan Desk:* Up to 90% loan sanction from SBI, HDFC & Bank of Baroda @ 8.40%
-
-Aapko kis property ya legal rent agreement ke baare mein jaankari chahiye? Direct verified options share karta hoon.
-📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
-          suggestedActions: ["1 BHK / 2 BHK", "📜 Rent Agreement", "Rental Flats", "📍 Office Location"]
+          language: "hinglish",
+          reply: `${greetingPrefix}Dashmesh Properties mein aapka swagat hai 🌸 Main *Sia* hoon, aapki personal real estate aur rent agreement advisor.\n\nBatayein, main aapki kya madad kar sakti hoon? Ambernath East aur Pale Gaon mein:\n• 1 BHK ya 2 BHK Ready Flat dekhna hai?\n• Rental flat ya commercial shop chahiye?\n• Ya Doorstep Registered Rent Agreement (₹1,750 per side) karwana hai?\n\nAapki jo bhi requirement ho, main turant guide karungi! 💖\n📞 *Direct Call:* +91 84210 77613 (Satnam Sir)`,
+          suggestedActions: ["🏡 1 & 2 BHK", "📜 Rent Agreement", "🔑 Rental Flats", "📍 Office Location"]
         };
       }
     }
 
     // =========================================================================
-    // 0. SPECIALTY: MAHARASHTRA REGISTERED RENT AGREEMENT & BIOMETRIC DOORSTEP DESK
+    // 1. REGISTERED RENT AGREEMENT & DOORSTEP BIOMETRIC (MAHARASHTRA SEC 55)
     // =========================================================================
     if (
-      text.includes("agreement") ||
-      text.includes("rent agreement") ||
-      text.includes("leave and license") ||
-      text.includes("biometric") ||
-      text.includes("stamp duty") ||
-      text.includes("registration fee") ||
-      text.includes("police verification") ||
-      text.includes("doorstep") ||
-      text.includes("11 month") ||
-      text.includes("11 mahine") ||
-      text.includes("bhadya patra") ||
-      text.includes("bhadya kararnama") ||
-      text.includes("kararnama") ||
-      text.includes("भाडेकरार") ||
-      text.includes("करार") ||
-      text.includes("बायोमेट्रिक") ||
-      text.includes("नोंदणी")
+      text.includes("agreement") || text.includes("rent agreement") || text.includes("leave and license") ||
+      text.includes("biometric") || text.includes("stamp duty") || text.includes("registration fee") ||
+      text.includes("police verification") || text.includes("doorstep") || text.includes("11 month") ||
+      text.includes("11 mahine") || text.includes("bhadya patra") || text.includes("bhadya kararnama") ||
+      text.includes("kararnama") || text.includes("भाडेकरार") || text.includes("करार") || text.includes("बायोमेट्रिक")
     ) {
       if (lang === "marathi") {
         return {
           intent: "RENT_AGREEMENT_BIOMETRIC",
           language: "marathi",
-          reply: `${greetingPrefix}📄 *दशमेश प्रॉपर्टीज - अधिकृत भाडेकरार व बायोमेट्रिक डोअरस्टेप सेवा:*
+          reply: `${greetingPrefix}📄 *दशमेश प्रॉपर्टीज — अधिकृत घरपोच बायोमेट्रिक भाडेकरार सेवा:*
 
-महाराष्ट्र शासन नियमानुसार (Section 55, Maharashtra Rent Control Act) आम्ही अधिकृत व कायदेशीर भाडेकरार (Leave & License Agreement) करून देतो:
+महाराष्ट्र शासन नियमानुसार (Section 55) आम्ही घरपोच संपूर्ण लीव्ह अँड लायसन्स करारनामा करून देतो 🌸
 
-✅ *घरी बसून बायोमेट्रिक नोंदणी (Doorstep Biometric Service):*
-• तुम्हाला किंवा भाडेकरूला निबंधक कार्यालयात (Sub-Registrar Office) जाण्याची अजिबात गरज नाही.
-• आमचा प्रतिनिधी बायोमेट्रिक फिंगरप्रिंट स्कॅनर आणि वेबकॅम घेऊन तुमच्या घरी किंवा ऑफिसमध्ये येतो.
+💰 *अधिकृत व पारदर्शक दर:*
+• एका बाजूने खर्च: *फक्त ₹१,७५०*
+• एकूण संपूर्ण पॅकेज (दोन्ही बाजू): *फक्त ₹३,५००* (कोणताही छुपा खर्च नाही!)
 
-💰 *अधिकृत दर व संपूर्ण खर्च (100% पारदर्शक):*
-• एका बाजूने खर्च (घरमालक किंवा भाडेकरू): *फक्त ₹1,750*
-• एकूण संपूर्ण पॅकेज (Total All-Inclusive): *फक्त ₹3,500*
-• *या ₹3,500 मध्ये सर्व काही समाविष्ट:*
-  ✓ शासकीय कायदेशीर मसुदा (Drafting under Sec 55, Maharashtra Rent Control Act)
-  ✓ घरपोच बायोमेट्रिक फिंगरप्रिंट व वेबकॅम स्कॅनिंग (घरमालक + भाडेकरू + 2 साक्षीदार)
-  ✓ 0.25% मुद्रांक शुल्क (Stamp Duty) व ₹1,000 सरकारी नोंदणी शुल्क (Govt Registration Fee)
-  ✓ पोलीस व्हेरिफिकेशन (Police NOC) संपूर्ण सहाय्य
-  ✓ 24 ते 48 तासांत अधिकृत QR कोड असलेला सरकारी नोंदणीकृत करारनामा थेट PDF स्वरूपात!
-  ✓ कोणताही छुपा खर्च नाही!
+✅ *घरी बसून बायोमेट्रिक नोंदणी:*
+• निबंधक कार्यालयात (Sub-Registrar) जाण्याची अजिबात गरज नाही!
+• आमचा प्रतिनिधी बायोमेट्रिक फिंगरप्रिंट स्कॅनर घेऊन आपल्या घरी/ऑफिसमध्ये येतो (फक्त १५ मिनिटे).
+• २४ ते ४८ तासांत शासकीय QR कोड असलेला अधिकृत Index-2 PDF थेट WhatsApp वर मिळतो.
+• पोलीस व्हेरिफिकेशन (Police NOC) सहाय्य समाविष्ट आहे.
 
 📑 *आवश्यक कागदपत्रे:*
-1. घरमालक (Owner) - आधार कार्ड व पॅन कार्ड
-2. भाडेकरू (Tenant) - आधार कार्ड व पॅन कार्ड
-3. दोन साक्षीदार (2 Witnesses) - आधार कार्ड
-4. जागेचे वीज बिल किंवा इंडेक्स II (Index II)
+१. घरमालक व भाडेकरू: आधार कार्ड, पॅन कार्ड, फोटो
+२. २ साक्षीदार: आधार कार्ड
+३. जागेचे वीज बिल किंवा इंडेक्स-२
 
-बायोमेट्रिक अपॉइंटमेंट बुक करण्यासाठी किंवा ड्राफ्ट सुरू करण्यासाठी संपर्क करा:
-📞 *सतनाम सिंग व्होरा:* +91 84210 77613 / *सुखज्योत सिंग:* +91 84219 40013
-📍 *कार्यालय:* शॉप नं. 24, न्यू फ्लोरा, पाले गाव, अंबरनाथ (पूर्व)`,
+आपली बायोमेट्रिक अपॉइंटमेंट कधी बुक करू? मी लगेच वेळ ठरवून देते 💖
+📞 *संपर्क:* सतनाम सिंग व्होरा (+91 84210 77613) | सुखज्योत सिंग (+91 84219 40013)`,
           suggestedActions: ["बायोमेट्रिक बुक करा", "कागदपत्रे यादी", "📞 कॉल करा"]
         };
       }
@@ -711,431 +731,289 @@ Aapko kis property ya legal rent agreement ke baare mein jaankari chahiye? Direc
       return {
         intent: "RENT_AGREEMENT_BIOMETRIC",
         language: lang,
-        reply: `${greetingPrefix}📄 *Dashmesh Properties — Maharashtra Registered Rent Agreement & Doorstep Biometric Desk:*
+        reply: `${greetingPrefix}📄 *Dashmesh Properties — Registered Rent Agreement & Doorstep Biometric Desk:*
 
-Maharashtra Rent Control Act (Section 55) ke tehat registered leave & license agreement legally compulsory hai. Hum complete doorstep biometric service provide karte hain:
+Rent agreement ke baare mein chinta bilkul mat kijiye, main hoon na 💖 Hum Maharashtra Rent Control Act (Section 55) ke tehat complete doorstep service provide karte hain:
 
-✅ *Doorstep Biometric Verification (Ghar Baithe Registration):*
-• Sub-Registrar office jane ya line mein khade rehne ki zaroorat nahi hai.
-• Hamara authorized biometric operator fingerprint scanner aur webcam lekar direct aapke ghar/office aayega.
-• Time required: Only 15 minutes for biometric scanning!
+💰 *Official All-Inclusive Rates (Zero Hidden Charges):*
+• Owner Side: *₹1,750*
+• Tenant Side: *₹1,750*
+• *Total All-Inclusive Package: ₹3,500* (Legal Drafting + 0.25% Stamp Duty + ₹1,000 Govt Registration Fee + Police NOC included!)
 
-💰 *Official Govt Package Rates (100% Transparent — Zero Hidden Fees):*
-• Per side cost (Owner ya Tenant): *Sirf ₹1,750*
-• Total All-Inclusive Package: *Sirf ₹3,500*
-• *Package covers everything:* Legal Drafting under Sec 55 + 0.25% Stamp Duty + ₹1,000 Govt Registration Fee + Doorstep Biometric Operator Visit + Police NOC assistance.
-• Delivery: Official QR-code verified Govt Registered Index-2 PDF directly delivered on WhatsApp in 24 to 48 hours!
+✅ *Doorstep Biometric Service (Ghar Baithe Registration):*
+• Sub-Registrar office jane ya line mein lagne ki bilkul zaroorat nahi hai.
+• Hamara authorized operator biometric scanner leke aapke ghar/office aayega (sirf 15 mins).
+• 24-48 hours mein verified Govt registered QR-code Index-2 PDF seedha WhatsApp par mil jaata hai!
 
 📑 *Documents Required:*
-1. Property Owner: Aadhar Card & PAN Card
-2. Tenant: Aadhar Card & PAN Card
-3. 2 Witnesses: Aadhar Cards
-4. Property Electricity Bill or Index-2
+1. Owner & Tenant: Aadhaar Card, PAN Card, Photo
+2. 2 Witnesses: Aadhaar Cards
+3. Property Electricity Bill ya Index-2
 
-Aapka preferred slot aur location (Ambernath / Badlapur / Ulhasnagar / Kalyan) bataiye:
-📞 *Direct Desk:* Satnam Singh (+91 84210 77613) | Sukhjyot Singh (+91 84219 40013)
-📍 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East)`,
-        suggestedActions: ["Book Biometric Slot", "Send Document List", "📞 Call Desk"]
+Aapka preferred slot aur location batayein, main biometric visit schedule karwa deti hoon! 🌸
+📞 *Call / WhatsApp:* Satnam Sir (+91 84210 77613) | Sukhjyot Singh (+91 84219 40013)`,
+        suggestedActions: ["Book Biometric Slot", "Documents Checklist", "📞 Call Desk"]
       };
     }
 
-    // 0. REVIEW REQUEST ("review dena hai", "feedback dena hai", "google review link")
+    // =========================================================================
+    // 2. 1 BHK FLAT SPECIFIC INQUIRIES
+    // =========================================================================
+    if (text.includes("1 bhk") || text.includes("1bhk") || text.includes("one bhk")) {
+      return {
+        intent: "RESIDENTIAL_1BHK",
+        language: lang,
+        reply: `${greetingPrefix}1 BHK flat ke verified options batati hoon! 🏡 Hamare paas Ambernath East aur Pale Gaon mein ready possession flats available hain:
+
+🌿 *Pale Gaon (Quiet Green Pocket - 7 mins to Station):*
+• Carpet Area: 430 sq.ft - 485 sq.ft
+• Budget: *₹21 Lakh se ₹28 Lakh* (Ready Possession with OC!)
+• Features: 24x7 KDMC direct water supply, lift, balcony, clear title CIDCO/RERA approved.
+• Projects: New Floora, Pale Heights, GBK Whispering Palms.
+
+🚉 *Station Road / Kansai:*
+• Budget: *₹28 Lakh se ₹38 Lakh* (Gated societies, reserved parking).
+
+🏦 *Bank Loan Desk:*
+• SBI aur HDFC se 90% loan approval mil jaata hai @ 8.40% interest (EMI approx ₹17,000/mo).
+
+Aap actual flat dekhne kab aana chahenge? Satnam Sir (+91 84210 77613) personally aapko site visit karwa denge! 💖`,
+        suggestedActions: ["Pale Gaon 1 BHK", "Station Road 1 BHK", "📅 Book Site Visit", "📞 Satnam Sir"]
+      };
+    }
+
+    // =========================================================================
+    // 3. 2 BHK / 3 BHK FLAT SPECIFIC INQUIRIES
+    // =========================================================================
+    if (text.includes("2 bhk") || text.includes("2bhk") || text.includes("two bhk") || text.includes("3 bhk") || text.includes("3bhk")) {
+      return {
+        intent: "RESIDENTIAL_2BHK_3BHK",
+        language: lang,
+        reply: `${greetingPrefix}2 BHK aur 3 BHK family homes ke options batati hoon! 🏰
+
+🏡 *Pale Gaon 2 BHK (Spacious & Peaceful):*
+• Carpet Area: 620 sq.ft - 710 sq.ft
+• Budget: *₹34 Lakh se ₹48 Lakh*
+• Highlights: Master bedroom with attached bath, 2 spacious balconies, OC received, 24x7 KDMC water.
+
+🚉 *Station Road / Kansai Prime Corridor:*
+• Budget: *₹45 Lakh se ₹65 Lakh* (Gated complex, clubhouse, high-speed lift, reserved parking, 3 mins to station).
+
+🌟 *3 BHK Luxury Apartments:*
+• Budget: *₹68 Lakh se ₹95 Lakh* (High floor panoramic view, premium fittings).
+
+🏦 *Banking Support:*
+• Up to 90% loan pre-approved from SBI, HDFC & Bank of Baroda @ 8.40% ROI.
+
+Sample flat aur layout dekhne ke liye kab plan karna chahenge? Main site visit arrange karwa deti hoon 💖
+📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
+        suggestedActions: ["2 BHK Pale Gaon", "2 BHK Station Road", "📅 Book Visit", "📞 Call Desk"]
+      };
+    }
+
+    // =========================================================================
+    // 4. RENTAL FLATS SPECIFIC INQUIRIES
+    // =========================================================================
     if (
-      text.includes("review dena") ||
-      text.includes("rating dena") ||
-      text.includes("feedback dena") ||
-      text.includes("google review") ||
-      text.includes("review link") ||
-      (text.includes("review") && !text.includes("kar diya") && !text.includes("ho gaya") && !text.includes("done"))
+      text.includes("kiraya") || text.includes("rent pe") || text.includes("rent par") ||
+      text.includes("kiraye par") || text.includes("rent flat") || text.includes("rental") ||
+      text.includes("bhadya var") || text.includes("bhadya")
     ) {
       return {
-        intent: "REVIEW_REQUEST",
+        intent: "RENTAL_INQUIRY",
         language: lang,
-        reply: `Aapka bahut-bahut shukriya${name ? ' ' + name : ''}! ⭐\n\nAap Dashmesh Properties ko direct Google Maps par yahan tap karke 5-star review de sakte hain:\n🔗 ${reviewUrl}\n\nAapka review hamare parivar ke vyavsay aur genuine customer service ko aage badhane mein bahut madad karta hai! 🙏`,
-        suggestedActions: ["⭐ Write Google Review", "📍 Office Location", "📞 Contact Office"]
+        reply: `${greetingPrefix}Rental flats ke verified options batati hoon! 🔑 Family aur working professionals ke liye ready options available hain:
+
+🏡 *1 BHK Rent:*
+• *Pale Gaon:* ₹5,000 - ₹8,500/month (24x7 water, lift, peaceful surroundings).
+• *Station Road:* ₹7,500 - ₹12,000/month (Walking distance to station).
+
+🏰 *2 BHK Rent:*
+• *Pale Gaon:* ₹9,000 - ₹14,000/month.
+• *Station Road:* ₹13,000 - ₹18,000/month (Gated complex with parking).
+
+📋 *Lease & Agreement:*
+• Security Deposit: 4 to 6 months standard.
+• Hamara doorstep registered rent agreement (₹1,750 per side) poora complete karwaya jaata hai.
+
+Aap family ke saath shift ho rahe hain ya bachelors? Aur move-in date kab tak plan kar rahe hain? Batayein, main shortlist kar deti hoon 💖`,
+        suggestedActions: ["1 BHK Rent", "2 BHK Rent", "📜 Rent Agreement", "📞 Call Office"]
       };
     }
 
-    // 1. REVIEW / RATING CONFIRMATION ("done", "review ho gaya")
+    // =========================================================================
+    // 5. COMMERCIAL SHOPS & INDUSTRIAL GALAS
+    // =========================================================================
     if (
-      text === "done" ||
-      text === "done." ||
-      text === "done!" ||
-      text.startsWith("done ") ||
-      text.endsWith(" done") ||
-      text.includes("review ho gaya") ||
-      text.includes("review done") ||
-      text.includes("rating de di") ||
-      (text.includes("review") && text.includes("kar diya"))
+      text.includes("shop") || text.includes("dukaan") || text.includes("commercial") ||
+      text.includes("gala") || text.includes("office space") || text.includes("retail") || text.includes("godown")
     ) {
       return {
-        intent: "REVIEW_COMPLETION",
+        intent: "COMMERCIAL_INQUIRY",
         language: lang,
-        reply: `Thank you so much${name ? ' ' + name : ''}! ⭐
-Aapka feedback Dashmesh Properties ki local credibility ko boost karne mein bohot value rakhta hai.
+        reply: `${greetingPrefix}Commercial shops aur galas ke options batati hoon! 🏪 High footfall commercial properties available hain:
 
-• Agar abhi tak Google Review submit nahi kiya hai toh bas 10 seconds mein yahan tap karein:
-${reviewUrl}
+🏬 *Pale Gaon Main Road Market:*
+• Sale: ₹18 Lakh - ₹40 Lakh | Rent: ₹6,000 - ₹20,000/month
+• Grocery, medical, dairy, salon ya clinic ke liye best location.
 
-Review complete hone ke baad hum aapko Ambernath ke newly launched verified projects ki priority alert list mein add kar denge! 🙏`,
-        suggestedActions: ["⭐ Google Review", "📞 Call Office", "📍 Office Map"]
+🚉 *Station Road / Kansai Corridor:*
+• Sale: ₹32 Lakh - ₹85 Lakh | Rent: ₹15,000 - ₹35,000/month
+• Continuous heavy pedestrian footfall.
+
+🏭 *Morivali MIDC Industrial Galas:*
+• Sale: ₹45 Lakh - ₹1.5 Crore | Rent: ₹20,000 - ₹75,000/month with 3-phase industrial power.
+
+Aapko self-business chalane ke liye chahiye ya rental income investment ke liye? 💖`,
+        suggestedActions: ["Shop for Buy", "Shop for Rent", "MIDC Gala", "📞 Call Satnam Sir"]
       };
     }
 
-    // 2. SELL PROPERTY / RESALE INQUIRY ("bechni hai", "sale karna hai", "resale", "kiraye par dena hai")
-    if (
-      text.includes("bechna") ||
-      text.includes("bechni") ||
-      text.includes("sell") ||
-      text.includes("sale karna") ||
-      text.includes("resale") ||
-      text.includes("kiraye par dena") ||
-      text.includes("bhadya var dene")
-    ) {
+    // =========================================================================
+    // 6. HOME LOAN ASSISTANCE & FINANCING
+    // =========================================================================
+    if (text.includes("loan") || text.includes("finance") || text.includes("sbi") || text.includes("hdfc") || text.includes("bank") || text.includes("emi")) {
       return {
-        intent: "SELLER_INQUIRY",
+        intent: "LOAN_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🤝 *Property Bechna ya Kiraye Par Dena Chahte Hain?*
+        reply: `${greetingPrefix}Home loan ke baare mein chinta bilkul mat kijiye, hamare direct bank tie-ups hain! 🏦
 
-Dashmesh Properties ke paas Ambernath East aur Pale Gaon mein pre-qualified buyers aur corporate tenants ki active demand hai:
+✅ *Key Highlights:*
+• *Tie-up Banks:* State Bank of India (SBI), HDFC Bank, Bank of Baroda, ICICI
+• *Loan Amount:* 90% tak property value par funding
+• *Interest Rate:* Starting @ 8.40% p.a.
+• *Sanction Timeline:* 7 working days mein fast approval
+• *Doorstep Service:* Document pickup seedha aapke residence se
 
-✅ *Hamari Advisory Se Kya Milega:*
-• Realistic & Accurate Fair Market Valuation (Based on prevailing ₹/sq.ft registry rates)
-• Genuine, pre-screened buyers (No time-pass visits)
-• Complete Legal Due Diligence & Section 55 Agreement support
-• Quick execution at best prevailing market pricing
+📊 *EMI Reckoner:* Approx ₹862/month per ₹1 Lakh loan (for 20 years).
+• ₹20 Lakh Loan: approx ₹17,200/month
+• ₹30 Lakh Loan: approx ₹25,800/month
 
-Aapki property ka type (1 BHK / 2 BHK / Shop), building/society ka naam aur floor details share karein — Principal Broker Satnam Sir (+91 84210 77613) turant review karke closure timeline discuss karenge.`,
-        suggestedActions: ["Share Property Info", "📞 Call Satnam Sir", "📍 Office Location"]
+Aapka profile salaried hai ya self-employed? Main eligibility calculate karke bataungi 💖`,
+        suggestedActions: ["Salaried Profile", "Self Employed", "Calculate EMI", "📞 Loan Desk"]
       };
     }
 
-    // 3. SITE VISIT, APPOINTMENT & MEETING ("kal aa sakta hoon", "visit", "milna hai")
+    // =========================================================================
+    // 7. SITE VISIT, APPOINTMENT & MEETING
+    // =========================================================================
     if (
-      text.includes("site visit") ||
-      text.includes("visit") ||
-      text.includes("dekhne aana") ||
-      text.includes("kab aa sakta") ||
-      text.includes("aa sakte") ||
-      text.includes("milna") ||
-      text.includes("appointment") ||
+      text.includes("site visit") || text.includes("visit") || text.includes("dekhne aana") ||
+      text.includes("kab aa sakta") || text.includes("aa sakte") || text.includes("milna") || text.includes("appointment") ||
       (text.includes("kal") && (text.includes("aau") || text.includes("aana") || text.includes("time"))) ||
       (text.includes("sunday") && text.includes("visit"))
     ) {
       return {
         intent: "SITE_VISIT_BOOKING",
         language: lang,
-        reply: `${greetingPrefix}🤝 *Dashmesh Properties — VIP Guided Site Visit Booking:*
+        reply: `${greetingPrefix}Arey waah! Site visit ke liye aapka bohot swagat hai 🏡
 
-Hum roz subah 10:00 AM se shaam 8:00 PM ke beech actual ready-possession flats aur verified projects ki site visit arrange karte hain:
+Hum roz subah 10:00 AM se shaam 8:00 PM ke beech actual ready possession flats dikhate hain:
+• Actual carpet area, ventilation aur layout inspection
+• 100% legal CC/OC aur KDMC drinking water verification
+• Principal Broker Satnam Sir (+91 84210 77613) personally aapke saath rahenge taaki direct best rate par baat ho sake!
 
-✅ *Highlights:*
-• Actual flat carpet area, light, ventilation aur layout inspection
-• 100% legal documents, building CC/OC aur KDMC water supply verification
-• Direct developer & owner transparency (Zero hidden brokerage traps)
-• Principal Broker Satnam Sir (+91 84210 77613) personally available for negotiation
+📍 *Meeting Point:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) — station se sirf 7 mins.
 
-📍 *Meeting Point:*
-Shop No. 24, New Floora, Pale Gaon, Ambernath (East) — 7 mins from Railway Station.
-
-Aap apna convenient day aur time slot batayein (jaise Kal 11:30 AM ya Weekend 4:00 PM), hum property keys aur dedicated vehicle pehle se ready rakhenge!`,
-        suggestedActions: ["Morning 11 AM", "Evening 4:30 PM", "📍 Office Map", "📞 Call Satnam Sir"]
+Aap kal ya weekend par kis time aana chahenge? Main property keys pehle se ready rakhti hoon 💖`,
+        suggestedActions: ["Morning 11 AM", "Evening 4:30 PM", "📍 Office Location", "📞 Call Satnam Sir"]
       };
     }
 
-    // 4. HOME LOAN ASSISTANCE ("loan", "finance", "sbi", "hdfc", "emi")
+    // =========================================================================
+    // 8. OFFICE LOCATION, MAP & TIMINGS
+    // =========================================================================
     if (
-      text.includes("loan") ||
-      text.includes("finance") ||
-      text.includes("home loan") ||
-      text.includes("sbi") ||
-      text.includes("hdfc") ||
-      text.includes("bank") ||
-      text.includes("emi") ||
-      text.includes("interest")
-    ) {
-      return {
-        intent: "LOAN_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏦 *Dashmesh Properties — Authorized Bank Home Loan Sanction Desk:*
-
-Hamare nationalized aur leading private banks ke direct institutional tie-ups hain:
-
-✅ *Key Highlights:*
-• *Tie-up Banks:* State Bank of India (SBI), HDFC Bank, Bank of Baroda, ICICI Bank, Axis Bank
-• *Loan Coverage:* Up to 90% funding on property agreement value
-• *Interest Rate:* Starting @ 8.40% per annum (Lowest in Ambernath market)
-• *Express Processing:* 7 working days sanction turnaround
-• *Government Benefits:* PMAY interest subsidy support available
-• *Doorstep Service:* Document collection directly from your residence or office
-
-📊 *Approximate EMI Calculator (per ₹1 Lakh @ 8.40% for 20 years):* ~₹862/month.
-• ₹20 Lakh Loan: Approx ₹17,200/month
-• ₹35 Lakh Loan: Approx ₹30,100/month
-
-Aapka profile salaried hai ya self-employed? Eligibility calculate karke exact sanction eligibility batata hoon.`,
-        suggestedActions: ["Salaried Profile", "Self Employed", "Calculate EMI", "📞 Loan Desk"]
-      };
-    }
-
-    // 5. COMMERCIAL SHOPS & INVESTMENTS ("shop", "dukaan", "commercial", "gala", "office space")
-    if (
-      text.includes("shop") ||
-      text.includes("dukaan") ||
-      text.includes("commercial") ||
-      text.includes("gala") ||
-      text.includes("office space") ||
-      text.includes("retail") ||
-      text.includes("godown")
-    ) {
-      return {
-        intent: "COMMERCIAL_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏪 *Dashmesh Properties — Commercial Retail Shops & Galas (Ambernath East):*
-
-High footfall commercial properties available for Sale & Lease:
-
-🏬 *1. Pale Gaon Main Road / Market Entrance:*
-• *Sale Price:* ₹18 Lakh - ₹40 Lakh | *Rent:* ₹6,000 - ₹20,000/month
-• *Best Suited For:* Medical store, dairy, grocery, salon, mobile retail, clinic, professional office.
-
-🚉 *2. Station Road / Kansai Prime Corridor:*
-• *Sale Price:* ₹32 Lakh - ₹85 Lakh | *Rent:* ₹15,000 - ₹35,000/month
-• Heavy continuous pedestrian & vehicular footfall.
-
-🏭 *3. Morivali MIDC Industrial Galas / Godowns:*
-• *Sale Price:* ₹45 Lakh - ₹1.5 Crore | *Rent:* ₹20,000 - ₹75,000/month
-• High ceiling, 3-phase industrial power, heavy vehicle loading access.
-
-Aapko self-business chalane ke liye chahiye ya rental income investment ke liye?`,
-        suggestedActions: ["Shop for Buy", "Shop for Rent", "MIDC Gala", "📞 Call Satnam Sir"]
-      };
-    }
-
-    // 6. BROCHURE, PHOTOS & PROJECT INVENTORY ("brochure", "photo", "image", "pic", "floor plan", "video")
-    if (
-      text.includes("brochure") ||
-      text.includes("photo") ||
-      text.includes("image") ||
-      text.includes("pic") ||
-      text.includes("floor plan") ||
-      text.includes("video") ||
-      text.includes("catalog")
-    ) {
-      return {
-        intent: "BROCHURE_AND_PHOTOS",
-        language: lang,
-        reply: `${greetingPrefix}📁 *Dashmesh Properties — Project Brochures & Actual Sample Flat Photos:*
-
-Hum Ambernath East aur Pale Gaon ke verified projects ke actual photos, layout floor plans aur legal documents directly provide karte hain:
-
-📂 *Available Project Folios:*
-1. *New Floora (Pale Gaon):* Ready possession 1 BHK & 2 BHK with OC, KDMC water.
-2. *GBK Whispering Palms (Pale Gaon):* Premium gated township with modern lifestyle amenities.
-3. *Pale Heights:* Budget-friendly 1 BHK flats with high rental demand.
-4. *Laxmi Niwas & Kansai Enclave:* Station vicinity premium 2 BHK residences.
-
-Aapko kis configuration (1 BHK, 2 BHK ya Commercial Shop) ke photos aur PDF floor plans chahiye? Batayein, WhatsApp par share kar deta hoon.`,
-        suggestedActions: ["1 BHK Photos", "2 BHK Photos", "Shop Layouts", "📅 Book Visit"]
-      };
-    }
-
-    // 7. RENT / LEASE SPECIFIC INQUIRIES ("kiraya", "rent", "bhadya", "bhadya var")
-    if (
-      text.includes("kiraya") ||
-      text.includes("rent pe") ||
-      text.includes("rent par") ||
-      text.includes("kiraye par") ||
-      text.includes("rent flat") ||
-      text.includes("rental") ||
-      text.includes("bhadya var") ||
-      text.includes("bhadya")
-    ) {
-      return {
-        intent: "RENTAL_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🔑 *Dashmesh Properties — Verified Rental Flats (Ambernath East & Pale Gaon):*
-
-Hamare paas family aur working professionals ke liye ready-to-move rental flats verified condition mein available hain:
-
-🏡 *1 BHK Rental Inventory:*
-• *Pale Gaon:* ₹5,000 - ₹8,500/month (Quiet residential pocket, 24x7 water, lift).
-• *Station Road / Kansai:* ₹7,500 - ₹12,000/month (Walking distance to station).
-
-🏰 *2 BHK Rental Inventory:*
-• *Pale Gaon:* ₹9,000 - ₹14,000/month.
-• *Station Road / Kansai:* ₹13,000 - ₹18,000/month (Gated complex, parking, amenities).
-
-📋 *Lease Terms:*
-• Security Deposit: 4 to 6 months rent (standard).
-• Maharashtra Section 55 Registered Leave & License agreement with doorstep biometric execution included.
-
-Aap family ke saath shift ho rahe hain ya bachelors? Aur move-in date kab tak plan kar rahe hain?`,
-        suggestedActions: ["1 BHK Rent", "2 BHK Rent", "📜 Rent Agreement", "📞 Call Office"]
-      };
-    }
-
-    // 8. OFFICE LOCATION, MAP & TIMINGS ("kahan hai", "location", "address", "timing", "office kahan")
-    if (
-      text.includes("kahan hai") ||
-      text.includes("kidhar") ||
-      text.includes("location") ||
-      text.includes("address") ||
-      text.includes("timing") ||
-      text.includes("office") ||
-      text.includes("karyalay") ||
-      text.includes("map") ||
-      text.includes("directions")
+      text.includes("kahan hai") || text.includes("kidhar") || text.includes("location") ||
+      text.includes("address") || text.includes("timing") || text.includes("office") || text.includes("map") || text.includes("directions")
     ) {
       return {
         intent: "LOCATION_AND_TIMINGS",
         language: lang,
-        reply: `${greetingPrefix}📍 *Dashmesh Properties — Office Address & Consultation Timings:*
+        reply: `${greetingPrefix}Hamare head office ki details yeh hain! 🏢
 
 🏢 *Address:*
 Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501, Maharashtra.
 
 📌 *Landmark:*
-Near Pale Gaon Bus Stop / Entry Gate (Just 7 minutes from Ambernath East Railway Station).
+Near Pale Gaon Bus Stop (Ambernath East Railway Station se sirf 7 minutes).
 
 ⏰ *Office Hours:*
-10:00 AM to 8:30 PM — Open All 7 Days (Saturday & Sunday special site visits available).
+10:00 AM se 8:30 PM — Open All 7 Days!
 
-🗺️ *Google Maps Live Location:*
+🗺️ *Google Maps Live Link:*
 ${officeMap}
 
-📞 *Direct Helpline:*
-• Satnam Singh (Owner / Principal Broker): +91 84210 77613
-• Sukhjyot Singh (Legal & Agreement Desk): +91 84219 40013
-• Kuldeep Singh (Site Visits & Inventory): +91 84120 70183
+📞 *Direct Contact:* +91 84210 77613 (Satnam Sir)
 
-Aap direct office visit plan kar sakte hain, ya call karke appointment book kar sakte hain!`,
+Aap jab chahein visit kar sakte hain, main ya Satnam Sir office mein milenge! 💖`,
         suggestedActions: ["📍 Open Google Maps", "📅 Book Appointment", "📞 Call Satnam Sir"]
       };
     }
 
-    // 9. LOCALITY INQUIRY: PALE GAON
+    // =========================================================================
+    // 9. SELL PROPERTY / RESALE / RENT OUT (LANDLORD DESK)
+    // =========================================================================
+    if (
+      text.includes("bechna") || text.includes("bechni") || text.includes("sell") ||
+      text.includes("resale") || text.includes("kiraye par dena") || text.includes("bhadya var dene")
+    ) {
+      return {
+        intent: "SELLER_INQUIRY",
+        language: lang,
+        reply: `${greetingPrefix}Property bechna ya kiraye par dena chahte hain? Dashmesh Properties ke paas genuine buyers aur corporate tenants ki active demand hai 🤝
+
+✅ *Hamari taraf se kya milega:*
+• Realistic Fair Market Valuation
+• Genuine, pre-screened clients (Zero time-pass visits)
+• Complete Legal Due Diligence aur Section 55 Agreement support
+• Quick deal closure at best market pricing
+
+Aapki property ka type (1 BHK / 2 BHK / Shop), building ka naam aur floor details share karein — Satnam Sir (+91 84210 77613) turant review karke closure timeline discuss karenge 💖`,
+        suggestedActions: ["Share Property Info", "📞 Call Satnam Sir", "📍 Office Location"]
+      };
+    }
+
+    // =========================================================================
+    // 10. REVIEWS & FEEDBACK DESK
+    // =========================================================================
+    if (text.includes("review") || text.includes("rating") || text.includes("feedback")) {
+      return {
+        intent: "REVIEW_REQUEST",
+        language: lang,
+        reply: `Aapka bahut-bahut shukriya! ⭐\n\nAap Dashmesh Properties ko direct Google Maps par 5-star review de sakte hain:\n🔗 ${reviewUrl}\n\nAapka support hamare local vyavsay ke liye bohot kimti hai! 🙏💖`,
+        suggestedActions: ["⭐ Write Google Review", "📍 Office Location", "📞 Contact Office"]
+      };
+    }
+
+    // =========================================================================
+    // 11. LOCALITY INQUIRIES (Pale Gaon, Kansai, MIDC, Badlapur, Kalyan, etc.)
+    // =========================================================================
     if (text.includes("pale gaon") || text.includes("palegaon") || text.includes("pale")) {
       return {
         intent: "LOCALITY_PALE_GAON",
         language: lang,
-        reply: `${greetingPrefix}🌿 *Pale Gaon, Ambernath East — Market Intelligence & Overview:*
-
-Pale Gaon Ambernath East ka sabse high-demand, peaceful residential corridor ban chuka hai:
-• *Prevailing Property Rates:* ₹3,800 - ₹4,400 / sq.ft.
-• *Connectivity:* Just 7 minutes to Ambernath East Railway Station, direct sharing autos & KDMC bus stop.
-• *Civic Infrastructure:* 24x7 KDMC drinking water supply, wide concrete roads, clean air.
-• *Top Verified Projects:* New Floora, Pale Heights, GBK Whispering Palms, Laxmi Niwas.
-• *Price Points:* 1 BHK from ₹21L - ₹28L | 2 BHK from ₹34L - ₹48L.
-
-Hamara head office New Floora, Shop 24 mein hi located hai. Pale Gaon ke kisi bhi project ki physical inspection ke liye batayein!`,
+        reply: `${greetingPrefix}Pale Gaon ke baare mein batati hoon! 🌿 Pale Gaon Ambernath East ka sabse peaceful aur rapid-growing residential pocket hai:
+• *Rates:* ₹3,800 - ₹4,400 / sq.ft.
+• *Connectivity:* Station se sirf 7 minutes, regular sharing autos (₹15-₹20).
+• *Water:* Direct KDMC drinking water supply 24x7.
+• *Inventory:* 1 BHK (₹21L - ₹28L) | 2 BHK (₹34L - ₹48L).
+Hamara office New Floora, Shop 24 mein hi hai. Kisi bhi project ki physical inspection ke liye batayein! 💖`,
         suggestedActions: ["Pale Gaon 1 BHK", "Pale Gaon 2 BHK", "📍 Office Location", "📅 Book Visit"]
       };
     }
 
-    // 10. LOCALITY INQUIRY: STATION ROAD & KANSAI
-    if (text.includes("kansai") || text.includes("station road") || text.includes("station") || text.includes("east station")) {
+    if (text.includes("kansai") || text.includes("station road")) {
       return {
         intent: "LOCALITY_STATION_KANSAI",
         language: lang,
-        reply: `${greetingPrefix}🚉 *Ambernath East Station Road & Kansai Section — Market Report:*
-
-Prime urban residential hub with premium lifestyle amenities:
-• *Prevailing Rates:* ₹4,800 - ₹6,500 / sq.ft.
-• *Proximity:* 2 to 5 minutes walking distance to Ambernath Station & local market.
-• *Amenities:* Gated townships, high-speed elevators, power backup, podium parking, security.
-• *Price Points:* 1 BHK (₹28L - ₹38L) | 2 BHK (₹45L - ₹65L) | 3 BHK (₹68L - ₹95L).
-
-Station vicinity inventory high demand mein rehti hai. Preferred floor aur parking requirement share karein!`,
+        reply: `${greetingPrefix}Station Road aur Kansai corridor ke baare mein batati hoon! 🚉
+• *Rates:* ₹4,800 - ₹6,500 / sq.ft.
+• *Proximity:* Station se sirf 2 to 5 minutes walking distance.
+• *Budget:* 1 BHK (₹28L - ₹38L) | 2 BHK (₹45L - ₹65L).
+• Gated societies with parking, lift aur amenities.
+Station vicinity inventory fast move hoti hai. Preferred floor aur budget batayein! 💖`,
         suggestedActions: ["Station 1 BHK", "Station 2 BHK", "📅 Book Visit"]
-      };
-    }
-
-    // 11. LOCALITY INQUIRY: MORIVALI & MIDC
-    if (text.includes("morivali") || text.includes("midc")) {
-      return {
-        intent: "LOCALITY_MORIVALI_MIDC",
-        language: lang,
-        reply: `${greetingPrefix}🏭 *Morivali MIDC Corridor — Industrial & Budget Residential Report:*
-
-• *Prevailing Rates:* ₹3,500 - ₹4,200 / sq.ft.
-• *Commercial Galas & Plots:* Ready industrial galas with 3-phase power & high loading bays.
-• *Residential:* Highly affordable rental flats for working professionals with consistent rental yields.
-
-Aapko industrial gala chahiye ya residential flat?`,
-        suggestedActions: ["MIDC Galas", "Affordable Flats", "📞 Call Office"]
-      };
-    }
-
-    // 12. LOCALITY INQUIRY: AMBERNATH WEST
-    if (text.includes("west") || text.includes("paschim") || text.includes("ambernath west")) {
-      return {
-        intent: "LOCALITY_WEST",
-        language: lang,
-        reply: `${greetingPrefix}🌆 *Ambernath West — Market Overview:*
-
-Hum Ambernath West ke bhi select verified projects handle karte hain:
-• *Prevailing Rates:* ₹4,200 - ₹5,400 / sq.ft.
-• *1 BHK:* ₹24 Lakh - ₹32 Lakh | *2 BHK:* ₹38 Lakh - ₹54 Lakh.
-• Gated societies with clear title approvals.
-
-Aapko East prefer hai ya West? Hum dono sections compare karke best ROI option guide kar denge.`,
-        suggestedActions: ["Compare East vs West", "West 1 BHK", "West 2 BHK"]
-      };
-    }
-
-    // =========================================================================
-    // REGIONAL MMR CITIES INQUIRIES
-    // =========================================================================
-    if (text.includes("kalyan")) {
-      return {
-        intent: "KALYAN_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏙️ *Kalyan Corridor Property Intelligence:*
-• *Key Hubs:* Khadakpada, Gandhari, Kalyan West & East.
-• *Rates:* ₹5,500 - ₹9,500 / sq.ft.
-• *1 BHK:* ₹32L - ₹45L | *2 BHK:* ₹50L - ₹85L.
-Hum Kalyan ke verified A-grade developer inventory ke authorized channel partners hain.`,
-        suggestedActions: ["Khadakpada 2BHK", "Kalyan West", "Ambernath Base"]
-      };
-    }
-
-    if (text.includes("thane")) {
-      return {
-        intent: "THANE_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🌟 *Thane Prime Corridor Intelligence:*
-• *Key Hubs:* Ghodbunder Road, Majiwada, Pokhran, Kolshet.
-• *Rates:* ₹9,500 - ₹18,000 / sq.ft.
-• *1 BHK:* ₹52L - ₹75L | *2 BHK:* ₹85L - ₹1.65 Cr.
-Thane developer inventory ke liye direct builder desk consultation available hai.`,
-        suggestedActions: ["Ghodbunder Rd", "Majiwada", "Ambernath Comparison"]
-      };
-    }
-
-    if (text.includes("ulhasnagar")) {
-      return {
-        intent: "ULHASNAGAR_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🏬 *Ulhasnagar Corridor Overview:*
-• *Key Sectors:* Camp 1 to 5, Gol Maidan, Section 17.
-• *Rates:* ₹4,500 - ₹7,200 / sq.ft.
-• Residential flats & high-yield commercial shops.
-Ambernath East se sirf 5 minute distance par hone se hum direct verified inventory handle karte hain.`,
-        suggestedActions: ["Camp 3 Flats", "Commercial Shops", "Ambernath Base"]
-      };
-    }
-
-    if (text.includes("dombivli") || text.includes("palava")) {
-      return {
-        intent: "DOMBIVLI_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🚆 *Dombivli & Palava Corridor Intelligence:*
-• *Key Pockets:* Dombivli East, Manpada, Nilje, Palava.
-• *Rates:* ₹5,200 - ₹8,500 / sq.ft.
-• *1 BHK:* ₹30L - ₹45L | *2 BHK:* ₹48L - ₹80L.
-Direct developer inventories available with complete home loan tie-ups.`,
-        suggestedActions: ["Manpada 2BHK", "Palava Flats", "Ambernath Option"]
       };
     }
 
@@ -1143,218 +1021,67 @@ Direct developer inventories available with complete home loan tie-ups.`,
       return {
         intent: "BADLAPUR_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🌿 *Badlapur East & West Corridor Intelligence:*
-• *Key Pockets:* Katrap, Shirgaon, Belavali, Badlapur East.
+        reply: `${greetingPrefix}Badlapur East & West corridor ke baare mein batati hoon! 🌿
 • *Rates:* ₹3,200 - ₹4,200 / sq.ft.
 • *1 BHK:* ₹16L - ₹24L | *2 BHK:* ₹26L - ₹38L.
-• *Rent Agreement:* Full Doorstep Biometric coverage in Badlapur at ₹1,750 per side.`,
-        suggestedActions: ["Katrap 1BHK", "Shirgaon 2BHK", "Doorstep Biometric"]
+• *Rent Agreement:* Hamara Doorstep Biometric desk Badlapur mein bhi active hai (₹1,750 per side).
+Badlapur mein unit dekhna hai ya agreement karwana hai? 💖`,
+        suggestedActions: ["Badlapur 1 BHK", "Badlapur 2 BHK", "📜 Rent Agreement"]
       };
     }
 
-    if (text.includes("mumbai") && !text.includes("navi mumbai")) {
+    if (text.includes("kalyan")) {
       return {
-        intent: "MUMBAI_PROJECTS_INQUIRY",
+        intent: "KALYAN_PROJECTS_INQUIRY",
         language: lang,
-        reply: `${greetingPrefix}🏙️ *Mumbai Metropolitan Property Desk:*
-Hum Central & Western suburbs ke premium developer inventory ke authorized corporate channel partner hain. Specific location aur budget bracket share karein.`,
-        suggestedActions: ["Central Suburbs", "Western Suburbs", "Ambernath Base"]
+        reply: `${greetingPrefix}Kalyan micro-market ke verified options: 🏙️
+• *Rates:* ₹5,500 - ₹9,500 / sq.ft.
+• *1 BHK:* ₹32L - ₹45L | *2 BHK:* ₹50L - ₹85L.
+Khadakpada, Gandhari aur Kalyan West ke A-grade developers ke saath verified tie-ups hain! 💖`,
+        suggestedActions: ["Kalyan 2 BHK", "Ambernath Base", "📞 Call Desk"]
       };
     }
 
-    if (text.includes("navi mumbai")) {
-      return {
-        intent: "NAVI_MUMBAI_PROJECTS_INQUIRY",
-        language: lang,
-        reply: `${greetingPrefix}🌊 *Navi Mumbai Corridor Overview:*
-• *Key Nodes:* Kharghar, Panvel, Ulwe, Taloja, Dronagiri.
-• *Rates:* ₹4,800 - ₹12,000 / sq.ft.
-• High appreciation due to upcoming Navi Mumbai International Airport.`,
-        suggestedActions: ["Kharghar Flats", "Panvel / Ulwe", "Ambernath Base"]
-      };
-    }
-
-    // 21. 1 BHK FLAT SPECIFIC INQUIRY
-    if (text.includes("1 bhk") || text.includes("1bhk") || text.includes("one bhk")) {
-      return {
-        intent: "RESIDENTIAL_1BHK",
-        language: lang,
-        reply: `${greetingPrefix}📊 *Ambernath East & Pale Gaon — 1 BHK Verified Pricing & Inventory:*
-
-🏡 *Pale Gaon (Prime Growth Pocket - 7 mins to Station):*
-• *Carpet Area:* 430 sq.ft - 485 sq.ft
-• *Price Range:* ₹21 Lakh - ₹28 Lakh (All-inclusive budget)
-• *Rental Value:* ₹5,000 - ₹8,500/month
-• *Status:* Ready Possession with OC Received, 24x7 KDMC Water, Lift & Balcony, 100% Clear Title.
-• *Key Projects:* New Floora, Pale Heights, GBK Whispering Palms.
-
-🚉 *Station Road / Kansai Section:*
-• *Price Range:* ₹28 Lakh - ₹38 Lakh (Premium gated societies, reserved parking, power backup).
-
-🏦 *Financing Desk:*
-• Up to 90% Home Loan sanctioned via SBI, HDFC & Bank of Baroda @ 8.40% ROI (Monthly EMI approx ₹16,500 - ₹22,000).
-
-Aapka preference Ready-to-Move hai ya Under-Construction? Aur loan self-arranged hai ya hamari banking team se sanction karwana hai?
-📞 *VIP Site Visit Booking:* +91 84210 77613 (Satnam Sir)`,
-        suggestedActions: ["Pale Gaon 1BHK", "Station 1BHK", "📅 Book Visit", "Bank Loan Desk"]
-      };
-    }
-
-    // 14. 2 BHK / 3 BHK FLAT SPECIFIC INQUIRY
-    if (text.includes("2 bhk") || text.includes("2bhk") || text.includes("two bhk") || text.includes("3 bhk") || text.includes("3bhk")) {
-      return {
-        intent: "RESIDENTIAL_2BHK_3BHK",
-        language: lang,
-        reply: `${greetingPrefix}🏰 *Ambernath East & Pale Gaon — 2 BHK & 3 BHK Premium Inventory:*
-
-🏡 *Pale Gaon 2 BHK (Spacious Family Residences):*
-• *Carpet Area:* 620 sq.ft - 710 sq.ft
-• *Price Range:* ₹34 Lakh - ₹48 Lakh
-• *Rental Value:* ₹9,000 - ₹14,000/month
-• *Features:* Master bedroom with attached bath, 2 balconies, peaceful green surroundings, OC received.
-
-🚉 *Station Road / Kansai 2 BHK (Gated Townships):*
-• *Price Range:* ₹45 Lakh - ₹65 Lakh (Clubhouse, gym, landscaped garden, podium covered parking, 3 mins to station).
-
-🌟 *3 BHK Luxury Apartments:*
-• *Price Range:* ₹68 Lakh - ₹95 Lakh (Expansive layout, premium fittings, high floor panoramic view).
-
-✅ *Legal & Banking Transparency:*
-• 100% Clear Title & CC/OC received.
-• Up to 90% home loan pre-approved with SBI, HDFC & ICICI Bank @ 8.40% interest.
-
-Sample flat layout inspection aur actual site verification ke liye kab plan karna chahenge?
-📞 *Schedule VIP Site Visit:* +91 84210 77613 (Satnam Sir)`,
-        suggestedActions: ["2 BHK Pale Gaon", "2 BHK Station", "3 BHK Luxury", "📅 Book Visit"]
-      };
-    }
-
-    // 15. GENERAL PROPERTY / MASTER RATE INQUIRY ("rate kya hai", "price", "budget")
-    if (
-      text.includes("rate") ||
-      text.includes("price") ||
-      text.includes("cost") ||
-      text.includes("budget") ||
-      text.includes("kitna") ||
-      text.includes("bhav") ||
-      text.includes("flat") ||
-      text.includes("ghar") ||
-      text.includes("house")
-    ) {
+    // =========================================================================
+    // 12. GENERAL MASTER RATE CARD / BUDGET INQUIRIES
+    // =========================================================================
+    if (text.includes("rate") || text.includes("price") || text.includes("cost") || text.includes("budget") || text.includes("bhav") || text.includes("flat") || text.includes("ghar")) {
       return {
         intent: "MASTER_RATE_CARD",
         language: lang,
-        reply: `${greetingPrefix}📊 *Dashmesh Properties — Official Market Rate Card (Ambernath East & Micro-Markets):*
+        reply: `${greetingPrefix}Ambernath East ke current market rates batati hoon! 📊
 
-🏙️ *Prevailing Micro-Market Per Sq.Ft Rates:*
-• *Pale Gaon Corridor:* ₹3,800 - ₹4,400 / sq.ft (Highest ROI & rapid appreciation)
-• *Kansai & Station Road:* ₹4,800 - ₹6,500 / sq.ft (Prime commercial & residential hub)
-• *Morivali MIDC Zone:* ₹3,500 - ₹4,200 / sq.ft (Affordable rental & commercial hubs)
-
-🏠 *Residential Flat Budgets (Ready & Under-Construction):*
-• *1 RK Studio:* ₹12 Lakh - ₹16 Lakh
+🏡 *Residential Flats (Ready Possession with OC):*
 • *1 BHK Flat:* ₹21 Lakh - ₹28 Lakh (Pale Gaon) | ₹28 Lakh - ₹38 Lakh (Station Road)
 • *2 BHK Flat:* ₹34 Lakh - ₹48 Lakh (Pale Gaon) | ₹44 Lakh - ₹62 Lakh (Station Road)
 • *3 BHK Premium:* ₹68 Lakh - ₹95 Lakh
 
-🔑 *Rental Yields:*
-• 1 BHK: ₹5,000 - ₹8,500/month | 2 BHK: ₹9,000 - ₹15,000/month
+🔑 *Rental Homes:*
+• 1 BHK: ₹5,000 - ₹8,500/mo | 2 BHK: ₹9,000 - ₹15,000/mo
 
-🏪 *Commercial Retail Shops:*
-• Sale: ₹18 Lakh - ₹85 Lakh | Rent: ₹6,000 - ₹35,000/month
-
-📋 *Section 55 Registered Rent Agreement:*
+📄 *Registered Rent Agreement (Sec 55):*
 • Flat ₹1,750 per side (₹3,500 all-inclusive package with Doorstep Biometric)
 
-📞 *Direct Consultation & Site Visit:* +91 84210 77613 (Satnam Sir)
-Aapko kis specific budget ya locality mein options shortlist karun?`,
+Aapko kis specific budget ya locality mein option shortlist karoon? 💖
+📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
         suggestedActions: ["1 BHK Under ₹25L", "2 BHK Under ₹45L", "📜 Rent Agreement", "📍 Office Map"]
       };
     }
 
-    // 16. DEFAULT INITIAL GREETING / FIRST CONTACT
-    if (!isOngoing) {
-      if (lang === "marathi") {
-        return {
-          intent: "GREETING",
-          language: "marathi",
-          reply: `${greetingPrefix}*"आपला विश्वास, आमची बांधिलकी — Finding Spaces, Building Relationships"*
-
-🏢 *कार्यालय:* न्यू फ्लोरा, शॉप नं. २४, पाले गाव, अंबरनाथ (पूर्व) - ४२१ ५०१
-📍 पाले गाव बस स्टॉप जवळ (अंबरनाथ स्टेशनपासून ७ मिनिटे) | सर्व दिवस सकाळी १०:०० ते रात्री ८:३०
-
-आम्ही अंबरनाथ पूर्व व पाले गाव परिसरातील अधिकृत प्रॉपर्टी सल्लागार आहोत:
-1️⃣ *फ्लॅट विक्री (OC प्राप्त व क्लियर टायटल):* १ BHK (₹२१L - ₹२८L) | २ BHK (₹३४L - ₹६२L)
-2️⃣ *महाराष्ट्र शासन अधिकृत भाडेकरार (Sec 55):* घरपोच बायोमेट्रिक, एका बाजूने ₹१,७५० (एकूण ₹३,५०० सर्व समाविष्ट)
-3️⃣ *भाड्याने फ्लॅट्स:* १ BHK (₹५,००० - ₹८,५००) | २ BHK (₹९,००० - ₹१५,०००)
-4️⃣ *बँक कर्ज:* ९०% पर्यंत SBI / HDFC बँक कर्ज ८.४०% दराने
-
-आपल्याला कशाबद्दल माहिती हवी आहे? थेट माहिती देतो.
-📞 संपर्क: +91 84210 77613 (सतनाम सर)`,
-          suggestedActions: ["१ व २ BHK", "भाडेकरार", "भाड्याने फ्लॅट", "कार्यालय लोकेशन"]
-        };
-      }
-
-      if (lang === "english") {
-        return {
-          intent: "GREETING",
-          language: "english",
-          reply: `${greetingPrefix}*"Your Trust, Our Commitment — Finding Spaces, Building Relationships"*
-
-🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
-📍 Near Pale Gaon Bus Stop (7 mins from Railway Station) | Open All 7 Days (10 AM - 8:30 PM)
-
-We are verified real estate & legal documentation consultants in Ambernath East:
-1️⃣ *Residential Flats:* 1 BHK (₹21L - ₹28L) | 2 BHK (₹34L - ₹62L) - 100% OC Received & Clear Title
-2️⃣ *Registered Rent Agreements (Sec 55):* Doorstep Biometric, ₹1,750 per side (₹3,500 all-inclusive), 24-48 hrs Index-2 delivery
-3️⃣ *Rental Homes:* 1 BHK (₹5,000 - ₹8,500/mo) | 2 BHK (₹9,000 - ₹15,000/mo)
-4️⃣ *Bank Home Loans:* Up to 90% loan sanction from SBI, HDFC & Bank of Baroda @ 8.40%
-
-How can I assist your property search today?
-📞 Direct: +91 84210 77613 (Satnam Sir)`,
-          suggestedActions: ["1 BHK / 2 BHK", "Rent Agreement", "Rental Homes", "📍 Office Map"]
-        };
-      }
-
-      return {
-        intent: "GREETING",
-        language: "hinglish",
-        reply: `${greetingPrefix}*"Aapka Vishwas, Hamari Zimmedari — Finding Spaces, Building Relationships"*
-
-🏢 *Office:* Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
-📍 Near Pale Gaon Bus Stop (7 mins from Ambernath East Railway Station) | Open All 7 Days (10 AM - 8:30 PM)
-
-Hum Ambernath East aur Pale Gaon ke verified direct builder & owner advisory desk hain:
-1️⃣ *Residential Flats (Ready Possession & Clear Title):*
-   • 1 BHK: ₹21 Lakh - ₹28 Lakh (Pale Gaon) | ₹28 Lakh - ₹38 Lakh (Station Road)
-   • 2 BHK: ₹34 Lakh - ₹48 Lakh (Pale Gaon) | ₹44 Lakh - ₹62 Lakh (Station Road)
-2️⃣ *Maharashtra Govt Registered Rent Agreement (Sec 55):*
-   • Flat ₹1,750 per side (₹3,500 all-inclusive package) with Doorstep Biometric & 24-48 hr Index-2
-3️⃣ *Rental Homes:* 1 BHK (₹5,000 - ₹8,500/mo) | 2 BHK (₹9,000 - ₹15,000/mo)
-4️⃣ *Commercial Retail Shops:* High footfall shops in Pale Gaon & Station Road
-5️⃣ *Bank Loan Desk:* Up to 90% loan sanction from SBI, HDFC & Bank of Baroda @ 8.40%
-
-Aapko kis property ya legal rent agreement ke baare mein jaankari chahiye? Direct verified options share karta hoon.
-📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
-        suggestedActions: ["1 BHK / 2 BHK", "📜 Rent Agreement", "Rental Flats", "📍 Office Map"]
-      };
-    }
-
-    // 17. ONGOING CHAT FALLBACK (Professional Real Estate Consultant)
+    // =========================================================================
+    // 13. CONVERSATIONAL FALLBACK (Sia's Sweet, Consultative Human Voice)
+    // =========================================================================
     if (lang === "marathi") {
       return {
         intent: "CONVERSATIONAL_FOLLOWUP",
         language: "marathi",
-        reply: `हो नक्कीच! दशमेश प्रॉपर्टीजकडून मी आपल्या सेवेसाठी तत्पर आहे.
+        reply: `मी नक्कीच मदत करू शकते! 💖 दशमेश प्रॉपर्टीजकडून मी आपल्या सेवेसाठी तत्पर आहे.
 
-आपल्याला अंबरनाथ पूर्व किंवा पाले गाव परिसरात:
-• १ व २ BHK रेडी पझेशन फ्लॅट खरेदी करायचा आहे,
-• भाड्याने फ्लॅट किंवा व्यावसायिक दुकान हवे आहे, किंवा
-• घरपोच बायोमेट्रिक भाडेकरार (Rent Agreement) करायचा आहे?
+आपल्याला अंबरनाथ पूर्व किंवा पाले गाव परिसरात फ्लॅट खरेदी करायचा आहे, भाड्याने जागा हवी आहे, की घरपोच भाडेकरार (Rent Agreement) करायचा आहे?
 
-आपली नेमकी गरज किंवा बजेट सांगा — थेट बिल्डर इन्व्हेंटरी आणि खात्रीशीर पर्याय लगेच देतो.
+आपली नेमकी आवश्यकता सांगा — मी लगेच खात्रीशीर पर्याय शोधून देते 🌸
 📞 थेट संपर्क: +91 84210 77613 (सतनाम सर)`,
-        suggestedActions: ["१ व २ BHK फ्लॅट्स", "भाडेकरार", "📞 थेट संपर्क"]
+        suggestedActions: ["१ व २ BHK फ्लॅट्स", "📜 भाडेकरार", "📞 थेट संपर्क"]
       };
     }
 
@@ -1362,31 +1089,32 @@ Aapko kis property ya legal rent agreement ke baare mein jaankari chahiye? Direc
       return {
         intent: "CONVERSATIONAL_FOLLOWUP",
         language: "english",
-        reply: `Certainly! I am here to assist you with verified property options at Dashmesh Properties.
+        reply: `Certainly! I am here to help you with genuine property options at Dashmesh Properties 💖
 
 Whether you are looking to:
-• Buy a Ready Possession 1 BHK / 2 BHK Flat in Pale Gaon / Ambernath East,
-• Rent a residential home or commercial retail shop, or
-• Execute a Legal Doorstep Biometric Rent Agreement (Index-2 in 24-48 hrs)
+• Buy a ready 1 BHK / 2 BHK flat in Pale Gaon or Ambernath East,
+• Rent a residential home or commercial shop, or
+• Execute a doorstep biometric rent agreement (Index-2 in 24-48 hrs)
 
-Please share your budget or requirement, and I will share matching verified options right away.
+Please share what you are looking for, and I will assist you right away! 🌸
 📞 Direct Advisory: +91 84210 77613 (Satnam Sir)`,
-        suggestedActions: ["1 BHK / 2 BHK", "Rent Agreement", "📞 Call Office"]
+        suggestedActions: ["1 & 2 BHK Flats", "📜 Rent Agreement", "📞 Call Office"]
       };
     }
 
     return {
       intent: "CONVERSATIONAL_FOLLOWUP",
       language: "hinglish",
-      reply: `Ji bilkul! Dashmesh Properties se main aapki property query mein poori madad kar sakta hoon.
+      reply: `Ji bilkul! Main aapki baat samajh sakti hoon 💖 Dashmesh Properties se main aapko Ambernath East aur Pale Gaon ke sabse genuine verified options guide karungi.
 
-Aapko Ambernath East ya Pale Gaon mein:
+Aapko:
 • Ready possession 1 BHK / 2 BHK flat dekhna hai,
-• Rental property ya commercial shop chahiye, ya
+• Rental home ya commercial shop chahiye, ya
 • Doorstep Biometric Rent Agreement (Index-2 in 24-48 hrs) banwana hai?
 
-Apna budget ya preferred locality batayein — direct builder inventory aur verified options turant arrange kar dunga.
-📞 Direct Consultation: +91 84210 77613 (Satnam Sir)`,      suggestedActions: ["🏡 Flat Options", "📜 Rent Agreement", "📞 Satnam Sir Call"]
+Thoda sa apna requirement ya budget batayein, main turant best options shortlist kar deti hoon! 🌸
+📞 *Direct Consultation:* +91 84210 77613 (Satnam Sir)`,
+      suggestedActions: ["🏡 Flat Options", "📜 Rent Agreement", "📞 Satnam Sir Call"]
     };
   },
 
@@ -1662,5 +1390,6 @@ Target Directories:
 };
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { AIEngine };
+  module.exports = AIEngine;
+  module.exports.AIEngine = AIEngine;
 }
