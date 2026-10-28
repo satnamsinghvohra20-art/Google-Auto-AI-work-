@@ -11,7 +11,11 @@ services:
       - key: PORT
         value: 10000
       - key: VERIFY_TOKEN
-        value: DashmeshProperties2026
+        sync: false
+      - key: META_APP_SECRET
+        sync: false
+      - key: ADMIN_SECRET_KEY
+        sync: false
       - key: WHATSAPP_PHONE_NUMBER_ID
         value: "1239464059243498"
       - key: WHATSAPP_BUSINESS_ACCOUNT_ID
@@ -23,4 +27,38 @@ services:
       - key: META_ACCESS_TOKEN
         sync: false
       - key: GEMINI_API_KEY
+        sync: false
+      - key: ENABLE_AUTOMATIONS
+        value: "false"
+      - key: TRUST_PROXY
+        value: "true"
+      - key: NODE_ENV
+        value: "production"
+      - key: GOOGLE_PLACE_ID
+        value: "ChIJDxFBTbyV5zsRcHylJmmARG8"
+      - key: GOOGLE_BUSINESS_NAME
+        value: "Dashmesh Properties"
+      - key: GOOGLE_BUSINESS_ACCOUNT_ID
+        value: "107946228556636599623"
+      - key: GOOGLE_LOCATION_ID
+        value: "8017674425734626416"
+      - key: GOOGLE_CLIENT_ID
+        value: "677678506194-ajbams9q5hhe3g494oqfikh73g0iqpfq.apps.googleusercontent.com"
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN
+        sync: false
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: FACEBOOK_PAGE_ID
+        sync: false
+      - key: FACEBOOK_PAGE_ACCESS_TOKEN
+        sync: false
+      - key: INSTAGRAM_ACCOUNT_ID
+        sync: false
+      - key: INSTAGRAM_ACCESS_TOKEN
+        sync: false
+      - key: LINKEDIN_ORGANIZATION_ID
+        sync: false
+      - key: LINKEDIN_ACCESS_TOKEN
         sync: false

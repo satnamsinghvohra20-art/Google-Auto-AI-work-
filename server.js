@@ -82,6 +82,8 @@ function getLocalIpAddress() {
 
 const PORT = process.env.PORT || 3000;
 const BASE_DIR = __dirname;
+const isStandalone = require.main === module;
+const enableBackgroundAutomations = isStandalone && process.env.ENABLE_AUTOMATIONS === 'true';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -109,7 +111,7 @@ function loadJSONFile(filename, defaultValue = []) {
   const filePath = path.join(DATA_DIR, filename);
   try {
     if (fs.existsSync(filePath)) {
-      const data = fs.readFileSync(filePath, 'utf8');
+      const data = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '');
       return JSON.parse(data);
     }
   } catch (err) {
@@ -162,7 +164,7 @@ function triggerMasterSync(immediate = false) {
           cwd: __dirname,
           stdio: ['ignore', 'ignore', 'ignore']
         });
-        
+
         proc.on('error', (err) => {
           console.warn('[Storage] Host python runtime not available; pure JS engine keeping data synced:', err.message);
         });
@@ -185,10 +187,12 @@ function triggerMasterSync(immediate = false) {
   }
 }
 
-// Periodic background auto-sync every 15 minutes to keep SQL & Excel 100% updated
-setInterval(() => {
-  triggerMasterSync(true);
-}, 15 * 60 * 1000);
+// Derived data sync is only active in the standalone server process.
+if (isStandalone) {
+  setInterval(() => {
+    triggerMasterSync(true);
+  }, 15 * 60 * 1000);
+}
 
 function sendJSON(res, status, data) {
   res.writeHead(status, {
@@ -205,7 +209,7 @@ function saveJSONFile(filename, data) {
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
     triggerMasterSync();
-  pingGoogleAndBing();
+    if (typeof pingGoogleAndBing === 'function') pingGoogleAndBing();
   } catch (err) {
     console.error(`[Storage] Error writing ${filename}:`, err.message);
   }
@@ -220,10 +224,10 @@ let realEstateProjects = loadJSONFile('projects.json', []);
 // WhatsApp Auto-Pilot Configuration & Live Conversations Store
 const whatsappConfig = {
   enabled: true,
-  phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.WHATSAPP_PHONE_ID || '1239464059243498',
+  phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.WHATSAPP_PHONE_ID || '',
   businessAccountId: process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || '2124558472274062',
   accessToken: process.env.META_ACCESS_TOKEN || process.env.WHATSAPP_ACCESS_TOKEN || '',
-  verifyToken: process.env.VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN || 'DashmeshProperties2026',
+  verifyToken: process.env.VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN || '',
   businessName: 'Dashmesh Properties',
   phone: process.env.WHATSAPP_NUMBER || '+91 92702 77281',
   kuldeepPhone: '+91 84120 70183',
@@ -239,15 +243,6 @@ const whatsappConfig = {
 };
 
 let whatsappConversations = loadJSONFile('leads.json', []);
-
-// ZERO FAKE DATA POLICY: Strictly sanitize and purge any simulated test leads
-const FAKE_NAME_BLACKLIST = ['rohan', 'ramesh pawar', 'deepak jain', 'sunil patil', 'vikram mehta', 'amit verma', 'rajesh sharma', 'dummy', 'sample client', 'test lead'];
-whatsappConversations = whatsappConversations.filter(c => {
-  const n = (c.name || '').toLowerCase();
-  const isFake = FAKE_NAME_BLACKLIST.some(bad => n.includes(bad));
-  return !isFake;
-});
-saveJSONFile('leads.json', whatsappConversations);
 
 
 function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
@@ -298,7 +293,7 @@ function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
   const reqOptions = {
     hostname: 'graph.facebook.com',
     port: 443,
-    path: `/v19.0/${config.phoneNumberId}/messages`,
+    path: `/v20.0/${config.phoneNumberId}/messages`,
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${config.accessToken}`,
@@ -332,7 +327,7 @@ function sendMetaWhatsAppMessage(toPhone, messageText, config, options = {}) {
               errorDetail += ' (Token Expired. Please update Meta Access Token)';
             }
           }
-        } catch (_) {}
+        } catch (_) { }
 
         if (typeof autoPilotState !== 'undefined' && autoPilotState.eventLogs) {
           autoPilotState.eventLogs.unshift({
@@ -470,11 +465,13 @@ function syncLiveGoogleBusinessProfile() {
   });
 }
 
-// Auto-run Google live sync immediately on boot & every 15 minutes
-syncLiveGoogleBusinessProfile();
-setInterval(() => {
-  syncLiveGoogleBusinessProfile().catch(err => console.warn('[Google Sync] Interval notice:', err.message));
-}, 15 * 60 * 1000);
+// External syncs belong to the standalone server, never a serverless import.
+if (isStandalone) {
+  syncLiveGoogleBusinessProfile();
+  setInterval(() => {
+    syncLiveGoogleBusinessProfile().catch(err => console.warn('[Google Sync] Interval notice:', err.message));
+  }, 15 * 60 * 1000);
+}
 
 // =========================================================================
 // 24/7 AUTONOMOUS AI AUTO-PILOT DAEMON ENGINE
@@ -701,14 +698,14 @@ const MREAEngine = {
     const rentAgreements = loadJSONFile('rent_agreements.json', []);
     const reviews = loadJSONFile('reviews.json', []);
     const posts = loadJSONFile('posts.json', []);
-    
+
     // Pale Gaon & Ambernath projects
-    const paleProjects = projects.filter(p => 
+    const paleProjects = projects.filter(p =>
       (p.subArea && p.subArea.toLowerCase().includes('pale')) ||
       (p.locality && p.locality.toLowerCase().includes('pale'))
     );
-    
-    const ambernathProjects = projects.filter(p => 
+
+    const ambernathProjects = projects.filter(p =>
       (p.region && p.region.toLowerCase().includes('ambernath')) ||
       (p.locality && p.locality.toLowerCase().includes('ambernath'))
     );
@@ -728,7 +725,7 @@ const MREAEngine = {
 
     // Active leads breakdown
     const activeLeads = leads.filter(l => !l.status || l.status.toLowerCase() !== 'archived');
-    
+
     // Rent agreements revenue
     let totalRentRevenue = 0;
     let completedAgreements = 0;
@@ -847,7 +844,7 @@ const MREAEngine = {
         const config = payload.configuration || (areaSqFt >= 600 ? '2 BHK' : '1 BHK');
         const locality = payload.locality || 'Pale Gaon, Ambernath (East)';
         const ratePerSqFt = telemetry.avgPaleRate || 4200;
-        
+
         const fmv = areaSqFt * ratePerSqFt;
         const stampDuty = Math.round(fmv * 0.07);
         const regFee = 30000;
@@ -855,7 +852,7 @@ const MREAEngine = {
         const netSellerPayout = fmv - brokerage;
         const buyerAllInclusive = fmv + stampDuty + regFee;
 
-        const comps = projects.filter(p => 
+        const comps = projects.filter(p =>
           (p.subArea && p.subArea.toLowerCase().includes('pale')) ||
           (p.locality && p.locality.toLowerCase().includes('pale'))
         ).slice(0, 4);
@@ -949,8 +946,8 @@ const MREAEngine = {
         const matched = projects.filter(p => {
           const hasConfig = p.configurations && p.configurations.some(c => c.toLowerCase().includes(configFilter.toLowerCase()));
           const inArea = (p.region && p.region.toLowerCase().includes(areaPreference)) ||
-                         (p.subArea && p.subArea.toLowerCase().includes(areaPreference)) ||
-                         (p.locality && p.locality.toLowerCase().includes(areaPreference));
+            (p.subArea && p.subArea.toLowerCase().includes(areaPreference)) ||
+            (p.locality && p.locality.toLowerCase().includes(areaPreference));
           return hasConfig && inArea;
         }).slice(0, 4);
 
@@ -968,7 +965,7 @@ const MREAEngine = {
           possession: p.possession || p.status,
           highlights: p.highlights
         }));
-        result.details = matched.map((m, idx) => 
+        result.details = matched.map((m, idx) =>
           '• **Option ' + String.fromCharCode(65 + idx) + ' (' + m.name + '):** ' + m.locality + ' — Price: ' + m.startingPrice + ' (' + (m.rateSqFt || 'Market Rate') + ') — RERA: ' + m.reraNumber + ' — Possession: ' + m.possession
         );
         result.whatsappMessage = '🏡 *SELECTED VERIFIED PROPERTIES FOR YOU IN AMBERNATH (EAST)*\n\n' +
@@ -1004,7 +1001,7 @@ const MREAEngine = {
         result.title = '🧮 Live 90% Home Loan EMI Matrix (SBI, HDFC, BOB @ 8.40%)';
         result.summary = 'Real compound interest EMI calculations for 25-year tenure across Ambernath price points:';
         result.matrix = matrix;
-        result.details = matrix.map(m => 
+        result.details = matrix.map(m =>
           '• **₹' + m.loanLakhs + ' Loan (25 Yrs @ 8.4%):** EMI = ₹' + m.emi.toLocaleString('en-IN') + '/mo | Min. Required Salary = ₹' + m.minSalary.toLocaleString('en-IN') + '/mo | Down Payment (10%) = ₹' + m.downPayment.toLocaleString('en-IN')
         );
         result.details.push('• **Approved Lending Partners:** State Bank of India (Ambernath East Branch), HDFC Bank, Bank of Baroda.');
@@ -1048,7 +1045,7 @@ const MREAEngine = {
         // Persist real mutation to disk and trigger master sync
         saveJSONFile('leads.json', leads);
         triggerMasterSync();
-        
+
         result.title = '🤝 MREA 8x8 Relationship Onboarding Executed (Figure 14)';
         result.summary = 'Real database mutation applied: advanced 8x8 touch status across ' + updatedCount + ' active CRM leads:';
         result.details = [
@@ -1137,7 +1134,7 @@ const MREAEngine = {
       case 'contract-to-close': {
         result.title = '🤝 Live Contract-to-Close & Rent Agreement Pipeline Audit';
         result.summary = 'Real-time audit across ' + rentAgreements.length + ' active registered agreements:';
-        result.details = rentAgreements.map(ag => 
+        result.details = rentAgreements.map(ag =>
           '• **Agreement ' + ag.agreement_id + ':** ' + ag.client_name + ' (' + ag.role + ') — ' + ag.property_address + ' — Fee: ₹' + (ag.total_cost || 3500) + ' — Biometric: ' + (ag.biometric_status || 'Verified') + ' — Status: ' + (ag.status || 'Active')
         );
         result.details.push('• **Contract-to-Close Roadmap:** 1. Token (10%) ➔ 2. 30-Yr Title Search ➔ 3. Bank Loan Sanction ➔ 4. Sub-Registrar Office Registration ➔ 5. Possession & Index-2.');
@@ -1292,7 +1289,7 @@ const MREAEngine = {
   async runMasterLoop() {
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const cycleId = 'MREA-SI-' + Date.now().toString(36).toUpperCase();
-    
+
     // 1. Gather live telemetry
     const telemetry = this.getLiveTelemetry();
 
@@ -1470,12 +1467,12 @@ const MREAEngine = {
 
   getMREADashboard() {
     const telemetry = this.getLiveTelemetry();
-    
+
     // Dynamically update Three L's with live counts
     this.threeLs.leads.databaseModel.metDatabase.currentCount = telemetry.leadsCount;
     this.threeLs.listings.activeSellerListings = telemetry.paleProjectsCount;
     this.threeLs.listings.totalCatalogProjects = telemetry.projectsCount;
-    
+
     return {
       success: true,
       timestamp: new Date().toISOString(),
@@ -1491,7 +1488,7 @@ const MREAEngine = {
     // Run the full Master Loop to execute and chain all 7 agents
     const masterReport = await this.runMasterLoop();
     const telemetry = masterReport.telemetry;
-    
+
     // Auto-formulate MREA WhatsApp Alert
     const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
     const waMsg = '👑 *DASHMESH PROPERTIES — MREA MILLIONAIRE REAL ESTATE REPORT* 👑\n\n' +
@@ -1544,7 +1541,7 @@ const RealEstateTrendEngine = {
     averageRentalYield: "6.8% to 8.2%",
     loanSanctionPace: "90% In-Principle Sanction within 7 Days"
   },
-  
+
   trendingKeywords: [
     {
       keyword: "1 BHK flat in Pale Gaon Ambernath",
@@ -1820,8 +1817,8 @@ function run24HourFollowUpCheck() {
   return `24h Follow-up Queue scanned. All client leads are up to date!`;
 }
 
-// Start Server Autonomous Timer
-setInterval(() => {
+// Scheduled business actions require an explicit operator opt-in.
+if (enableBackgroundAutomations) setInterval(() => {
   if (!autoPilotState.enabled) return;
 
   autoPilotState.totalCyclesExecuted++;
@@ -1931,7 +1928,7 @@ function pingGoogleAndBing() {
 async function runAutonomousAISelfChange() {
   const todayStr = new Date().toISOString().slice(0, 10);
   console.log(`[AI Autonomous Brain] Initiating autonomous self-optimization for ${todayStr}...`);
-  
+
   let aiTitle = "";
   let aiSummary = "";
   let aiTags = ["AmbernathEast", "PaleGaon", "RentAgreement", "RealEstate", "DoorstepBiometric"];
@@ -2118,8 +2115,8 @@ function _legacy_runDailyGoogleBooster_disabled(force = false) {
   };
 }
 
-// Daily automated cron: runs every 24 hours
-setInterval(() => {
+// Daily publishing/boost work is never started implicitly.
+if (enableBackgroundAutomations) setInterval(() => {
   try {
     runDailyGoogleBooster(false);
   } catch (err) {
@@ -2159,8 +2156,8 @@ function addToConversationHistory(phoneNumber, role, text) {
   conversationMemory[cleanPhone] = conversationMemory[cleanPhone].filter(m => m.timestamp > cutoff);
 }
 
-// Clean up stale conversation memory every 6 hours
-setInterval(() => {
+// Clean up in-memory conversation state in the standalone process.
+if (isStandalone) setInterval(() => {
   const cutoff = Date.now() - (48 * 60 * 60 * 1000);
   for (const phone of Object.keys(conversationMemory)) {
     conversationMemory[phone] = conversationMemory[phone].filter(m => m.timestamp > cutoff);
@@ -2181,7 +2178,7 @@ async function callGeminiAI(userPrompt, clientName, context = {}, phoneNumber = 
   const timeOfDay = istHour < 12 ? "morning" : istHour < 17 ? "afternoon" : istHour < 21 ? "evening" : "night";
 
   let systemInstruction;
-  
+
   if (isOwner) {
     systemInstruction = `You are "Sia", the ultra-intelligent AI Chief-of-Staff and Executive Assistant at Dashmesh Properties, Ambernath East.
 
@@ -2269,7 +2266,7 @@ RATE CARD: ${context.publicUrl || 'https://google-auto-ai-work.onrender.com'}/ra
 
   // Build multi-turn conversation contents
   const contents = [];
-  
+
   if (phoneNumber) {
     const history = getConversationHistory(phoneNumber);
     for (const msg of history.slice(-8)) {
@@ -2279,7 +2276,7 @@ RATE CARD: ${context.publicUrl || 'https://google-auto-ai-work.onrender.com'}/ra
       });
     }
   }
-  
+
   const contextPrefix = clientName && clientName !== 'Client' ? `[Client: ${clientName}] ` : '';
   contents.push({
     role: 'user',
@@ -2289,7 +2286,7 @@ RATE CARD: ${context.publicUrl || 'https://google-auto-ai-work.onrender.com'}/ra
   const payload = JSON.stringify({
     contents,
     systemInstruction: { parts: [{ text: systemInstruction }] },
-    generationConfig: { 
+    generationConfig: {
       temperature: isOwner ? 0.3 : 0.65,
       maxOutputTokens: isOwner ? 800 : 500,
       topP: 0.9
@@ -2298,7 +2295,7 @@ RATE CARD: ${context.publicUrl || 'https://google-auto-ai-work.onrender.com'}/ra
 
   // Try primary model (gemini-2.0-flash), fallback to gemini-1.5-flash
   const models = ['gemini-2.0-flash', 'gemini-1.5-flash'];
-  
+
   for (const model of models) {
     const result = await new Promise((resolve) => {
       try {
@@ -2359,7 +2356,7 @@ RATE CARD: ${context.publicUrl || 'https://google-auto-ai-work.onrender.com'}/ra
 async function generateGeminiReviewReply(customerName, rating, reviewText) {
   const apiKey = (process.env.GEMINI_API_KEY || whatsappConfig.geminiApiKey || '').trim();
   if (!apiKey) return null;
-  
+
   const prompt = `Generate a professional, warm, SEO-optimized Google review reply for:
 Customer: ${customerName}
 Rating: ${rating}/5 stars
@@ -2388,14 +2385,14 @@ async function refreshGoogleAccessToken() {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
-  
+
   if (!clientId || !clientSecret || !refreshToken) {
     return null;
   }
 
   return new Promise((resolve) => {
     const postData = `client_id=${encodeURIComponent(clientId)}&client_secret=${encodeURIComponent(clientSecret)}&refresh_token=${encodeURIComponent(refreshToken)}&grant_type=refresh_token`;
-    
+
     const req = https.request({
       hostname: 'oauth2.googleapis.com',
       path: '/token',
@@ -2592,14 +2589,14 @@ async function syncAndReplyToGoogleReviews() {
     let repliedCount = 0;
 
     for (const apiReview of apiReviews) {
-      const existing = googleReviews.find(r => 
+      const existing = googleReviews.find(r =>
         (r.googleReviewId && r.googleReviewId === apiReview.googleReviewId) ||
         (r.customerName === apiReview.customerName && r.reviewText === apiReview.reviewText)
       );
 
       if (!existing) {
         let autoReply = await generateGeminiReviewReply(apiReview.customerName, apiReview.rating, apiReview.reviewText);
-        
+
         if (!autoReply) {
           const replies = AIEngine.generateReviewReplies(apiReview.customerName, apiReview.rating, apiReview.reviewText);
           autoReply = replies[0]?.reply || 'Thank you for your valuable feedback!';
@@ -2646,15 +2643,15 @@ async function syncAndReplyToGoogleReviews() {
   }
 }
 
-// Scheduled sync every 30 minutes
-setInterval(() => {
+// Scheduled review synchronization requires explicit operator opt-in.
+if (enableBackgroundAutomations) setInterval(() => {
   syncAndReplyToGoogleReviews().catch(err => {
     console.warn('[GBP Sync] Scheduled error:', err.message);
   });
 }, 30 * 60 * 1000);
 
-// Initial sync 30s after server boots
-setTimeout(() => {
+// Initial review synchronization requires explicit operator opt-in.
+if (enableBackgroundAutomations) setTimeout(() => {
   syncAndReplyToGoogleReviews().catch(err => {
     console.warn('[GBP Sync] Initial error:', err.message);
   });
@@ -2662,7 +2659,7 @@ setTimeout(() => {
 
 async function getSiaIntelligentResponse(text, name, context, isOwner) {
   const phoneNumber = context.phoneNumber || null;
-  
+
   // 1. Try Gemini AI first for BOTH Client & Owner
   try {
     const geminiReply = await callGeminiAI(text, name, {
@@ -2671,13 +2668,13 @@ async function getSiaIntelligentResponse(text, name, context, isOwner) {
       isOngoing: context.isOngoing || false,
       messageCount: context.messageCount || 0
     }, phoneNumber);
-    
+
     if (geminiReply) {
       const intent = isOwner ? 'OWNER_AI_RESPONSE' : 'GEMINI_AI_REPLY';
-      const suggestedActions = isOwner 
+      const suggestedActions = isOwner
         ? ['📊 Leads Report', '⭐ Reviews', '📝 New Post']
         : ['🏡 Site Visit Book Karein', '📋 Rent Agreement', '📞 Satnam Sir Call'];
-      
+
       return {
         intent,
         language: AIEngine.detectLanguage(text),
@@ -2723,7 +2720,7 @@ function startNgrokTunnel() {
         return;
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 
   console.log(`[Ngrok Watchdog] Launching single dedicated ngrok tunnel for ${ngrokDomain}...`);
   try {
@@ -2786,11 +2783,13 @@ function checkTunnelHealth() {
   req.end();
 }
 
-// Initial probe & continuous 20s watchdog loop
-setTimeout(() => {
-  checkTunnelHealth();
-  setInterval(checkTunnelHealth, 20000);
-}, 2000);
+// Tunneling is an operator-managed development feature, never an import side effect.
+if (isStandalone && process.env.ENABLE_NGROK === 'true') {
+  setTimeout(() => {
+    checkTunnelHealth();
+    setInterval(checkTunnelHealth, 20000);
+  }, 2000);
+}
 
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
@@ -2809,9 +2808,9 @@ const server = http.createServer((req, res) => {
   if (!security.checkRateLimit(req, res, 'global')) return;
 
   if (
-    pathname.startsWith('/api/ai/') || 
-    pathname === '/api/auto/cycle' || 
-    pathname === '/api/google/daily-boost' || 
+    pathname.startsWith('/api/ai/') ||
+    pathname === '/api/auto/cycle' ||
+    pathname === '/api/google/daily-boost' ||
     pathname === '/api/gbp/posts/generate'
   ) {
     if (!security.checkRateLimit(req, res, 'ai')) return;
@@ -2836,8 +2835,8 @@ const server = http.createServer((req, res) => {
     }
   });
 
-    // --- AI Super-Intelligence Local Rank Surge & Telemetry ---
-  
+  // --- AI Super-Intelligence Local Rank Surge & Telemetry ---
+
   // --- MREA (Millionaire Real Estate Agent) API Routes ---
   // --- MREA Super-Intelligence Multi-Agent Routes ---
   if (pathname === '/api/mrea/team' && req.method === 'GET') {
@@ -2999,22 +2998,23 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-    // --- Admin PIN Verification Endpoint ---
+  // --- Admin PIN Verification Endpoint ---
   if (pathname === '/api/auth/verify-pin' && req.method === 'POST') {
+    if (!security.checkRateLimit(req, res, 'auth')) return;
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
       let parsed = {};
-      try { parsed = JSON.parse(body); } catch(e) {}
+      try { parsed = JSON.parse(body); } catch (e) { }
       const pin = (parsed.pin || parsed.key || '').trim();
-      const validPins = ['84210', 'satnam_dashmesh_secure_2026', 'satnam84210'];
-      if (process.env.ADMIN_SECRET_KEY) validPins.push(process.env.ADMIN_SECRET_KEY.trim());
+      const adminSecret = process.env.ADMIN_SECRET_KEY || process.env.ADMIN_KEY || '';
+      const validPins = adminSecret ? [adminSecret.trim()] : [];
 
       if (validPins.includes(pin)) {
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(JSON.stringify({
           success: true,
-          token: 'satnam_dashmesh_secure_2026',
+          token: adminSecret.trim(),
           role: 'owner_admin',
           message: 'Admin authorization granted.'
         }));
@@ -3035,12 +3035,14 @@ const server = http.createServer((req, res) => {
     '/api/leads/update-status',
     '/api/leads/delete',
     '/api/leads/export-csv',
+    '/api/agreements',
     '/api/whatsapp/conversations',
     '/api/whatsapp/config',
     '/api/whatsapp/status',
     '/api/whatsapp/reply',
     '/api/whatsapp/send',
     '/api/whatsapp/simulate-incoming',
+    '/api/whatsapp/test-ping',
     '/api/data/export',
     '/api/data/import',
     '/api/export/excel',
@@ -3048,7 +3050,6 @@ const server = http.createServer((req, res) => {
     '/api/export/sqlite',
     '/api/reviews/delete',
     '/api/shield/delete',
-    '/api/shield/feedback',
     '/api/shield/list',
     '/api/google/upload-service-account',
     '/api/google/save-credentials',
@@ -3057,6 +3058,17 @@ const server = http.createServer((req, res) => {
     '/api/gbp/auto-optimize',
     '/api/gbp/posts/generate',
     '/api/posts/publish',
+    '/api/google/daily-boost',
+    '/api/ai/auto-execute',
+    '/api/ai/force-self-change',
+    '/api/ai/send-whatsapp-update',
+    '/api/mrea/execute-agent',
+    '/api/mrea/master-loop',
+    '/api/mrea/run-cycle',
+    '/api/social/omni-publish',
+    '/api/social/channels/save',
+    '/api/sync',
+    '/api/settings/webmaster-tags',
     '/api/auto/cycle',
     '/api/auto/toggle'
   ];
@@ -3076,7 +3088,7 @@ const server = http.createServer((req, res) => {
 
   // --- API Endpoints ---
 
-  
+
   // --- Data Vault: Full Backup Export & Import APIs ---
   if (pathname === '/api/data/export' && req.method === 'GET') {
     const fullBackup = {
@@ -3116,9 +3128,9 @@ const server = http.createServer((req, res) => {
         if (Array.isArray(imported.leads)) {
           whatsappConversations = imported.leads;
           // Real data protection: Do NOT save simulated test messages to real leads.json!
-        if (false) {
-          saveJSONFile('leads.json', whatsappConversations);
-        }
+          if (false) {
+            saveJSONFile('leads.json', whatsappConversations);
+          }
           restoredCount += imported.leads.length;
         }
         if (Array.isArray(imported.reviews)) {
@@ -3218,7 +3230,7 @@ const server = http.createServer((req, res) => {
     }
 
     if (areaFilter && areaFilter !== 'all') {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         (p.subArea || '').toLowerCase().trim() === areaFilter ||
         (p.locality || '').toLowerCase().includes(areaFilter)
       );
@@ -3229,7 +3241,7 @@ const server = http.createServer((req, res) => {
     }
 
     if (searchFilter) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         (p.name || '').toLowerCase().includes(searchFilter) ||
         (p.developer || '').toLowerCase().includes(searchFilter) ||
         (p.subArea || '').toLowerCase().includes(searchFilter) ||
@@ -3612,8 +3624,24 @@ const server = http.createServer((req, res) => {
       try {
         const updates = JSON.parse(body || '{}');
         const saved = omnichannel.saveCredentials(updates);
+
+        // Durable persistence to .env so credentials survive restarts
+        const envUpdates = {};
+        if (updates.facebook?.pageId) envUpdates.FACEBOOK_PAGE_ID = updates.facebook.pageId;
+        if (updates.facebook?.pageAccessToken) envUpdates.FACEBOOK_PAGE_ACCESS_TOKEN = updates.facebook.pageAccessToken;
+        if (updates.instagram?.accountId) envUpdates.INSTAGRAM_ACCOUNT_ID = updates.instagram.accountId;
+        if (updates.instagram?.accessToken) envUpdates.INSTAGRAM_ACCESS_TOKEN = updates.instagram.accessToken;
+        if (updates.linkedin?.organizationId) envUpdates.LINKEDIN_ORGANIZATION_ID = updates.linkedin.organizationId;
+        if (updates.linkedin?.accessToken) envUpdates.LINKEDIN_ACCESS_TOKEN = updates.linkedin.accessToken;
+        if (updates.google?.accessToken) envUpdates.GOOGLE_ACCESS_TOKEN = updates.google.accessToken;
+        if (updates.google?.accountId) envUpdates.GOOGLE_BUSINESS_ACCOUNT_ID = updates.google.accountId;
+        if (updates.google?.locationId) envUpdates.GOOGLE_LOCATION_ID = updates.google.locationId;
+        if (Object.keys(envUpdates).length > 0) {
+          updateEnvFile(envUpdates);
+        }
+
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-        res.end(JSON.stringify({ success: true, message: 'Channel credentials saved successfully!', credentials: saved }));
+        res.end(JSON.stringify({ success: true, message: 'Social connection settings updated and persisted successfully!', channels: status }));
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(JSON.stringify({ success: false, error: err.message }));
@@ -3724,15 +3752,8 @@ const server = http.createServer((req, res) => {
     const token = parsedUrl.searchParams.get('hub.verify_token');
     const challenge = parsedUrl.searchParams.get('hub.challenge');
 
-    const validTokens = [
-      whatsappConfig.verifyToken,
-      process.env.META_WHATSAPP_VERIFY_TOKEN,
-      'DashmeshProperties2026',
-      'satnam_agreements_token'
-    ].filter(Boolean);
-
-    if (mode === 'subscribe' && (validTokens.includes(token) || !token)) {
-      console.log('[WhatsApp] Webhook Verified Successfully with challenge:', challenge);
+    if (mode === 'subscribe' && whatsappConfig.verifyToken && token === whatsappConfig.verifyToken && challenge) {
+      console.log('[WhatsApp] Webhook verification succeeded.');
       res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end(challenge);
       return;
@@ -3743,15 +3764,26 @@ const server = http.createServer((req, res) => {
     }
   }
 
-  
+
 
   // 13. WhatsApp Cloud API Incoming Message Handler (POST)
   if ((pathname === '/api/whatsapp/webhook' || pathname === '/webhook') && req.method === 'POST') {
-    let body = '';
-    req.on('data', chunk => body += chunk);
+    const rawChunks = [];
+    req.on('data', chunk => rawChunks.push(chunk));
     req.on('end', async () => {
       try {
-        const payload = JSON.parse(body || '{}');
+        const rawBody = Buffer.concat(rawChunks);
+        if (!process.env.META_APP_SECRET) {
+          res.writeHead(503, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Webhook signature verification is not configured' }));
+          return;
+        }
+        if (!security.verifyMetaWebhookSignature(rawBody, req.headers['x-hub-signature-256'])) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Invalid webhook signature' }));
+          return;
+        }
+        const payload = JSON.parse(rawBody.toString('utf8') || '{}');
         const entry = payload.entry && payload.entry[0];
         const changes = entry && entry.changes && entry.changes[0];
         const value = changes && changes.value;
@@ -4221,7 +4253,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
           return;
         }
 
-        const url = `https://graph.facebook.com/v19.0/me?access_token=${tokenToTest}`;
+        const url = `https://graph.facebook.com/v20.0/me?access_token=${tokenToTest}`;
         https.get(url, (apiRes) => {
           let resData = '';
           apiRes.on('data', c => resData += c);
@@ -4973,8 +5005,8 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
     return;
   }
 
-  
-  
+
+
   // =========================================================================
   // DEDICATED HYPER-LOCAL GOOGLE TOP RANK LANDING PAGES
   // =========================================================================
@@ -5156,7 +5188,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
       try {
         const payload = JSON.parse(body);
         const saJson = typeof payload.serviceAccountJson === 'string' ? JSON.parse(payload.serviceAccountJson) : payload;
-        
+
         if (!saJson.client_email) {
           sendJSON(res, 400, { success: false, error: 'Invalid Google Service Account JSON: client_email missing' });
           return;
@@ -5164,7 +5196,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
 
         const saFilePath = path.join(__dirname, 'data', 'google_service_account.json');
         fs.writeFileSync(saFilePath, JSON.stringify(saJson, null, 2), 'utf8');
-        
+
         process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL = saJson.client_email;
         process.env.GOOGLE_PROJECT_ID = saJson.project_id || '';
         googleDominanceState.isGoogleConnected = true;
@@ -5190,7 +5222,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
         const { clientName = 'Client', clientPhone = '' } = JSON.parse(body || '{}');
         const placeId = process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8';
         const directReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
-        
+
         let cleanPhone = String(clientPhone || '').replace(/[^0-9]/g, '');
         if (cleanPhone.startsWith('0')) cleanPhone = cleanPhone.substring(1);
         const targetPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
@@ -5283,7 +5315,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
   }
 
   // 3. Save Google API Credentials
-  
+
   // --- Webmaster Verification Tags API (Google Search Console & Bing) ---
   const WEBMASTER_FILE = path.join(DATA_DIR, 'webmaster_tags.json');
   function getWebmasterTags() {
@@ -5291,7 +5323,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
       if (fs.existsSync(WEBMASTER_FILE)) {
         return JSON.parse(fs.readFileSync(WEBMASTER_FILE, 'utf8'));
       }
-    } catch (e) {}
+    } catch (e) { }
     return {
       google: process.env.GOOGLE_SITE_VERIFICATION || '',
       bing: process.env.BING_SITE_VERIFICATION || ''

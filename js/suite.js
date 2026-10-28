@@ -11,7 +11,7 @@
   window.fetch = function(url, options = {}) {
     options = options || {};
     options.headers = options.headers || {};
-    const adminKey = localStorage.getItem('dashmesh_admin_key') || 'satnam_dashmesh_secure_2026';
+    const adminKey = localStorage.getItem('dashmesh_admin_key') || '';
     if (typeof options.headers.set === 'function') {
       options.headers.set('X-Admin-Key', adminKey);
     } else if (Array.isArray(options.headers)) {

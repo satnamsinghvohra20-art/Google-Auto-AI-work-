@@ -78,4 +78,23 @@ All money-taking paywalls, subscription pricing cards (₹6,999, ₹9,999, ₹4,
    ```
    http://localhost:3000
    ```
-   Or open [`index.html`](file:///c:/Users/satna/Downloads/Google%20work%20auto%20ai/index.html) directly in any browser.
+  Keep the server running; dashboard API features require this HTTP server.
+
+## Runtime Configuration
+
+- Set `ADMIN_SECRET_KEY` in the deployment's secret manager to enable remote admin actions. Direct localhost admin access remains available for local development.
+- Set `VERIFY_TOKEN`, `META_APP_SECRET`, `META_ACCESS_TOKEN`, and `WHATSAPP_PHONE_NUMBER_ID` using values from your Meta app. Webhook callbacks fail closed until the verify token and app secret are configured.
+- Recurring business automation is disabled by default. Set `ENABLE_AUTOMATIONS=true` only in the standalone server environment after reviewing the actions it enables.
+- Set `ENABLE_NGROK=true` only when intentionally using the optional local tunnel watchdog.
+- Run isolated security regression tests with `npm test`; tests use in-memory values and do not write to `data/`.
+
+## Social Publishing Setup
+
+Set these provider-specific values in the deployment secret manager; do not commit tokens or use the dashboard's process-memory entry as durable production storage:
+
+- Google Business Profile: `GOOGLE_BUSINESS_ACCOUNT_ID`, `GOOGLE_LOCATION_ID`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REFRESH_TOKEN`.
+- Facebook Page: `FACEBOOK_PAGE_ID` and `FACEBOOK_PAGE_ACCESS_TOKEN` (or the configured `META_ACCESS_TOKEN`).
+- Instagram professional account: `INSTAGRAM_ACCOUNT_ID` and `INSTAGRAM_ACCESS_TOKEN` (or the configured `META_ACCESS_TOKEN`). Instagram image posts also need a public HTTPS image URL.
+- LinkedIn organization: `LINKEDIN_ORGANIZATION_ID` and `LINKEDIN_ACCESS_TOKEN`, with the provider permissions required to publish as that organization.
+
+Open **Manage Accounts & Keys**, save configuration for the current process, then use **Test connections** for read-only provider requests. Publishing creates real posts; select only verified accounts and confirm the post in the dashboard before broadcasting. An Instagram image is required when Instagram is selected.

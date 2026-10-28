@@ -15,9 +15,6 @@
 const path = require('path');
 const crypto = require('crypto');
 
-// Default Admin Secret Key (Configurable via .env ADMIN_SECRET_KEY)
-const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || process.env.ADMIN_KEY || 'dashmesh_secure_satnam_2026';
-
 // Multi-Tier Rate Limiting Stores
 const rateLimits = {
   global: new Map(),  // Max 120 req / min
@@ -43,6 +40,9 @@ setInterval(() => {
  * Extract client IP address safely considering reverse proxies
  */
 function getClientIp(req) {
+  const remoteAddress = req.socket?.remoteAddress || '127.0.0.1';
+  if (process.env.TRUST_PROXY !== 'true') return remoteAddress;
+
   const forwarded = req.headers['x-forwarded-for'];
   if (forwarded) {
     const ips = forwarded.split(',').map(s => s.trim());
@@ -50,8 +50,7 @@ function getClientIp(req) {
   }
   return req.headers['cf-connecting-ip'] || 
          req.headers['x-real-ip'] || 
-         req.socket.remoteAddress || 
-         '127.0.0.1';
+         remoteAddress;
 }
 
 /**
@@ -345,18 +344,36 @@ function safeEqual(a, b) {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
+function verifyMetaWebhookSignature(rawBody, signature, appSecret = process.env.META_APP_SECRET || '') {
+  if (!appSecret || typeof signature !== 'string') return false;
+  const match = /^sha256=([a-f0-9]{64})$/i.exec(signature);
+  if (!match) return false;
+  const expected = crypto.createHmac('sha256', appSecret).update(rawBody).digest();
+  const provided = Buffer.from(match[1], 'hex');
+  return provided.length === expected.length && crypto.timingSafeEqual(provided, expected);
+}
+
 /**
  * Verify Admin Authorization
- * Allows:
- * 1. Matching X-Admin-Key header
- * 2. Matching Bearer token in Authorization header
- * 3. Matching ?admin_key= query parameter
- * 4. Localhost requests
+ * Allows matching X-Admin-Key/Bearer credentials and local development requests.
  */
 function verifyAdminAuth(req, parsedUrl) {
-  const ip = getClientIp(req);
-  if (isLocalRequest(ip)) {
+  const socketIp = req.socket?.remoteAddress || '';
+  const hasForwardedAddress = Boolean(
+    req.headers['x-forwarded-for'] ||
+    req.headers['cf-connecting-ip'] ||
+    req.headers['x-real-ip']
+  );
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    !hasForwardedAddress &&
+    isLocalRequest(socketIp)
+  ) {
     return { authorized: true, role: 'local_admin' };
+  }
+  const adminSecret = process.env.ADMIN_SECRET_KEY || process.env.ADMIN_KEY || '';
+  if (!adminSecret) {
+    return { authorized: false, reason: 'Admin authentication is not configured' };
   }
 
   const headerKey = req.headers['x-admin-key'];
@@ -365,21 +382,14 @@ function verifyAdminAuth(req, parsedUrl) {
   if (authHeader && authHeader.startsWith('Bearer ')) {
     bearerKey = authHeader.slice(7).trim();
   }
-  const queryKey = parsedUrl.searchParams.get('admin_key') || parsedUrl.searchParams.get('token');
-
-  const candidateKey = headerKey || bearerKey || queryKey;
+  const candidateKey = headerKey || bearerKey;
   if (!candidateKey) {
     return { authorized: false, reason: 'Missing admin authentication key' };
   }
 
   // Check against ADMIN_SECRET_KEY
-  if (safeEqual(candidateKey, ADMIN_SECRET_KEY)) {
+  if (safeEqual(candidateKey, adminSecret)) {
     return { authorized: true, role: 'super_admin' };
-  }
-
-  // Secondary fallback for Dashmesh team key
-  if (safeEqual(candidateKey, 'satnam_dashmesh_secure_2026')) {
-    return { authorized: true, role: 'owner_admin' };
   }
 
   return { authorized: false, reason: 'Invalid admin authentication key' };
@@ -409,7 +419,6 @@ function maskSecret(secret) {
 }
 
 module.exports = {
-  ADMIN_SECRET_KEY,
   getClientIp,
   isLocalRequest,
   applySecurityHeaders,
@@ -417,6 +426,7 @@ module.exports = {
   validateStaticPath,
   parseSafeBody,
   verifyAdminAuth,
+  verifyMetaWebhookSignature,
   sanitizeInput,
   maskSecret
 };

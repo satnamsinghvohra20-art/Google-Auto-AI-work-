@@ -1,11 +1,18 @@
 const https = require('https');
 const path = require('path');
 const fs = require('fs');
-
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "DashmeshProperties2026";
-const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN || "EAATN5vYyZCbMBSv3ejduJWjjJKOIensLV7ZCOFJUqg4gHZCnj1Jb1mVpmRwRH3Sd7RqTRfCKmx7xi7fhKLcPo0YG4evgZCGSrFkrzOqqrtu3uFNcYWnkzqlLJ0YqVK9tB6PNQ67Ueu5ZCFJu7GC8nGJXyQ8m4AyXeXoZBOh6NzOEqeE7huxgAUjQInT4QCuAZDZD";
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || "1239464059243498";
+const security = require('../security_engine');
 const OWNER_PHONE = process.env.OWNER_ALERT_PHONE || "+918421077613";
+
+// ── Live Data Loader (always real-time, never hardcoded stale data) ─────────
+const DATA_DIR = path.join(__dirname, '..', 'data');
+function loadJSONFile(filename, defaultValue = []) {
+  const filePath = path.join(DATA_DIR, filename);
+  try {
+    if (fs.existsSync(filePath)) return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (e) { /* silent */ }
+  return defaultValue;
+}
 
 let AIEngine;
 try {
@@ -24,8 +31,8 @@ try {
 
 function sendMetaWhatsAppMessage(to, text) {
   return new Promise((resolve) => {
-    const token = process.env.META_ACCESS_TOKEN || META_ACCESS_TOKEN;
-    const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID || PHONE_NUMBER_ID;
+    const token = process.env.META_ACCESS_TOKEN || process.env.WHATSAPP_ACCESS_TOKEN || '';
+    const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.WHATSAPP_PHONE_ID || '';
 
     if (!token || !phoneId) {
       console.warn('[Meta API] Missing access token or phone ID');
@@ -44,7 +51,7 @@ function sendMetaWhatsAppMessage(to, text) {
     const options = {
       hostname: 'graph.facebook.com',
       port: 443,
-      path: `/v18.0/${phoneId}/messages`,
+      path: `/v20.0/${phoneId}/messages`,
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -76,7 +83,7 @@ module.exports = async (req, res) => {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
@@ -84,53 +91,69 @@ module.exports = async (req, res) => {
   }
 
   const urlStr = req.url || '';
-  const parsedUrl = new URL(urlStr, `https://${req.headers.host || 'google-auto-ai-work.vercel.app'}`);
+  const parsedUrl = new URL(urlStr, `https://${req.headers.host || 'google-auto-ai-work.onrender.com'}`);
   const pathname = parsedUrl.pathname;
   const matchedPath = req.headers['x-matched-path'] || '';
   const vercelPath = req.headers['x-vercel-matched-path'] || '';
 
-  const isWhatsApp = 
-    urlStr.includes('whatsapp') ||
-    urlStr.includes('hub.challenge') ||
-    urlStr.includes('hub.mode') ||
-    pathname.includes('whatsapp') ||
-    matchedPath.includes('whatsapp') ||
-    vercelPath.includes('whatsapp');
+  const isWhatsAppWebhook = [pathname, matchedPath, vercelPath]
+    .some(route => route === '/api/whatsapp/webhook' || route === '/webhook');
 
   // Handle WhatsApp Cloud API Verification (GET)
-  if (isWhatsApp && req.method === 'GET') {
+  if (isWhatsAppWebhook && req.method === 'GET') {
     const mode = parsedUrl.searchParams.get('hub.mode');
     const token = parsedUrl.searchParams.get('hub.verify_token');
     const challenge = parsedUrl.searchParams.get('hub.challenge');
 
-    console.log(`[Webhook Verification] mode=${mode}, token=${token}, challenge=${challenge}`);
+    console.log('[Webhook Verification] Request received.');
 
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      console.log('[Webhook Verification] SUCCESS!');
+    const verifyToken = process.env.VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN || '';
+    if (mode === 'subscribe' && verifyToken && token === verifyToken && challenge) {
+      console.log('[Webhook Verification] Succeeded.');
       res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
       return res.end(challenge);
     } else {
-      console.warn('[Webhook Verification] Mismatch. Expected:', VERIFY_TOKEN, 'Received:', token);
+      console.warn('[Webhook Verification] Rejected.');
       res.writeHead(403, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: 'Verification token mismatch' }));
     }
   }
 
   // Handle WhatsApp Incoming Message (POST)
-  if (isWhatsApp && req.method === 'POST') {
-    let body = req.body;
-    if (!body || typeof body === 'string') {
-      if (typeof body === 'string') {
-        try { body = JSON.parse(body); } catch (e) { body = {}; }
-      } else {
-        body = await new Promise((resolve) => {
-          let raw = '';
-          req.on('data', chunk => raw += chunk);
-          req.on('end', () => {
-            try { resolve(JSON.parse(raw || '{}')); } catch (e) { resolve({}); }
-          });
-        });
-      }
+  if (isWhatsAppWebhook && req.method === 'POST') {
+    if (!process.env.META_APP_SECRET) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Webhook signature verification is not configured' }));
+    }
+    const rawBody = await new Promise((resolve, reject) => {
+      const chunks = [];
+      let size = 0;
+      req.on('data', chunk => {
+        size += chunk.length;
+        if (size > 5 * 1024 * 1024) {
+          reject(new Error('Webhook payload too large'));
+          req.destroy();
+          return;
+        }
+        chunks.push(chunk);
+      });
+      req.on('end', () => resolve(Buffer.concat(chunks)));
+      req.on('error', reject);
+    }).catch(() => null);
+    if (!rawBody) {
+      res.writeHead(413, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid webhook payload' }));
+    }
+    if (!security.verifyMetaWebhookSignature(rawBody, req.headers['x-hub-signature-256'])) {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid webhook signature' }));
+    }
+    let body;
+    try {
+      body = JSON.parse(rawBody.toString('utf8') || '{}');
+    } catch (e) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
     }
 
     try {
@@ -160,38 +183,45 @@ module.exports = async (req, res) => {
 
         console.log(`[WhatsApp Incoming] From: ${from} (${clientName}): "${incomingText}"`);
 
-        // Generate AI Bot Response (Sia)
+        // Live data loaded fresh on every request (Zero Fake Data — 100% ground-truth)
+        const liveLeads = loadJSONFile('leads.json', []);
+        const liveReviews = loadJSONFile('reviews.json', []);
+        const livePosts = loadJSONFile('posts.json', []);
+        const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
+
+        // Generate AI Bot Response (Sia — authentic warm feminine 24yr personality)
         let replyText = '';
         if (isOwner) {
           if (AIEngine && typeof AIEngine.generateOwnerExecutiveResponse === 'function') {
             const autoRes = AIEngine.generateOwnerExecutiveResponse(incomingText, "Satnam Sir", {
-              publicUrl: 'https://google-auto-ai-work.vercel.app',
-              totalLeads: 28,
-              leads: [],
-              reviewsCount: 14,
-              publishedPostsCount: 4
+              publicUrl,
+              totalLeads: liveLeads.length,
+              leads: liveLeads.slice(0, 5),
+              reviewsCount: liveReviews.length,
+              publishedPostsCount: livePosts.length
             });
             replyText = autoRes.reply;
           } else {
-            replyText = `Satnam Sir, Sia is active 24/7! All systems normal. Live portal: https://google-auto-ai-work.vercel.app`;
+            replyText = `Satnam Sir, sab theek hai! 💪 Sia active hai 24/7.\nLive dashboard: ${publicUrl}\n\nLeads: ${liveLeads.length} | Reviews: ${liveReviews.length} | Posts: ${livePosts.length}`;
           }
         } else {
           if (AIEngine && typeof AIEngine.generateWhatsAppAutoResponse === 'function') {
             const autoRes = AIEngine.generateWhatsAppAutoResponse(incomingText, clientName, {
               isOngoing: true,
-              publicUrl: 'https://google-auto-ai-work.vercel.app',
-              officeAddress: 'New Floora, Shop No. 24, Pale Gaon, Ambernath (E) - 421 501',
-              officeLandmark: 'Near Pale Gaon Entry Gate',
-              officeTimings: '10:00 AM - 09:30 PM (All 7 Days)',
+              publicUrl,
+              officeAddress: 'Shop No. 24, New Floora, Pale Gaon, Ambernath (E) - 421 501',
+              officeLandmark: 'Near Pale Gaon Bus Stop, 7 mins from Ambernath East Railway Station',
+              officeTimings: 'Subah 10:00 AM se raat 8:30 PM (All 7 Days)',
               contactPhone: '+91 84210 77613'
             });
             replyText = autoRes.reply;
           } else {
-            replyText = `Namaste ${clientName} ji! Welcome to Dashmesh Properties (Pale Gaon, Ambernath E).\n\nI am Sia, your AI Assistant. How can I help you today with Buy, Rent, or Maharashtra Registered Rent Agreement?\n\nOffice: New Floora, Shop No. 24, Pale Gaon, Ambernath (E)\nDirect Call/WhatsApp: Satnam Sir (+91 84210 77613)`;
+            // Sia — authentic warm feminine Hinglish (no cold robotic greetings)
+            replyText = `Arey ${clientName}! Main hoon Sia 💖 — Dashmesh Properties ki AI concierge!\n\nAap bilkul sahi jagah aaye hain 🌸 Buy, Rent, ya Section 55 Registered Rent Agreement — jo bhi chahiye, main hoon na, poori madad karungi!\n\n📍 Shop No. 24, New Floora, Pale Gaon, Ambernath (E) - 421 501\n📞 Satnam Sir: +91 84210 77613\n\nBatao — kya soch rahe ho? 😊`;
           }
         }
 
-        // Send reply back to client via Meta Cloud API
+        // Dispatch reply back to client via Meta Cloud API v20.0
         await sendMetaWhatsAppMessage(from, replyText);
         console.log(`[WhatsApp Outgoing] Dispatched reply to ${from}`);
       }
@@ -213,3 +243,5 @@ module.exports = async (req, res) => {
   res.writeHead(404, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ error: 'Endpoint not found' }));
 };
+
+module.exports.config = { api: { bodyParser: false } };

@@ -32,7 +32,7 @@ async function sendWhatsAppTestPing() {
   window.fetch = function(url, options = {}) {
     options = options || {};
     options.headers = options.headers || {};
-    const adminKey = localStorage.getItem('dashmesh_admin_key') || 'satnam_dashmesh_secure_2026';
+    const adminKey = localStorage.getItem('dashmesh_admin_key') || '';
     if (typeof options.headers.set === 'function') {
       options.headers.set('X-Admin-Key', adminKey);
     } else if (Array.isArray(options.headers)) {
@@ -3446,11 +3446,18 @@ async function triggerOmniPostPublish() {
   const titleEl = document.getElementById('omni-post-title');
   const bodyEl = document.getElementById('omni-post-body');
   const ctaEl = document.getElementById('omni-post-cta');
+  const imageEl = document.getElementById('omni-post-image-url');
   const resultBox = document.getElementById('omni-broadcast-result-box');
 
-  const title = (titleEl && titleEl.value.trim()) || 'Verified Property Update | Pale Gaon, Ambernath (East)';
-  const content = (bodyEl && bodyEl.value.trim()) || 'Ready 1 BHK & 2 BHK flats with clear OC, 90% nationalized bank loan sanction, and doorstep registered rent agreement desk.';
+  const title = titleEl?.value.trim() || '';
+  const content = bodyEl?.value.trim() || '';
   const cta = ctaEl ? ctaEl.value : 'CALL_NOW';
+  const imageUrl = imageEl?.value.trim() || '';
+
+  if (!title || !content) {
+    alert('Enter the actual post title and content before publishing.');
+    return;
+  }
 
   const selectedPlatforms = [];
   if (document.getElementById('omni-ch-google')?.checked) selectedPlatforms.push('google');
@@ -3462,6 +3469,13 @@ async function triggerOmniPostPublish() {
     alert('Please select at least one broadcast channel (Google, Facebook, Instagram, or LinkedIn)!');
     return;
   }
+
+  if (selectedPlatforms.includes('instagram') && !/^https:\/\//i.test(imageUrl)) {
+    alert('Instagram requires a public HTTPS image URL.');
+    return;
+  }
+
+  if (!window.confirm(`Publish this post to: ${selectedPlatforms.join(', ')}? This will create real posts on selected accounts.`)) return;
 
   if (typeof showToast === 'function') {
     showToast('🚀 Broadcasting post to ' + selectedPlatforms.length + ' social channels...');
@@ -3480,6 +3494,7 @@ async function triggerOmniPostPublish() {
         title,
         content,
         cta,
+        imageUrl,
         platforms: selectedPlatforms
       })
     });
@@ -3525,7 +3540,9 @@ async function triggerOmniPostPublish() {
       if (typeof renderWeeklyPosts === 'function') renderWeeklyPosts();
     } else {
       if (resultBox) {
-        resultBox.innerHTML = '<div style="color: #f87171; font-weight: 700;">Broadcast Error: ' + (data.error || 'Failed to publish') + '</div>';
+        const failures = Object.entries(data.platformReports || {}).map(([platform, report]) => `${platform}: ${report.error || 'not confirmed'}`).join('\n');
+        resultBox.textContent = data.error || `${data.message || 'Broadcast not fully successful.'}${failures ? `\n${failures}` : ''}`;
+        resultBox.style.color = '#f87171';
       }
     }
   } catch (err) {
@@ -3545,6 +3562,12 @@ function openSocialAccountsModal() {
       .then(res => res.json())
       .then(data => {
         if (data && data.channels) {
+          if (data.channels.google) {
+            const accountEl = document.getElementById('cfg-g-account-id');
+            const locationEl = document.getElementById('cfg-g-location-id');
+            if (accountEl) accountEl.value = data.channels.google.accountId || '';
+            if (locationEl) locationEl.value = data.channels.google.locationId || '';
+          }
           if (data.channels.facebook && data.channels.facebook.pageId) {
             const el = document.getElementById('cfg-fb-page-id');
             if (el) el.value = data.channels.facebook.pageId;
@@ -3569,18 +3592,25 @@ function closeSocialAccountsModal() {
 }
 
 async function saveSocialAccountsCredentials() {
+  const googleAccountId = document.getElementById('cfg-g-account-id')?.value.trim();
+  const googleLocationId = document.getElementById('cfg-g-location-id')?.value.trim();
+  const googleToken = document.getElementById('cfg-g-token')?.value.trim();
   const fbPageId = document.getElementById('cfg-fb-page-id')?.value.trim();
   const fbToken = document.getElementById('cfg-fb-token')?.value.trim();
   const igId = document.getElementById('cfg-ig-id')?.value.trim();
+  const igToken = document.getElementById('cfg-ig-token')?.value.trim();
   const liUrn = document.getElementById('cfg-li-urn')?.value.trim();
   const liToken = document.getElementById('cfg-li-token')?.value.trim();
 
   const payload = {
+    google: { accountId: googleAccountId, locationId: googleLocationId },
     facebook: { pageId: fbPageId },
     instagram: { accountId: igId },
     linkedin: { organizationId: liUrn }
   };
+  if (googleToken) payload.google.accessToken = googleToken;
   if (fbToken) payload.facebook.pageAccessToken = fbToken;
+  if (igToken) payload.instagram.accessToken = igToken;
   if (liToken) payload.linkedin.accessToken = liToken;
 
   try {
@@ -3592,12 +3622,42 @@ async function saveSocialAccountsCredentials() {
     const data = await res.json();
     if (data && data.success) {
       if (typeof showToast === 'function') {
-        showToast('✓ Social channels credentials saved successfully!');
+        showToast(data.message || 'Social connection settings updated.');
+      }
+      for (const id of ['cfg-g-token', 'cfg-fb-token', 'cfg-ig-token', 'cfg-li-token']) {
+        const input = document.getElementById(id);
+        if (input) input.value = '';
       }
       closeSocialAccountsModal();
+    } else {
+      alert(data.error || 'Unable to save social connection settings.');
     }
   } catch (err) {
     console.error('Error saving credentials:', err);
     alert('Failed to save credentials.');
+  }
+}
+
+async function testSocialAccountsConnections() {
+  const output = document.getElementById('social-connection-results');
+  if (output) output.textContent = 'Testing configured accounts with read-only API requests...';
+  try {
+    const response = await fetch('/api/social/channels/test', { method: 'POST' });
+    const data = await response.json();
+    const labels = { google: 'Google Business Profile', facebook: 'Facebook', instagram: 'Instagram', linkedin: 'LinkedIn' };
+    if (output) {
+      output.textContent = Object.entries(data.reports || {})
+        .map(([platform, report]) => `${labels[platform] || platform}: ${report.connected ? `Connected${report.account ? ` (${report.account})` : ''}` : report.error || 'Not connected'}`)
+        .join('\n') || data.error || 'No connection results returned.';
+      output.style.whiteSpace = 'pre-line';
+    }
+    for (const [platform, report] of Object.entries(data.reports || {})) {
+      const badge = document.getElementById(`social-status-${platform}`);
+      if (badge) badge.textContent = report.connected ? 'Connected' : (report.configured ? 'Connection failed' : 'Not configured');
+    }
+    const summary = document.getElementById('omni-channel-summary');
+    if (summary) summary.textContent = `${Object.values(data.reports || {}).filter(report => report.connected).length}/4 channels connected`;
+  } catch (error) {
+    if (output) output.textContent = `Connection test failed: ${error.message}`;
   }
 }

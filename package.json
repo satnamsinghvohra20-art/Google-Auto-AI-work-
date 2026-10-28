@@ -1,22 +1,25 @@
 {
   "name": "google-auto-ai-work",
-  "version": "1.0.0",
-  "description": "Autonomous Google Business Profile Growth Suite & Local SEO Booster with 100% Free Unlocked AI Tools",
+  "version": "2.0.0",
+  "description": "Dashmesh Properties — Autonomous Google Business Profile Growth Suite & Local SEO Booster with Sia AI 24/7 WhatsApp Concierge",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "loop": "node loop.js",
+    "start:all": "node server.js & node loop.js"
   },
   "keywords": [
+    "dashmesh-properties",
     "google-business-profile",
     "local-seo",
     "sia-ai-growth-suite",
     "google-maps-ranking",
-    "geo-grid",
-    "review-booster",
-    "leaflet-map",
-    "photo-geotagger"
+    "whatsapp-crm",
+    "rent-agreement",
+    "ambernath-real-estate",
+    "pale-gaon"
   ],
-  "author": "Satnam Singh Vohra",
+  "author": "Satnam Singh Vohra — Dashmesh Property & Rent Agreement Services",
   "license": "MIT"
 }
