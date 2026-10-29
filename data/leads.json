@@ -42,8 +42,8 @@
     ],
     "lastIntent": "CONVERSATIONAL_FOLLOWUP",
     "language": "hinglish",
-    "touchCount": 22,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 26,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -177,6 +177,30 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ],
     "followUpSent": true
@@ -210,8 +234,8 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -723,6 +747,30 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ],
     "followUpSent": true
@@ -756,8 +804,8 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -1266,6 +1314,30 @@
       },
       {
         "date": "2026-10-29T19:59:59.186Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -1342,8 +1414,8 @@
     "lastIntent": "MASTER_RATE_CARD",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -1855,6 +1927,30 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -1888,8 +1984,8 @@
     "lastIntent": "GREETING",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2398,6 +2494,30 @@
       },
       {
         "date": "2026-10-29T19:59:59.186Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -2447,8 +2567,8 @@
     "lastIntent": "CONVERSATIONAL_FOLLOWUP",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2957,6 +3077,30 @@
       },
       {
         "date": "2026-10-29T19:59:59.186Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -3640,8 +3784,8 @@
         "deliveryStatus": "sent"
       }
     ],
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.186Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -4153,6 +4297,30 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ],
     "hasGreeted": true,
@@ -4196,8 +4364,8 @@
       }
     ],
     "followUpSent": true,
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.187Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -4709,6 +4877,30 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -4742,8 +4934,8 @@
       }
     ],
     "followUpSent": true,
-    "touchCount": 85,
-    "lastTouchDate": "2026-10-29T19:59:59.187Z",
+    "touchCount": 89,
+    "lastTouchDate": "2026-10-29T20:14:01.761Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -5252,6 +5444,30 @@
       },
       {
         "date": "2026-10-29T19:59:59.187Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:03:29.912Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:07:01.132Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:10:31.458Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T20:14:01.761Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
