@@ -2743,8 +2743,12 @@ const targetNgrokUrl = process.env.PUBLIC_URL || 'https://plod-extrude-lumpish.n
 const ngrokDomain = targetNgrokUrl.replace('https://', '').replace('http://', '').split('/')[0];
 let isTunnelOnline = false;
 
+let lastNgrokLaunchAttempt = 0;
 function startNgrokTunnel() {
   if (ngrokProcessInstance) return;
+  const now = Date.now();
+  if (now - lastNgrokLaunchAttempt < 30000) return;
+  lastNgrokLaunchAttempt = now;
 
   // Check if ngrok is already running in Windows to prevent ERR_NGROK_6030 duplicate tunnel conflict
   const { execSync } = require('child_process');
