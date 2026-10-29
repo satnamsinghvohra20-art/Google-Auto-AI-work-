@@ -55,7 +55,7 @@ function atomicSaveJSON(filePath, data) {
     fs.renameSync(tempPath, filePath);
   } catch (err) {
     if (fs.existsSync(tempPath)) {
-      try { fs.unlinkSync(tempPath); } catch (_) {}
+      try { fs.unlinkSync(tempPath); } catch (_) { }
     }
     throw new Error(`Failed to atomically save ${filePath}: ${err.message}`);
   }
