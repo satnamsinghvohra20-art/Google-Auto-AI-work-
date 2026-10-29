@@ -40,14 +40,18 @@ function validateConfig(env = process.env) {
 
   const requiredInProd = [
     'META_ACCESS_TOKEN',
-    'WHATSAPP_PHONE_NUMBER_ID',
-    'WHATSAPP_VERIFY_TOKEN'
+    'WHATSAPP_PHONE_NUMBER_ID'
   ];
 
   for (const key of requiredInProd) {
     if (!env[key] || typeof env[key] !== 'string' || !env[key].trim()) {
       missingRequired.push(key);
     }
+  }
+
+  const verifyToken = env.WHATSAPP_VERIFY_TOKEN || env.VERIFY_TOKEN;
+  if (!verifyToken || typeof verifyToken !== 'string' || !verifyToken.trim()) {
+    missingRequired.push('WHATSAPP_VERIFY_TOKEN');
   }
 
   if (!env.META_APP_SECRET) {

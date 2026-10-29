@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: dashmesh-auto-ai
+    name: google-auto-ai-work
     env: node
     plan: free
     region: singapore
@@ -10,12 +10,18 @@ services:
     envVars:
       - key: PORT
         value: 10000
+      - key: PUBLIC_URL
+        value: "https://google-auto-ai-work.onrender.com"
       - key: VERIFY_TOKEN
-        sync: false
+        value: "DashmeshProperties2026"
+      - key: WHATSAPP_VERIFY_TOKEN
+        value: "DashmeshProperties2026"
       - key: META_APP_SECRET
         sync: false
       - key: ADMIN_SECRET_KEY
-        sync: false
+        value: "84210"
+      - key: GEMINI_MODEL
+        value: "gemini-2.0-flash"
       - key: WHATSAPP_PHONE_NUMBER_ID
         value: "1239464059243498"
       - key: WHATSAPP_BUSINESS_ACCOUNT_ID
