@@ -7,7 +7,10 @@
     "start": "node server.js",
     "dev": "node server.js",
     "loop": "node loop.js",
-    "start:all": "node server.js & node loop.js"
+    "start:all": "node server.js & node loop.js",
+    "test": "node --test test/*.test.js",
+    "test:whatsapp": "node --test test/whatsapp_ai_receptionist.test.js",
+    "test:security": "node test/security_engine.test.js"
   },
   "keywords": [
     "dashmesh-properties",

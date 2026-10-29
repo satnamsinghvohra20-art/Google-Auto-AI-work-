@@ -1,100 +1,111 @@
-# Dashmesh Properties AI - Autonomous Google Business Profile Growth Suite (100% Free & Unlocked)
+# Dashmesh Properties AI — Autonomous Growth Suite & Production WhatsApp Receptionist
 
-This application is a **fully functional, commercial-grade, paywall-free AI Local Growth Platform** inspired by the Dashmesh Properties Booster funnel ([booster.google-auto-ai-work.onrender.com/dashmesh-shop/531473](https://booster.google-auto-ai-work.onrender.com/dashmesh-shop/531473)).
-
-All money-taking paywalls, subscription pricing cards (₹6,999, ₹9,999, ₹4,999), and checkout payment gateways have been **completely eliminated**. In their place, the app is equipped with an **Autonomous AI Action Center** and **Advanced AI Suite** that actually executes all tasks for your business in real time!
+Dashmesh Properties AI is an enterprise-grade, zero-dependency Node.js platform combining an **Autonomous Local SEO & Google Business Growth Suite** with an **Official Meta WhatsApp Business Cloud API Receptionist (Sia AI)**.
 
 ---
 
-## 🚀 Complete Feature Breakdown
+## 🌟 Architecture & Core Capabilities
 
-### 🗺️ 1. Live Interactive Leaflet.js GPS Grid Heatmap
-- **Real Geographic Map:** Replaced static map images with an interactive OpenStreetMap engine centered on Ambernath (`19.1881295° N, 73.1682152° E`).
-- **3x3 (9 Points) & 5x5 (25 Points) Modes:** Inspect rankings across Pale Goan, Ambernath Station East, MIDC, Kansai Section, Morivali, and surrounding neighborhoods.
-- **Search Radius Rings:** Visualizes the 1.2 km and 2.6 km local ranking pack radiuses.
-- **Day 0 to 90 Timeline Projection Slider:** Drag slider to dynamically project rank improvements from Day 0 (Rank #21, Red) ➔ Day 30 (Top 10 Jump, Orange) ➔ Day 60 (Top 5 Surge, Yellow) ➔ Day 90 (Rank #1 Dominance, Green).
-- **Interactive Pin Inspector:** Click any coordinate to view exact GPS coordinates, SERP rank, and traffic gain estimates.
+### 1. 🤖 Official Meta WhatsApp Business Cloud API Receptionist (Sia AI)
+- **Official Meta Cloud API:** Webhook challenge verification (GET) and SHA-256 HMAC signature verification (POST) compliant with Meta Graph API v20.0+.
+- **Inbound Message Parser:** Safely processes text messages, interactive quick-reply buttons, interactive list selections, media attachments (images, audio, documents), location pins, and contact cards.
+- **Immediate Webhook ACK & Async Brain:** Delivers immediate HTTP 200 OK responses to Meta to prevent timeout retry loops, while processing lead qualification and response dispatch asynchronously.
+- **Idempotency & Deduplication:** Bounded 24-hour message ID deduplication cache prevents duplicate processing, duplicate leads, or duplicate replies.
+- **Outbound WhatsApp Sender:** Exponential backoff with jitter, token-bucket rate limiting (60 req/s), Meta error code classification, and 24-hour customer service window enforcement.
+- **Customer Opt-Out & Opt-In:** Supports compliance keywords (`STOP`, `UNSUBSCRIBE`, `RUKO` vs `START`, `RESUME`, `SHURU`).
 
-### 🛡️ 2. Smart Review Shield & Sentiment Gate (Negative Review Blocker)
-- **Sentiment Filter:**
-  - **4 or 5 Stars:** Directly launches the Google Maps review link with pre-composed 5-star praise templates ready for one-tap copy.
-  - **1 to 3 Stars:** Triggers the Negative Review Shield! The customer is presented with a private feedback form. Complaints are routed privately to the business owner and **never touch Google Maps**, keeping your public score at 5.0★!
-- **Mobile Simulator:** Click *"📱 Preview Customer Mobile Experience"* to test the exact customer experience in an interactive iPhone mockup.
-- **Backend Logging:** Stores shielded feedback via REST endpoint (`/api/shield/feedback`).
+### 2. 🧠 Sia AI Knowledge Brain & Zero-Hallucination Engine
+- **Grounded Property Knowledge Base:** Queries 168+ verified real estate projects from `data/projects.json` covering Ambernath East, Pale Gaon, MIDC, Badlapur, and Kalyan.
+- **Zero Hallucination Policy:** Does not invent unverified listings, fake RERA IDs, speculative yields, or unauthorized discounts. If an inquiry cannot be matched with verified data, Sia clarifies requirements and offers human escalation.
+- **Ground-Truth Business Facts:**
+  - **Business:** Dashmesh Property & Rent Agreement Services
+  - **Office:** Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
+  - **Founder:** Satnam Singh Vohra (+91 84210 77613)
+  - **Partners:** Sukhjyot Singh Vohra (+91 84219 40013), Kuldeep Singh Vohra (+91 84120 70183)
+  - **Rent Agreement:** ₹1,750 per side / ₹3,500 total all-inclusive (Maharashtra Rent Control Act Section 55).
+- **Multi-Language Detection:** Dynamically detects and converses in English, Hindi, natural Hinglish, and Marathi.
+- **Sia Persona:** Warm, empathetic, respectful 24-year-old girl personality using natural feminine Hinglish grammar (*"karungi"*, *"bataungi"*, *"main hoon na 💖"*).
+- **Graceful Gemini Fallback:** Automatically falls back to a deterministic, grounded knowledge engine if Google Gemini is unavailable or rate-limited.
 
-### 📸 3. AI Photo Geo-Tagger Studio & EXIF Stamp Generator
-- **HTML5 Canvas Watermarking:** Upload any business photo or select from 3 instant presets (*Storefront*, *Consultation Desk*, *Residential Property*).
-- **3 Stamp Styles:**
-  - **Google Maps HUD:** Translucent dark bar with GPS coordinates, address, timestamp, and green Google Maps verified badge.
-  - **Golden Prestige:** Luxury gold border with star badges.
-  - **Minimalist Coordinates:** Clean monospaced corner stamp.
-- **1-Click Download:** Exports the stamped JPEG file ready to upload to Google Business Profile.
+### 3. 🗃️ Conversation Memory & Lead CRM Store (`crm_store.js`)
+- **Atomic Persistence:** Safe file writes via temporary swap files to prevent corruption during unexpected shutdowns (`data/leads.json` and `data/csv/leads_crm.csv`).
+- **Contact Memory Isolation:** Strict partition per normalized E.164 phone number. Contacts never cross-contaminate history or qualification states.
+- **Bounded Conversation Context:** Stores recent customer messages and injects the last 8-10 turns into LLM prompts for multi-turn contextual continuity.
+- **Lead Qualification Lifecycle:** Automatically tracks `intent`, `locality`, `bhk`, `budget`, `timeline`, and `preference`.
+- **Human Escalation Queue:** Detects price negotiations, disputes, owner call requests, and complaints. Sets `human_pending = true`, mutes automated bot replies, and queues the contact for human intervention.
 
-### 🪧 4. Printable In-Store QR Counter Standee Designer
-- **Counter Standee Studio:** Generates a ready-to-print reception standee with your business name, star rating, custom incentive, and live QR code.
-- **4 Design Themes:** Minimalist Clean, Royal Indigo, Golden Prestige, Emerald Verified.
-- **High-DPI Print Support:** Print directly to A5 or A4 table tents with cut and fold guides via `window.print()`.
-
-### 🤖 5. Autonomous Background Post Scheduler Daemon (Tier 2)
-- **Background Daemon Simulation:** Click *"▶️ Trigger Auto-Post Simulation"* to run automated Google Business Profile API publishing routines.
-- **Live Terminal Console:** Displays real-time API dispatch logs (`/api/posts/publish`), payload details, and Google Post ID confirmations.
-- **CSV Export:** Download the entire 7-day scheduled posts calendar as a CSV file.
-
-### 📡 6. Real-Time Competitor SERP Radar & Prober (Tier 2)
-- **4 High-Intent Keywords Radar:** Tracks *Property Consultant in Ambernath*, *Flats for Sale in Ambernath East*, *Real Estate Agent Near Station*, and *Commercial Shop Rent*.
-- **Competitor Rank Gap:** Displays position difference and projected call gains.
-- **Live SERP Probe:** Test any keyword to simulate real-time coordinate scraping across 9 to 25 points (`/api/rank/scrape`).
-
-### 💬 7. Automated WhatsApp Review CRM & Dispatcher (Tier 3)
-- **Direct WhatsApp Funnel:** Enter customer name and phone number to send personalized review invitations.
-- **3 Follow-Up Templates:**
-  - *Immediate Thank You & 5-Star Invite*
-  - *24-Hour Polite Follow-Up*
-  - *VIP Voucher & Free Valuation Incentive*
-- **1-Click Launch:** Dispatches directly to WhatsApp Web/App (`wa.me`) and logs to backend (`/api/whatsapp/send`).
-
-### 🏢 8. Agency White-Label Mode & Franchise Switcher (Tier 4)
-- **Multi-Location Franchise Switcher:** Switch between Ambernath Main HQ, Badlapur West Branch, Kalyan West Branch, or create a custom branch.
-- **Agency Mode Toggle:** Instantly transforms the application into a white-labeled client audit tool:
-  - Custom Agency Name (e.g. *Satnam AI Growth Agency*)
-  - Custom Retainer Pricing (e.g. *₹14,999 / mo*)
-  - Branded PDF Export for presenting to local business clients.
-
-### 📝 9. Profile Optimization & 40+ Citations Pack
-- **Title & Categories:** Recommended primary and 3 secondary Google categories.
-- **740-Character Description:** Injects high-volume search keywords with 1-click clipboard copy.
-- **40+ Local Citations Pack:** NAP pack formatted for Justdial, IndiaMART, Sulekha, 99acres, MagicBricks, Housing.com, Apple Business Connect, and Bing Places.
+### 4. 🚀 Local SEO & Google Business Growth Suite
+- **Interactive GPS Grid Heatmap:** Leaflet.js engine tracking local ranking pack positions across Ambernath.
+- **Smart Review Shield:** 5-star Google review funnel with private sentiment filtering for negative feedback.
+- **AI Photo Geo-Tagger:** Canvas-based EXIF and GPS coordinate watermarking studio.
+- **Printable In-Store QR Standee:** High-DPI table tent designer with custom business branding.
+- **Competitor SERP Radar:** Live rank tracking across high-intent local property search terms.
 
 ---
 
-## 🖥️ How to Run Locally
+## 🔌 API Endpoints Reference
 
-1. Start the server (Zero dependencies required; uses native Node.js):
-   ```bash
-   node server.js
-   ```
+### WhatsApp Cloud API Integration
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/whatsapp/webhook` | Meta Webhook subscription challenge verification (`hub.mode`, `hub.verify_token`, `hub.challenge`) |
+| `POST` | `/api/whatsapp/webhook` | Meta Webhook event receiver with raw body HMAC-SHA256 signature verification |
+| `GET` | `/api/whatsapp/health` | Safe diagnostic health check (masked keys, cache size, token rate) |
+| `GET` | `/api/whatsapp/handoff-queue` | Returns contacts awaiting human owner intervention |
+| `POST` | `/api/whatsapp/resolve-handoff` | Resolves human handoff and resumes AI receptionist |
 
-2. Open in your browser:
-   ```
-   http://localhost:3000
-   ```
-  Keep the server running; dashboard API features require this HTTP server.
+### Omnichannel & Core APIs
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/leads` | CRM leads retrieval (protected by `ADMIN_SECRET_KEY`) |
+| `POST` | `/api/posts/publish` | Omnichannel publisher (Google Business, Facebook, Instagram, LinkedIn) |
+| `GET` | `/api/security/connections` | Read-only connection health probe |
 
-## Runtime Configuration
+---
 
-- Set `ADMIN_SECRET_KEY` in the deployment's secret manager to enable remote admin actions. Direct localhost admin access remains available for local development.
-- Set `VERIFY_TOKEN`, `META_APP_SECRET`, `META_ACCESS_TOKEN`, and `WHATSAPP_PHONE_NUMBER_ID` using values from your Meta app. Webhook callbacks fail closed until the verify token and app secret are configured.
-- Recurring business automation is disabled by default. Set `ENABLE_AUTOMATIONS=true` only in the standalone server environment after reviewing the actions it enables.
-- Set `ENABLE_NGROK=true` only when intentionally using the optional local tunnel watchdog.
-- Run isolated security regression tests with `npm test`; tests use in-memory values and do not write to `data/`.
+## ⚙️ Environment Configuration
 
-## Social Publishing Setup
+Copy `.env.example` to `.env` and configure your credentials:
 
-Set these provider-specific values in the deployment secret manager; do not commit tokens or use the dashboard's process-memory entry as durable production storage:
+```bash
+cp .env.example .env
+```
 
-- Google Business Profile: `GOOGLE_BUSINESS_ACCOUNT_ID`, `GOOGLE_LOCATION_ID`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REFRESH_TOKEN`.
-- Facebook Page: `FACEBOOK_PAGE_ID` and `FACEBOOK_PAGE_ACCESS_TOKEN` (or the configured `META_ACCESS_TOKEN`).
-- Instagram professional account: `INSTAGRAM_ACCOUNT_ID` and `INSTAGRAM_ACCESS_TOKEN` (or the configured `META_ACCESS_TOKEN`). Instagram image posts also need a public HTTPS image URL.
-- LinkedIn organization: `LINKEDIN_ORGANIZATION_ID` and `LINKEDIN_ACCESS_TOKEN`, with the provider permissions required to publish as that organization.
+### Required Production Variables:
+- `ADMIN_SECRET_KEY`: Bearer/header authentication key for private endpoints.
+- `META_ACCESS_TOKEN`: System User access token with `whatsapp_business_messaging` permissions.
+- `META_APP_SECRET`: Meta App Secret from App Dashboard -> Basic Settings (for webhook signature verification).
+- `META_GRAPH_VERSION`: Graph API version (default: `v20.0`).
+- `WHATSAPP_PHONE_NUMBER_ID`: Phone Number ID from WhatsApp -> API Setup.
+- `WHATSAPP_VERIFY_TOKEN`: Custom secret token configured in Meta Webhooks dashboard.
+- `PUBLIC_URL`: HTTPS public URL (e.g. `https://your-domain.com` or active ngrok tunnel).
+- `GEMINI_API_KEY`: Google Gemini API key for conversational AI synthesis.
+- `GEMINI_MODEL`: Gemini model identifier (default: `gemini-2.0-flash`).
+- `OWNER_ALERT_PHONE`: WhatsApp phone number for human escalation alerts (default: `918421077613`).
 
-Open **Manage Accounts & Keys**, save configuration for the current process, then use **Test connections** for read-only provider requests. Publishing creates real posts; select only verified accounts and confirm the post in the dashboard before broadcasting. An Instagram image is required when Instagram is selected.
+---
+
+## 💻 How to Run Locally
+
+### 1. Start Web Server
+```bash
+node server.js
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 2. Run Test Suite
+All tests run with zero external npm dependencies using native `node:test`:
+```bash
+node --test test/*.test.js
+```
+- **Total Test Cases:** 25 passing tests.
+- **Coverage:** Meta webhook verification, HMAC signature validation, payload parsing, deduplication, contact isolation, language detection, grounded property queries, opt-out/opt-in, human handoff queue, and 24-hour service window rules.
+- **Data Safety:** All test fixtures run against isolated temporary storage; zero test data touches `data/`.
+
+---
+
+## 🔒 Security & Data Integrity Directives
+
+- **Zero Fake Data Policy:** Test routines and diagnostic scripts MUST NEVER insert mock records or synthetic numbers into `data/leads.json`, CSVs, or databases.
+- **Zero Hallucination Policy:** Property prices and configurations are strictly bound to verified records in `data/projects.json`.
+- **Secret Isolation:** API keys, access tokens, and passwords are never logged, returned via health checks, or exposed in client bundles.

@@ -21,6 +21,9 @@ const path = require('path');
 const os = require('os');
 const { DEFAULT_REPORT, SAMPLE_PRESETS, WEEKLY_POSTS } = require('./js/data.js');
 const { AIEngine } = require('./js/ai-engine.js');
+const whatsappService = require('./whatsapp_service');
+const siaBrain = require('./sia_brain');
+const crmStore = require('./crm_store');
 
 // Auto-load .env file if present
 const envPath = path.join(__dirname, '.env');
@@ -3785,18 +3788,15 @@ const server = http.createServer((req, res) => {
 
   // 12. WhatsApp Cloud API Webhook Verification (GET) - Supports both /api/whatsapp/webhook and /webhook
   if ((pathname === '/api/whatsapp/webhook' || pathname === '/webhook') && req.method === 'GET') {
-    const mode = parsedUrl.searchParams.get('hub.mode');
-    const token = parsedUrl.searchParams.get('hub.verify_token');
-    const challenge = parsedUrl.searchParams.get('hub.challenge');
-
-    if (mode === 'subscribe' && whatsappConfig.verifyToken && token === whatsappConfig.verifyToken && challenge) {
-      console.log('[WhatsApp] Webhook verification succeeded.');
+    const challengeRes = whatsappService.verifyWebhookChallenge(parsedUrl, whatsappConfig.verifyToken);
+    if (challengeRes.verified) {
+      console.log('[WhatsApp] Webhook challenge verification succeeded.');
       res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end(challenge);
+      res.end(challengeRes.challenge);
       return;
     } else {
       res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
-      res.end(JSON.stringify({ error: 'Webhook verification token mismatch' }));
+      res.end(JSON.stringify({ error: 'Webhook verification token mismatch', reason: challengeRes.reason }));
       return;
     }
   }
@@ -3810,102 +3810,77 @@ const server = http.createServer((req, res) => {
     req.on('end', async () => {
       try {
         const rawBody = Buffer.concat(rawChunks);
-        if (process.env.META_APP_SECRET) {
-          if (!security.verifyMetaWebhookSignature(rawBody, req.headers['x-hub-signature-256'])) {
-            res.writeHead(401, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Invalid webhook signature' }));
-            return;
-          }
-        } else {
-          console.log('[WhatsApp Webhook] Processing incoming message (META_APP_SECRET not configured, signature verification bypassed)');
+
+        // 1. Verify Meta HMAC-SHA256 Webhook Signature
+        const sigResult = whatsappService.verifyMetaSignature(rawBody, req.headers['x-hub-signature-256']);
+        if (!sigResult.verified) {
+          console.warn('[WhatsApp Webhook] Signature verification failed:', sigResult.reason);
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Invalid webhook signature', reason: sigResult.reason }));
+          return;
         }
 
-        // Immediate 200 OK response to Meta so Meta never times out and never retries
+        // 2. Immediate 200 OK Response to Meta (Prevent timeouts & duplicate retries)
         if (!res.writableEnded) {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ status: 'EVENT_RECEIVED' }));
         }
 
-        const payload = JSON.parse(rawBody.toString('utf8') || '{}');
-        const entry = payload.entry && payload.entry[0];
-        const changes = entry && entry.changes && entry.changes[0];
-        const value = changes && changes.value;
-        const messages = value && value.messages;
+        // 3. Parse Webhook Payload safely (handles text, interactive, media, and status events)
+        const parsed = whatsappService.parseWebhookPayload(rawBody);
+        if (!parsed.isValid || !Array.isArray(parsed.events)) {
+          return;
+        }
 
-        if (messages && messages.length > 0) {
-          const msg = messages[0];
-          const msgId = msg.id;
+        const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
 
-          // Deduplication: prevent duplicate processing if Meta retries
-          if (msgId) {
-            if (processedWhatsAppMessageIds.has(msgId)) {
-              console.log(`[WhatsApp Webhook] Duplicate message ${msgId} ignored.`);
-              return;
-            }
-            processedWhatsAppMessageIds.add(msgId);
-            if (processedWhatsAppMessageIds.size > 1000) {
-              const oldest = processedWhatsAppMessageIds.values().next().value;
-              processedWhatsAppMessageIds.delete(oldest);
-            }
+        for (const evt of parsed.events) {
+          // Status updates (sent, delivered, read) do not trigger replies
+          if (evt.type !== 'incoming_message') {
+            continue;
           }
 
-          const from = msg.from;
-          let text = '';
-          if (msg.type === 'text') {
-            text = (msg.text && msg.text.body) || '';
-          } else if (msg.type === 'interactive' && msg.interactive) {
-            if (msg.interactive.type === 'button_reply') {
-              text = (msg.interactive.button_reply && msg.interactive.button_reply.title) || '';
-            } else if (msg.interactive.type === 'list_reply') {
-              text = (msg.interactive.list_reply && msg.interactive.list_reply.title) || '';
-            }
+          // Idempotency: skip already-processed messages
+          if (whatsappService.isDuplicateMessage(evt.msgId)) {
+            console.log(`[WhatsApp Webhook] Duplicate message ${evt.msgId} skipped.`);
+            continue;
           }
 
-          const contact = value.contacts && value.contacts[0];
-          const rawName = (contact && contact.profile && contact.profile.name) || 'Client';
+          const cleanPhone = evt.cleanPhone;
+          const isOwner = cleanPhone === ownerPhone || cleanPhone.endsWith('8421077613');
+          const name = isOwner ? 'Satnam Singh (Owner / Boss)' : evt.customerName;
 
-          const cleanFrom = from.replace(/[^0-9]/g, '');
-          const ownerPhone = (process.env.OWNER_ALERT_PHONE || '918421077613').replace(/[^0-9]/g, '');
-          const isOwner = (cleanFrom === ownerPhone || cleanFrom.endsWith('8421077613'));
-          const name = isOwner ? 'Satnam Singh (Owner / Boss)' : rawName;
-
-          // Robust phone matching on last 10 digits
-          const cleanFrom10 = cleanFrom.length >= 10 ? cleanFrom.slice(-10) : cleanFrom;
-          let conv = whatsappConversations.find(c => {
-            const cDigits = (c.phone || '').replace(/[^0-9]/g, '');
-            const c10 = cDigits.length >= 10 ? cDigits.slice(-10) : cDigits;
-            return (cleanFrom10 && c10 && cleanFrom10 === c10) || cDigits === cleanFrom;
+          // Record inbound message in persistent CRM
+          crmStore.recordInboundMessage(cleanPhone, evt.text, evt.msgId, {
+            customerName: name,
+            rawType: evt.rawType
           });
-          const lastMsg = conv && conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : null;
-          const lastMsgTime = lastMsg && lastMsg.timestamp ? new Date(lastMsg.timestamp).getTime() : 0;
-          const hoursSinceLastMsg = lastMsgTime ? (Date.now() - lastMsgTime) / (1000 * 60 * 60) : 999;
-          const isOngoing = Boolean(conv && conv.hasGreeted && hoursSinceLastMsg < 8);
-          const messageCount = conv ? conv.messages.length : 0;
-          const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
-          let autoRes;
+          let replyText = null;
+          let suggestedActions = null;
+          let intent = 'SIA_CONVERSATIONAL_REPLY';
+
           if (isOwner) {
-            autoRes = await getSiaIntelligentResponse(text, name, {
-              isOngoing,
-              messageCount,
-              publicUrl,
-              phoneNumber: cleanFrom,
-              totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
-              leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent, lastUpdated: c.lastUpdated })),
+            // Owner Chief-of-Staff Executive Handling
+            const ownerRes = await getSiaIntelligentResponse(evt.text, name, {
+              publicUrl: process.env.PUBLIC_URL || targetNgrokUrl,
+              phoneNumber: cleanPhone,
+              totalLeads: crmStore.getCRMTelemetry().totalLeads,
               reviewsCount: googleReviews.length,
               totalReviews: googleReviews.length,
               pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
               repliedReviewsCount: googleReviews.filter(r => r.reply && r.reply.trim()).length,
-              reviewsList: googleReviews,
               isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
               hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
               googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
-              publishedPostsCount: publishedPostLogs.length,
-              rentAgreements: typeof rentAgreements !== 'undefined' ? rentAgreements : [],
-              realEstateProjects: typeof realEstateProjects !== 'undefined' ? realEstateProjects : []
+              publishedPostsCount: publishedPostLogs.length
             }, true);
 
-            if (autoRes.triggerAction === 'PUBLISH_POST') {
+            replyText = ownerRes.reply;
+            suggestedActions = ownerRes.suggestedActions;
+            intent = ownerRes.intent;
+
+            if (ownerRes.triggerAction === 'PUBLISH_POST') {
               const postData = AIEngine.generateDynamicGooglePost();
               publishedPostLogs.unshift({
                 id: 'post_log_' + Date.now(),
@@ -3920,79 +3895,57 @@ const server = http.createServer((req, res) => {
                 googlePostId: 'gbp_owner_' + Date.now()
               });
               saveJSONFile('posts.json', publishedPostLogs);
-            } else if (autoRes.triggerAction === 'ADD_REVIEW' && autoRes.newReview) {
-              googleReviews.unshift(autoRes.newReview);
-              saveJSONFile('reviews.json', googleReviews);
             }
           } else {
-            autoRes = await getSiaIntelligentResponse(text, name, {
-              isOngoing,
-              messageCount,
-              publicUrl,
-              phoneNumber: cleanFrom,
-              officeAddress: whatsappConfig.officeAddress,
-              officeLandmark: whatsappConfig.officeLandmark,
-              officeTimings: whatsappConfig.officeTimings,
-              officeMap: whatsappConfig.officeMap,
-              contactPhone: whatsappConfig.phone
-            }, false);
-          }
-
-          if (!conv) {
-            conv = { phone: '+' + from, name, status: isOwner ? 'Owner / Executive' : 'New Inquiry', hasGreeted: true, lastUpdated: new Date().toISOString(), messages: [] };
-            whatsappConversations.unshift(conv);
-          } else {
-            conv.hasGreeted = true;
-          }
-          conv.status = isOwner ? 'Owner / Executive' : (conv.status || 'New Inquiry');
-          conv.lastIntent = autoRes.intent;
-          conv.language = autoRes.language || 'hinglish';
-          conv.messages.push({
-            id: 'msg_in_' + Date.now(),
-            sender: isOwner ? 'owner' : 'client',
-            text: text,
-            timestamp: new Date().toISOString()
-          });
-          conv.messages.push({
-            id: 'msg_out_' + Date.now(),
-            sender: 'bot',
-            text: autoRes.reply,
-            intent: autoRes.intent,
-            timestamp: new Date().toISOString()
-          });
-          conv.lastUpdated = new Date().toISOString();
-          saveJSONFile('leads.json', whatsappConversations);
-
-          const targetPhoneId = (value && value.metadata && value.metadata.phone_number_id) || whatsappConfig.phoneNumberId;
-          if (whatsappConfig.accessToken && targetPhoneId) {
-            // 1. Send reply with interactive buttons
-            sendMetaWhatsAppMessage(from, autoRes.reply, {
-              ...whatsappConfig,
-              phoneNumberId: targetPhoneId
-            }, {
-              buttons: autoRes.suggestedActions
+            // Customer Conversation Brain Processing (Grounded + Verified)
+            const siaResult = await siaBrain.processIncomingMessage(cleanPhone, evt.text, name, {
+              isOptOut: evt.isOptOut,
+              isOptIn: evt.isOptIn
             });
 
-            // 2. If it's a real client inquiry (NOT the owner), alert Owner on personal WhatsApp (+91 84210 77613)
-            if (!isOwner) {
-              const leadAlert = `🔔 *New Client Inquiry Received!* (Dashmesh Properties)\n\n👤 *Client:* ${name}\n📞 *Phone:* +${cleanFrom}\n💬 *Client Message:* "${text}"\n🏷️ *Inquiry Type:* ${autoRes.intent}\n\n🤖 *Sia Action:* Verified details, office timings & maps sent instantly!`;
-              sendMetaWhatsAppMessage(ownerPhone, leadAlert, {
-                ...whatsappConfig,
-                phoneNumberId: targetPhoneId
+            replyText = siaResult.reply;
+            suggestedActions = siaResult.buttons;
+            intent = siaResult.intent;
+
+            // Notify Owner if Customer Escalation / Human Handoff was triggered
+            if (siaResult.shouldNotifyOwner) {
+              const leadAlert = `🔔 *Customer Escalation Alert!* (Dashmesh Properties)\n\n` +
+                `👤 *Client:* ${name}\n` +
+                `📞 *Phone:* +${cleanPhone}\n` +
+                `💬 *Client Message:* "${evt.text}"\n` +
+                `⚠️ *Notice:* ${siaResult.handoffReason || siaResult.intent}\n\n` +
+                `🤖 *Sia Action:* Conversation marked as human_pending. AI auto-reply is muted for this customer so you can chat directly.`;
+
+              whatsappService.sendMetaWhatsAppMessage(ownerPhone, leadAlert).catch(e => {
+                console.warn('[WhatsApp Alert] Notice sending owner alert:', e.message);
               });
             }
           }
 
-          autoPilotState.eventLogs.unshift({
-            id: 'evt_wa_' + Date.now(),
-            timestamp: new Date().toISOString(),
-            type: 'WHATSAPP',
-            icon: isOwner ? '👑' : '💬',
-            message: isOwner
-              ? `Sia (AI Executive Assistant) answered Owner Satnam Singh (+${cleanFrom}): [${autoRes.intent}] "${text.substring(0, 30)}..."`
-              : `Sia auto-replied to client ${name} (${from}): [${autoRes.intent}] "${text.substring(0, 30)}..."`,
-            status: 'active'
-          });
+          // Send WhatsApp reply if formulated and not muted
+          if (replyText) {
+            const sendRes = await whatsappService.sendMetaWhatsAppMessage(cleanPhone, replyText, {
+              buttons: suggestedActions,
+              lastInboundTimestamp: evt.timestamp
+            });
+
+            // Record outbound reply in CRM
+            crmStore.recordOutboundMessage(cleanPhone, replyText, intent, {
+              messageId: sendRes.messageId,
+              deliveryStatus: sendRes.success ? 'sent' : 'failed'
+            });
+
+            autoPilotState.eventLogs.unshift({
+              id: 'evt_wa_' + Date.now(),
+              timestamp: new Date().toISOString(),
+              type: 'WHATSAPP',
+              icon: isOwner ? '👑' : '💬',
+              message: isOwner
+                ? `Sia answered Owner Satnam Singh (+${cleanPhone}): [${intent}] "${evt.text.substring(0, 30)}..."`
+                : `Sia replied to ${name} (+${cleanPhone}): [${intent}] "${evt.text.substring(0, 30)}..."`,
+              status: sendRes.success ? 'active' : 'warning'
+            });
+          }
         }
 
         if (!res.writableEnded) {
@@ -4000,10 +3953,64 @@ const server = http.createServer((req, res) => {
           res.end(JSON.stringify({ status: 'EVENT_RECEIVED' }));
         }
       } catch (e) {
+        console.error('[WhatsApp Webhook] Handler error:', e.message);
         if (!res.writableEnded) {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ status: 'ERROR_HANDLED' }));
         }
+      }
+    });
+    return;
+  }
+
+  // 13b-1. WhatsApp Health & Diagnostics Endpoint
+  if (pathname === '/api/whatsapp/health' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      timestamp: new Date().toISOString(),
+      whatsapp: whatsappService.getWhatsAppHealth(),
+      crm: crmStore.getCRMTelemetry(),
+      business: {
+        name: siaBrain.BUSINESS_FACTS.name,
+        office: siaBrain.BUSINESS_FACTS.officeAddress,
+        founder: siaBrain.BUSINESS_FACTS.founder,
+        rentAgreement: siaBrain.BUSINESS_FACTS.rentAgreement.totalCost
+      }
+    }));
+    return;
+  }
+
+  // 13b-2. Human Handoff Queue Endpoint
+  if (pathname === '/api/whatsapp/handoff-queue' && req.method === 'GET') {
+    const queue = crmStore.getHandoffQueue();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      count: queue.length,
+      queue
+    }));
+    return;
+  }
+
+  // 13b-3. Resolve Human Handoff Endpoint
+  if (pathname === '/api/whatsapp/resolve-handoff' && req.method === 'POST') {
+    const bodyChunks = [];
+    req.on('data', c => bodyChunks.push(c));
+    req.on('end', () => {
+      try {
+        const body = JSON.parse(Buffer.concat(bodyChunks).toString('utf8') || '{}');
+        if (!body.phone) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Missing phone parameter' }));
+          return;
+        }
+        const updated = crmStore.resolveHumanHandoff(body.phone);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, contact: updated }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Invalid JSON payload' }));
       }
     });
     return;
@@ -4099,22 +4106,17 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
           const c10 = cDigits.length >= 10 ? cDigits.slice(-10) : cDigits;
           return (cleanPhone10 && c10 && cleanPhone10 === c10) || cDigits === cleanPhone;
         });
-        const lastMsg = conv && conv.messages && conv.messages.length > 0 ? conv.messages[conv.messages.length - 1] : null;
-        const lastMsgTime = lastMsg && lastMsg.timestamp ? new Date(lastMsg.timestamp).getTime() : 0;
-        const hoursSinceLastMsg = lastMsgTime ? (Date.now() - lastMsgTime) / (1000 * 60 * 60) : 999;
-        const isOngoing = Boolean(conv && conv.hasGreeted && hoursSinceLastMsg < 8);
+        const isOngoing = Boolean(conv && (conv.hasGreeted || (conv.messages && conv.messages.length > 0)));
         const messageCount = conv ? conv.messages.length : 0;
         const publicUrl = process.env.PUBLIC_URL || 'https://google-auto-ai-work.onrender.com';
 
         let autoRes;
         if (isOwner) {
           autoRes = await getSiaIntelligentResponse(text, "Satnam Sir", {
-            isOngoing,
-            messageCount,
             publicUrl,
             phoneNumber: cleanPhone,
             totalLeads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).length,
-            leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent, lastUpdated: c.lastUpdated })),
+            leads: whatsappConversations.filter(c => !c.phone.replace(/[^0-9]/g, '').endsWith('8421077613')).map(c => ({ name: c.name, phone: c.phone, intent: c.lastIntent })),
             reviewsCount: googleReviews.length,
             totalReviews: googleReviews.length,
             pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
@@ -4123,9 +4125,7 @@ Aap jab chahein koi bhi test message bhej sakte hain!`;
             isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
             hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
             googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
-            publishedPostsCount: publishedPostLogs.length,
-            rentAgreements: typeof rentAgreements !== 'undefined' ? rentAgreements : [],
-            realEstateProjects: typeof realEstateProjects !== 'undefined' ? realEstateProjects : []
+            publishedPostsCount: publishedPostLogs.length
           }, true);
 
           if (autoRes.triggerAction === 'PUBLISH_POST') {

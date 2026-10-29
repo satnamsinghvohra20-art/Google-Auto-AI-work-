@@ -54,9 +54,49 @@ if (fs.existsSync(envPath)) {
 // ── Config ───────────────────────────────────────────────────────────────────
 const DATA_DIR   = path.join(__dirname, 'data');
 const LOG_FILE   = path.join(DATA_DIR, 'loop_activity.log');
+const LOCK_FILE  = path.join(DATA_DIR, 'loop.lock');
 const PORT       = parseInt(process.env.PORT || '3000', 10);
 const PUBLIC_URL = process.env.PUBLIC_URL || `http://localhost:${PORT}`;
 const OWNER_PHONE = (process.env.OWNER_ALERT_PHONE || '+918421077613').replace(/[^0-9]/g, '');
+
+function acquireLock() {
+  try {
+    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (fs.existsSync(LOCK_FILE)) {
+      try {
+        const lockData = JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8'));
+        const pid = lockData.pid;
+        let isRunning = false;
+        try {
+          process.kill(pid, 0);
+          isRunning = true;
+        } catch (_) {
+          isRunning = false;
+        }
+        if (isRunning && pid !== process.pid) {
+          console.log(`[Loop] ⚠️ Another loop instance (PID ${pid}) is already running. Exiting cleanly to prevent duplicate background workers.`);
+          return false;
+        }
+      } catch (_) {}
+    }
+    fs.writeFileSync(LOCK_FILE, JSON.stringify({ pid: process.pid, startedAt: new Date().toISOString() }), 'utf8');
+    return true;
+  } catch (err) {
+    console.warn(`[Loop] Lock acquisition notice: ${err.message}`);
+    return true;
+  }
+}
+
+function releaseLock() {
+  try {
+    if (fs.existsSync(LOCK_FILE)) {
+      const lockData = JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8'));
+      if (lockData.pid === process.pid) {
+        fs.unlinkSync(LOCK_FILE);
+      }
+    }
+  } catch (_) {}
+}
 
 // Task intervals
 const HEALTH_CHECK_INTERVAL_MS = 30  * 1000;  //  30 seconds
@@ -303,12 +343,32 @@ let dailyBriefSentAt = -1;
 let loopIteration    = 0;
 
 async function runLoop() {
+  if (!acquireLock()) {
+    log('[Loop] Active loop lock held by another process. Exiting.');
+    process.exit(0);
+  }
+
+  process.on('SIGINT', () => {
+    log('[Loop] Received SIGINT — performing graceful shutdown...');
+    releaseLock();
+    process.exit(0);
+  });
+  process.on('SIGTERM', () => {
+    log('[Loop] Received SIGTERM — performing graceful shutdown...');
+    releaseLock();
+    process.exit(0);
+  });
+  process.on('exit', () => {
+    releaseLock();
+  });
+
   log('═══════════════════════════════════════════════════════════');
   log('🚀 DASHMESH PROPERTIES — AUTONOMOUS LOOP ENGINE STARTED');
   log(`   Business    : Dashmesh Property & Rent Agreement Services`);
   log(`   Founder     : Satnam Singh Vohra (+91 84210 77613)`);
   log(`   Public URL  : ${PUBLIC_URL}`);
   log(`   Health Port : ${PORT}`);
+  log(`   PID Lock    : Acquired successfully (PID ${process.pid})`);
   log('═══════════════════════════════════════════════════════════');
 
   // Process-level crash guard — loop NEVER stops due to unhandled errors
