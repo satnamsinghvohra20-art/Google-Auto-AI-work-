@@ -245,7 +245,7 @@ const whatsappConfig = {
   autoFollowUpEnabled: true
 };
 
-let whatsappConversations = loadJSONFile('leads.json', []);
+let whatsappConversations = crmStore.loadConversations();
 const processedWhatsAppMessageIds = new Set();
 
 
@@ -3850,101 +3850,111 @@ const server = http.createServer((req, res) => {
           const isOwner = cleanPhone === ownerPhone || cleanPhone.endsWith('8421077613');
           const name = isOwner ? 'Satnam Singh (Owner / Boss)' : evt.customerName;
 
-          // Record inbound message in persistent CRM
-          crmStore.recordInboundMessage(cleanPhone, evt.text, evt.msgId, {
-            customerName: name,
-            rawType: evt.rawType
-          });
+          // Acquire per-contact processing lock to prevent concurrent race conditions (Rule 5)
+          await crmStore.acquireContactLock(cleanPhone);
 
-          let replyText = null;
-          let suggestedActions = null;
-          let intent = 'SIA_CONVERSATIONAL_REPLY';
+          try {
+            // Record inbound message in persistent CRM
+            crmStore.recordInboundMessage(cleanPhone, evt.text, evt.msgId, {
+              customerName: name,
+              rawType: evt.rawType
+            });
 
-          if (isOwner) {
-            // Owner Chief-of-Staff Executive Handling
-            const ownerRes = await getSiaIntelligentResponse(evt.text, name, {
-              publicUrl: process.env.PUBLIC_URL || targetNgrokUrl,
-              phoneNumber: cleanPhone,
-              totalLeads: crmStore.getCRMTelemetry().totalLeads,
-              reviewsCount: googleReviews.length,
-              totalReviews: googleReviews.length,
-              pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
-              repliedReviewsCount: googleReviews.filter(r => r.reply && r.reply.trim()).length,
-              isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
-              hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
-              googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
-              publishedPostsCount: publishedPostLogs.length
-            }, true);
+            let replyText = null;
+            let suggestedActions = null;
+            let intent = 'SIA_CONVERSATIONAL_REPLY';
 
-            replyText = ownerRes.reply;
-            suggestedActions = ownerRes.suggestedActions;
-            intent = ownerRes.intent;
+            if (isOwner) {
+              // Owner Chief-of-Staff Executive Handling
+              const ownerRes = await getSiaIntelligentResponse(evt.text, name, {
+                publicUrl: process.env.PUBLIC_URL || targetNgrokUrl,
+                phoneNumber: cleanPhone,
+                totalLeads: crmStore.getCRMTelemetry().totalLeads,
+                reviewsCount: googleReviews.length,
+                totalReviews: googleReviews.length,
+                pendingReviewsCount: googleReviews.filter(r => !r.reply || !r.reply.trim()).length,
+                repliedReviewsCount: googleReviews.filter(r => r.reply && r.reply.trim()).length,
+                isGoogleConnected: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_REFRESH_TOKEN),
+                hasMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
+                googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJDxFBTbyV5zsRcHylJmmARG8',
+                publishedPostsCount: publishedPostLogs.length
+              }, true);
 
-            if (ownerRes.triggerAction === 'PUBLISH_POST') {
-              const postData = AIEngine.generateDynamicGooglePost();
-              publishedPostLogs.unshift({
-                id: 'post_log_' + Date.now(),
-                day: postData.day,
-                title: postData.title,
-                text: postData.text,
-                category: postData.category,
-                cta: postData.cta,
-                link: postData.link,
-                status: 'Published Live on Google Maps',
+              replyText = ownerRes.reply;
+              suggestedActions = ownerRes.suggestedActions;
+              intent = ownerRes.intent;
+
+              if (ownerRes.triggerAction === 'PUBLISH_POST') {
+                const postData = AIEngine.generateDynamicGooglePost();
+                publishedPostLogs.unshift({
+                  id: 'post_log_' + Date.now(),
+                  day: postData.day,
+                  title: postData.title,
+                  text: postData.text,
+                  category: postData.category,
+                  cta: postData.cta,
+                  link: postData.link,
+                  status: 'Published Live on Google Maps',
+                  timestamp: new Date().toISOString(),
+                  googlePostId: 'gbp_owner_' + Date.now()
+                });
+                saveJSONFile('posts.json', publishedPostLogs);
+              }
+            } else {
+              // Customer Conversation Brain Processing (Grounded + Verified)
+              const siaResult = await siaBrain.processIncomingMessage(cleanPhone, evt.text, name, {
+                isOptOut: evt.isOptOut,
+                isOptIn: evt.isOptIn
+              });
+
+              replyText = siaResult.reply;
+              suggestedActions = siaResult.buttons;
+              intent = siaResult.intent;
+
+              // Notify Owner if Customer Escalation / Human Handoff was triggered
+              if (siaResult.shouldNotifyOwner) {
+                const leadAlert = `🔔 *Customer Escalation Alert!* (Dashmesh Properties)\n\n` +
+                  `👤 *Client:* ${name}\n` +
+                  `📞 *Phone:* +${cleanPhone}\n` +
+                  `💬 *Client Message:* "${evt.text}"\n` +
+                  `⚠️ *Notice:* ${siaResult.handoffReason || siaResult.intent}\n\n` +
+                  `🤖 *Sia Action:* Conversation marked as human_pending. AI auto-reply is muted for this customer so you can chat directly.`;
+
+                whatsappService.sendMetaWhatsAppMessage(ownerPhone, leadAlert).catch(e => {
+                  console.warn('[WhatsApp Alert] Notice sending owner alert:', e.message);
+                });
+              }
+            }
+
+            // Send WhatsApp reply if formulated and not muted
+            if (replyText) {
+              const sendRes = await whatsappService.sendMetaWhatsAppMessage(cleanPhone, replyText, {
+                buttons: suggestedActions,
+                lastInboundTimestamp: evt.timestamp
+              });
+
+              // Record outbound reply in CRM
+              crmStore.recordOutboundMessage(cleanPhone, replyText, intent, {
+                messageId: sendRes.messageId,
+                deliveryStatus: sendRes.success ? 'sent' : 'failed'
+              });
+
+              autoPilotState.eventLogs.unshift({
+                id: 'evt_wa_' + Date.now(),
                 timestamp: new Date().toISOString(),
-                googlePostId: 'gbp_owner_' + Date.now()
-              });
-              saveJSONFile('posts.json', publishedPostLogs);
-            }
-          } else {
-            // Customer Conversation Brain Processing (Grounded + Verified)
-            const siaResult = await siaBrain.processIncomingMessage(cleanPhone, evt.text, name, {
-              isOptOut: evt.isOptOut,
-              isOptIn: evt.isOptIn
-            });
-
-            replyText = siaResult.reply;
-            suggestedActions = siaResult.buttons;
-            intent = siaResult.intent;
-
-            // Notify Owner if Customer Escalation / Human Handoff was triggered
-            if (siaResult.shouldNotifyOwner) {
-              const leadAlert = `🔔 *Customer Escalation Alert!* (Dashmesh Properties)\n\n` +
-                `👤 *Client:* ${name}\n` +
-                `📞 *Phone:* +${cleanPhone}\n` +
-                `💬 *Client Message:* "${evt.text}"\n` +
-                `⚠️ *Notice:* ${siaResult.handoffReason || siaResult.intent}\n\n` +
-                `🤖 *Sia Action:* Conversation marked as human_pending. AI auto-reply is muted for this customer so you can chat directly.`;
-
-              whatsappService.sendMetaWhatsAppMessage(ownerPhone, leadAlert).catch(e => {
-                console.warn('[WhatsApp Alert] Notice sending owner alert:', e.message);
+                type: 'WHATSAPP',
+                icon: isOwner ? '👑' : '💬',
+                message: isOwner
+                  ? `Sia answered Owner Satnam Singh (+${cleanPhone}): [${intent}] "${evt.text.substring(0, 30)}..."`
+                  : `Sia replied to ${name} (+${cleanPhone}): [${intent}] "${evt.text.substring(0, 30)}..."`,
+                status: sendRes.success ? 'active' : 'warning'
               });
             }
-          }
 
-          // Send WhatsApp reply if formulated and not muted
-          if (replyText) {
-            const sendRes = await whatsappService.sendMetaWhatsAppMessage(cleanPhone, replyText, {
-              buttons: suggestedActions,
-              lastInboundTimestamp: evt.timestamp
-            });
-
-            // Record outbound reply in CRM
-            crmStore.recordOutboundMessage(cleanPhone, replyText, intent, {
-              messageId: sendRes.messageId,
-              deliveryStatus: sendRes.success ? 'sent' : 'failed'
-            });
-
-            autoPilotState.eventLogs.unshift({
-              id: 'evt_wa_' + Date.now(),
-              timestamp: new Date().toISOString(),
-              type: 'WHATSAPP',
-              icon: isOwner ? '👑' : '💬',
-              message: isOwner
-                ? `Sia answered Owner Satnam Singh (+${cleanPhone}): [${intent}] "${evt.text.substring(0, 30)}..."`
-                : `Sia replied to ${name} (+${cleanPhone}): [${intent}] "${evt.text.substring(0, 30)}..."`,
-              status: sendRes.success ? 'active' : 'warning'
-            });
+            // Sync whatsappConversations with crmStore
+            whatsappConversations = crmStore.loadConversations();
+          } finally {
+            crmStore.releaseContactLock(cleanPhone);
           }
         }
 

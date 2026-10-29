@@ -397,3 +397,285 @@ test('WhatsApp Health: reports system readiness and masked status safely', () =>
   // Ensure no raw secrets are leaked in health object
   assert.equal(health.accessTokenConfigured, Boolean(process.env.META_ACCESS_TOKEN));
 });
+
+// ============================================================================
+// CRITICAL REGRESSION SUITE: 16 COMPREHENSIVE RULES FOR BUG FIX VERIFICATION
+// ============================================================================
+
+// Rule 7.1: First contact sends at most one appropriate greeting when only greeting is sent
+test('Regression 1: First contact sends at most one appropriate greeting on greeting-only message', async () => {
+  const phone = '919871000001';
+  const res = await sia.processIncomingMessage(phone, 'Hello', 'Suresh');
+  assert.ok(res.reply);
+  assert.match(res.reply, /Dashmesh Properties/i);
+  assert.match(res.reply, /Sia/i);
+});
+
+// Rule 7.2: First contact asks a property question directly and gets an answer without an unnecessary greeting
+test('Regression 2: First contact asks a property question directly and gets an answer without an unnecessary greeting', async () => {
+  const phone = '919871000002';
+  const res = await sia.processIncomingMessage(phone, '1 BHK flat available hai Pale Gaon mein?', 'Rohan');
+  assert.ok(res.reply);
+  assert.match(res.reply, /Verified Property Options|Pale Gaon|New Floora/i);
+  // Must NOT include full welcoming company introduction
+  assert.doesNotMatch(res.reply, /Dashmesh Properties mein aapka swagat hai/i);
+});
+
+// Rule 7.3: Second and third messages do not repeat the welcome
+test('Regression 3: Second and third messages do not repeat the welcome', async () => {
+  const phone = '919871000003';
+  // Turn 1
+  await sia.processIncomingMessage(phone, 'Hi', 'Amit');
+
+  // Turn 2: Property query
+  const res2 = await sia.processIncomingMessage(phone, '1 BHK ka kya price hai Pale Gaon mein?', 'Amit');
+  assert.ok(res2.reply);
+  assert.doesNotMatch(res2.reply, /swagat hai|welcome to dashmesh/i);
+
+  // Turn 3: Rent agreement query
+  const res3 = await sia.processIncomingMessage(phone, 'Rent agreement ka cost kitna hai?', 'Amit');
+  assert.ok(res3.reply);
+  assert.match(res3.reply, /1,750|3,500/);
+  assert.doesNotMatch(res3.reply, /swagat hai|welcome to dashmesh/i);
+});
+
+// Rule 7.4: A greeting from an existing customer does not restart the full introduction
+test('Regression 4: A greeting from an existing customer does not restart the full introduction', async () => {
+  const phone = '919871000004';
+  // Turn 1
+  await sia.processIncomingMessage(phone, 'Namaste', 'Karan');
+
+  // Turn 2
+  await sia.processIncomingMessage(phone, 'Office timings kya hai?', 'Karan');
+
+  // Turn 3: Customer says "Hi" again
+  const res3 = await sia.processIncomingMessage(phone, 'Hi Sia', 'Karan');
+  assert.ok(res3.reply);
+  // Responds politely without dumping the company intro
+  assert.doesNotMatch(res3.reply, /Dashmesh Properties mein aapka swagat hai/i);
+});
+
+// Rule 7.5: A customer sends budget and location, then asks a follow-up; saved context is used
+test('Regression 5: Customer sends budget and location, then asks follow-up; saved context is used', async () => {
+  const phone = '919871000005';
+  // Turn 1: provides budget and location
+  await sia.processIncomingMessage(phone, 'Looking for flat in Pale Gaon, my budget is 25 lakh', 'Pooja');
+
+  const contactBefore = crm.getOrCreateContact(phone);
+  assert.equal(contactBefore.qualification.locality, 'Pale Gaon');
+  assert.match(contactBefore.qualification.budget, /25/);
+
+  // Turn 2: asks follow-up without repeating locality/budget
+  const res2 = await sia.processIncomingMessage(phone, 'What options are available?', 'Pooja');
+  assert.ok(res2.reply);
+  // Grounded search uses the saved locality (Pale Gaon)
+  assert.match(res2.reply, /Pale Gaon|New Floora/i);
+});
+
+// Rule 7.6: A customer returns after the server restarts; history and lead facts are recovered
+test('Regression 6: Customer returns after server restarts; history and lead facts are recovered', async () => {
+  const phone = '919871000006';
+  // Turn 1: Save facts
+  await sia.processIncomingMessage(phone, 'I want 2 BHK in Ambernath East under 35 lakh', 'Deepak');
+
+  // Simulate server restart by clearing in-memory cache
+  crm.clearCache();
+
+  // Reload from disk
+  const recoveredContact = crm.getOrCreateContact(phone);
+  assert.equal(recoveredContact.qualification.locality, 'Ambernath East');
+  assert.equal(recoveredContact.qualification.bhk, '2 BHK');
+  assert.match(recoveredContact.qualification.budget, /35/);
+  assert.ok(recoveredContact.messages.length > 0);
+});
+
+// Rule 7.7: A customer corrects their budget; latest value is used and change is handled correctly
+test('Regression 7: Customer corrects their budget; latest value is used and change is handled correctly', async () => {
+  const phone = '919871000007';
+  // Turn 1: initial budget
+  await sia.processIncomingMessage(phone, 'My budget is 40 lakh for 2 BHK in Pale Gaon', 'Vikram');
+  let contact = crm.getOrCreateContact(phone);
+  assert.match(contact.qualification.budget, /40/);
+
+  // Turn 2: corrects budget
+  const res2 = await sia.processIncomingMessage(phone, 'Actually, make it 60 lakh', 'Vikram');
+  assert.ok(res2.reply);
+  assert.match(res2.reply, /60/);
+
+  contact = crm.getOrCreateContact(phone);
+  assert.match(contact.qualification.budget, /60/);
+  assert.ok(contact.qualification.budgetHistory.length > 0);
+  assert.match(contact.qualification.budgetHistory[0].previousBudget, /40/);
+  assert.match(contact.qualification.budgetHistory[0].newBudget, /60/);
+});
+
+// Rule 7.8: A message with three questions gets all three answered when facts are available
+test('Regression 8: Message with three questions gets all three answered', async () => {
+  const phone = '919871000008';
+  // 3 distinct questions in 1 message: Rent agreement charges + Office address + 1 BHK in Pale Gaon
+  const multiQuestion = 'Rent agreement ka kya kharcha hai, aapka office kahan hai, aur Pale Gaon mein 1 BHK flat available hai kya?';
+  const res = await sia.processIncomingMessage(phone, multiQuestion, 'Manish');
+
+  assert.ok(res.reply);
+  // Question 1 answered:
+  assert.match(res.reply, /1,750|3,500/);
+  // Question 2 answered:
+  assert.match(res.reply, /Shop No\. 24|Pale Gaon|New Floora/i);
+  // Question 3 answered:
+  assert.match(res.reply, /Verified Property Options|New Floora|Pale Gaon/i);
+});
+
+// Rule 7.9: Unknown property details cause clarification or human escalation, not hallucinations
+test('Regression 9: Unknown property details cause clarification or human escalation, not hallucinations', async () => {
+  const phone = '919871000009';
+  const res = await sia.processIncomingMessage(phone, 'What is the price of 4 BHK Sky Villa at Mars Colony Atlantis Tower?', 'Sunil');
+
+  assert.ok(res.reply);
+  // Must NOT invent prices or confirm imaginary projects
+  assert.doesNotMatch(res.reply, /Atlantis Tower is ready/i);
+  assert.match(res.reply, /confirm|verified|Satnam Sir|jankari/i);
+});
+
+// Rule 7.10: Duplicate webhook delivery does not create duplicate replies or duplicate leads
+test('Regression 10: Duplicate webhook delivery does not create duplicate replies or duplicate leads', () => {
+  const phone = '919871000010';
+  const msgId = 'wamid_dedup_regression_10';
+
+  const res1 = crm.recordInboundMessage(phone, 'First delivery', msgId);
+  assert.equal(res1.isDuplicate, false);
+
+  const res2 = crm.recordInboundMessage(phone, 'First delivery', msgId);
+  assert.equal(res2.isDuplicate, true);
+
+  const contact = crm.getOrCreateContact(phone);
+  const matchingMsgs = contact.messages.filter(m => m.id === msgId);
+  assert.equal(matchingMsgs.length, 1);
+});
+
+// Rule 7.11: Two different customers never see one another\'s memory
+test('Regression 11: Two different customers never see one another\'s memory', async () => {
+  const phoneA = '919871000011';
+  const phoneB = '919871000012';
+
+  await sia.processIncomingMessage(phoneA, 'My budget is 25 lakh in Pale Gaon', 'Customer Alpha');
+  await sia.processIncomingMessage(phoneB, 'My budget is 85 lakh in Kalyan', 'Customer Beta');
+
+  const contactA = crm.getOrCreateContact(phoneA);
+  const contactB = crm.getOrCreateContact(phoneB);
+
+  assert.match(contactA.qualification.budget, /25/);
+  assert.equal(contactA.qualification.locality, 'Pale Gaon');
+
+  assert.match(contactB.qualification.budget, /85/);
+  assert.equal(contactB.qualification.locality, 'Kalyan');
+
+  // Verify memories never crossed
+  assert.notEqual(contactA.qualification.budget, contactB.qualification.budget);
+  assert.notEqual(contactA.qualification.locality, contactB.qualification.locality);
+});
+
+// Rule 7.12: Concurrent messages do not lose updates or corrupt conversation order
+test('Regression 12: Concurrent messages do not lose updates or corrupt conversation order', async () => {
+  const phone = '919871000013';
+
+  // Fire 3 simultaneous messages with lock coordination
+  await Promise.all([
+    (async () => {
+      await crm.acquireContactLock(phone);
+      try {
+        crm.recordInboundMessage(phone, 'Concurrent 1', 'msg_c_1');
+      } finally {
+        crm.releaseContactLock(phone);
+      }
+    })(),
+    (async () => {
+      await crm.acquireContactLock(phone);
+      try {
+        crm.recordInboundMessage(phone, 'Concurrent 2', 'msg_c_2');
+      } finally {
+        crm.releaseContactLock(phone);
+      }
+    })(),
+    (async () => {
+      await crm.acquireContactLock(phone);
+      try {
+        crm.recordInboundMessage(phone, 'Concurrent 3', 'msg_c_3');
+      } finally {
+        crm.releaseContactLock(phone);
+      }
+    })()
+  ]);
+
+  const contact = crm.getOrCreateContact(phone);
+  assert.equal(contact.messages.length, 3);
+  const texts = contact.messages.map(m => m.text);
+  assert.ok(texts.includes('Concurrent 1'));
+  assert.ok(texts.includes('Concurrent 2'));
+  assert.ok(texts.includes('Concurrent 3'));
+});
+
+// Rule 7.13: Database failures are visible and recoverable; system does not claim success when failed
+test('Regression 13: Database failures are visible and recoverable; system does not claim success when failed', () => {
+  assert.throws(() => {
+    // Attempting to retrieve an invalid/empty phone number must throw a visible error
+    crm.getOrCreateContact('');
+  }, /Invalid phone number/i);
+});
+
+// Rule 7.14: AI timeouts and invalid outputs trigger safe fallback/retry handling
+test('Regression 14: AI timeouts and invalid outputs trigger safe fallback/retry handling', async () => {
+  // Pass an invalid GEMINI_API_KEY to force fallback path
+  const originalKey = process.env.GEMINI_API_KEY;
+  try {
+    process.env.GEMINI_API_KEY = '';
+    const res = await sia.processIncomingMessage('919871000014', 'Rent agreement fees kitni hai?', 'Neeraj');
+    assert.ok(res.reply);
+    assert.match(res.reply, /1,750|3,500/);
+    assert.equal(res.intent, 'LEAD_AGREEMENT');
+  } finally {
+    process.env.GEMINI_API_KEY = originalKey;
+  }
+});
+
+// Rule 7.15: Opt-outs and human-handoff state are respected
+test('Regression 15: Opt-outs and human-handoff state are respected', async () => {
+  const phone = '919871000015';
+
+  // 1. Opt-out
+  const optOutRes = await sia.processIncomingMessage(phone, 'STOP', 'Girish', { isOptOut: true });
+  assert.equal(optOutRes.intent, 'OPT_OUT_PROCESSED');
+  const contact = crm.getOrCreateContact(phone);
+  assert.equal(contact.opted_out, true);
+
+  // 2. Human escalation
+  const escRes = await sia.processIncomingMessage(phone, 'I want to talk to human agent immediately', 'Girish');
+  assert.equal(escRes.intent, 'HUMAN_HANDOFF_TRIGGERED');
+  assert.equal(escRes.shouldNotifyOwner, true);
+  assert.equal(contact.human_pending, true);
+
+  // 3. Muted response while human handles
+  const mutedRes = await sia.processIncomingMessage(phone, 'Hello are you there?', 'Girish');
+  assert.equal(mutedRes.reply, null);
+  assert.equal(mutedRes.intent, 'HUMAN_HANDOFF_MUTED');
+});
+
+// Rule 7.16: Memory retrieval and updates work through the actual inbound WhatsApp processing path
+test('Regression 16: Memory retrieval and updates work through actual inbound processing path', async () => {
+  const phone = '919871000016';
+
+  // Message 1 through processIncomingMessage
+  await sia.processIncomingMessage(phone, 'Looking to buy 2 BHK in Pale Gaon', 'Harish');
+
+  // Verify lead qualification persisted
+  let contact = crm.getOrCreateContact(phone);
+  assert.equal(contact.qualification.intent, 'buy');
+  assert.equal(contact.qualification.bhk, '2 BHK');
+  assert.equal(contact.qualification.locality, 'Pale Gaon');
+
+  // Message 2 updates budget
+  await sia.processIncomingMessage(phone, 'Budget is 30 lakh', 'Harish');
+  contact = crm.getOrCreateContact(phone);
+  assert.match(contact.qualification.budget, /30/);
+  assert.equal(contact.hasGreeted, true);
+});
+

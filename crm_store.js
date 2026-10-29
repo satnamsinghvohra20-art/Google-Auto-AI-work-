@@ -4,6 +4,7 @@
  * Enterprise-Grade, Atomic Persistent Storage for Real Customer Data
  * ============================================================================
  * Strict Zero-Fake-Data Enforcement: Persists ONLY genuine client inquiries
+ * Compliant with Rule 3 (Persistent Customer Memory) & Rule 4 (Isolation)
  */
 
 'use strict';
@@ -18,6 +19,9 @@ let csvFile = path.join(dataDir, 'csv', 'leads_crm.csv');
 
 // In-memory cache for fast, atomic access
 let conversationsCache = null;
+
+// Per-contact processing locks to prevent concurrent race conditions
+const contactLocks = new Map();
 
 function setStorageDir(newDir) {
   dataDir = newDir;
@@ -49,7 +53,7 @@ function ensureDataDir() {
  */
 function atomicSaveJSON(filePath, data) {
   ensureDataDir();
-  const tempPath = `${filePath}.${Date.now()}.tmp`;
+  const tempPath = `${filePath}.${Date.now()}.${Math.random().toString(36).substring(2, 8)}.tmp`;
   try {
     fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf8');
     fs.renameSync(tempPath, filePath);
@@ -131,7 +135,33 @@ function persistMemory() {
 }
 
 /**
- * Find or create a conversation record by phone
+ * Per-contact concurrency coordination lock
+ * Prevents race conditions when multiple webhooks arrive for the same customer
+ */
+async function acquireContactLock(rawPhone, timeoutMs = 10000) {
+  const cleanPhone = normalizePhone(rawPhone);
+  const startTime = Date.now();
+
+  while (contactLocks.has(cleanPhone)) {
+    if (Date.now() - startTime > timeoutMs) {
+      // Force break stale lock
+      contactLocks.delete(cleanPhone);
+      break;
+    }
+    await new Promise(r => setTimeout(r, 50));
+  }
+
+  contactLocks.set(cleanPhone, Date.now());
+  return true;
+}
+
+function releaseContactLock(rawPhone) {
+  const cleanPhone = normalizePhone(rawPhone);
+  contactLocks.delete(cleanPhone);
+}
+
+/**
+ * Find or create a conversation record by phone with isolated identity
  */
 function getOrCreateContact(rawPhone, customerName = 'Customer') {
   const cleanPhone = normalizePhone(rawPhone);
@@ -147,31 +177,61 @@ function getOrCreateContact(rawPhone, customerName = 'Customer') {
     return cPhone === cleanPhone || (cPhone.length >= 10 && cPhone.slice(-10) === cleanLast10);
   });
 
+  const now = new Date().toISOString();
+
   if (!contact) {
     contact = {
+      id: `wa_${cleanPhone}`,
       phone: `+${cleanPhone}`,
-      name: customerName && customerName !== 'Customer' ? customerName : 'Client',
+      name: customerName && customerName !== 'Customer' && customerName !== 'Client' ? customerName : 'Client',
       status: 'new',
+      priority: 'normal',
+      assigned_owner: 'Satnam Singh Vohra',
       language: 'hinglish',
       opted_out: false,
       human_pending: false,
       handoff_reason: null,
+      hasGreeted: false,
       qualification: {
-        intent: null, // 'buy', 'rent', 'sell', 'commercial', 'agreement'
+        intent: null, // 'buy', 'rent', 'sell', 'commercial', 'investment', 'agreement'
         locality: null,
+        propertyType: null,
         budget: null,
+        budgetNumeric: null,
+        budgetHistory: [],
         bhk: null,
         timeline: null,
+        financing: null,
+        siteVisitRequested: false,
+        callbackRequested: false,
         preference: null // 'call', 'site_visit'
       },
-      firstSeen: new Date().toISOString(),
-      lastUpdated: new Date().toISOString(),
+      propertiesDiscussed: [],
+      unresolvedQuestions: [],
+      commitmentsMade: [],
+      lastSummary: '',
+      changeHistory: [],
+      firstSeen: now,
+      lastSeen: now,
+      lastUpdated: now,
       messages: []
     };
     leads.unshift(contact);
     persistMemory();
   } else {
-    if (customerName && customerName !== 'Customer' && (!contact.name || contact.name === 'Client' || contact.name === 'Customer')) {
+    // Migration safety: Ensure all expected fields exist on existing contacts
+    if (!contact.qualification) contact.qualification = {};
+    if (!Array.isArray(contact.qualification.budgetHistory)) contact.qualification.budgetHistory = [];
+    if (!Array.isArray(contact.propertiesDiscussed)) contact.propertiesDiscussed = [];
+    if (!Array.isArray(contact.unresolvedQuestions)) contact.unresolvedQuestions = [];
+    if (!Array.isArray(contact.commitmentsMade)) contact.commitmentsMade = [];
+    if (!Array.isArray(contact.changeHistory)) contact.changeHistory = [];
+    if (contact.hasGreeted === undefined) {
+      contact.hasGreeted = Boolean(contact.messages && contact.messages.length > 0);
+    }
+    if (contact.assigned_owner === undefined) contact.assigned_owner = 'Satnam Singh Vohra';
+
+    if (customerName && customerName !== 'Customer' && customerName !== 'Client' && (!contact.name || contact.name === 'Client' || contact.name === 'Customer')) {
       contact.name = customerName;
     }
   }
@@ -187,9 +247,16 @@ function recordInboundMessage(rawPhone, text, messageId, meta = {}) {
   const now = new Date().toISOString();
 
   // Deduplicate within the conversation's own messages
-  const existing = contact.messages.find(m => m.id === messageId);
-  if (existing) {
-    return { contact, isDuplicate: true };
+  if (messageId) {
+    const existing = contact.messages.find(m => m.id === messageId);
+    if (existing) {
+      return { contact, isDuplicate: true };
+    }
+  } else {
+    const recent = contact.messages[contact.messages.length - 1];
+    if (recent && recent.sender === 'customer' && recent.text === text && (Date.now() - new Date(recent.timestamp).getTime() < 3000)) {
+      return { contact, isDuplicate: true };
+    }
   }
 
   contact.messages.push({
@@ -200,11 +267,12 @@ function recordInboundMessage(rawPhone, text, messageId, meta = {}) {
     timestamp: now
   });
 
-  // Bounded history: keep last 30 messages in storage
-  if (contact.messages.length > 30) {
-    contact.messages = contact.messages.slice(-30);
+  // Bounded message history (keep up to 100 in durable storage)
+  if (contact.messages.length > 100) {
+    contact.messages = contact.messages.slice(-100);
   }
 
+  contact.lastSeen = now;
   contact.lastUpdated = now;
   if (meta.language) contact.language = meta.language;
 
@@ -219,6 +287,16 @@ function recordOutboundMessage(rawPhone, text, intent = 'ASSISTANT_REPLY', optio
   const contact = getOrCreateContact(rawPhone);
   const now = new Date().toISOString();
 
+  if (options.messageId) {
+    const existing = contact.messages.find(m => m.id === options.messageId);
+    if (existing) return contact;
+  } else {
+    const recent = contact.messages[contact.messages.length - 1];
+    if (recent && recent.sender === 'bot' && recent.text === text && (Date.now() - new Date(recent.timestamp).getTime() < 3000)) {
+      return contact;
+    }
+  }
+
   contact.messages.push({
     id: options.messageId || `out_${Date.now()}`,
     sender: 'bot',
@@ -228,8 +306,8 @@ function recordOutboundMessage(rawPhone, text, intent = 'ASSISTANT_REPLY', optio
     deliveryStatus: options.deliveryStatus || 'dispatched'
   });
 
-  if (contact.messages.length > 30) {
-    contact.messages = contact.messages.slice(-30);
+  if (contact.messages.length > 100) {
+    contact.messages = contact.messages.slice(-100);
   }
 
   contact.lastUpdated = now;
@@ -240,29 +318,100 @@ function recordOutboundMessage(rawPhone, text, intent = 'ASSISTANT_REPLY', optio
 }
 
 /**
- * Update contact qualification fields
+ * Update contact qualification fields with change history preservation
  */
 function updateQualification(rawPhone, updates = {}) {
   const contact = getOrCreateContact(rawPhone);
   contact.qualification = contact.qualification || {};
+  const q = contact.qualification;
+  const now = new Date().toISOString();
 
   for (const [key, val] of Object.entries(updates)) {
     if (val !== undefined && val !== null && val !== '') {
-      contact.qualification[key] = val;
+      const oldVal = q[key];
+
+      // Special handling for budget corrections
+      if (key === 'budget' && oldVal && oldVal !== val) {
+        if (!Array.isArray(q.budgetHistory)) q.budgetHistory = [];
+        q.budgetHistory.push({
+          previousBudget: oldVal,
+          newBudget: val,
+          changedAt: now
+        });
+        if (!Array.isArray(contact.changeHistory)) contact.changeHistory = [];
+        contact.changeHistory.push({
+          field: 'budget',
+          oldValue: oldVal,
+          newValue: val,
+          changedAt: now
+        });
+      }
+
+      q[key] = val;
     }
   }
 
   // Update overall lead status if sufficiently qualified
-  const q = contact.qualification;
   if (q.intent && (q.locality || q.bhk || q.budget)) {
     if (contact.status === 'new') {
       contact.status = 'qualifying';
     }
   }
-  if (q.intent && q.budget && (q.preference || q.timeline)) {
+  if (q.intent && q.budget && (q.preference || q.timeline || q.siteVisitRequested)) {
     contact.status = 'qualified';
   }
 
+  contact.lastUpdated = now;
+  persistMemory();
+  return contact;
+}
+
+/**
+ * Record a discussed property so follow-up queries know the subject
+ */
+function recordPropertyDiscussed(rawPhone, propertyName, reraNumber = '', price = '') {
+  const contact = getOrCreateContact(rawPhone);
+  if (!Array.isArray(contact.propertiesDiscussed)) contact.propertiesDiscussed = [];
+
+  const existingIdx = contact.propertiesDiscussed.findIndex(p => p.name === propertyName);
+  const now = new Date().toISOString();
+
+  if (existingIdx >= 0) {
+    contact.propertiesDiscussed[existingIdx].discussedAt = now;
+  } else {
+    contact.propertiesDiscussed.unshift({
+      name: propertyName,
+      reraNumber,
+      price,
+      discussedAt: now
+    });
+    if (contact.propertiesDiscussed.length > 5) {
+      contact.propertiesDiscussed = contact.propertiesDiscussed.slice(0, 5);
+    }
+  }
+
+  contact.lastUpdated = now;
+  persistMemory();
+  return contact;
+}
+
+/**
+ * Update the durable conversation summary
+ */
+function updateConversationSummary(rawPhone, summaryText) {
+  const contact = getOrCreateContact(rawPhone);
+  contact.lastSummary = summaryText || '';
+  contact.lastUpdated = new Date().toISOString();
+  persistMemory();
+  return contact;
+}
+
+/**
+ * Mark that greeting was completed so it is never repeated
+ */
+function markGreetingSent(rawPhone) {
+  const contact = getOrCreateContact(rawPhone);
+  contact.hasGreeted = true;
   contact.lastUpdated = new Date().toISOString();
   persistMemory();
   return contact;
@@ -365,6 +514,11 @@ module.exports = {
   recordInboundMessage,
   recordOutboundMessage,
   updateQualification,
+  recordPropertyDiscussed,
+  updateConversationSummary,
+  markGreetingSent,
+  acquireContactLock,
+  releaseContactLock,
   setOptOut,
   triggerHumanHandoff,
   resolveHumanHandoff,

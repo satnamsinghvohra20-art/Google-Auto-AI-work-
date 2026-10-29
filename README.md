@@ -28,11 +28,23 @@ Dashmesh Properties AI is an enterprise-grade, zero-dependency Node.js platform 
 - **Graceful Gemini Fallback:** Automatically falls back to a deterministic, grounded knowledge engine if Google Gemini is unavailable or rate-limited.
 
 ### 3. 🗃️ Conversation Memory & Lead CRM Store (`crm_store.js`)
-- **Atomic Persistence:** Safe file writes via temporary swap files to prevent corruption during unexpected shutdowns (`data/leads.json` and `data/csv/leads_crm.csv`).
+- **Persistent Customer Memory & Schema:** Each customer profile is durably persisted with stable identity `wa_${cleanPhone}` in `data/leads.json` and mirrored to `data/csv/leads_crm.csv`.
+- **Long-Term Memory Fields:**
+  - `qualification`: Intent, locality, BHK, property type, budget, timeline, financing, and preference.
+  - `budgetHistory`: Automatically records every revision when a client corrects their budget (e.g. from 50 Lakhs to 70 Lakhs).
+  - `propertiesDiscussed`: Tracks recent verified properties discussed to resolve follow-up questions ("What is the price?", "Is it available?").
+  - `hasGreeted`: Persistent flag ensuring welcome greetings are sent at most once and never repeated.
+  - `changeHistory`: Preserves audit trail for customer preference corrections.
+  - `lastSummary`: Rolling context summary persisted across restarts.
+- **Per-Contact Concurrency Coordination:** Asynchronous mutex lock (`acquireContactLock` / `releaseContactLock`) prevents race conditions and corrupted order when simultaneous webhooks arrive.
+- **Restart & Ephemeral Resilience:** Reloads cleanly from atomic disk storage with zero data loss across process restarts.
 - **Contact Memory Isolation:** Strict partition per normalized E.164 phone number. Contacts never cross-contaminate history or qualification states.
-- **Bounded Conversation Context:** Stores recent customer messages and injects the last 8-10 turns into LLM prompts for multi-turn contextual continuity.
-- **Lead Qualification Lifecycle:** Automatically tracks `intent`, `locality`, `bhk`, `budget`, `timeline`, and `preference`.
-- **Human Escalation Queue:** Detects price negotiations, disputes, owner call requests, and complaints. Sets `human_pending = true`, mutes automated bot replies, and queues the contact for human intervention.
+- **Human Escalation Queue:** Detects price negotiations, disputes, owner call requests, and complaints. Sets `human_pending = true`, mutes automated bot replies, and alerts the owner.
+
+### 4. 🎯 Rule 1 & Rule 2 Intelligent Conversation Engine
+- **Never Greet on Every Message:** Ongoing conversations immediately jump straight into answering the customer's question. First contacts asking direct questions receive direct answers with zero promotional greeting clutter.
+- **Answer the Complete Question:** Multi-part inquiries (e.g. rent agreement charges + office location + 1 BHK availability in Pale Gaon) are decomposed, resolved against verified databases, and answered completely in a single structured response.
+- **Follow-up Reference Resolution:** Resolves pronouns and contextual questions ("What is the price?", "Can I visit tomorrow?") against the previously discussed project in CRM memory.
 
 ### 4. 🚀 Local SEO & Google Business Growth Suite
 - **Interactive GPS Grid Heatmap:** Leaflet.js engine tracking local ranking pack positions across Ambernath.
@@ -98,8 +110,8 @@ All tests run with zero external npm dependencies using native `node:test`:
 ```bash
 node --test test/*.test.js
 ```
-- **Total Test Cases:** 25 passing tests.
-- **Coverage:** Meta webhook verification, HMAC signature validation, payload parsing, deduplication, contact isolation, language detection, grounded property queries, opt-out/opt-in, human handoff queue, and 24-hour service window rules.
+- **Total Test Cases:** 41 passing tests (including all 16 critical regression test scenarios).
+- **Coverage:** Meta webhook verification, HMAC signature validation, payload parsing, deduplication, contact isolation, language detection, grounded property queries, opt-out/opt-in, human handoff queue, 24-hour service window rules, anti-greeting logic, complete multi-part question answering, persistent memory recovery across restarts, budget correction tracking, and concurrent race-condition prevention.
 - **Data Safety:** All test fixtures run against isolated temporary storage; zero test data touches `data/`.
 
 ---
