@@ -1,162 +1,29 @@
 /**
  * ============================================================================
- * Dashmesh Properties — Sia AI Conversation Brain
- * Enterprise-Grade WhatsApp AI Receptionist & Lead Qualification Engine
+ * Dashmesh Properties — Sia AI Anti-Hallucination Conversation Brain
  * ============================================================================
- * Business : Dashmesh Property & Rent Agreement Services
- * Office   : Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501
- * Founder  : Satnam Singh Vohra (+91 84210 77613)
- * Partners : Sukhjyot Singh Vohra (+91 84219 40013)
- *            Kuldeep Singh Vohra (+91 84120 70183)
- * Rent Agr.: ₹1,750 per side / ₹3,500 total all-inclusive (Sec 55 MRC Act)
- *
- * Compliance:
- * - Rule 1: NEVER repeat greeting on consecutive messages
- * - Rule 2: Answer every part of multi-question queries completely
- * - Rule 3: Grounded strictly in verified business & listing facts (Zero Hallucination)
- * - Rule 4: Multi-turn persistent context & lead qualification
- * - Rule 5: Human handoff escalation & silent bot guard
- * - Sia Persona: 24-year-old girl, warm, empathetic, polite, feminine phrasing
+ * High-Assurance, Zero-Hallucination WhatsApp AI Receptionist
+ * 
+ * Strict Compliance:
+ * - Directive 2: Grounded in Verified Source of Truth (property_knowledge.js)
+ * - Directive 3: Retrieval Before Generation
+ * - Directive 4: Strict Factuality Rules (No price, status, or amenity guessing)
+ * - Directive 5: Honest Unknown-Answer Path
+ * - Directive 6: Zero Hallucination in Fallbacks
+ * - Directive 7: Complete Multi-Question Answering
+ * - Directive 8: Deterministic Output Validation
+ * - Directive 9: Persistent Multi-Turn Customer Memory
+ * - Directive 10: Structured Factuality Audit Logging
  * ============================================================================
  */
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
 const https = require('https');
 const crmStore = require('./crm_store');
+const knowledge = require('./property_knowledge');
 
-// Business Ground-Truth Facts
-const BUSINESS_FACTS = {
-  name: 'Dashmesh Property & Rent Agreement Services',
-  shortName: 'Dashmesh Properties',
-  assistant: 'Sia',
-  founder: 'Satnam Singh Vohra (+91 84210 77613)',
-  partners: [
-    'Sukhjyot Singh Vohra (+91 84219 40013)',
-    'Kuldeep Singh Vohra (+91 84120 70183)'
-  ],
-  officeAddress: 'Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501',
-  serviceAreas: ['Ambernath (East & West)', 'Pale Gaon', 'Ulhasnagar', 'Badlapur', 'Kalyan'],
-  rentAgreement: {
-    costPerSide: '₹1,750',
-    totalCost: '₹3,500 all-inclusive',
-    legalAct: 'Maharashtra Rent Control Act Section 55',
-    doorstepBiometric: 'Doorstep biometric verification available across Ambernath, Badlapur, Ulhasnagar, and Kalyan',
-    documentsRequired: [
-      'Aadhaar Card & PAN Card of Owner/Landlord',
-      'Aadhaar Card & PAN Card of Tenant',
-      'Aadhaar Card & PAN Card of 2 Witnesses',
-      'Property Electricity Bill or Index II'
-    ],
-    timeline: 'Drafting in 24 hours, Govt registration certificate delivered with official QR code.'
-  }
-};
-
-// Cached Project Listings from data/projects.json
-let cachedProjects = null;
-
-function loadVerifiedProjects() {
-  if (cachedProjects) return cachedProjects;
-  try {
-    const pPath = path.join(__dirname, 'data', 'projects.json');
-    if (fs.existsSync(pPath)) {
-      const raw = fs.readFileSync(pPath, 'utf8').replace(/^\uFEFF/, '');
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        cachedProjects = parsed;
-        return cachedProjects;
-      }
-    }
-  } catch (err) {
-    console.warn('[Sia Brain] Notice reading projects.json:', err.message);
-  }
-
-  // Built-in verified ground-truth listings for core areas
-  cachedProjects = [
-    {
-      id: 'amb-01',
-      name: 'New Floora (Dashmesh Base HQ)',
-      locality: 'Pale Gaon, Ambernath East - 421501',
-      region: 'Ambernath',
-      subArea: 'Pale Gaon',
-      configurations: ['1 RK', '1 BHK', '2 BHK', 'Commercial Shops'],
-      startingPrice: '₹16 Lakhs',
-      priceRange: '₹16L - ₹48L',
-      reraNumber: 'P51700005421',
-      status: 'Ready to Move',
-      amenities: ['CCTV Surveillance', '24/7 KDMC Water', 'Lifts with Battery Backup', 'Kids Play Area', 'Commercial Street'],
-      highlights: 'Prime location at Pale Naka, walking distance to schools and markets, clear title with OC.'
-    },
-    {
-      id: 'amb-02',
-      name: 'GBK Whispering Palms',
-      locality: 'Pale Gaon, Ambernath East - 421501',
-      region: 'Ambernath',
-      subArea: 'Pale Gaon',
-      configurations: ['1 BHK', '2 BHK'],
-      startingPrice: '₹23 Lakhs',
-      priceRange: '₹23L - ₹42L',
-      reraNumber: 'P51700018944',
-      status: 'Ready to Move',
-      amenities: ['Landscaped Garden', 'Clubhouse', 'Power Backup', 'Gymnasium', 'Children Play Area'],
-      highlights: 'Quiet residential neighborhood, clear title project with OC received.'
-    },
-    {
-      id: 'amb-03',
-      name: 'Laxmi Niwas',
-      locality: 'Near Dashmesh Office, Pale Gaon, Ambernath East - 421501',
-      region: 'Ambernath',
-      subArea: 'Pale Gaon',
-      configurations: ['1 RK', '1 BHK'],
-      startingPrice: '₹18 Lakhs',
-      priceRange: '₹18L - ₹27L',
-      reraNumber: 'P51700022419',
-      status: 'Ready to Move',
-      amenities: ['24/7 Water Supply', 'Security', 'Intercom'],
-      highlights: 'Budget friendly homes near main road with easy commute.'
-    },
-    {
-      id: 'amb-04',
-      name: 'Empire Centrum',
-      locality: 'Ambernath West',
-      region: 'Ambernath',
-      subArea: 'Ambernath West',
-      configurations: ['1 BHK', '2 BHK', 'Commercial'],
-      startingPrice: '₹28 Lakhs',
-      priceRange: '₹28L - ₹55L',
-      reraNumber: 'P51700020188',
-      status: 'Under Construction & Ready Phases',
-      amenities: ['Clubhouse', 'Swimming Pool', 'Indoor Games', 'Jogging Track'],
-      highlights: 'Integrated lifestyle enclave with industrial & residential convenience.'
-    }
-  ];
-  return cachedProjects;
-}
-
-/**
- * Search verified listings matching query criteria
- */
-function searchVerifiedProperties(text = '', qualification = {}) {
-  const projects = loadVerifiedProjects();
-  const lower = text.toLowerCase();
-  const requestedBhk = qualification.bhk || (lower.includes('1 rk') ? '1 RK' : lower.includes('1 bhk') ? '1 BHK' : lower.includes('2 bhk') ? '2 BHK' : lower.includes('commercial') ? 'Commercial' : null);
-  const requestedLocality = qualification.locality || (lower.includes('pale gaon') || lower.includes('pale') ? 'Pale Gaon' : lower.includes('badlapur') ? 'Badlapur' : lower.includes('ulhasnagar') ? 'Ulhasnagar' : lower.includes('kalyan') ? 'Kalyan' : 'Ambernath');
-
-  const matches = projects.filter(p => {
-    let match = true;
-    if (requestedLocality && p.region && !p.region.toLowerCase().includes(requestedLocality.toLowerCase()) && !p.locality.toLowerCase().includes(requestedLocality.toLowerCase())) {
-      match = false;
-    }
-    if (requestedBhk && Array.isArray(p.configurations) && !p.configurations.some(c => c.toLowerCase().includes(requestedBhk.toLowerCase()))) {
-      match = false;
-    }
-    return match;
-  });
-
-  return matches.length > 0 ? matches : projects.slice(0, 2);
-}
+const { BUSINESS_FACTS } = knowledge;
 
 /**
  * Detect language of incoming message
@@ -168,17 +35,17 @@ function detectLanguage(text) {
   // Devanagari script detection
   const devanagariPattern = /[\u0900-\u097F]/;
   if (devanagariPattern.test(t)) {
-    // Marathi specific words
-    if (/\b(aahe|aahat|kay|kuthe|kiti|mahiti|pahije|dya|namaskar|kasa|aamhi)\b/i.test(t)) {
+    // Marathi specific keywords
+    if (/\b(aahe|aahat|kay|kuthe|kiti|mahiti|pahije|dya|namaskar|kasa|aamhi|भाडे|करार)\b/i.test(t)) {
       return 'marathi';
     }
     return 'hindi';
   }
 
   // Pure English keywords
-  const pureEnglishWords = /\b(what|where|how|much|price|cost|agreement|looking|interested|property|schedule|visit|please|thank|thank you)\b/i;
+  const pureEnglishWords = /\b(what|where|how|much|price|cost|agreement|looking|interested|property|schedule|visit|please|thank|thank you|available|covered parking)\b/i;
   // Hinglish keywords
-  const hinglishWords = /\b(kya|hai|chahiye|kitna|hoga|batao|karo|dekhna|milega|kahan|mein|aur|bhi|ka|ki|ke|hum|aap)\b/i;
+  const hinglishWords = /\b(kya|hai|chahiye|kitna|hoga|batao|karo|dekhna|milega|kahan|mein|aur|bhi|ka|ki|ke|hum|aap|bhai)\b/i;
 
   if (hinglishWords.test(t)) return 'hinglish';
   if (pureEnglishWords.test(t)) return 'english';
@@ -214,11 +81,11 @@ function extractQualificationUpdates(text, currentQ = {}) {
     updates.intent = 'commercial';
   }
 
-  // BHK Configuration
-  if (lower.includes('1 rk') || lower.includes('1rk')) updates.bhk = '1 RK';
-  else if (lower.includes('1 bhk') || lower.includes('1bhk')) updates.bhk = '1 BHK';
-  else if (lower.includes('2 bhk') || lower.includes('2bhk')) updates.bhk = '2 BHK';
-  else if (lower.includes('3 bhk') || lower.includes('3bhk')) updates.bhk = '3 BHK';
+  // BHK Configuration (Dynamic 1 RK, 1 BHK, 2 BHK, 3 BHK, 4 BHK, 5 BHK, etc.)
+  const bhkMatch = lower.match(/(\d+)\s*(bhk|rk)/i);
+  if (bhkMatch) {
+    updates.bhk = `${bhkMatch[1]} ${bhkMatch[2].toUpperCase()}`;
+  }
 
   // Locality
   if (lower.includes('pale gaon') || lower.includes('palegaon') || lower.includes('pale naka') || lower.includes('pale')) {
@@ -227,7 +94,7 @@ function extractQualificationUpdates(text, currentQ = {}) {
     updates.locality = 'Ambernath East';
   } else if (lower.includes('ambernath west') || lower.includes('ambarnath w')) {
     updates.locality = 'Ambernath West';
-  } else if (lower.includes('ambernath')) {
+  } else if (lower.includes('ambernath') || lower.includes('ambarnath')) {
     updates.locality = 'Ambernath';
   } else if (lower.includes('badlapur')) {
     updates.locality = 'Badlapur';
@@ -237,7 +104,7 @@ function extractQualificationUpdates(text, currentQ = {}) {
     updates.locality = 'Kalyan';
   }
 
-  // Budget detection (e.g. "25 lakh", "30L", "₹20,000", "50 lakhs")
+  // Budget detection
   const budgetMatch = lower.match(/(?:budget|price|range|approx)?\s*(?:rs\.?|inr|₹)?\s*(\d+(?:\.\d+)?)\s*(lakh|lakhs|lac|lacs|l|k|cr|crore)?/i);
   if (budgetMatch && budgetMatch[1]) {
     const num = parseFloat(budgetMatch[1]);
@@ -249,7 +116,6 @@ function extractQualificationUpdates(text, currentQ = {}) {
       updates.budget = `₹${num} Crores`;
       updates.budgetNumeric = num * 10000000;
     } else if (num >= 10 && num <= 200) {
-      // Common shorthand: "budget 25" -> 25 lakhs
       updates.budget = `₹${num} Lakhs`;
       updates.budgetNumeric = num * 100000;
     } else if (num > 5000) {
@@ -258,7 +124,7 @@ function extractQualificationUpdates(text, currentQ = {}) {
     }
   }
 
-  // Timeline & Preference
+  // Preference / Request
   if (lower.includes('site visit') || lower.includes('visit') || lower.includes('dekhna hai') || lower.includes('aana hai')) {
     updates.siteVisitRequested = true;
     updates.preference = 'site_visit';
@@ -266,9 +132,6 @@ function extractQualificationUpdates(text, currentQ = {}) {
   if (lower.includes('call me') || lower.includes('phone karo') || lower.includes('call back')) {
     updates.callbackRequested = true;
     updates.preference = 'call';
-  }
-  if (lower.includes('immediate') || lower.includes('ready') || lower.includes('urgent') || lower.includes('turant')) {
-    updates.timeline = 'Immediate';
   }
 
   return updates;
@@ -293,7 +156,7 @@ function detectHumanHandoffRequest(text) {
     lower.includes('phone karo') ||
     lower.includes('call back')
   ) {
-    return { shouldHandoff: true, reason: 'Customer requested human / owner discussion' };
+    return { shouldHandoff: true, reason: 'Customer requested human discussion / callback' };
   }
 
   // 2. Negotiation / Special Discount
@@ -303,7 +166,8 @@ function detectHumanHandoffRequest(text) {
     lower.includes('negotiable') ||
     lower.includes('final offer') ||
     lower.includes('bargain') ||
-    lower.includes('kam karwao')
+    lower.includes('kam karwao') ||
+    lower.includes('discount chahiye')
   ) {
     return { shouldHandoff: true, reason: 'Customer requested price negotiation / discount approval' };
   }
@@ -317,7 +181,7 @@ function detectHumanHandoffRequest(text) {
     lower.includes('legal dispute') ||
     lower.includes('cheating')
   ) {
-    return { shouldHandoff: true, reason: 'Customer raised sensitive complaint or legal inquiry' };
+    return { shouldHandoff: true, reason: 'Customer raised legal dispute or formal complaint' };
   }
 
   return { shouldHandoff: false, reason: null };
@@ -337,47 +201,62 @@ function isStandaloneGreeting(text) {
 }
 
 /**
- * Build safe prompt for Gemini Generative AI
+ * Build safe prompt for Gemini with strict evidence isolation
  */
-function buildGeminiPrompt(customerName, incomingText, history = [], qualification = {}, verifiedListings = []) {
-  const listingsSummary = verifiedListings.map(l =>
-    `- ${l.name} (${l.locality}): Configurations: ${l.configurations.join(', ')} | Price: ${l.priceRange || l.startingPrice} | RERA: ${l.reraNumber} | Status: ${l.status}`
-  ).join('\n');
+function buildGeminiEvidencePrompt(customerName, incomingText, history, qualification, evidence) {
+  const retrievedFacts = [];
 
-  const historyText = history.map(h => `${h.role === 'user' ? 'Customer' : 'Sia'}: ${h.text}`).join('\n');
+  if (evidence.businessFacts) {
+    retrievedFacts.push(`BUSINESS PROFILE:\nName: ${BUSINESS_FACTS.name}\nOffice: ${BUSINESS_FACTS.officeAddress}\nFounder: ${BUSINESS_FACTS.founder}\nHours: ${BUSINESS_FACTS.officeHours}`);
+  }
+
+  if (evidence.rentAgreementFacts) {
+    retrievedFacts.push(`RENT AGREEMENT (GOVT REGISTERED):\nRate: ${BUSINESS_FACTS.rentAgreement.costPerSide} per side (${BUSINESS_FACTS.rentAgreement.totalCost} all-inclusive)\nLegal Basis: ${BUSINESS_FACTS.rentAgreement.legalAct}\nDoorstep Biometric: Available in Ambernath, Badlapur, Ulhasnagar, Kalyan\nDocuments Required: ${BUSINESS_FACTS.rentAgreement.documentsRequired.join('; ')}`);
+  }
+
+  if (evidence.matchedListings.length > 0) {
+    const listingsStr = evidence.matchedListings.map(l =>
+      `- Listing ID: ${l.listingId} | Name: ${l.name} | Locality: ${l.locality} | Configurations: ${l.configurations.join(', ')} | Price Range: ${l.priceRange} (${l.priceBasis}) | RERA: ${l.reraNumber} | Status: ${l.status} | Verified Amenities: ${l.amenities.join(', ')}`
+    ).join('\n');
+    retrievedFacts.push(`VERIFIED PROPERTIES FOUND:\n${listingsStr}`);
+  }
+
+  const unverifiedStr = evidence.unknownElements.length > 0
+    ? `UNVERIFIED / UNKNOWN ELEMENTS (DO NOT INVENT ANSWERS FOR THESE):\n- ${evidence.unknownElements.join('\n- ')}`
+    : 'All queried elements matched verified records.';
+
+  const historyStr = history.map(h => `${h.role === 'user' ? 'Customer' : 'Sia'}: ${h.text}`).join('\n');
 
   return `
 SYSTEM INSTRUCTION:
-You are Sia, the sweet, professional, empathetic, and knowledgeable 24-year-old female assistant for Dashmesh Properties & Rent Agreement Services.
-Location: Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501.
-Founder: Satnam Singh Vohra (+91 84210 77613).
-Rent Agreement: ₹1,750 per side / ₹3,500 total all-inclusive with doorstep biometric across Ambernath, Badlapur, Ulhasnagar, Kalyan (Govt approved, Sec 55 Maharashtra Rent Control Act).
-Primary Areas: Ambernath, Pale Gaon, Ulhasnagar, Badlapur, Kalyan.
+You are Sia, the polite, empathetic, sweet, and knowledgeable 24-year-old female property assistant for Dashmesh Properties & Rent Agreement Services.
+Location: Shop No. 24, New Floora, Pale Gaon, Ambernath East - 421 501.
 
-RULES:
-1. Strict Feminine Persona: Use feminine Hindi/Hinglish phrasing when speaking Hindi/Hinglish ("karungi", "bataungi", "samajh sakti hoon", "main hoon na 💖", "chinta mat kijiye").
-2. NEVER Repeat Robotic Greetings: If there is past conversation history, DO NOT greet! Jump straight to answering the user's specific question.
-3. Answer ALL parts of the customer's question thoroughly.
-4. Grounded in Truth: NEVER invent properties, prices, discounts, or legal guarantees. If a property is unknown, state honestly that it needs team verification.
-5. Empathy & Warmth: Keep responses clear, concise, and easy to read on WhatsApp. Ask at most 1-2 relevant follow-ups.
+STRICT ANTI-HALLUCINATION RULES:
+1. ONLY answer using facts listed under TRUSTED RETRIEVED EVIDENCE.
+2. DO NOT INVENT or guess any property name, price, RERA number, loan guarantee, or amenity.
+3. If an item is listed under UNVERIFIED / UNKNOWN ELEMENTS, explicitly state: "I don't have verified current information for this yet. Would you like our property team to check and get back to you?"
+4. Strict Feminine Persona in Hindi/Hinglish: Use feminine grammar ("karungi", "bataungi", "samajh sakti hoon", "main hoon na 💖").
+5. DO NOT repeat greetings if past conversation exists. Jump straight to answering.
 
-VERIFIED PROPERTIES:
-${listingsSummary}
+TRUSTED RETRIEVED EVIDENCE:
+${retrievedFacts.join('\n\n') || '(No business facts or property listings matched)'}
 
-CURRENT CUSTOMER CONTEXT:
+${unverifiedStr}
+
+CUSTOMER CONTEXT:
 Name: ${customerName}
-Intent: ${qualification.intent || 'Exploring'}
 Locality: ${qualification.locality || 'Not specified'}
 BHK: ${qualification.bhk || 'Not specified'}
 Budget: ${qualification.budget || 'Not specified'}
 
-PAST CONVERSATION HISTORY:
-${historyText || '(No previous messages)'}
+PAST CONVERSATION:
+${historyStr || '(First message)'}
 
-CUSTOMER'S LATEST MESSAGE:
+CUSTOMER MESSAGE:
 "${incomingText}"
 
-Sia's WhatsApp Reply:`;
+Sia's Verified WhatsApp Reply:`;
 }
 
 /**
@@ -395,9 +274,9 @@ async function callGemini(prompt) {
   const payload = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
-      temperature: 0.6,
+      temperature: 0.2, // Low temperature for maximum factuality
       maxOutputTokens: 500,
-      topP: 0.9
+      topP: 0.8
     }
   });
 
@@ -415,7 +294,7 @@ async function callGemini(prompt) {
             'Content-Type': 'application/json',
             'Content-Length': Buffer.byteLength(payload)
           },
-          timeout: 7000 // 7s timeout
+          timeout: 7000
         }, (res) => {
           let data = '';
           res.on('data', chunk => data += chunk);
@@ -455,16 +334,13 @@ async function callGemini(prompt) {
 }
 
 /**
- * Robust Grounded Local Engine: Provides 100% reliable, verified replies
- * when Gemini API is unconfigured, times out, or encounters errors.
+ * Deterministic Grounded Generator (Directives 4, 5, 6, 7)
+ * Guarantees zero hallucinations even if Gemini is down or unconfigured.
  */
-function generateGroundedFallbackResponse(text, customerName, contact, qualification, lang) {
-  const lower = (text || '').toLowerCase();
-  const hasHistory = contact.messages && contact.messages.length > 1;
-  const isGreetingOnly = isStandaloneGreeting(text);
+function generateDeterministicGroundedReply(userMessage, customerName, contact, qualification, evidence, lang) {
+  const isGreetingOnly = isStandaloneGreeting(userMessage);
 
   // RULE 1: Never repeat greeting on consecutive messages
-  // Only include welcome greeting if contact has never greeted AND message is a pure greeting
   let prefix = '';
   if (!contact.hasGreeted && isGreetingOnly) {
     if (lang === 'english') {
@@ -476,32 +352,38 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
     }
   }
 
-  // Question 1: Rent Agreement inquiries
-  if (
-    lower.includes('rent agreement') ||
-    lower.includes('agreement') ||
-    lower.includes('police verification') ||
-    lower.includes('biometric') ||
-    lower.includes('stamp duty') ||
-    lower.includes('एग्रीमेंट') ||
-    lower.includes('रेंट') ||
-    lower.includes('करार')
-  ) {
-    const isMultiQuestion = lower.includes('document') || lower.includes('kagaz') || lower.includes('kaise') || lower.includes('process') || lower.includes('price') || lower.includes('cost') || lower.includes('kitna');
+  // Path 1: Out of Service Area (Honest Unknown Path)
+  if (!evidence.isCoverageArea) {
+    let reply = '';
+    if (lang === 'english') {
+      reply = `${prefix}Dashmesh Properties specializes primarily in Ambernath (East & West), Pale Gaon, Badlapur, Ulhasnagar, and Kalyan.\n\n` +
+        `We do not currently have verified inventory in ${evidence.queriedLocality || 'that city'}. I can certainly ask Satnam Sir (+91 84210 77613) and our associate network if options are available for you. Would you like me to request a callback? 💖`;
+    } else {
+      reply = `${prefix}Dashmesh Properties ki primary expertise Ambernath (East & West), Pale Gaon, Badlapur, Ulhasnagar aur Kalyan areas mein hai.\n\n` +
+        `${evidence.queriedLocality || 'Is area'} mein hamare paas abhi verified inventory active nahi hai. Main Satnam Sir (+91 84210 77613) se verify karwake pata kar sakti hoon agar hamare network mein option ho. Kya main callback schedule karun? 💖`;
+    }
+    return {
+      reply,
+      buttons: ['Call Satnam Sir', 'View Ambernath Options'],
+      intent: 'OUT_OF_COVERAGE_AREA'
+    };
+  }
 
+  // Path 2: Rent Agreement Inquiries (Ground Truth Rates & Checklist)
+  if (evidence.rentAgreementFacts) {
     let reply = '';
     if (lang === 'english') {
       reply = `${prefix}Yes, we provide official Government-Registered Rent Agreement service with doorstep biometric verification across Ambernath, Badlapur, Ulhasnagar, and Kalyan! 📜✨\n\n` +
-        `💰 *Official Rate:* ₹1,750 per side (₹3,500 total all-inclusive) under Maharashtra Rent Control Act Section 55.\n` +
-        `⚡ *Govt Registration:* Complete drafting, stamp duty payment & doorstep biometric done at your home/office.\n\n` +
+        `💰 *Official Rate:* ${BUSINESS_FACTS.rentAgreement.costPerSide} per side (${BUSINESS_FACTS.rentAgreement.totalCost}) under ${BUSINESS_FACTS.rentAgreement.legalAct}.\n` +
+        `🏠 *Doorstep Biometric:* Our executive visits your residence/office for biometric capture.\n\n` +
         `📋 *Documents Required:*\n` +
         `• Owner & Tenant Aadhaar + PAN Cards\n` +
         `• 2 Witnesses Aadhaar + PAN Cards\n` +
         `• Property Electricity Bill or Index II\n\n` +
-        `Kya aapko apne flat ke liye biometric slot book karwana hai? Main turant schedule kar sakti hoon! 💖`;
+        `Would you like to schedule a biometric slot? I can arrange that with our desk! 💖`;
     } else if (lang === 'marathi') {
       reply = `${prefix}होय, आम्ही अंबरनाथ, बदलापूर, उल्हासनगर आणि कल्याणमध्ये डोअरस्टेप बायोमेट्रिकसह अधिकृत नोंदणीकृत रेंट ॲग्रीमेंट सेवा देतो! 📜✨\n\n` +
-        `💰 *अधिकृत शुल्क:* ₹1,750 प्रत्येक बाजू (एकूण ₹3,500 सर्वसमावेशक).\n` +
+        `💰 *अधिकृत शुल्क:* ${BUSINESS_FACTS.rentAgreement.costPerSide} प्रत्येक बाजू (${BUSINESS_FACTS.rentAgreement.totalCost}).\n` +
         `📋 *आवश्यक कागदपत्रे:*\n` +
         `• मालक आणि भाडेकरूंचे आधार व पॅन कार्ड\n` +
         `• २ साक्षीदारांचे आधार व पॅन कार्ड\n` +
@@ -509,7 +391,7 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
         `आपल्याला बायोमेट्रिक स्लॉट कधी हवा आहे? मी लगेच मदत करू शकते! 💖`;
     } else {
       reply = `${prefix}Ji haan! Dashmesh Properties par Govt-Registered Rent Agreement doorstep biometric ke sath banaya jata hai! 📜✨\n\n` +
-        `💰 *Official All-Inclusive Charges:* ₹1,750 per side (₹3,500 total complete package, no hidden charges).\n` +
+        `💰 *Official Charges:* ${BUSINESS_FACTS.rentAgreement.costPerSide} per side (${BUSINESS_FACTS.rentAgreement.totalCost} complete package, no hidden fees).\n` +
         `🏠 *Doorstep Service:* Hamare executive aapke ghar aakar biometric verification karte hain (Ambernath, Badlapur, Ulhasnagar, Kalyan).\n\n` +
         `📋 *Required Documents:*\n` +
         `1. Owner & Tenant ka Aadhaar + PAN Card\n` +
@@ -525,28 +407,23 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
     };
   }
 
-  // Question 2: Office Location / Contact Details
-  if (
-    lower.includes('office') ||
-    lower.includes('kahan hai') ||
-    lower.includes('address') ||
-    lower.includes('location') ||
-    lower.includes('kaha hai') ||
-    lower.includes('contact')
-  ) {
+  // Path 3: Office Address & Contact
+  if (evidence.businessFacts) {
     let reply = '';
     if (lang === 'english') {
       reply = `${prefix}Our office is located at:\n` +
-        `📍 *Dashmesh Property & Rent Agreement Services*\n` +
-        `Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501.\n` +
-        `👤 *Founder:* Satnam Singh Vohra (+91 84210 77613)\n\n` +
-        `You are always welcome to visit us! Would you like to schedule a quick meeting or call? 💖`;
+        `📍 *${BUSINESS_FACTS.name}*\n` +
+        `${BUSINESS_FACTS.officeAddress}\n` +
+        `👤 *Founder:* ${BUSINESS_FACTS.founder}\n` +
+        `🕒 *Hours:* ${BUSINESS_FACTS.officeHours}\n\n` +
+        `You are always welcome to visit us! Would you like to schedule a consultation with Satnam Sir? 💖`;
     } else {
       reply = `${prefix}Hamara office yahan situated hai:\n` +
-        `📍 *Dashmesh Property & Rent Agreement Services*\n` +
-        `Shop No. 24, New Floora, Pale Gaon, Ambernath (East) - 421 501.\n` +
-        `👤 *Founder:* Satnam Singh Vohra (+91 84210 77613)\n\n` +
-        `Aap jab chahe office visit kar sakte hain, main Satnam Sir ke sath aapki meeting arrange karwa sakti hoon! 💖`;
+        `📍 *${BUSINESS_FACTS.name}*\n` +
+        `${BUSINESS_FACTS.officeAddress}\n` +
+        `👤 *Founder:* ${BUSINESS_FACTS.founder}\n` +
+        `🕒 *Office Timings:* ${BUSINESS_FACTS.officeHours}\n\n` +
+        `Aap jab chahe office visit kar sakte hain, main Satnam Sir ke sath aapki meeting schedule karwa sakti hoon! 💖`;
     }
 
     return {
@@ -556,52 +433,48 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
     };
   }
 
-  // Question 3: Specific Property Listing Inquiries & Multi-Question resolution
-  const verifiedListings = searchVerifiedProperties(text, qualification);
-  const isLookingForHomes = lower.includes('bhk') || lower.includes('flat') || lower.includes('property') || lower.includes('ghar') || lower.includes('room') || lower.includes('buy') || lower.includes('rent') || lower.includes('pale gaon') || lower.includes('ambernath');
+  // Path 4: Verified Property Listings & Honest Unknown Amenity Handling
+  if (evidence.hasVerifiedMatch && evidence.matchedListings.length > 0) {
+    const p1 = evidence.matchedListings[0];
+    const p2 = evidence.matchedListings[1];
 
-  if (isLookingForHomes) {
-    const p1 = verifiedListings[0];
-    const p2 = verifiedListings[1] || verifiedListings[0];
-
-    // Multi-question handling: check if user asked about price, parking, RERA, visit
-    const asksPrice = lower.includes('price') || lower.includes('budget') || lower.includes('kitna') || lower.includes('rate');
-    const asksParking = lower.includes('parking') || lower.includes('amenities') || lower.includes('water');
-    const asksRera = lower.includes('rera') || lower.includes('approved') || lower.includes('oc');
-    const asksVisit = lower.includes('visit') || lower.includes('dekhna') || lower.includes('kal');
-
-    let extraDetails = '';
-    if (asksParking) {
-      extraDetails += `\n🚗 *Parking & Amenities:* CCTV surveillance, 24/7 KDMC water supply, and lift with battery backup available hai.`;
+    // Check queried amenities against verified facts
+    let amenityNote = '';
+    if (evidence.verifiedAmenitiesFound.length > 0) {
+      amenityNote += `\n✅ *Verified Features:* ${evidence.verifiedAmenitiesFound.join(', ')} confirmed on site.`;
     }
-    if (asksRera) {
-      extraDetails += `\n📜 *RERA Status:* MahaRERA Approved Project (${p1.reraNumber}) with clear title & OC.`;
-    }
-    if (asksVisit) {
-      extraDetails += `\n🗓️ *Site Visit:* Main kal aapka site visit schedule kar sakti hoon!`;
+    if (evidence.unverifiedAmenities.length > 0) {
+      // Directive 5: Honest Unknown Path for specific missing amenities
+      amenityNote += `\n⚠️ *Pending Confirmation:* ${evidence.unverifiedAmenities.join(', ')} hamare current verified record mein confirmed nahi hai. Main hamari team se verify karwake aapko confirm kar sakti hoon.`;
     }
 
     let reply = '';
     if (lang === 'english') {
-      reply = `${prefix}Here are verified ready-to-move options matching your interest in ${qualification.locality || 'Pale Gaon / Ambernath East'}:\n\n` +
+      reply = `${prefix}Here are the verified ready options matching your inquiry in ${p1.locality}:\n\n` +
         `🏢 *${p1.name}*\n` +
         `📍 ${p1.locality}\n` +
         `💰 *Price:* ${p1.priceRange || p1.startingPrice} (${p1.configurations.join(', ')})\n` +
         `📜 *Status:* ${p1.status} (MahaRERA: ${p1.reraNumber})\n` +
-        `✨ *Highlights:* ${p1.highlights}${extraDetails}\n\n` +
-        `🏢 *${p2.name}*\n` +
-        `📍 ${p2.locality} | ${p2.priceRange || p2.startingPrice}\n\n` +
-        `Would you like to schedule a site visit or discuss with Satnam Sir? 💖`;
+        `✨ *Highlights:* ${p1.highlights}${amenityNote}\n\n`;
+
+      if (p2) {
+        reply += `🏢 *${p2.name}*\n` +
+          `📍 ${p2.locality} | ${p2.priceRange || p2.startingPrice} (${p2.configurations.join(', ')})\n\n`;
+      }
+      reply += `Would you like to schedule an assisted site visit with our team? 💖`;
     } else {
-      reply = `${prefix}Aapke requirements ke anusar ${qualification.locality || 'Pale Gaon / Ambernath East'} mein yeh hamare best verified options hain:\n\n` +
+      reply = `${prefix}Aapke inquiry ke anusar ${p1.locality} mein yeh hamara verified option hai:\n\n` +
         `🏢 *${p1.name}*\n` +
         `📍 ${p1.locality}\n` +
         `💰 *Price Range:* ${p1.priceRange || p1.startingPrice} (${p1.configurations.join(', ')})\n` +
         `📜 *RERA Status:* ${p1.status} (RERA: ${p1.reraNumber})\n` +
-        `✨ *Key Features:* ${p1.highlights}${extraDetails}\n\n` +
-        `🏢 *${p2.name}*\n` +
-        `📍 ${p2.locality} (Starting ${p2.startingPrice})\n\n` +
-        `Kya aap iska site visit dekhna chahenge? Main turant arrange karwa sakti hoon na! 💖`;
+        `✨ *Key Details:* ${p1.highlights}${amenityNote}\n\n`;
+
+      if (p2) {
+        reply += `🏢 *${p2.name}*\n` +
+          `📍 ${p2.locality} (Starting ${p2.startingPrice})\n\n`;
+      }
+      reply += `Kya aap iska site visit dekhna chahenge? Main Satnam Sir ke desk se arrange kar sakti hoon na! 💖`;
     }
 
     return {
@@ -611,7 +484,27 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
     };
   }
 
-  // Default Polite Assistant Follow-Up
+  // Path 5: Property Inquired But NO Matches Exist (Directive 2 & 5: Honest Unknown Path)
+  if (evidence.unknownElements.length > 0) {
+    let reply = '';
+    const missingDesc = evidence.unknownElements.join(', ');
+
+    if (lang === 'english') {
+      reply = `${prefix}I can help confirm that for you! Currently, we do not have an active verified listing directly matching ${missingDesc} in our database.\n\n` +
+        `Rather than giving you unverified estimates, I would be happy to have Satnam Sir (+91 84210 77613) and our property team check builder inventory and get back to you with exact verified options. Would you like a callback? 💖`;
+    } else {
+      reply = `${prefix}Main samajh sakti hoon! Abhi hamare verified database mein ${missingDesc} ke liye direct active option confirmed nahi hai.\n\n` +
+        `Galat ya unverified details dene ke bajaye, main Satnam Sir (+91 84210 77613) se fresh builder inventory verify karwake aapko accurate update arrange karwa sakti hoon. Kya main aapke liye callback schedule karun? 💖`;
+    }
+
+    return {
+      reply,
+      buttons: ['Call Satnam Sir', 'View Pale Gaon Options', 'Rent Agreement'],
+      intent: 'HONEST_UNKNOWN_CONFIRMATION'
+    };
+  }
+
+  // Default Greeting / Clarification
   if (isGreetingOnly) {
     let reply = '';
     if (lang === 'english') {
@@ -632,8 +525,8 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
   // General Inquiry Clarification
   let reply = '';
   if (lang === 'english') {
-    reply = `${prefix}I understand! At Dashmesh Properties, we specialize in real estate buying, selling, and rent agreements across Ambernath, Pale Gaon, and Badlapur.\n\n` +
-      `Could you please share your preferred area, property type (1 BHK / 2 BHK), or budget so I can find the perfect match for you? 💖`;
+    reply = `${prefix}At Dashmesh Properties, we specialize in verified real estate and registered rent agreements across Ambernath, Pale Gaon, and Badlapur.\n\n` +
+      `Could you please share your preferred area, property type (1 BHK / 2 BHK), or budget so I can find verified options for you? 💖`;
   } else {
     reply = `${prefix}Ji bilkul! Dashmesh Properties par hum Ambernath, Pale Gaon aur Badlapur mein verified flats aur Govt-Registered Rent Agreements arrange karte hain.\n\n` +
       `Aapko kis area mein aur kitne budget tak option chahiye? Main best verified options share karungi! 💖`;
@@ -647,7 +540,7 @@ function generateGroundedFallbackResponse(text, customerName, contact, qualifica
 }
 
 /**
- * Main WhatsApp Incoming Message Processing Flow
+ * Main WhatsApp Incoming Message Processing Flow with Strict Output Validation
  */
 async function processIncomingMessage(incomingPhone, incomingText, customerName = 'Customer', meta = {}) {
   const userMessage = (incomingText || '').trim();
@@ -710,32 +603,50 @@ async function processIncomingMessage(incomingPhone, incomingText, customerName 
     crmStore.updateQualification(cleanPhone, qUpdates);
   }
 
-  // 7. Load context & verified listings for prompt
+  // 7. RETRIEVAL BEFORE GENERATION (Directive 3): Retrieve genuine verified evidence
   const updatedContact = crmStore.getOrCreateContact(cleanPhone);
-  const verifiedListings = searchVerifiedProperties(userMessage, updatedContact.qualification);
+  const evidence = knowledge.retrieveEvidence(userMessage, updatedContact.qualification);
   const history = crmStore.getPromptConversationHistory(cleanPhone, 8);
 
-  let replyText = null;
+  // Record unresolved questions for admin review queue (Directive 10)
+  if (evidence.unknownElements.length > 0) {
+    for (const item of evidence.unknownElements) {
+      crmStore.recordUnresolvedQuestion(cleanPhone, userMessage, item);
+    }
+  }
+
+  let finalReply = null;
   let responseIntent = 'SIA_ASSISTANT_REPLY';
 
   // 8. Attempt Gemini Generative AI Call if API Key configured
   if (process.env.GEMINI_API_KEY) {
     try {
-      const prompt = buildGeminiPrompt(customerName, userMessage, history, updatedContact.qualification, verifiedListings);
-      const geminiResponse = await callGemini(prompt);
-      if (geminiResponse && geminiResponse.length > 10) {
-        replyText = geminiResponse;
-        responseIntent = 'GEMINI_AI_REPLY';
+      const prompt = buildGeminiEvidencePrompt(customerName, userMessage, history, updatedContact.qualification, evidence);
+      const candidateGemini = await callGemini(prompt);
+
+      if (candidateGemini) {
+        // DIRECTIVE 8: Deterministic Output Factuality Validation
+        const validation = knowledge.validateOutputFactuality(candidateGemini, evidence);
+        if (validation.isValid) {
+          finalReply = candidateGemini;
+          responseIntent = 'GEMINI_AI_REPLY';
+        } else {
+          console.warn('[Sia Brain] Gemini candidate failed factuality check, sanitized:', validation.violations);
+          finalReply = validation.sanitizedReply;
+          responseIntent = 'GEMINI_AI_SANITIZED';
+        }
       }
     } catch (e) {
-      console.warn('[Sia Brain] Gemini call failed, falling back to verified local engine:', e.message);
+      console.warn('[Sia Brain] Gemini call failed, falling back to deterministic engine:', e.message);
     }
   }
 
-  // 9. Grounded Rule Engine Fallback (guarantees 100% reliable, verified response)
-  if (!replyText) {
-    const fallbackResult = generateGroundedFallbackResponse(userMessage, customerName, updatedContact, updatedContact.qualification, detectedLang);
-    replyText = fallbackResult.reply;
+  // 9. Deterministic Grounded Fallback (guarantees 100% reliable, verified response)
+  if (!finalReply) {
+    const fallbackResult = generateDeterministicGroundedReply(userMessage, customerName, updatedContact, updatedContact.qualification, evidence, detectedLang);
+    // Run validation pass on fallback as well
+    const validation = knowledge.validateOutputFactuality(fallbackResult.reply, evidence);
+    finalReply = validation.sanitizedReply;
     responseIntent = fallbackResult.intent;
   }
 
@@ -743,16 +654,19 @@ async function processIncomingMessage(incomingPhone, incomingText, customerName 
   crmStore.markGreetingSent(cleanPhone);
 
   return {
-    reply: replyText,
+    reply: finalReply,
     buttons: ['Rent Agreement', 'Site Visit', 'Call Satnam Sir'],
-    intent: responseIntent
+    intent: responseIntent,
+    evidenceRetrieved: {
+      hasVerifiedMatch: evidence.hasVerifiedMatch,
+      matchedCount: evidence.matchedListings.length,
+      unknownElements: evidence.unknownElements
+    }
   };
 }
 
 module.exports = {
   BUSINESS_FACTS,
-  loadVerifiedProjects,
-  searchVerifiedProperties,
   detectLanguage,
   extractQualificationUpdates,
   detectHumanHandoffRequest,

@@ -460,6 +460,64 @@ function resolveHumanHandoff(rawPhone) {
 }
 
 /**
+ * Record an unanswered or unverified customer question for human review (Directive 10)
+ */
+function recordUnresolvedQuestion(rawPhone, questionText, reason = 'Missing verified data') {
+  const contact = getOrCreateContact(rawPhone);
+  if (!Array.isArray(contact.unresolvedQuestions)) {
+    contact.unresolvedQuestions = [];
+  }
+
+  const existing = contact.unresolvedQuestions.find(q => q.question === questionText);
+  const now = new Date().toISOString();
+
+  if (existing) {
+    existing.askedAt = now;
+    existing.status = 'pending_verification';
+  } else {
+    contact.unresolvedQuestions.unshift({
+      id: `uq_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      question: questionText,
+      reason,
+      status: 'pending_verification',
+      askedAt: now
+    });
+    if (contact.unresolvedQuestions.length > 20) {
+      contact.unresolvedQuestions = contact.unresolvedQuestions.slice(0, 20);
+    }
+  }
+
+  contact.lastUpdated = now;
+  persistMemory();
+  return contact;
+}
+
+/**
+ * Get all unresolved questions across contacts for admin audit queue
+ */
+function getUnresolvedQuestionsQueue() {
+  const leads = loadConversations();
+  const queue = [];
+  for (const l of leads) {
+    if (Array.isArray(l.unresolvedQuestions) && l.unresolvedQuestions.length > 0) {
+      for (const uq of l.unresolvedQuestions) {
+        if (uq.status === 'pending_verification') {
+          queue.push({
+            phone: l.phone,
+            customerName: l.name,
+            questionId: uq.id,
+            question: uq.question,
+            reason: uq.reason,
+            askedAt: uq.askedAt
+          });
+        }
+      }
+    }
+  }
+  return queue;
+}
+
+/**
  * Get active human handoff queue
  */
 function getHandoffQueue() {
@@ -523,6 +581,8 @@ module.exports = {
   triggerHumanHandoff,
   resolveHumanHandoff,
   getHandoffQueue,
+  recordUnresolvedQuestion,
+  getUnresolvedQuestionsQueue,
   getPromptConversationHistory,
   getCRMTelemetry,
   setStorageDir,

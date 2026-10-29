@@ -23,6 +23,7 @@ const whatsapp = require('../whatsapp_service');
 const crm = require('../crm_store');
 const sia = require('../sia_brain');
 const security = require('../security_engine');
+const knowledge = require('../property_knowledge');
 
 // Setup isolated temporary storage for testing (Rule 3: Strict Isolation)
 const testStorageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dashmesh-test-crm-'));
@@ -421,4 +422,72 @@ test('Criterion 17: Consecutive messages NEVER trigger repeated greetings (Rule 
   assert.ok(res3.reply);
   assert.equal(/Welcome to Dashmesh Properties/i.test(res3.reply), false);
   assert.match(res3.reply, /Shop No\. 24|New Floora/i);
+});
+
+// ============================================================================
+// 18. Anti-Hallucination: Non-Existent Listing Returns Honest Unknown Path
+// ============================================================================
+test('Criterion 18: Anti-Hallucination: Non-existent or unverified property is NEVER invented', async () => {
+  const phone = '919800000018';
+
+  // Inquire about 5 BHK in Pale Gaon (doesn't exist in verified inventory)
+  const res = await sia.processIncomingMessage(phone, 'Do you have a 5 BHK ultra luxury villa in Pale Gaon?', 'Karan');
+  assert.ok(res.reply);
+  assert.equal(res.evidenceRetrieved.hasVerifiedMatch, false);
+  // Must honestly state that verified inventory has no direct confirmed match
+  assert.match(res.reply, /direct active option confirmed nahi hai|verified database|Satnam Sir/i);
+  // Must NOT claim that a 5 BHK villa is available!
+  assert.equal(/5 BHK villa is available/i.test(res.reply), false);
+});
+
+// ============================================================================
+// 19. Anti-Hallucination: Unverified Amenity Is Never Claimed Available
+// ============================================================================
+test('Criterion 19: Anti-Hallucination: Unverified amenities are explicitly flagged as pending confirmation', async () => {
+  const phone = '919800000019';
+
+  // Laxmi Niwas does not have swimming pool in verified amenities
+  const res = await sia.processIncomingMessage(phone, 'Does Laxmi Niwas have a swimming pool?', 'Rohan');
+  assert.ok(res.reply);
+  // Must state swimming pool is pending confirmation or not confirmed
+  assert.match(res.reply, /swimming pool.*(hamari team se confirm|pending confirmation|verified record mein confirmed nahi)/i);
+});
+
+// ============================================================================
+// 20. Anti-Hallucination: Deterministic Output Validator Blocks Fake Claims
+// ============================================================================
+test('Criterion 20: Anti-Hallucination: Deterministic Output Validator intercepts and sanitizes fabricated guarantees', () => {
+  const mockEvidence = {
+    hasVerifiedMatch: true,
+    matchedListings: [{
+      listingId: 'test-01',
+      name: 'Sample Heights',
+      locality: 'Pale Gaon',
+      startingPrice: '₹25 Lakhs',
+      amenities: ['CCTV']
+    }],
+    unverifiedAmenities: ['Covered Car Parking'],
+    unknownElements: []
+  };
+
+  const candidateWithFakeGuarantee = 'Sample Heights has 100% guaranteed loan approval and 100% clear legal title with covered car parking available.';
+  const validation = knowledge.validateOutputFactuality(candidateWithFakeGuarantee, mockEvidence);
+
+  assert.equal(validation.isValid, false);
+  assert.ok(validation.violations.length >= 1);
+  // Prohibited 100% guarantee must be replaced
+  assert.equal(/100%\s*guaranteed/i.test(validation.sanitizedReply), false);
+});
+
+// ============================================================================
+// 21. Anti-Hallucination: Unresolved Questions Recorded for Admin Review
+// ============================================================================
+test('Criterion 21: Anti-Hallucination: Questions with unknown elements are queued for human review', async () => {
+  const phone = '919800000021';
+  await sia.processIncomingMessage(phone, 'What is the price of 6 BHK penthouse in Badlapur?', 'Pradeep');
+
+  const queue = crm.getUnresolvedQuestionsQueue();
+  const entry = queue.find(q => q.phone && q.phone.includes('919800000021'));
+  assert.ok(entry, `Queue did not contain entry for 919800000021. Queue: ${JSON.stringify(queue)}`);
+  assert.match(entry.question, /6 BHK penthouse/i);
 });

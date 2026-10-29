@@ -3082,6 +3082,7 @@ const server = http.createServer((req, res) => {
     '/api/agreements',
     '/api/whatsapp/conversations',
     '/api/whatsapp/handoff-queue',
+    '/api/whatsapp/unresolved-queue',
     '/api/whatsapp/resolve-handoff',
     '/api/whatsapp/config',
     '/api/whatsapp/status',
@@ -4005,6 +4006,18 @@ const server = http.createServer((req, res) => {
       success: true,
       count: queue.length,
       queue
+    }));
+    return;
+  }
+
+  // 13b-2b. Unresolved & Unverified Questions Audit Queue (Directive 10)
+  if (pathname === '/api/whatsapp/unresolved-queue' && req.method === 'GET') {
+    const unresolved = crmStore.getUnresolvedQuestionsQueue();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      count: unresolved.length,
+      unresolved
     }));
     return;
   }
