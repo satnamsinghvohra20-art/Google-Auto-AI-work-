@@ -3077,6 +3077,8 @@ const server = http.createServer((req, res) => {
     '/api/leads/export-csv',
     '/api/agreements',
     '/api/whatsapp/conversations',
+    '/api/whatsapp/handoff-queue',
+    '/api/whatsapp/resolve-handoff',
     '/api/whatsapp/config',
     '/api/whatsapp/status',
     '/api/whatsapp/reply',
@@ -3493,7 +3495,7 @@ const server = http.createServer((req, res) => {
           rating: data.rating || 2,
           comment: data.comment || 'No specific comment entered.',
           date: new Date().toISOString(),
-          status: 'Shielded (Zero Google Maps Impact)'
+          status: 'Recorded for Support Resolution'
         };
         privateFeedbacks.unshift(newFeedback);
         saveJSONFile('feedback.json', privateFeedbacks);
@@ -3502,16 +3504,16 @@ const server = http.createServer((req, res) => {
         autoPilotState.eventLogs.unshift({
           id: 'evt_shield_' + Date.now(),
           timestamp: new Date().toISOString(),
-          type: 'SHIELD',
-          icon: '🛡️',
-          message: `Review Shield intercepted ${data.rating}★ complaint from ${newFeedback.customerName}. Quarantined from Google Maps.`,
-          status: 'shielded'
+          type: 'FEEDBACK',
+          icon: '📝',
+          message: `Customer feedback (${data.rating}★) logged from ${newFeedback.customerName} for internal support resolution.`,
+          status: 'received'
         });
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           success: true,
-          message: 'Review shielded successfully! Negative complaint was prevented from appearing on Google Maps.',
+          message: 'Feedback received and recorded for support follow-up. Public reviews remain completely unrestricted.',
           feedback: newFeedback,
           totalShielded: privateFeedbacks.length
         }));
