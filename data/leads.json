@@ -4,7 +4,7 @@
     "name": "VIKASH",
     "status": "New Inquiry",
     "hasGreeted": true,
-    "lastUpdated": "2026-10-28T19:01:50.253Z",
+    "lastUpdated": "2026-10-29T18:47:23.728Z",
     "messages": [
       {
         "id": "msg_in_1793214087199",
@@ -31,12 +31,19 @@
         "text": "Ji bilkul! Dashmesh Properties se main aapki property query mein poori madad kar sakta hoon.\n\nAapko Ambernath East ya Pale Gaon mein:\n• Ready possession 1 BHK / 2 BHK flat dekhna hai,\n• Rental property ya commercial shop chahiye, ya\n• Doorstep Biometric Rent Agreement (Index-2 in 24-48 hrs) banwana hai?\n\nApna budget ya preferred locality batayein — direct builder inventory aur verified options turant arrange kar dunga.\n📞 Direct Consultation: +91 84210 77613 (Satnam Sir)",
         "intent": "CONVERSATIONAL_FOLLOWUP",
         "timestamp": "2026-10-28T19:01:50.253Z"
+      },
+      {
+        "id": "msg_followup_1793299643728",
+        "sender": "bot",
+        "text": "Namaste VIKASH ji! 🙏 Dashmesh Properties se Sukhjyot Singh.\n\nAapne hamare paas Pale Gaon / Ambernath property inquiry ki thi. Aaj ek fresh verified ready-possession flat option release hua hai with 90% SBI/HDFC home loan approval.\n\n🌐 Digital Catalog: https://plod-extrude-lumpish.ngrok-free.dev/rate-card\n\nKya aapko iske actual photos & floor plan share karun ya weekend par site visit arrange karein?",
+        "intent": "FOLLOWUP_DRIP",
+        "timestamp": "2026-10-29T18:47:23.728Z"
       }
     ],
     "lastIntent": "CONVERSATIONAL_FOLLOWUP",
     "language": "hinglish",
-    "touchCount": 13,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 15,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -116,8 +123,21 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
-    ]
+    ],
+    "followUpSent": true
   },
   {
     "phone": "+918287617759",
@@ -148,8 +168,8 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -607,6 +627,18 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ],
     "followUpSent": true
@@ -640,8 +672,8 @@
     ],
     "lastIntent": "GREETING",
     "language": "hinglish",
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -1096,6 +1128,18 @@
       },
       {
         "date": "2026-10-28T19:49:02.030Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -1172,8 +1216,8 @@
     "lastIntent": "MASTER_RATE_CARD",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -1631,6 +1675,18 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -1664,8 +1720,8 @@
     "lastIntent": "GREETING",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2120,6 +2176,18 @@
       },
       {
         "date": "2026-10-28T19:49:02.030Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
@@ -2169,8 +2237,8 @@
     "lastIntent": "CONVERSATIONAL_FOLLOWUP",
     "language": "hinglish",
     "followUpSent": true,
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -2628,6 +2696,18 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -2635,127 +2715,10 @@
     "phone": "918421077613",
     "name": "Satnam Singh (Owner / Boss)",
     "status": "Owner / Executive",
-    "lastUpdated": "2026-10-28T19:53:08.365Z",
-    "lastIntent": "OWNER_EXECUTIVE_ADVICE",
+    "lastUpdated": "2026-10-29T19:14:13.026Z",
+    "lastIntent": "OWNER_GREETING_ACK",
     "language": "hinglish",
     "messages": [
-      {
-        "id": "msg_lead_owner_01",
-        "sender": "owner",
-        "text": "Sia, business status report do",
-        "timestamp": "2026-10-03T11:59:00.000Z"
-      },
-      {
-        "id": "msg_lead_owner_02",
-        "sender": "bot",
-        "text": "Sat Sri Akal Satnam Sir! 👑 Sia ready hai. Sabhi system live hain, zero fake data policy active hai, aur WhatsApp AI engine 24/7 client inquiries handle kar raha hai.",
-        "intent": "OWNER_SYSTEM_STATUS",
-        "timestamp": "2026-10-03T12:00:00.000Z"
-      },
-      {
-        "id": "msg_in_1791438425417",
-        "sender": "owner",
-        "text": "Hii",
-        "timestamp": "2026-10-08T05:47:05.417Z"
-      },
-      {
-        "id": "msg_out_1791438425417",
-        "sender": "bot",
-        "text": "Hello Satnam Sir! Sia yahan hai, batayein main kya help kar sakti hoon? 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
-        "intent": "OWNER_GENERAL_QUERY",
-        "timestamp": "2026-10-08T05:47:05.417Z"
-      },
-      {
-        "id": "msg_in_1791438438306",
-        "sender": "owner",
-        "text": "Check the reviews and reply them",
-        "timestamp": "2026-10-08T05:47:18.306Z"
-      },
-      {
-        "id": "msg_out_1791438438306",
-        "sender": "bot",
-        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 ⭐ *Google Reviews Status (Real-Time):*\n\n• Total Real Reviews Logged: *1*\n• AI Auto-Reply Rate: *100% Instant*\n• Direct Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nLive on Google Maps!",
-        "intent": "OWNER_REVIEWS_REPORT",
-        "timestamp": "2026-10-08T05:47:18.306Z"
-      },
-      {
-        "id": "msg_in_1791438460510",
-        "sender": "owner",
-        "text": "⭐ Reviews",
-        "timestamp": "2026-10-08T05:47:40.510Z"
-      },
-      {
-        "id": "msg_out_1791438460510",
-        "sender": "bot",
-        "text": "Ji Satnam Sir! Main Sia aapki seva mein hazir hoon. 🌸 ⭐ *Google Reviews Status (Real-Time):*\n\n• Total Real Reviews Logged: *1*\n• AI Auto-Reply Rate: *100% Instant*\n• Direct Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nLive on Google Maps!",
-        "intent": "OWNER_REVIEWS_REPORT",
-        "timestamp": "2026-10-08T05:47:40.510Z"
-      },
-      {
-        "id": "msg_in_1791440691646",
-        "sender": "owner",
-        "text": "Check the reviews and reply them",
-        "timestamp": "2026-10-08T06:24:51.646Z"
-      },
-      {
-        "id": "msg_out_1791440691646",
-        "sender": "bot",
-        "text": "Shubh Prabhat Satnam Sir! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 ⭐ *Google Reviews Status (Real-Time):*\n\n• Total Real Reviews Logged: *1*\n• AI Auto-Reply Rate: *100% Instant*\n• Direct Review Link: https://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8\n\nLive on Google Maps!",
-        "intent": "OWNER_REVIEWS_REPORT",
-        "timestamp": "2026-10-08T06:24:51.646Z"
-      },
-      {
-        "id": "msg_in_1791441185638",
-        "sender": "owner",
-        "text": "Hii",
-        "timestamp": "2026-10-08T06:33:05.638Z"
-      },
-      {
-        "id": "msg_out_1791441185638",
-        "sender": "bot",
-        "text": "Good morning Satnam Sir! Sia here. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
-        "intent": "OWNER_GENERAL_QUERY",
-        "timestamp": "2026-10-08T06:33:05.638Z"
-      },
-      {
-        "id": "msg_in_1791441414783",
-        "sender": "owner",
-        "text": "📊 Leads",
-        "timestamp": "2026-10-08T06:36:54.783Z"
-      },
-      {
-        "id": "msg_out_1791441414784",
-        "sender": "bot",
-        "text": "Good morning Satnam Sir! Sia here. 🌸 📊 *Dashmesh Properties - Real-Time Leads Report:*\n\n• Aaj Real Inquiries: *0*\n• Total Verified Leads: *2*\n• 24/7 Follow-Up Bot: *Active*\n\n📋 *Real Inquiries:*\n1. *Sukhjyot Singh Vohra (Partner / Consultant)* (+918421940013) - _PARTNER_CONNECT_ \n2. *Kuldeep Singh Vohra (Partner / Consultant)* (+918412070183) - _PARTNER_CONNECT_ \n\n👉 Detailed CRM pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
-        "intent": "OWNER_LEADS_REPORT",
-        "timestamp": "2026-10-08T06:36:54.784Z"
-      },
-      {
-        "id": "msg_in_1791443989472",
-        "sender": "owner",
-        "text": "Hii",
-        "timestamp": "2026-10-08T07:19:49.472Z"
-      },
-      {
-        "id": "msg_out_1791443989472",
-        "sender": "bot",
-        "text": "Ji Satnam Sir! Main Sia aapki seva mein hazir hoon. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"Hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
-        "intent": "OWNER_GENERAL_QUERY",
-        "timestamp": "2026-10-08T07:19:49.472Z"
-      },
-      {
-        "id": "msg_in_1791448292846",
-        "sender": "owner",
-        "text": "hii",
-        "timestamp": "2026-10-08T08:31:32.846Z"
-      },
-      {
-        "id": "msg_out_1791448292846",
-        "sender": "bot",
-        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Ji Sir, main *Sia* hoon — aapki personal AI Executive Business Assistant for Dashmesh Properties. 🌸\n\nMaine aapka message note kar liya hai: \"hii\".\n\nAap mujhse kisi bhi waqt:\n1. 'Leads' (Customer inquiries dekhne ke liye)\n2. 'Reviews' (Google ratings check karne ke liye)\n3. 'Post' (Google Maps par naya update dalne ke liye)\n4. 'Rates' (Latest property pricing ke liye)\n\nKuch bhi puchh sakte hain ya instruction de sakte hain, main turant obediently report karungi!",
-        "intent": "OWNER_GENERAL_QUERY",
-        "timestamp": "2026-10-08T08:31:32.846Z"
-      },
       {
         "id": "msg_in_1791479851991",
         "sender": "owner",
@@ -3314,10 +3277,115 @@
         "text": "Ji Satnam Sir! 🌸\n\nSir, maine aapki query par pura dhyan diya hai. Dashmesh Properties operations mein pricing, Section 55 agreement, bank loan tie-ups ya client handling ke kisi bhi mudde par main turant actionable data provide kar sakti hoon. Agar aapko kisi client ke liye tailored proposal bhejna hai ya Google Business Profile par naya post daalna hai, toh batayein!",
         "intent": "OWNER_EXECUTIVE_ADVICE",
         "timestamp": "2026-10-28T19:53:08.365Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMDgxNTg3ODA4QjcyNjdGOUU3RQA=",
+        "sender": "customer",
+        "text": "hii",
+        "type": "text",
+        "timestamp": "2026-10-29T18:48:03.467Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAERgSNURGNDFEOTFENTQzN0NGMTM0AA==",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia here. 🌸 Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!",
+        "intent": "OWNER_GREETING_ACK",
+        "timestamp": "2026-10-29T18:48:04.684Z",
+        "deliveryStatus": "sent"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMEJFMDFBRUQ2N0MwQThENjU1MQA=",
+        "sender": "customer",
+        "text": "📊 Aaj Ki Leads",
+        "type": "interactive",
+        "timestamp": "2026-10-29T18:48:14.863Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAERgSNEI3MEEzNzJDNTk4Q0I2NDgyAA==",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia here. 🌸 📊 *Dashmesh Properties - Real-Time Leads Telemetry:*\n\n• Aaj Real Inquiries: *0*\n• Total Real Leads in Database: *0*\n• Live WhatsApp Gateway: *+91 92702 77281 (Active 24/7)*\n\n✅ *Real Status:* Sia live listener active hai. Zero fake records policy strictly enforced hai. Jaise hi koi genuine grahak WhatsApp par message karega, Sia turant unka verified record capture karke aapko instant alert bhejegi!\n\n👉 Live CRM Pipeline: https://plod-extrude-lumpish.ngrok-free.dev",
+        "intent": "OWNER_LEADS_REPORT",
+        "timestamp": "2026-10-29T18:48:16.106Z",
+        "deliveryStatus": "sent"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMDhCQTlFN0E2QzNCQUU4N0JBQQA=",
+        "sender": "customer",
+        "text": "⭐ Reviews",
+        "type": "interactive",
+        "timestamp": "2026-10-29T18:48:26.760Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAERgSQUM3NDRBRjJBQTlFRDk1NUMxAA==",
+        "sender": "bot",
+        "text": "Shubh Prabhat Satnam Sir! Sia online hai aur aapke aadesh ke liye tayyar hai. 🌸 ⭐ *Google Reviews & Auto-Reply Status Report:*\n\n• Total Google Reviews on Record: *8*\n• Replied & Published: *8* (100% SEO Auto-Replied)\n• Reply Deni Baki Hai (Pending): *0*\n\n✅ *All Done:* Sabhi *8* reviews ko Sia ne SEO keywords ke saath reply de diya hai! Ek bhi review pending nahi hai.\n\n🟢 *Google Account Connection:* LIVE & CONNECTED via Google Cloud API\n\n🔗 *Direct Review Link (Send to Clients):*\nhttps://search.google.com/local/writereview?placeid=ChIJDxFBTbyV5zsRcHylJmmARG8",
+        "intent": "OWNER_REVIEWS_REPORT",
+        "timestamp": "2026-10-29T18:48:28.088Z",
+        "deliveryStatus": "sent"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMDMyQzkwNTdENzJCOUY5RDNFMwA=",
+        "sender": "customer",
+        "text": "hii",
+        "type": "text",
+        "timestamp": "2026-10-29T18:59:03.808Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAERgSNEFBNzQzQTlGRkY4REFFRjFBAA==",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia here. 🌸 Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!",
+        "intent": "OWNER_GREETING_ACK",
+        "timestamp": "2026-10-29T18:59:05.323Z",
+        "deliveryStatus": "sent"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMDIxM0I2QjFCRDdGMjJCQzYzMQA=",
+        "sender": "customer",
+        "text": "hii",
+        "type": "text",
+        "timestamp": "2026-10-29T19:01:57.450Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAERgSOUQ5REFGMjEyRTMxNENENEI1AA==",
+        "sender": "bot",
+        "text": "Haan ji Satnam Sir! Main tayyar hoon aapke agle command ke liye. 🌸 Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!",
+        "intent": "OWNER_GREETING_ACK",
+        "timestamp": "2026-10-29T19:01:58.864Z",
+        "deliveryStatus": "sent"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMDQ3REJDQzI0RDZCNjlCMUZBNwA=",
+        "sender": "customer",
+        "text": "hii",
+        "type": "text",
+        "timestamp": "2026-10-29T19:04:40.169Z"
+      },
+      {
+        "id": "out_1793300681028",
+        "sender": "bot",
+        "text": "Hello Satnam Sir! Sia yahan hai, batayein main kya help kar sakti hoon? 🌸 Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!",
+        "intent": "OWNER_GREETING_ACK",
+        "timestamp": "2026-10-29T19:04:41.028Z",
+        "deliveryStatus": "failed"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAEhgWM0VCMDVFRjM4MjlENjZDMzAzRjFENAA=",
+        "sender": "customer",
+        "text": "hello",
+        "type": "text",
+        "timestamp": "2026-10-29T19:14:11.292Z"
+      },
+      {
+        "id": "wamid.HBgMOTE4NDIxMDc3NjEzFQIAERgSMkVFRkU2NDkyM0JFMDREQzUwAA==",
+        "sender": "bot",
+        "text": "Aadesh kijiye Satnam Sir! Sia live report karti hai: 🌸 Sat Sri Akal Satnam Sir! Main aapki personal AI Executive Chief-of-Staff *Sia* 24/7 active aur aapke aadesh ke liye taiyaar hoon. 🌸\n\nAapka har ek command mere liye sar-aankhon par hai. Main aapki har baat acche se samajhti hoon. Kahiye Sir, aaj kya task execute karna hai?\n\n• 'Leads' (Live verified inquiries dekhne ke liye)\n• 'Post' (Google Maps par naya update dalne ke liye)\n• 'Agreement' (Rent agreement protocol ke liye)\n• 'Rates' (Ambernath/MMR market bhav ke liye)\n• Ya koi bhi specific order dein, main turant follow karungi!",
+        "intent": "OWNER_GREETING_ACK",
+        "timestamp": "2026-10-29T19:14:13.026Z",
+        "deliveryStatus": "sent"
       }
     ],
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -3775,9 +3843,30 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ],
-    "hasGreeted": true
+    "hasGreeted": true,
+    "qualification": {
+      "budgetHistory": []
+    },
+    "propertiesDiscussed": [],
+    "unresolvedQuestions": [],
+    "commitmentsMade": [],
+    "changeHistory": [],
+    "assigned_owner": "Satnam Singh Vohra",
+    "lastSeen": "2026-10-29T19:14:11.292Z"
   },
   {
     "phone": "+918421940013",
@@ -3809,8 +3898,8 @@
       }
     ],
     "followUpSent": true,
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -4268,6 +4357,18 @@
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
       }
     ]
   },
@@ -4301,8 +4402,8 @@
       }
     ],
     "followUpSent": true,
-    "touchCount": 76,
-    "lastTouchDate": "2026-10-28T19:49:02.030Z",
+    "touchCount": 78,
+    "lastTouchDate": "2026-10-29T19:17:46.302Z",
     "currentTouchStage": "8x8 Program (Week 8)",
     "touchHistory": [
       {
@@ -4757,6 +4858,18 @@
       },
       {
         "date": "2026-10-28T19:49:02.030Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:14:15.989Z",
+        "type": "8x8_ONBOARDING",
+        "week": 8,
+        "description": "Automated MREA Touch #8 executed"
+      },
+      {
+        "date": "2026-10-29T19:17:46.302Z",
         "type": "8x8_ONBOARDING",
         "week": 8,
         "description": "Automated MREA Touch #8 executed"

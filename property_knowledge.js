@@ -286,7 +286,13 @@ function retrieveEvidence(queryText = '', qualification = {}, conversationHistor
     evidence.unknownElements.push(`Coverage for ${evidence.queriedLocality}`);
     evidence.requiresHumanEscalation = true;
     evidence.escalationReason = `Customer inquired about ${evidence.queriedLocality}, which is outside our active local coverage (Ambernath, Pale Gaon, Badlapur, Kalyan).`;
+  } else if (qualification && qualification.locality) {
+    // Fallback to saved locality from previous turns (Rule 2 & 3: Multi-turn Context Continuity)
+    evidence.queriedLocality = qualification.locality;
   }
+
+  // Check for site visit / schedule inquiry
+  evidence.visitRequested = /visit|kal|tomorrow|timing|appointment|schedule|dekhna/i.test(lower) || Boolean(qualification && qualification.siteVisitRequested);
 
   // 4. Extract requested amenities
   const commonAmenities = [

@@ -586,5 +586,6 @@ module.exports = {
   getPromptConversationHistory,
   getCRMTelemetry,
   setStorageDir,
-  clearCache
+  clearCache,
+  atomicSaveJSON
 };

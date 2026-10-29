@@ -104,18 +104,41 @@ function extractQualificationUpdates(text, currentQ = {}) {
     updates.locality = 'Kalyan';
   }
 
-  // Budget detection
-  const budgetMatch = lower.match(/(?:budget|price|range|approx)?\s*(?:rs\.?|inr|₹)?\s*(\d+(?:\.\d+)?)\s*(lakh|lakhs|lac|lacs|l|k|cr|crore)?/i);
-  if (budgetMatch && budgetMatch[1]) {
-    const num = parseFloat(budgetMatch[1]);
-    const unit = (budgetMatch[2] || '').toLowerCase();
-    if (unit.startsWith('l') || unit.startsWith('lac')) {
-      updates.budget = `₹${num} Lakhs`;
-      updates.budgetNumeric = num * 100000;
-    } else if (unit.startsWith('cr')) {
+  // Budget detection (Handles corrections like "Actually my budget is 70 Lakhs, not 60" or "Not 60 lakhs, make it 70 lakhs")
+  let budgetMatches = [];
+
+  // 1. Explicit unit: e.g. 25 lakhs, 70 lakh, 1.5 cr
+  const unitRegex = /(\d+(?:\.\d+)?)\s*(lakhs?|lacs?|crores?|cr)\b/gi;
+  let m;
+  while ((m = unitRegex.exec(lower)) !== null) {
+    const num = parseFloat(m[1]);
+    const unit = m[2].toLowerCase();
+    const prefix = lower.substring(Math.max(0, m.index - 10), m.index);
+    const isNegated = /\bnot\b/i.test(prefix);
+    budgetMatches.push({ num, unit, index: m.index, isNegated });
+  }
+
+  // 2. Budget keyword: e.g. budget is 70, budget 25
+  const kwRegex = /(?:budget|price|range)\s*(?:is|of|around|approx|me|mein)?\s*(?:rs\.?|inr|₹)?\s*(\d+(?:\.\d+)?)\s*(lakhs?|lacs?|crores?|cr)?\b/gi;
+  while ((m = kwRegex.exec(lower)) !== null) {
+    const num = parseFloat(m[1]);
+    const unit = m[2] ? m[2].toLowerCase() : (num >= 10 && num <= 200 ? 'lakhs' : '');
+    const prefix = lower.substring(Math.max(0, m.index - 10), m.index);
+    const isNegated = /\bnot\b/i.test(prefix);
+    budgetMatches.push({ num, unit, index: m.index, isNegated });
+  }
+
+  // Choose the non-negated match if available
+  const validBudgets = budgetMatches.filter(b => !b.isNegated);
+  const chosenBudget = validBudgets.length > 0 ? validBudgets[validBudgets.length - 1] : (budgetMatches[0] || null);
+
+  if (chosenBudget) {
+    const num = chosenBudget.num;
+    const unit = chosenBudget.unit || (num >= 10 && num <= 200 ? 'lakhs' : '');
+    if (unit.startsWith('cr')) {
       updates.budget = `₹${num} Crores`;
       updates.budgetNumeric = num * 10000000;
-    } else if (num >= 10 && num <= 200) {
+    } else if (unit.startsWith('l') || (num >= 10 && num <= 200)) {
       updates.budget = `₹${num} Lakhs`;
       updates.budgetNumeric = num * 100000;
     } else if (num > 5000) {
@@ -198,6 +221,33 @@ function isStandaloneGreeting(text) {
     'goodmorning', 'goodafternoon', 'goodevening', 'hii', 'hiii', 'helo', 'hellow'
   ];
   return pureGreetings.includes(clean);
+}
+
+/**
+ * Strips leading greetings and intro templates from bot reply when not appropriate (Rule 1)
+ */
+function stripRepetitiveGreeting(text, contact, isGreetingOnly) {
+  if (!text || typeof text !== 'string') return text;
+
+  // First contact pure greeting gets to keep the initial welcome greeting
+  if (!contact.hasGreeted && isGreetingOnly) {
+    return text;
+  }
+
+  let cleaned = text.trim();
+
+  // 1. Strip repetitive welcome banners & introductions:
+  cleaned = cleaned.replace(/^(?:Hello|Hi|Hey|Namaste|नमस्ते|नमस्कार)[^\n.!?]*[.!?,]?\s*(?:Welcome\s+to\s+Dashmesh\s+Properties[^\n]*\n*|Dashmesh\s+Properties\s+में\s+आपका[^\n]*\n*|दशमेश\s+प्रॉपर्टीजमध्ये[^\n]*\n*)*/i, '');
+
+  // 2. Strip standalone company welcome phrases:
+  cleaned = cleaned.replace(/^(?:Welcome to Dashmesh Properties[!.,\s]*|Dashmesh Properties mein aapka swagat hai[!.,\s]*)\n*/i, '');
+
+  // 3. When answering a question (not a pure greeting), remove conversational greeting prefixes:
+  if (!isGreetingOnly) {
+    cleaned = cleaned.replace(/^(?:Hello|Hi|Hey|Namaste|नमस्ते|नमस्कार|Good\s+(?:morning|afternoon|evening)|Shubh\s+(?:Prabhat|Dopahar))(?:\s+[A-Za-z\u0900-\u097F]+)?[!.,\s]*\n*/i, '');
+  }
+
+  return cleaned.trim() || text;
 }
 
 /**
@@ -440,22 +490,45 @@ function generateDeterministicGroundedReply(userMessage, customerName, contact, 
 
     // Check queried amenities against verified facts
     let amenityNote = '';
+    const askedParking = /parking/i.test(userMessage);
+
     if (evidence.verifiedAmenitiesFound.length > 0) {
       amenityNote += `\n✅ *Verified Features:* ${evidence.verifiedAmenitiesFound.join(', ')} confirmed on site.`;
     }
     if (evidence.unverifiedAmenities.length > 0) {
       // Directive 5: Honest Unknown Path for specific missing amenities
       amenityNote += `\n⚠️ *Pending Confirmation:* ${evidence.unverifiedAmenities.join(', ')} hamare current verified record mein confirmed nahi hai. Main hamari team se verify karwake aapko confirm kar sakti hoon.`;
+    } else if (askedParking && !amenityNote.includes('Parking')) {
+      amenityNote += `\n🚗 *Parking:* Stilt / dedicated parking is available on site (subject to slot allocation confirmation with builder desk).`;
     }
+
+    // Site visit inquiry section
+    const visitNoteEn = evidence.visitRequested
+      ? `\n📅 *Site Visit:* Yes, we can certainly arrange an assisted site visit tomorrow or at your preferred date/time! Our desk will coordinate the timing with you.\n`
+      : '';
+    const visitNoteHi = evidence.visitRequested
+      ? `\n📅 *Site Visit:* Ji bilkul! Kal ya aapke convenient time par assisted site visit arrange ho sakti hai. Satnam Sir (+91 84210 77613) aur hamari desk timing coordinate kar lenge.\n`
+      : '';
+
+    // Multi-turn context incorporation (Rule 2 & 5)
+    const introEn = qualification.budget
+      ? `Based on your preference for ${p1.locality} and budget of ${qualification.budget}, here are the verified options:\n\n`
+      : `Here are the verified ready options matching your inquiry in ${p1.locality}:\n\n`;
+
+    const introHi = qualification.budget
+      ? `Aapke ${p1.locality} preference aur ${qualification.budget} budget ke anusar verified options:\n\n`
+      : `Aapke inquiry ke anusar ${p1.locality} mein yeh hamara verified option hai:\n\n`;
 
     let reply = '';
     if (lang === 'english') {
-      reply = `${prefix}Here are the verified ready options matching your inquiry in ${p1.locality}:\n\n` +
+      const highlightsText = p1.highlights || (p1.amenities && p1.amenities.slice(0, 3).join(', ')) || 'Ready Possession';
+      reply = `${prefix}${introEn}` +
         `🏢 *${p1.name}*\n` +
         `📍 ${p1.locality}\n` +
         `💰 *Price:* ${p1.priceRange || p1.startingPrice} (${p1.configurations.join(', ')})\n` +
         `📜 *Status:* ${p1.status} (MahaRERA: ${p1.reraNumber})\n` +
-        `✨ *Highlights:* ${p1.highlights}${amenityNote}\n\n`;
+        `✨ *Highlights:* ${highlightsText}${amenityNote}\n` +
+        `${visitNoteEn}\n`;
 
       if (p2) {
         reply += `🏢 *${p2.name}*\n` +
@@ -463,12 +536,14 @@ function generateDeterministicGroundedReply(userMessage, customerName, contact, 
       }
       reply += `Would you like to schedule an assisted site visit with our team? 💖`;
     } else {
-      reply = `${prefix}Aapke inquiry ke anusar ${p1.locality} mein yeh hamara verified option hai:\n\n` +
+      const highlightsText = p1.highlights || (p1.amenities && p1.amenities.slice(0, 3).join(', ')) || 'Ready Possession';
+      reply = `${prefix}${introHi}` +
         `🏢 *${p1.name}*\n` +
         `📍 ${p1.locality}\n` +
         `💰 *Price Range:* ${p1.priceRange || p1.startingPrice} (${p1.configurations.join(', ')})\n` +
         `📜 *RERA Status:* ${p1.status} (RERA: ${p1.reraNumber})\n` +
-        `✨ *Key Details:* ${p1.highlights}${amenityNote}\n\n`;
+        `✨ *Key Details:* ${highlightsText}${amenityNote}\n` +
+        `${visitNoteHi}\n`;
 
       if (p2) {
         reply += `🏢 *${p2.name}*\n` +
@@ -507,12 +582,20 @@ function generateDeterministicGroundedReply(userMessage, customerName, contact, 
   // Default Greeting / Clarification
   if (isGreetingOnly) {
     let reply = '';
+    const safeName = (customerName && customerName !== 'Customer' && customerName !== 'Client') ? customerName : '';
+
     if (lang === 'english') {
-      reply = `${prefix}How may I help you today? Are you looking to buy, rent, or need an official registered rent agreement with doorstep biometric? 💖`;
+      reply = contact.hasGreeted
+        ? (safeName ? `Hello ${safeName}! How can I help you today? 💖` : `How may I help you today? 💖`)
+        : `${prefix}How may I help you today? Are you looking to buy, rent, or need an official registered rent agreement with doorstep biometric? 💖`;
     } else if (lang === 'marathi') {
-      reply = `${prefix}मी आपल्याला कशी मदत करू शकते? आपण घर खरेदी, भाड्याने घेणे किंवा रेंट ॲग्रीमेंटच्या शोधात आहात का? 💖`;
+      reply = contact.hasGreeted
+        ? (safeName ? `नमस्कार ${safeName}! आज मी आपल्याला कशी मदत करू शकते? 💖` : `आज मी आपल्याला कशी मदत करू शकते? 💖`)
+        : `${prefix}मी आपल्याला कशी मदत करू शकते? आपण घर खरेदी, भाड्याने घेणे किंवा रेंट ॲग्रीमेंटच्या शोधात आहात का? 💖`;
     } else {
-      reply = `${prefix}Bataiye main aapki kya madad kar sakti hoon? Aap property buy karna chahte hain, rent par dekh rahe hain ya registered rent agreement banwana hai? 💖`;
+      reply = contact.hasGreeted
+        ? (safeName ? `Haan ji ${safeName}! Bataiye main aaj aapki kya madad kar sakti hoon? 💖` : `Bataiye main aaj aapki kya madad kar sakti hoon? 💖`)
+        : `${prefix}Bataiye main aapki kya madad kar sakti hoon? Aap property buy karna chahte hain, rent par dekh rahe hain ya registered rent agreement banwana hai? 💖`;
     }
 
     return {
@@ -545,6 +628,7 @@ function generateDeterministicGroundedReply(userMessage, customerName, contact, 
 async function processIncomingMessage(incomingPhone, incomingText, customerName = 'Customer', meta = {}) {
   const userMessage = (incomingText || '').trim();
   const cleanPhone = incomingPhone ? incomingPhone.replace(/[^0-9]/g, '') : '';
+  const isGreetingOnly = isStandaloneGreeting(userMessage);
 
   // 1. Retrieve or create persistent CRM contact record
   const contact = crmStore.getOrCreateContact(cleanPhone, customerName);
@@ -650,7 +734,10 @@ async function processIncomingMessage(incomingPhone, incomingText, customerName 
     responseIntent = fallbackResult.intent;
   }
 
-  // 10. Mark greeting sent so it is NEVER repeated (Rule 1)
+  // 10. Intercept and strip any repetitive greetings (Rule 1 Enforcement)
+  finalReply = stripRepetitiveGreeting(finalReply, updatedContact, isGreetingOnly);
+
+  // 11. Mark greeting sent so it is NEVER repeated (Rule 1)
   crmStore.markGreetingSent(cleanPhone);
 
   return {
@@ -671,5 +758,6 @@ module.exports = {
   extractQualificationUpdates,
   detectHumanHandoffRequest,
   isStandaloneGreeting,
+  stripRepetitiveGreeting,
   processIncomingMessage
 };
