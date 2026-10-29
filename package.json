@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "Dashmesh Properties — Autonomous Google Business Profile Growth Suite & Local SEO Booster with Sia AI 24/7 WhatsApp Concierge",
   "main": "server.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",

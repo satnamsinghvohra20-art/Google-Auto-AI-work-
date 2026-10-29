@@ -3221,7 +3221,7 @@ const server = http.createServer((req, res) => {
   }
 
   // 0a. Production & Docker Healthcheck API
-  if (pathname === '/api/health' && req.method === 'GET') {
+  if ((pathname === '/api/health' || pathname === '/health') && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       status: 'UP',
